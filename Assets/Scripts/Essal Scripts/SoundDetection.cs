@@ -1,56 +1,58 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class SoundDetection : MonoBehaviour
 {
     [Header("Insert Stuff")]
-    [SerializeField] AudioSource _audioSource;
-    [SerializeField] AudioClip _audioClip;
-    [SerializeField] AudioLowPassFilter _lowPassFilter;
     [SerializeField] float DistanceFromSoundObject;
+    [SerializeField] MousePos mouse;
+    [SerializeField] AudioClip sound;
 
-    Vector3 screenPos;
-    Vector3 worldPos;
-    float distance;
+    AudioSource audioSource;
+    AudioLowPassFilter lowPassFilter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameObject.GetComponent<SoundDetection>().enabled = false;
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = sound;
+        lowPassFilter = gameObject.AddComponent<AudioLowPassFilter>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        screenPos = Mouse.current.position.ReadValue();
-        screenPos.z = Camera.main.nearClipPlane;
-        worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        distance = Vector2.Distance(worldPos, transform.position);
+        if (!mouse.enabled)
+            return;
+
+        Vector3 mouseScreen = Mouse.current.position.ReadValue();
+        mouseScreen.z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+
+        float distance = Vector2.Distance(mouseWorld, transform.position);
+
         RefreshVolume(distance);
     }
 
     void RefreshVolume(float distance)
     {
-        if (distance < DistanceFromSoundObject && !_audioSource.isPlaying)
+        Debug.Log(distance);
+        if (distance < DistanceFromSoundObject && !audioSource.isPlaying)
         {
-            _audioSource.clip = _audioClip;
-            _audioSource.volume = 0;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            audioSource.Play();
         }
-        else if (distance >= DistanceFromSoundObject && _audioSource.isPlaying)
+        else if (distance >= DistanceFromSoundObject && audioSource.isPlaying)
         {
-            _audioSource.Stop();
+            audioSource.Stop();
             return;
         }
         
-        if (_audioSource.isPlaying)
+        if (audioSource.isPlaying)
         {
             float normalized = Mathf.InverseLerp(DistanceFromSoundObject, 0f, distance);
             float curved = Mathf.Pow(normalized, 2.5f);
-            _audioSource.volume = Mathf.Lerp(_audioSource.volume, curved, Time.deltaTime * 5f);
-            _audioSource.pitch = Mathf.Lerp(0.8f, 1.2f, curved);
-            _lowPassFilter.cutoffFrequency = Mathf.Lerp(500f, 22000f, curved);
+            audioSource.volume = Mathf.Lerp(audioSource.volume, curved, Time.deltaTime * 5f);
+            audioSource.pitch = Mathf.Lerp(0.8f, 1.2f, curved);
+            lowPassFilter.cutoffFrequency = Mathf.Lerp(500f, 22000f, curved);
         }
     }
 }

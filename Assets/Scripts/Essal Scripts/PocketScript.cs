@@ -10,13 +10,11 @@ public class PocketScript : MonoBehaviour
     Vector3 _originalPos;
 
     MousePos _mouse;
-    SoundDetection _soundDetection;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _originalPos = Ear.transform.position;
         _mouse = Ear.GetComponent<MousePos>();
-        _soundDetection = soundObject.GetComponent<SoundDetection>();
     }
 
     // Update is called once per frame
@@ -42,7 +40,6 @@ public class PocketScript : MonoBehaviour
     private void OnMouseUp()
     {
         _mouse.enabled = !_mouse.enabled;
-        _soundDetection.enabled = !_soundDetection.enabled;
 
         if (!_mouse.enabled)
         {
