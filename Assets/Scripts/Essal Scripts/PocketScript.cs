@@ -4,7 +4,6 @@ using UnityEngine;
 public class PocketScript : MonoBehaviour
 {
     [SerializeField] GameObject Ear;
-    [SerializeField] GameObject soundObject;
     [SerializeField] float SizeIncreaseOnHover;
 
     Vector3 _originalPos;
