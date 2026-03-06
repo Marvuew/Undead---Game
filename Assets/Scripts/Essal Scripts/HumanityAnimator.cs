@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-public class AlignmentManager : MonoBehaviour
+public class HumanityAnimator : MonoBehaviour
 {
     public Slider alignmentSlider;
     public Image sliderFill;
@@ -9,9 +9,18 @@ public class AlignmentManager : MonoBehaviour
 
     public float animationDuration = 2f;
 
-    private void Awake()
+    private void OnEnable()
     {
-        UpdateColor();
+        Player.OnHumanityChanged += SetAlignment;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnHumanityChanged -= SetAlignment;
+    }
+    private void Update()
+    {
+        sliderFill.color = alignmentGradient.Evaluate(alignmentSlider.value);
     }
 
     public void SetAlignment(float value)
@@ -23,26 +32,20 @@ public class AlignmentManager : MonoBehaviour
     {
         float time = 0;
 
-        float startValue = alignmentSlider.normalizedValue;
+        float startValue = alignmentSlider.value;
         float targetValue = startValue + value;
 
-        targetValue = Mathf.Clamp01(targetValue);
+        //targetValue = Mathf.Clamp01(targetValue);
 
         while (time < animationDuration)
         {
             float t = time / animationDuration;
             t = Mathf.SmoothStep(0, 1, t);
-            alignmentSlider.normalizedValue = Mathf.Lerp(startValue, targetValue, t);
+            alignmentSlider.value = Mathf.Lerp(startValue, targetValue, t);
             time += Time.deltaTime;
             yield return null;
         }
 
-        alignmentSlider.normalizedValue = targetValue;
-        UpdateColor();
-    }
-
-    void UpdateColor()
-    {
-        sliderFill.color = alignmentGradient.Evaluate(alignmentSlider.normalizedValue);
+        alignmentSlider.value = targetValue;
     }
 }
