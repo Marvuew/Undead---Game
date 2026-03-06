@@ -1,44 +1,57 @@
 using Assets.Scripts;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class DialougeManager : MonoBehaviour
+public class DialogueManager
 {
-    public static DialougeManager instance;
-    public Dictionary<string, Conversation> converations;
-    string ConvoKey;
-    Node currentNode;
+    public static DialogueManager instance;
 
-    public void InnitDialouge(string ConvoKey) 
+    DialogueNode currentNode;
+
+    void Awake() { instance = this; }
+    private DialogueManager() { }
+    public static void SetUpDialogueManager() 
     {
-        if (!converations.TryGetValue(ConvoKey, out Conversation conversation))
+        if (instance != null)
             return;
-        GameManager.instance.dialougeBox.SetActive(true);
-        this.ConvoKey = ConvoKey;
-        currentNode = conversation.dialouge[0];
+        instance = new DialogueManager();
+    }
+    public void StartDialogue(DialogueNode startNode)
+    {
+        currentNode = startNode;
+        Console.WriteLine($"currentNode is {(currentNode!=null)}");
+        ShowNode();
     }
 
-    public void UpdateDialouge(int choice /*from 0*/) 
+    void ShowNode()
     {
-        if (converations.TryGetValue(ConvoKey, out Conversation value))
-        {
-            currentNode = value.GetNextNode(currentNode, choice);
-            GameManager.instance.dialougeTxt.text = currentNode.text;
-            GameManager.instance.dialougeTxt.text = currentNode.speaker;
-            if (!currentNode.isleaf) 
-            { 
-                GameManager.instance.optionsBox.SetActive(true);
-                GameManager.instance.optionATxt.text = value.GetNextNode(currentNode,0).text;
-                GameManager.instance.optionATxt.text = value.GetNextNode(currentNode, 1).text;
-            }
-        }
+        GameManager.instance.dialogueBox.SetActive(true);
+        GameManager.instance.dialogueTxt.text = currentNode.text;
+        GameManager.instance.speakerTxt.text = currentNode.speaker;
+        DisplayChoices();
     }
-    public void AddNode(string convoKey, Node node) 
+
+    void DisplayChoices()
     {
-        if (converations.ContainsKey(convoKey))
-            converations[convoKey].dialouge.Add(node);
-        else
-            converations.Add(convoKey, new Conversation(node));
+        if (currentNode.choices.Count == 0)
+            return;
+
+        GameManager.instance.optionsBox.SetActive(true);
+
+        GameManager.instance.optionATxt.text = currentNode.choices[0].text;
+        GameManager.instance.optionBTxt.text = currentNode.choices[1].text;
+    }
+
+    public void ChooseOption(int index)
+    {
+        Choice choice = currentNode.choices[index];
+
+        Player.Instance.alignment += choice.alignmentChange;
+
+        currentNode = choice.nextNode;
+
+        ShowNode();
     }
 }
