@@ -7,7 +7,6 @@ using static UnityEngine.Rendering.DebugUI;
 public class DialogueManager
 {
     public static DialogueManager instance;
-
     DialogueNode currentNode;
 
     void Awake() { instance = this; }
@@ -21,7 +20,7 @@ public class DialogueManager
     public void StartDialogue(DialogueNode startNode)
     {
         currentNode = startNode;
-        Console.WriteLine($"currentNode is {(currentNode!=null)}");
+        Debug.Log($"currentNode is {(currentNode!=null)}");
         ShowNode();
     }
 

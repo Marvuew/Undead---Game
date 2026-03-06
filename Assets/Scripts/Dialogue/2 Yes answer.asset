@@ -10,16 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f79368d3d89c15841a8ce95a01f12d9d, type: 3}
-  m_Name: Question
+  m_Name: 2 Yes answer
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Node
   speaker: Me
-  text: 'Hello There is a text example.
-
-    Can you see it?'
-  choices:
-  - text: Yes!
-    nextNode: {fileID: 11400000, guid: 79950dc37c5e1714c8ab15308a310244, type: 2}
-    alignmentChange: 10
-  - text: No... dont seem to
-    nextNode: {fileID: 11400000, guid: 44e27284b8dfa0043aff630c678dd1b3, type: 2}
-    alignmentChange: -10
+  text: Great! then its working
+  alignmentPoints: 10
+  isLeaf: 1
+  children: []

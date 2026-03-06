@@ -11,13 +11,12 @@ public class GameManager : MonoBehaviour
     public GameObject dialogueBox;
     public GameObject optionsBox;
     public DialogueNode startNode;
-    [HideInInspector] public TextMeshPro speakerTxt;
-    [HideInInspector] public TextMeshPro dialogueTxt;
-    [HideInInspector] public TextMeshPro optionATxt;
-    [HideInInspector] public TextMeshPro optionBTxt;
+    [HideInInspector] public TextMeshProUGUI speakerTxt;
+    [HideInInspector] public TextMeshProUGUI dialogueTxt;
+    [HideInInspector] public TextMeshProUGUI optionATxt;
+    [HideInInspector] public TextMeshProUGUI optionBTxt;
 
     public static GameManager instance { get; private set; }
-    private GameManager() { }
 
     public void Awake()
     {
@@ -33,15 +32,15 @@ public class GameManager : MonoBehaviour
     }
     private void SetUpUI() 
     {
-        speakerTxt = GameObject.Find("speakerTxt").GetComponent<TextMeshPro>();
-        dialogueTxt = GameObject.Find("dialogueTxt").GetComponent<TextMeshPro>();
-        optionATxt = GameObject.Find("optionATxt").GetComponent<TextMeshPro>();
-        optionBTxt = GameObject.Find("optionBTxt").GetComponent<TextMeshPro>();
+        speakerTxt = GameObject.Find("speakerTxt").GetComponent<TextMeshProUGUI>();
+        dialogueTxt = GameObject.Find("dialogueTxt").GetComponent<TextMeshProUGUI>();
+        optionATxt = GameObject.Find("optionATxt").GetComponent<TextMeshProUGUI>();
+        optionBTxt = GameObject.Find("optionBTxt").GetComponent<TextMeshProUGUI>();
 
-        Console.WriteLine($"speakerTxt is {(speakerTxt != null)}");
-        Console.WriteLine($"dialogueTxt is {(dialogueTxt != null)}");
-        Console.WriteLine($"optionATxt is {(optionATxt != null)}");
-        Console.WriteLine($"optionBTxt is {(optionBTxt != null)}");
+        Debug.Log($"speakerTxt is {(speakerTxt != null)}");
+        Debug.Log($"dialogueTxt is {(dialogueTxt != null)}");
+        Debug.Log($"optionATxt is {(optionATxt != null)}");
+        Debug.Log($"optionBTxt is {(optionBTxt != null)}");
 
         dialogueBox.SetActive(false);
         optionsBox.SetActive(false);
