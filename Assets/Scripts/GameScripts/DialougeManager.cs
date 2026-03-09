@@ -36,6 +36,7 @@ namespace Assets.Scripts.GameScripts
         }
         public void TestConvo() 
         {
+            Debug.Log("Starting...");
             StartDialogue(StartNode);
         }
         private void setUpDialougeUI() 
@@ -45,16 +46,18 @@ namespace Assets.Scripts.GameScripts
             dialougeTxt = GameObject.Find("DialougeTxt").GetComponent<TextMeshProUGUI>();
             optionsBox = GameObject.Find("OptionsBox");
             optionsContainer = GameObject.Find("OptionsContainer").GetComponent<Transform>();
+            exitDialogueBtn = GameObject.Find("ExitDialogueBtn").GetComponent<Button>();
             dialogueBox.SetActive(false);
             optionsBox.SetActive(false);
             exitDialogueBtn.onClick.AddListener(ExitDialogue);
+            exitDialogueBtn.interactable = false;
         }
         public void StartDialogue(Dialogue dialouge) 
         {
             optionsBox.SetActive(false);
             dialogueBox.SetActive(true);
             speakerTxt.text = $"{dialouge.speaker} :";
-            StartCoroutine(TypeTextCoroutine(dialougeTxt, dialouge.text, 0.5f));
+            StartCoroutine(TypeTextCoroutine(dialougeTxt, dialouge.text, 0.05f));
 
             ClearOptions();
 
@@ -75,13 +78,11 @@ namespace Assets.Scripts.GameScripts
         {
             textBox.maxVisibleCharacters = 0;
             textBox.text = text;
-            int numberOfChars = text.Length;
-            for (int i = 0; i < numberOfChars; i++) 
+            for (int i = 0; i <= text.Length; i++) 
             {
                 textBox.maxVisibleCharacters = i;
                 yield return new WaitForSeconds(typeSpeed);
             }
-            yield return new WaitForSeconds(1);
         }
         private void ClearOptions()
         {
@@ -94,6 +95,7 @@ namespace Assets.Scripts.GameScripts
         { 
             dialogueBox.SetActive(false);
             optionsBox.SetActive(false);
+            exitDialogueBtn.interactable = false;
         }
 
     }
