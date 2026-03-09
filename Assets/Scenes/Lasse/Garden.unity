@@ -1896,7 +1896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: endPromptText
-      value: Where should we start our search?
+      value: Where should we go next?
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: noButtonLabel
@@ -1928,7 +1928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: cluePopupMessage
-      value: + Obejective has been updated
+      value: + Necrolexicon has been updated
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: rememberCompletion
@@ -2013,7 +2013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].undeadOnNo
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].undeadOnNo
@@ -2021,7 +2021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].humansOnYes
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterNo
@@ -2030,6 +2030,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterNo
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].nextAfterNo
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].undeadOnYes
@@ -2041,7 +2045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].nextAfterYes
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].affectsAlignment
