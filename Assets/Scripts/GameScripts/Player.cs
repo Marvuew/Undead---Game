@@ -7,11 +7,10 @@ namespace Assets.Scripts.GameScripts
 {
     class Player
     {
-        public int humanity = 50;
+        public int humanity { get; private set; } = 50;
         List<string> inventory;
         public int stamina;
         public event Action onHumanityChanged;
-
 
         public static Player instance { get; private set; } = new Player();
         private Player() { }

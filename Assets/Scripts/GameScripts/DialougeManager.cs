@@ -58,7 +58,7 @@ namespace Assets.Scripts.GameScripts
             optionsBox.SetActive(false);
             dialogueBox.SetActive(true);
             speakerTxt.text = $"{dialouge.speaker} :";
-            StartCoroutine(TypeTextCoroutine(dialougeTxt, dialouge.text, 0.05f));
+            StartCoroutine(TypeTextCoroutine(dialougeTxt, dialouge.text, dialouge.typingDelay));
 
             ClearOptions();
 
