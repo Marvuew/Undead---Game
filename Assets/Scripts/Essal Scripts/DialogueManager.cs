@@ -34,7 +34,7 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue3 dialogue)
     {
 
         animator.SetBool("IsOpen", true);

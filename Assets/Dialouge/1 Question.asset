@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaac4d0f6198c14f85a30cc3d35fc46, type: 3}
+  m_Name: 1 Question
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  speaker: Me
+  text: 'This is a test
+
+    Can you see it? '
+  choices:
+  - text: No.. it seems not
+    humanityChange: -10
+    nextDialogue: {fileID: 11400000, guid: 8764681a3cabf5645b6ba9a5fe6a0ba2, type: 2}
+  - text: Yes
+    humanityChange: 10
+    nextDialogue: {fileID: 11400000, guid: 663bf2a690f8fc142bb87e18b1632c2c, type: 2}
