@@ -54,6 +54,7 @@ namespace Assets.Scripts.GameScripts
         }
         public void StartDialogue(Dialogue dialouge) 
         {
+            Debug.Log($"Player humanity: {Player.instance.humanity}");
             optionsBox.SetActive(false);
             dialogueBox.SetActive(true);
             speakerTxt.text = $"{dialouge.speaker} :";
@@ -68,7 +69,10 @@ namespace Assets.Scripts.GameScripts
                 { 
                     GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
                     button.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
-                    button.GetComponent<Button>().onClick.AddListener(() => StartDialogue(choice.nextDialogue));
+                    button.GetComponent<Button>().onClick.AddListener(() => {
+                        Player.instance.ChangeHumanity(choice.humanityChange);
+                        StartDialogue(choice.nextDialogue);
+                    });
                 }
             }
             exitDialogueBtn.interactable = true;
