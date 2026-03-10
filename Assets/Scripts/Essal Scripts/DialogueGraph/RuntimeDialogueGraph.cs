@@ -2,31 +2,84 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class RuntimeDialogueGraph : ScriptableObject
 {
     public string EntryNodeID;
-    public List<RunTimeDialogueNode> AllNodes = new List<RunTimeDialogueNode>();
+    [SerializeReference]
+    public List<RuntimeNode> AllNodes = new List<RuntimeNode>();
+}
+
+
+[Serializable]
+public abstract class RuntimeNode
+{
+    public string NodeID;
+    public string NextNodeID;
+
+    public virtual string Execute(DialogueGraphManager manager)
+    {
+        return null;
+    }
 }
 
 [Serializable]
-public class RunTimeDialogueNode
+public class RuntimeItemCheckNode : RuntimeNode
 {
-    public string NodeID;
-    public Speaker speaker;
+    public Item RequiredItem;
+    public string SuccessNodeID;
+    public string FailureNodeID;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        if (InventoryManager.Instance.Items.Contains(RequiredItem))
+        {
+            InventoryManager.Instance.Items.Remove(RequiredItem);
+            return SuccessNodeID;
+        }
+        return FailureNodeID;
+    }  
+}
+
+[Serializable]
+public class RuntimeDialogueNode : RuntimeNode
+{
     public string DialogueText;
-    public string NextNodeID;
-
-    //Choice Nodes
-    public List<ChoiceData> Choices = new List<ChoiceData>();
-
-    //Optional
+    public Speaker speaker;
     public int HumanityChange;
 
-    //Action Nodes
-    public Item CorrectItem;
-    public string SuccesText;
-    public string FailureText;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.ShowDialogue(this);
+        return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeHumanityNode : RuntimeNode
+{
+    public int HumanityChange;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        GameEvents.ChangeHumanity(HumanityChange);
+        return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeChoiceNode : RuntimeNode
+{
+    public Speaker speaker;
+    public string DialogueText;
+    public List<ChoiceData> Choices = new List<ChoiceData>();
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.ShowChoices(this);
+        return null;
+    }
 }
 
 [Serializable]

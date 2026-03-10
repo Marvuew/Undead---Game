@@ -68,20 +68,15 @@ public class ChoiceNode : Node
 }
 
 [Serializable]
-public class ActionNode : Node
+public class ItemCheckNode : Node
 {
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         context.AddInputPort("in").Build();
-        context.AddOutputPort("out").Build();
 
         context.AddInputPort<Item>("Item").Build();
-        context.AddInputPort<string>("Succes").Build();
-        context.AddInputPort<string>("Failure").Build();
-    }
 
-    /*protected override void OnDefineOptions(IOptionDefinitionContext context)
-    {
-        context.AddOption<Item>("Correct Item").Delayed();
-    }*/
+        context.AddOutputPort("Success").Build();
+        context.AddOutputPort("Failure").Build();
+    }
 }

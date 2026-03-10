@@ -10,9 +10,16 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-
+    
 public class DialogueGraphManager : MonoBehaviour
 {
+    public static DialogueGraphManager instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     public RuntimeDialogueGraph RuntimeGraph;
 
     [Header("UI Components")]
@@ -38,8 +45,8 @@ public class DialogueGraphManager : MonoBehaviour
     private bool skipTyping = false;
 
 
-    private Dictionary<string, RunTimeDialogueNode> _nodeLookup = new Dictionary<string, RunTimeDialogueNode>();
-    private RunTimeDialogueNode _currentNode;
+    private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();
+    private RuntimeNode _currentNode;
 
     private void OnEnable()
     {
@@ -48,11 +55,12 @@ public class DialogueGraphManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.Dialogue.AddListener(StartDialogue);
+        GameEvents.Dialogue.RemoveListener(StartDialogue);
     }
 
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
+        _nodeLookup.Clear();
         
         foreach (var node in dialogue.AllNodes)
         {
@@ -67,6 +75,7 @@ public class DialogueGraphManager : MonoBehaviour
         {
             StartCoroutine(EndDialogue());
         }
+
         DialogueAnimator.SetBool("IsOpen", true);
     }
 
@@ -82,12 +91,16 @@ public class DialogueGraphManager : MonoBehaviour
             if (!skipTyping)
             {
                 skipTyping = true;
+                return;
             }
-        }
-        if (Mouse.current.leftButton.wasPressedThisFrame && _currentNode != null && _currentNode.Choices.Count == 0)
-        {
-            Debug.Log("Clicked Mouse");
-            ShowNode(_currentNode.NextNodeID);
+            else if (_currentNode is RuntimeChoiceNode choiceNode)
+            {
+                if (choiceNode.Choices.Count > 0)
+                {
+                    Debug.Log("Clicked Mouse");
+                    ShowNode(_currentNode.NextNodeID);
+                }
+            }
         }
         else if (_currentNode == null)
         {
@@ -95,7 +108,7 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
-    private void ShowNode(string nodeID)
+    public void ShowNode(string nodeID)
     {
         Debug.Log($"Showing node {nodeID}");
         if (!_nodeLookup.ContainsKey(nodeID))
@@ -104,92 +117,83 @@ public class DialogueGraphManager : MonoBehaviour
             StartCoroutine(EndDialogue());
             return;
         }
-
         _currentNode = _nodeLookup[nodeID];
 
+        string nextNode = _currentNode.Execute(this);    
 
-        if (_currentNode.CorrectItem != null)
+        if (!string.IsNullOrEmpty(nextNode))
         {
-            GiveItem(_currentNode.CorrectItem);
+            ShowNode(nextNode);
         }
-        else
+    }
+
+    public void ShowChoices(RuntimeChoiceNode node)
+    {
+        DialoguePanel.SetActive(true);
+
+        SpeakerNameText.text = node.speaker.speakerName.ToString();
+
+        HandleSpeakerSprite(node.speaker.SpeakerSprite);
+
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue(node.DialogueText));
+
+        foreach (Transform child in ChoiceButtonContainer)
         {
+            Destroy(child.gameObject);
+        }
 
-            DialoguePanel.SetActive(true);
-            SpeakerNameText.SetText(_currentNode.speaker.speakerName.ToString());
-            StopAllCoroutines();
-            StartCoroutine(TypeDialogue(_currentNode.DialogueText));
-            //DialogueText.SetText(_currentNode.DialogueText);
-            HandleSpeakerSprite(_currentNode.speaker.SpeakerSprite);
-
-            // Triggers humanity change if it is anything than zero.
-            if (_currentNode.HumanityChange != 0)
+        if (node.Choices.Count > 0)
+        {
+            foreach (var choice in node.Choices)
             {
-                TriggerHumanityChange(_currentNode.HumanityChange);
-            }
+                Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
 
-
-            foreach (Transform child in ChoiceButtonContainer)
-            {
-                Destroy(child.gameObject);
-            }
-
-            if (_currentNode.Choices.Count > 0)
-            {
-                foreach (var choice in _currentNode.Choices)
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null)
                 {
-                    Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
+                    buttonText.text = choice.ChoiceText;
+                }
 
-                    TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                    if (buttonText != null)
+                if (button != null)
+                {
+                    button.onClick.AddListener(() =>
                     {
-                        buttonText.text = choice.ChoiceText;
-                    }
-
-                    if (button != null)
-                    {
-                        button.onClick.AddListener(() =>
+                        if (!string.IsNullOrEmpty(choice.DestinationNodeID))
                         {
-                            if (!string.IsNullOrEmpty(choice.DestinationNodeID))
+                            if (choice.HumanityChange != 0)
                             {
-                                if (choice.HumanityChange != 0)
-                                {
-                                    TriggerHumanityChange(choice.HumanityChange);
-                                }
-                                ShowNode(choice.DestinationNodeID);
+                                Debug.Log("Changing Humanity");
+                                TriggerHumanityChange(choice.HumanityChange);
                             }
-                            else
-                            {
-                                StartCoroutine(EndDialogue());
-                            }
-                        });
-                    }
+                            ShowNode(choice.DestinationNodeID);
+                        }
+                        else
+                        {
+                            StartCoroutine(EndDialogue());
+                        }
+                    });
                 }
             }
         }
     }
 
-    void HandleSpeakerSprite(Sprite sprite)
+    public void ShowDialogue(RuntimeDialogueNode node)
     {
-        SpeakerSprite.sprite = sprite;
+        DialoguePanel.SetActive(true);
+
+        SpeakerNameText.text = node.speaker.speakerName.ToString();
+
+        HandleSpeakerSprite(node.speaker.SpeakerSprite);
+
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue(node.DialogueText));
     }
 
-    public void GiveItem(Item item)
+    void HandleSpeakerSprite(Sprite sprite)
     {
-        if (!InventoryManager.Instance.Items.Contains(item))
-        {
-            Debug.LogWarning("You dont have that item");
-            StopAllCoroutines();
-            StartCoroutine(TypeDialogue(_currentNode.FailureText));
-            GameEvents.ChangeHumanity(-10);
-        }
-        else
-        {
-            InventoryManager.Instance.Items.Remove(item);
-            StopAllCoroutines();
-            StartCoroutine(TypeDialogue(_currentNode.SuccesText));
-            GameEvents.ChangeHumanity(10);
-        }
+        if (sprite != null)
+            SpeakerSprite.sprite = sprite;
     }
 
     IEnumerator TypeDialogue(string dialogue)
@@ -218,6 +222,7 @@ public class DialogueGraphManager : MonoBehaviour
 
     private IEnumerator EndDialogue()
     {
+        StopAllCoroutines();
         DialogueAnimator.SetBool("IsOpen", false);
         yield return new WaitForSeconds(1f);
         DialoguePanel.SetActive(false);

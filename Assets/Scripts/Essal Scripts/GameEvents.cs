@@ -16,4 +16,22 @@ public class GameEvents : MonoBehaviour
     {
         Humanity.Invoke(humanity);
     }
+
+    public static UnityEvent<int> OnTimeChanged = new UnityEvent<int>();
+    public static void ChangeTime(int ticks)
+    {
+        OnTimeChanged.Invoke(ticks);
+    }
+
+    public static UnityEvent<int> OnDayBegin = new UnityEvent<int>();
+    public static void BeginDay(int day)
+    {
+        OnDayBegin.Invoke(day);
+    }
+
+    public static UnityEvent<int> OnDayEnd = new UnityEvent<int>();
+    public static void EndDay(int day)
+    {
+        OnDayEnd.Invoke(day);
+    }
 }
