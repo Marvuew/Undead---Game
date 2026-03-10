@@ -5,37 +5,42 @@ public class HumanityAnimator : MonoBehaviour
 {
     public Slider alignmentSlider;
     public Image sliderFill;
-    public Gradient alignmentGradient;
+    //public Gradient alignmentGradient;
+
+    private Color fillColor;
 
     public float animationDuration = 2f;
 
     private void OnEnable()
     {
-        Player.OnHumanityChanged += SetAlignment;
+        GameEvents.Humanity.AddListener(SetHumanity);
+        fillColor = sliderFill.color;
     }
 
     private void OnDisable()
     {
-        Player.OnHumanityChanged -= SetAlignment;
+        GameEvents.Humanity.RemoveListener(SetHumanity);
     }
     private void Update()
     {
-        sliderFill.color = alignmentGradient.Evaluate(alignmentSlider.value);
+        //sliderFill.color = alignmentGradient.Evaluate(alignmentSlider.normalizedValue);
     }
 
-    public void SetAlignment(float value)
+    public void SetHumanity(int humanity)
     {
         StopAllCoroutines();
-        StartCoroutine(AlignmentAnimation(value));
+        StartCoroutine(AlignmentAnimation(humanity));
     }
-    IEnumerator AlignmentAnimation(float value)
+    IEnumerator AlignmentAnimation(int humanity)
     {
         float time = 0;
 
         float startValue = alignmentSlider.value;
-        float targetValue = startValue + value;
+        float targetValue = startValue + humanity;
 
         //targetValue = Mathf.Clamp01(targetValue);
+
+        sliderFill.color = Color.white;
 
         while (time < animationDuration)
         {
@@ -45,7 +50,8 @@ public class HumanityAnimator : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-
         alignmentSlider.value = targetValue;
+        sliderFill.color = fillColor;
+        //sliderFill.color = alignmentGradient.Evaluate(alignmentSlider.normalizedValue);
     }
 }
