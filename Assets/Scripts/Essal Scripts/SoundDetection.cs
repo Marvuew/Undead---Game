@@ -21,7 +21,10 @@ public class SoundDetection : MonoBehaviour
     void Update()
     {
         if (!mouse.enabled)
+        {
+            audioSource.Stop();
             return;
+        }
 
         Vector3 mouseScreen = Mouse.current.position.ReadValue();
         mouseScreen.z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
@@ -35,7 +38,6 @@ public class SoundDetection : MonoBehaviour
 
     void RefreshVolume(float distance)
     {
-        Debug.Log(distance);
         if (distance < DistanceFromSoundObject && !audioSource.isPlaying)
         {
             audioSource.Play();

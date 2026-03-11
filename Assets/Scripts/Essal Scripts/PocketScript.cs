@@ -39,6 +39,7 @@ public class PocketScript : MonoBehaviour
     private void OnMouseUp()
     {
         _mouse.enabled = !_mouse.enabled;
+        TimeManager.Instance.RealTimeMode = !TimeManager.Instance.RealTimeMode;
 
         if (!_mouse.enabled)
         {

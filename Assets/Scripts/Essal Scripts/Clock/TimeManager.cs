@@ -1,58 +1,63 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
     public int CurrentDay = 1;
-    public int CurrentTickOfDay = 0;
-
-    public const int TICKS_PER_DAY = 24;
+    // We use realTimeHour as the single source of truth for the clock's position
+    [SerializeField] private float realTimeHour;
 
     public bool ClockIsAnimating = false;
-
-    public Animator DayAnimation;
+    public bool RealTimeMode = false;
+    public float RealTimeSpeed = 1f;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
     }
 
-    private void OnEnable()
+    void Update()
     {
-        GameEvents.OnDayEnd.AddListener(EndDay);
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnDayEnd.RemoveListener(EndDay);
-    }
-
-
-    public void AdvanceTick()
-    {
-        if (ClockIsAnimating)
+        if (RealTimeMode && !ClockIsAnimating)
         {
-            Debug.Log("Clock is still animating");
-            return;
+            // Pass time continuously
+            realTimeHour += (Time.deltaTime * RealTimeSpeed) / 3600f; // Assuming speed is in real-seconds per hour
+
+            if (realTimeHour >= 24f)
+            {
+                realTimeHour -= 24f;
+                CurrentDay++;
+                GameEvents.EndDay(CurrentDay);
+            }
+
+            // Tell UI to update its hands without animating
+            GameEvents.ChangeRealtimeClock(realTimeHour);
         }
-        CurrentTickOfDay++;
+    }
 
-        if (CurrentTickOfDay >= TICKS_PER_DAY)
+    // This handles "skipping" time (e.g., clicking a button to pass 1 hour)
+    public void AdvanceTick(float hoursToAdvance = 1f)
+    {
+        if (ClockIsAnimating) return;
+
+        float targetHour = realTimeHour + hoursToAdvance;
+
+        // If we cross midnight during this skip
+        if (targetHour >= 24f)
         {
-            CurrentTickOfDay = 0;
-            GameEvents.EndDay(CurrentDay);
+            // Logic for day end can trigger here or after animation
+            // For now, let's keep it simple:
+            targetHour %= 24f;
             CurrentDay++;
+            GameEvents.EndDay(CurrentDay);
         }
 
-        GameEvents.ChangeTime(CurrentTickOfDay);
-    }
+        realTimeHour = targetHour;
 
-    public void EndDay(int day)
-    {
-        DayAnimation.SetBool("EndDay", true);
-    }
-    
+        // Use the event that ClockUI.AnimateClock is listening to
+        // We pass the new target time for the hands to spin toward
+        GameEvents.ChangeTime(realTimeHour);
+    }  
 }

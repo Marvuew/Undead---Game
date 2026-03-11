@@ -17,8 +17,8 @@ public class GameEvents : MonoBehaviour
         Humanity.Invoke(humanity);
     }
 
-    public static UnityEvent<int> OnTimeChanged = new UnityEvent<int>();
-    public static void ChangeTime(int ticks)
+    public static UnityEvent<float> OnTimeChanged = new UnityEvent<float>();
+    public static void ChangeTime(float ticks)
     {
         OnTimeChanged.Invoke(ticks);
     }
@@ -34,4 +34,12 @@ public class GameEvents : MonoBehaviour
     {
         OnDayEnd.Invoke(day);
     }
+
+    public static UnityEvent<float> OnRealtimeClockChanged = new UnityEvent<float>();
+    public static void ChangeRealtimeClock(float time)
+    {
+        OnRealtimeClockChanged.Invoke(time);
+    }
+
+
 }

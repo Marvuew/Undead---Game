@@ -1,129 +1,94 @@
 using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
-using Unity.Mathematics;
 
 public class ClockUI : MonoBehaviour
 {
-    private Transform clockHourHandTransform;
-    private Transform clockMinuteHandTransform;
-    private TextMeshProUGUI timeText;
-    private float day;
+    [SerializeField] private Transform clockHourHandTransform;
+    [SerializeField] private Transform clockMinuteHandTransform;
+    [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI dayText;
 
-    private const float REAL_SECONDS_PER_INGAME_DAY = 60f;
+    public float HandAnimationDuration = 1.5f;
 
-    public float HandAnimationDuration = 2f;
-
-    private void Awake()
-    {
-        clockHourHandTransform = transform.Find("hourHand");
-        clockMinuteHandTransform = transform.Find("minuteHand");
-        timeText = transform.Find("TimeText").GetComponent<TextMeshProUGUI>();
-    }
+    // This keeps track of the "current" time the UI is showing
+    private float _currentHour;
+    private Coroutine _animationCoroutine;
 
     private void OnEnable()
     {
+        // Listeners remain the same, but we ensure the logic handles floats
         GameEvents.OnTimeChanged.AddListener(AdvanceTime);
+        GameEvents.OnRealtimeClockChanged.AddListener(UpdateRealtimeClock);
     }
 
     private void OnDisable()
     {
         GameEvents.OnTimeChanged.RemoveListener(AdvanceTime);
+        GameEvents.OnRealtimeClockChanged.RemoveListener(UpdateRealtimeClock);
     }
 
-
-    /*private void Update()
+    // Use this for "Skips" (e.g., sleeping, fast travel)
+    public void AdvanceTime(float targetHour)
     {
-        day += Time.deltaTime / REAL_SECONDS_PER_INGAME_DAY;
-
-        float dayNormalized = day % 1f;
-
-        float rotationDegreesPerDay = 360f;
-
-        clockHourHandTransform.eulerAngles = new Vector3(0, 0, -dayNormalized * rotationDegreesPerDay);
-
-        float hoursPerDay = 24f;
-        clockMinuteHandTransform.eulerAngles = new Vector3(0, 0, - dayNormalized * rotationDegreesPerDay * hoursPerDay);
-
-        string hourString = Mathf.Floor(dayNormalized * 24f).ToString("00");
-
-        float minutesPerHour = 60f;
-        string minuteString = Mathf.Floor(((dayNormalized * hoursPerDay) % 1f) * minutesPerHour).ToString("00");
-
-        timeText.text = hourString + ":" + minuteString;
-    }*/
-    public void AdvanceTime(int tick)
-    {
-        if (!TimeManager.Instance.ClockIsAnimating)
-        {
-            StopAllCoroutines();
-            StartCoroutine(AnimateClock(tick));
-        }
-        else
-        {
-            Debug.Log("Clock is still Animating");
-        }
+        if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
+        _animationCoroutine = StartCoroutine(AnimateClock(targetHour));
     }
 
-    IEnumerator AnimateClock(int tick)
+    // Use this for "Tick-by-Tick" or "Continuous" flow
+    public void UpdateRealtimeClock(float hour)
+    {
+        // If an animation is running, we might want to let it finish 
+        // or snap to the new real time. Usually, snapping is safer for real-time.
+        if (TimeManager.Instance.ClockIsAnimating) return;
+
+        UpdateClockUI(hour);
+        _currentHour = hour;
+    }
+
+    private void UpdateClockUI(float hour)
+    {
+        // 12-hour clock rotations (Hour hand does 2 full circles in 24h)
+        float hourRotation = (hour % 12f) * (360f / 12f);
+        // Minute hand (60 minutes = 360 degrees)
+        float minuteRotation = (hour % 1f) * 360f;
+
+        // Using negative for clockwise rotation in Unity
+        clockHourHandTransform.localEulerAngles = new Vector3(0, 0, -hourRotation);
+        clockMinuteHandTransform.localEulerAngles = new Vector3(0, 0, -minuteRotation);
+
+        // Text Formatting
+        int h = Mathf.FloorToInt(hour) % 24;
+        int m = Mathf.FloorToInt((hour % 1f) * 60f);
+        timeText.text = $"{h:00}:{m:00}";
+        dayText.text = $"Day: {TimeManager.Instance.CurrentDay}";
+    }
+
+    IEnumerator AnimateClock(float targetHour)
     {
         TimeManager.Instance.ClockIsAnimating = true;
-        float time = 0;
+        float elapsed = 0;
+        float startHour = _currentHour;
 
-        // 1. Get current positions
-        float startHourZ = clockHourHandTransform.localEulerAngles.z;
-        float startMinuteZ = clockMinuteHandTransform.localEulerAngles.z;
+        // Handle day-wrapping (e.g., moving from 23:00 to 01:00)
+        // If target is less than start, we assume it's the next day
+        float totalHourDistance = targetHour - startHour;
+        if (totalHourDistance < 0) totalHourDistance += 24f;
 
-        // 2. ABSOLUTE HOUR CALCULATION
-        // (tick / 24) * 720 degrees. 
-        // We use Mathf.MoveTowardsAngle logic or just ensure the target 
-        // is the "closest" version of that angle to avoid the 360-degree flip.
-        float dayNormalized = (float)tick / 24f;
-        float targetHourZ = -dayNormalized * 720f;
-
-        // 3. RELATIVE MINUTE CALCULATION
-        // The minute hand always just adds -360 to its current position
-        float targetMinuteZ = startMinuteZ - 360f;
-
-        // 4. THE FIX FOR THE HOUR SPIN
-        // If the hour hand is at -690 and the new target is 0, Lerp will spin it backwards.
-        // We use Repeat to keep the start and end values within a predictable range.
-        startHourZ = Mathf.MoveTowardsAngle(startHourZ, startHourZ, 0);
-
-        while (time < HandAnimationDuration)
+        while (elapsed < HandAnimationDuration)
         {
-            time += Time.deltaTime;
-            float t = Mathf.Clamp01(time / HandAnimationDuration);
-            float smoothT = Mathf.SmoothStep(0, 1, t);
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0, 1, elapsed / HandAnimationDuration);
 
-            // We use LerpAngle for the Hour to prevent the "long way around" spin
-            float currentHourZ = Mathf.LerpAngle(startHourZ, targetHourZ, smoothT);
-
-            // We use standard Lerp for the Minute to FORCE the full 360 spin
-            float currentMinuteZ = Mathf.Lerp(startMinuteZ, targetMinuteZ, smoothT);
-
-            clockHourHandTransform.localEulerAngles = new Vector3(0, 0, currentHourZ);
-            clockMinuteHandTransform.localEulerAngles = new Vector3(0, 0, currentMinuteZ);
-
-            // TextAnimation
-
-            int animatedMinutes = Mathf.RoundToInt(Mathf.RoundToInt(Mathf.Lerp(0, 60, smoothT)));
-
-            string displayMinutes = (animatedMinutes % 60).ToString("00");
-
-            int displayHour = (tick - 1 + 24) % 24;
-
-            timeText.text = displayHour.ToString("00") + ":" + displayMinutes;
+            float frameHour = startHour + (totalHourDistance * t);
+            UpdateClockUI(frameHour % 24f);
 
             yield return null;
         }
 
-        // Final Snap
-        clockHourHandTransform.localEulerAngles = new Vector3(0, 0, targetHourZ);
-        clockMinuteHandTransform.localEulerAngles = new Vector3(0, 0, targetMinuteZ);
-        timeText.text = tick.ToString("00") + ":" + "00";
+        _currentHour = targetHour % 24f;
+        UpdateClockUI(_currentHour);
         TimeManager.Instance.ClockIsAnimating = false;
+        _animationCoroutine = null;
     }
 }
