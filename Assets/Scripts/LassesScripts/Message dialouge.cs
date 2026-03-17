@@ -32,9 +32,14 @@ public class MessageChainDialogue : MonoBehaviour
         public int nextAfterYes = -1;
         public int nextAfterNo = -1;
 
-        [Header("Choice button labels")]
+        [Header("Choice labels")]
         public string yesLabel = "";
         public string noLabel = "";
+
+        [Header("Time cost (minutes)")]
+        [Min(0)] public int minutesOnEnter = 0;
+        [Min(0)] public int minutesOnYes = 0;
+        [Min(0)] public int minutesOnNo = 0;
 
         [Header("Character actions")]
         public CharacterAction mcOnYes = CharacterAction.None;
@@ -49,10 +54,6 @@ public class MessageChainDialogue : MonoBehaviour
         public float undeadOnYes = 0f;
         public float humansOnNo = 0f;
         public float undeadOnNo = 0f;
-
-        [Header("Optional extra stamina cost per choice")]
-        [Min(0)] public int staminaCostOnYes = 0;
-        [Min(0)] public int staminaCostOnNo = 0;
     }
 
     [Header("Start Behavior")]
@@ -102,20 +103,19 @@ public class MessageChainDialogue : MonoBehaviour
     [Tooltip("Unlocked only when this interaction is fully completed.")]
     [SerializeField] private string clueIdToUnlock = "";
 
-    [Header("Stamina")]
-    [Tooltip("If true, stamina is spent immediately when this conversation starts.")]
-    [SerializeField] private bool spendStaminaOnEnter = false;
+    [Header("Time")]
+    [Tooltip("If true, the main interaction time is spent as soon as the conversation starts. If false, it is spent when the interaction finishes.")]
+    [SerializeField] private bool spendInteractionMinutesOnEnter = false;
 
-    [Tooltip("Main stamina cost for this interaction.")]
-    [SerializeField] private int staminaCostPerInteraction = 1;
+    [Tooltip("Main time cost for this interaction in minutes.")]
+    [Min(0)]
+    [SerializeField] private int interactionMinutesCost = 0;
 
-    [Tooltip("If true, player must have enough stamina before the interaction can begin.")]
-    [SerializeField] private bool requireEnoughStaminaToStart = true;
+    [Tooltip("If true, player must have enough remaining time before the interaction can begin.")]
+    [SerializeField] private bool requireEnoughTimeToStart = true;
 
     [TextArea]
-    [SerializeField] private string notEnoughStaminaText = "I'm too exhausted for that right now.";
-
-    [SerializeField] private StaminaBarUI staminaBarUI;
+    [SerializeField] private string notEnoughTimeText = "It's getting too late to investigate that right now.";
 
     [Header("Alignment UI")]
     [SerializeField] private AlignmentSlider alignmentSlider;
@@ -133,6 +133,7 @@ public class MessageChainDialogue : MonoBehaviour
     private bool waitingForChoice;
     private bool isTyping;
     private bool unlockedNewClueThisRun;
+    private bool interactionProtectionActive;
     private int currentNodeIndex = -1;
 
     private Coroutine flowRoutine;
@@ -149,8 +150,6 @@ public class MessageChainDialogue : MonoBehaviour
 
     private void Awake()
     {
-        GlobalStaminaSystem.InitializeIfNeeded();
-
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (choicesPanel != null) choicesPanel.SetActive(false);
 
@@ -165,7 +164,6 @@ public class MessageChainDialogue : MonoBehaviour
 
         ResolveSceneRefs();
         SetChoiceLabels(defaultYesLabel, defaultNoLabel);
-        RefreshStaminaUI();
     }
 
     private void OnEnable()
@@ -174,8 +172,6 @@ public class MessageChainDialogue : MonoBehaviour
 
         if (alignmentSlider != null)
             alignmentSlider.RefreshFromSave();
-
-        RefreshStaminaUI();
     }
 
     private void Start()
@@ -201,14 +197,19 @@ public class MessageChainDialogue : MonoBehaviour
 
         if (!CanBeginInteraction())
         {
-            ShowNotEnoughStaminaMessage();
+            ShowNotEnoughTimeMessage();
             return;
         }
 
-        if (spendStaminaOnEnter && !TrySpendMainInteractionStamina())
-            return;
-
         ResetConversationRuntimeState();
+        BeginInteractionProtection();
+
+        if (spendInteractionMinutesOnEnter && !TrySpendInteractionMinutes())
+        {
+            EndInteractionProtection();
+            return;
+        }
+
         OpenDialogue();
 
         if (rememberCompletion && IsCompleted())
@@ -222,12 +223,12 @@ public class MessageChainDialogue : MonoBehaviour
 
     public void OnYesClicked()
     {
-        HandleChoice(true);
+        HandleChoice(choseYes: true);
     }
 
     public void OnNoClicked()
     {
-        HandleChoice(false);
+        HandleChoice(choseYes: false);
     }
 
     private void HandleChoice(bool choseYes)
@@ -236,9 +237,9 @@ public class MessageChainDialogue : MonoBehaviour
             return;
 
         QuestionNode node = nodes[currentNodeIndex];
-        int staminaCost = choseYes ? node.staminaCostOnYes : node.staminaCostOnNo;
+        int minutesCost = choseYes ? node.minutesOnYes : node.minutesOnNo;
 
-        if (!TrySpendChoiceStamina(staminaCost))
+        if (!TrySpendMinutes(minutesCost))
             return;
 
         waitingForChoice = false;
@@ -288,12 +289,15 @@ public class MessageChainDialogue : MonoBehaviour
         if (nodes == null || index < 0 || index >= nodes.Length)
             return;
 
+        QuestionNode node = nodes[index];
+
+        if (!TrySpendMinutes(node.minutesOnEnter))
+            return;
+
         currentNodeIndex = index;
         waitingForChoice = false;
         ShowChoices(false);
         StopFinalWaitRoutine();
-
-        QuestionNode node = nodes[currentNodeIndex];
 
         StartLine(node.question, () =>
         {
@@ -329,7 +333,7 @@ public class MessageChainDialogue : MonoBehaviour
 
     private void CompleteDialogue()
     {
-        if (!spendStaminaOnEnter && !TrySpendMainInteractionStamina())
+        if (!spendInteractionMinutesOnEnter && !TrySpendInteractionMinutes())
             return;
 
         MarkCompleted();
@@ -345,48 +349,70 @@ public class MessageChainDialogue : MonoBehaviour
 
     private bool CanBeginInteraction()
     {
-        if (!requireEnoughStaminaToStart)
-            return true;
-
-        int mainCost = Mathf.Max(0, staminaCostPerInteraction);
-        return GlobalStaminaSystem.HasEnough(mainCost);
-    }
-
-    private bool TrySpendMainInteractionStamina()
-    {
-        int cost = Mathf.Max(0, staminaCostPerInteraction);
-        return TrySpendStamina(cost);
-    }
-
-    private bool TrySpendChoiceStamina(int cost)
-    {
-        return TrySpendStamina(Mathf.Max(0, cost));
-    }
-
-    private bool TrySpendStamina(int cost)
-    {
-        if (cost <= 0)
-            return true;
-
-        if (!GlobalStaminaSystem.TrySpend(cost))
+        if (GlobalTimeSystem.Instance == null)
         {
-            ShowNotEnoughStaminaMessage();
+            Debug.LogError("MessageChainDialogue: No GlobalTimeSystem instance found in the scene.");
             return false;
         }
 
-        RefreshStaminaUI();
+        if (GlobalTimeSystem.Instance.IsEndingSequenceRunning || GlobalTimeSystem.Instance.IsTimeUp)
+            return false;
+
+        if (!requireEnoughTimeToStart)
+            return true;
+
+        return CanSpendMinutes(interactionMinutesCost);
+    }
+
+    private bool TrySpendInteractionMinutes()
+    {
+        return TrySpendMinutes(interactionMinutesCost);
+    }
+
+    private bool TrySpendMinutes(int minutes)
+    {
+        if (minutes <= 0)
+            return true;
+
+        if (GlobalTimeSystem.Instance == null)
+        {
+            Debug.LogError("MessageChainDialogue: No GlobalTimeSystem instance found in the scene.");
+            return false;
+        }
+
+        if (!GlobalTimeSystem.Instance.CanSpend(minutes))
+        {
+            ShowNotEnoughTimeMessage();
+            return false;
+        }
+
+        GlobalTimeSystem.Instance.Spend(minutes);
         return true;
     }
 
-    private void ShowNotEnoughStaminaMessage()
+    private bool CanSpendMinutes(int minutes)
+    {
+        if (minutes <= 0)
+            return true;
+
+        if (GlobalTimeSystem.Instance == null)
+        {
+            Debug.LogError("MessageChainDialogue: No GlobalTimeSystem instance found in the scene.");
+            return false;
+        }
+
+        return GlobalTimeSystem.Instance.CanSpend(minutes);
+    }
+
+    private void ShowNotEnoughTimeMessage()
     {
         if (dialoguePanel != null)
             dialoguePanel.SetActive(true);
 
         ShowChoices(false);
 
-        if (transcriptText != null && !string.IsNullOrWhiteSpace(notEnoughStaminaText))
-            transcriptText.text = notEnoughStaminaText;
+        if (transcriptText != null && !string.IsNullOrWhiteSpace(notEnoughTimeText))
+            transcriptText.text = notEnoughTimeText;
     }
 
     private void ApplyCharacterActions(QuestionNode node, bool choseYes)
@@ -559,6 +585,8 @@ public class MessageChainDialogue : MonoBehaviour
 
         if (characterWorld != null)
             characterWorld.NotifyDialogueClosed();
+
+        EndInteractionProtection();
     }
 
     private void ShowChoices(bool show)
@@ -589,14 +617,6 @@ public class MessageChainDialogue : MonoBehaviour
         SetChoiceLabels(yes, no);
     }
 
-    private void RefreshStaminaUI()
-    {
-        ResolveSceneRefs();
-
-        if (staminaBarUI != null)
-            staminaBarUI.Refresh();
-    }
-
     private void ResetConversationRuntimeState()
     {
         unlockedNewClueThisRun = false;
@@ -614,6 +634,29 @@ public class MessageChainDialogue : MonoBehaviour
             StopCoroutine(finalWaitRoutine);
             finalWaitRoutine = null;
         }
+    }
+
+    private void BeginInteractionProtection()
+    {
+        if (interactionProtectionActive)
+            return;
+
+        if (GlobalTimeSystem.Instance != null)
+        {
+            GlobalTimeSystem.Instance.BeginProtectedInteraction();
+            interactionProtectionActive = true;
+        }
+    }
+
+    private void EndInteractionProtection()
+    {
+        if (!interactionProtectionActive)
+            return;
+
+        if (GlobalTimeSystem.Instance != null)
+            GlobalTimeSystem.Instance.EndProtectedInteraction();
+
+        interactionProtectionActive = false;
     }
 
     private bool IsFinalNode(QuestionNode node)
@@ -671,7 +714,6 @@ public class MessageChainDialogue : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(clueIdToUnlock))
             ClueSaveSystem.Lock(clueIdToUnlock);
 
-        GlobalStaminaSystem.RefillToMax();
         PlayerPrefs.Save();
 
         if (transcriptText != null)
@@ -684,10 +726,9 @@ public class MessageChainDialogue : MonoBehaviour
 
         ShowChoices(false);
         SetChoiceLabels(defaultYesLabel, defaultNoLabel);
-        RefreshStaminaUI();
         CloseDialogue();
 
-        Debug.Log("Soft reset done (dialogue + clue + choice flags + stamina refill).");
+        Debug.Log("Soft reset done (dialogue + clue + choice flags).");
     }
 
     private void MarkCompleted()
@@ -714,8 +755,5 @@ public class MessageChainDialogue : MonoBehaviour
 
         if (alignmentPopupSpawner == null)
             alignmentPopupSpawner = FindFirstObjectByType<AlignmentPointPopupSpawner>(FindObjectsInactive.Include);
-
-        if (staminaBarUI == null)
-            staminaBarUI = FindFirstObjectByType<StaminaBarUI>(FindObjectsInactive.Include);
     }
 }

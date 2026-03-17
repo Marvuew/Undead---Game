@@ -1336,17 +1336,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 979645340756494520, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
   m_PrefabInstance: {fileID: 1245667370}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1245667377 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3639980305903099843, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 1245667370}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40fe252ad01941738db69871b69c7f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StaminaBarUI
 --- !u!114 &1245667378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2199,7 +2188,7 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: staminaBarUI
       value: 
-      objectReference: {fileID: 1245667377}
+      objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: endPromptText
       value: where should we go now?
@@ -2251,6 +2240,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: clearTranscriptOnStart
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: interactionMinutesCost
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: holdToFastTypeMultiplier
@@ -2331,8 +2324,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: spendInteractionMinutesOnEnter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].humansOnYes
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnNo
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterNo
@@ -2345,6 +2346,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].undeadOnYes
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnYes
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterYes
@@ -2742,7 +2747,7 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: staminaBarUI
       value: 
-      objectReference: {fileID: 1245667377}
+      objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: endPromptText
       value: where should we go now?
@@ -2786,6 +2791,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: rememberCompletion
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: interactionMinutesCost
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: holdToFastTypeMultiplier
@@ -2923,6 +2932,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].enemyOnYes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].undeadOnNo
       value: 10
       objectReference: {fileID: 0}
@@ -2959,6 +2972,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnNo
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterNo
       value: 3
       objectReference: {fileID: 0}
@@ -2971,11 +2988,19 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].minutesOnNo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].nextAfterNo
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[3].humansOnYes
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[3].minutesOnNo
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
@@ -2991,12 +3016,24 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnYes
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterYes
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].minutesOnYes
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].nextAfterYes
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[3].minutesOnYes
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[3].nextAfterYes
@@ -3464,6 +3501,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: rememberCompletion
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: interactionMinutesCost
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: holdToFastTypeMultiplier

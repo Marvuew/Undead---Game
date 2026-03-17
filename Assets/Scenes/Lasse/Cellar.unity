@@ -342,6 +342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueCharacterWorldController
   mcEntryMode: 0
   enemyEntryMode: 0
+  mcAutoEnterDialogueIds: []
+  enemyAutoEnterDialogueIds: []
   mc: {fileID: 320857362}
   enemy: {fileID: 1366402056}
   dialoguePanel: {fileID: 7163266237778570423}
@@ -3969,6 +3971,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: interactionMinutesCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].noLabel
       value: disgusted
       objectReference: {fileID: 0}
@@ -4030,6 +4036,18 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterNo
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnNo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnYes
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnYes
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9082612043692945850, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: m_fontSize

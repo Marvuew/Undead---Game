@@ -1888,7 +1888,8 @@ PrefabInstance:
       objectReference: {fileID: 1847861876}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: introText
-      value: ' '
+      value: 'i the back of the garden you spot a shiny object that catches your
+        eyes '
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: revisitText
@@ -1933,6 +1934,10 @@ PrefabInstance:
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: rememberCompletion
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: interactionMinutesCost
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: holdToFastTypeMultiplier
@@ -2024,12 +2029,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnNo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterNo
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterNo
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].minutesOnNo
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].nextAfterNo
@@ -2040,8 +2053,20 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnYes
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnYes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterYes
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].minutesOnYes
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[2].nextAfterYes
