@@ -130,62 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &578626985
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 578626986}
-  - component: {fileID: 578626987}
-  m_Layer: 5
-  m_Name: Welcome
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &578626986
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578626985}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1230588100}
-  m_Father: {fileID: 8644844961414806183}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.124939, y: 4.17749}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &578626987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578626985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5ca4224ce1db40edb730fabe6b5c6af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntranceFirstTimeFadeAndDialogue
-  entranceId: entrance_intro
-  fadeImage: {fileID: 1230588102}
-  fadeSeconds: 4
-  afterFadeDelay: 2
-  dialogue: {fileID: 1487134993}
-  startDialogueAfterFade: 1
-  onlyFirstTimeEver: 0
 --- !u!1 &729213460
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,81 +446,6 @@ MonoBehaviour:
   - id: neutral
     sprite: {fileID: 21300000, guid: a0974075e33c64d0480bf8c7157556ef, type: 3}
   defaultId: neutral
---- !u!1 &1230588099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1230588100}
-  - component: {fileID: 1230588103}
-  - component: {fileID: 1230588102}
-  m_Layer: 5
-  m_Name: entrance fadin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1230588100
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230588099}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 578626986}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1928.2, y: 1088.4}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1230588102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230588099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1230588103
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230588099}
-  m_CullTransparentMesh: 1
 --- !u!1 &1234283282 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 650380243231355292, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
@@ -604,26 +473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f963598d0de49f9b37bfb757e94b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClueUpdatePopup
---- !u!114 &1512631064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979645340810212168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86523a8668234ab496ba711e1dfddbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClueRevealFade
-  clueId: entrance_intro
-  fadeDuration: 1.5
-  useUnscaledTime: 1
-  hideWhenLocked: 1
-  rememberRevealState: 0
-  autoRefreshWhileEnabled: 1
-  autoRefreshInterval: 0.25
-  enableShortcutReset: 0
 --- !u!1001 &1522328571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -698,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5128499589962633011, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: m_Name
-      value: DialougeCanvas 1
+      value: DialougeCanvasRookie
       objectReference: {fileID: 0}
     - target: {fileID: 6440372328058881003, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: group
@@ -815,6 +664,10 @@ PrefabInstance:
       value: What other rooms, could we visit
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: staminaBarUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: endPromptText
       value: Where should we start our search?
       objectReference: {fileID: 0}
@@ -855,8 +708,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: spendStaminaOnEnter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: notEnoughStaminaText
+      value: 'I''m too exhausted for that right now.... we have to figure out who
+        could have done this. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: holdToFastTypeMultiplier
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: staminaCostPerInteraction
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].noLabel
@@ -918,20 +784,48 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnNo
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].nextAfterNo
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnNo
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterNo
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].minutesOnYes
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[1].minutesOnYes
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[1].nextAfterYes
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[2].minutesOnYes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].staminaCostOnNo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: nodes.Array.data[0].affectsAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884357301928637071, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
+      propertyPath: nodes.Array.data[0].staminaCostOnYes
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9082612043692945850, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
       propertyPath: m_fontSize
@@ -973,168 +867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1607137106
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1607137107}
-  - component: {fileID: 1607137110}
-  - component: {fileID: 1607137109}
-  - component: {fileID: 1607137108}
-  m_Layer: 5
-  m_Name: Misplaced Axe
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1607137107
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607137106}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2104736757}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.84, y: -74}
-  m_SizeDelta: {x: 333.68, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1607137108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607137106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86523a8668234ab496ba711e1dfddbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClueRevealFade
-  clueId: Garden_Axe
-  fadeDuration: 1.5
-  useUnscaledTime: 1
-  hideWhenLocked: 1
-  rememberRevealState: 1
-  autoRefreshWhileEnabled: 0
-  autoRefreshInterval: 0.25
-  enableShortcutReset: 1
---- !u!114 &1607137109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607137106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: '- Misplaced axe
-
-
-
-'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fd01b7af706404ebca02db75bc23c6c6, type: 2}
-  m_sharedMaterial: {fileID: -6942571958194868557, guid: fd01b7af706404ebca02db75bc23c6c6, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 0
-  m_fontColor: {r: 0, g: 0, b: 0, a: 0}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_characterHorizontalScale: 1
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_EmojiFallbackSupport: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1607137110
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607137106}
-  m_CullTransparentMesh: 1
 --- !u!114 &1619017592 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 362300463358502012, guid: 00095f5ef19554217ae6d5a81fd425c7, type: 3}
@@ -1314,6 +1046,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueCharacterWorldController
   mcEntryMode: 0
   enemyEntryMode: 1
+  mcAutoEnterDialogueIds:
+  - entrance_intro
+  enemyAutoEnterDialogueIds:
+  - entrance_intro
   mc: {fileID: 1139421554}
   enemy: {fileID: 1107304309}
   dialoguePanel: {fileID: 1234283282}
@@ -1348,48 +1084,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 979645340756494520, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: m_Name
-      value: Interigate
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038742210276185823, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: m_text
-      value: '- Find out what has happend to the wife of the priest.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070988899148637919, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2337932641981703753, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: clueId
-      value: cellar_intro
-      objectReference: {fileID: 0}
-    - target: {fileID: 2337932641981703753, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: useUnscaledTime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2337932641981703753, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: rememberRevealState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2337932641981703753, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: autoRefreshWhileEnabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4842149089613275328, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
       propertyPath: m_Name
       value: BookCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 5234740600089063102, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6344683917191717554, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      propertyPath: m_text
-      value: 'Objective
-
-'
-      objectReference: {fileID: 0}
+    - target: {fileID: 7715772393103819292, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 1487134993}
     - target: {fileID: 8644844962263318871, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1471,87 +1173,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2932856815132447395, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-    - {fileID: 7725475945767940611, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 8644844962263318871, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 578626986}
-    - targetCorrespondingSourceObject: {fileID: 7680353350774574587, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1607137107}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 979645340756494520, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1512631064}
-    - targetCorrespondingSourceObject: {fileID: 4239903043909361330, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2104736756}
-    - targetCorrespondingSourceObject: {fileID: 7065852591927180887, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2104736755}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
---- !u!1 &2104736753 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7065852591927180887, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 2104736752}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2104736754 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4239903043909361330, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 2104736752}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2104736755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104736753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86523a8668234ab496ba711e1dfddbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClueRevealFade
-  clueId: Sudden_Sickness
-  fadeDuration: 1.5
-  useUnscaledTime: 1
-  hideWhenLocked: 1
-  rememberRevealState: 1
-  autoRefreshWhileEnabled: 0
-  autoRefreshInterval: 0.25
-  enableShortcutReset: 1
---- !u!114 &2104736756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104736754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86523a8668234ab496ba711e1dfddbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClueRevealFade
-  clueId: Garden_Cross
-  fadeDuration: 1.5
-  useUnscaledTime: 1
-  hideWhenLocked: 1
-  rememberRevealState: 1
-  autoRefreshWhileEnabled: 0
-  autoRefreshInterval: 0.25
-  enableShortcutReset: 1
---- !u!224 &2104736757 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7680353350774574587, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 2104736752}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &979645340810212168 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 979645340756494520, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 2104736752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3710090155366910215 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3710090154206180087, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
@@ -1568,11 +1193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51f157e845b64181881291053f85ce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AlignmentSlider
---- !u!224 &8644844961414806183 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8644844962263318871, guid: a56b4fcb1ca6a4a03bc4203e4df9a8a1, type: 3}
-  m_PrefabInstance: {fileID: 2104736752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
