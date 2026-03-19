@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class Dialogue2
+public class Dialogue3
 {
     public string name;
 

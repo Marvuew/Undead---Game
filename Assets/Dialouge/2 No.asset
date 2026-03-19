@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaac4d0f6198c14f85a30cc3d35fc46, type: 3}
+  m_Name: 2 No
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  speaker: Wizard
+  text: Oh no! ...wait then how did you see this!
+  typingDelay: 0.08
+  isShaking: 0
+  choices:
+  - text: I don't know.. magic??
+    humanityChange: 0
+    nextDialogue: {fileID: 11400000, guid: 2bd9bd4bbaae2c648a070a28b4b938e1, type: 2}
+  - text: I just clicked something
+    humanityChange: 0
+    nextDialogue: {fileID: 11400000, guid: 6e4adea117d3a8c498555b80fd725463, type: 2}
