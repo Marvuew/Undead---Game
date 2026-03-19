@@ -8,9 +8,14 @@ public class DialogueInteractable : MonoBehaviour
     [SerializeField] private MessageChainDialogue dialogue;
 
     [Header("Detection")]
-    [SerializeField] private Camera cam;                 // if null -> Camera.main
+    [SerializeField] private Camera cam;                 // kept for compatibility
     [SerializeField] private Collider2D targetCollider;  // if null -> GetComponent<Collider2D>()
-    [SerializeField] private bool requireLeftClick = true;
+    [SerializeField] private bool requireLeftClick = true; // kept for compatibility, no longer used for interaction
+
+    [Header("Player Proximity Interaction")]
+    [SerializeField] private string playerTag = "Player";
+    [SerializeField] private Key interactKey = Key.E;
+    [SerializeField] private bool requirePlayerInRange = true;
 
     [Header("Hover highlight (2D)")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -19,8 +24,12 @@ public class DialogueInteractable : MonoBehaviour
 
     [Header("Optional")]
     [SerializeField] private bool disableAfterUse = false;
+    [SerializeField] private bool lockPlayerMovementDuringDialogue = true;
 
     private bool isHovering;
+    private bool playerInRange;
+    private bool interactionStarted;
+    private PlayerMovement2D currentPlayerMovement;
 
     private void Awake()
     {
@@ -42,36 +51,42 @@ public class DialogueInteractable : MonoBehaviour
 
     private void Update()
     {
-        if (cam == null || targetCollider == null) return;
+        if (targetCollider == null) return;
 
-        // If clicking UI, ignore (prevents conflicts with book/map buttons)
+        // If clicking UI, ignore
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {
             if (isHovering) SetHover(false);
             return;
         }
 
-        // Mouse position -> world point
-        if (Mouse.current == null) return;
+        bool shouldHighlight = requirePlayerInRange ? playerInRange : false;
 
-        Vector2 screen = Mouse.current.position.ReadValue();
-        Vector3 world = cam.ScreenToWorldPoint(new Vector3(screen.x, screen.y, 0f));
-        Vector2 world2D = new Vector2(world.x, world.y);
+        // Don't highlight while dialogue is already active
+        if (interactionStarted)
+            shouldHighlight = false;
 
-        bool hoveringNow = targetCollider.OverlapPoint(world2D);
+        if (shouldHighlight != isHovering)
+            SetHover(shouldHighlight);
 
-        if (hoveringNow != isHovering)
-            SetHover(hoveringNow);
+        // Start interaction
+        if (!interactionStarted && shouldHighlight)
+        {
+            if (Keyboard.current != null && Keyboard.current[interactKey].wasPressedThisFrame)
+                Interact();
+        }
 
-        // Click to interact
-        if (!hoveringNow) return;
+        // Unlock when dialogue ends
+        if (interactionStarted && dialogue != null && !dialogue.IsConversationRunning)
+        {
+            interactionStarted = false;
 
-        bool clicked = requireLeftClick
-            ? Mouse.current.leftButton.wasPressedThisFrame
-            : (Mouse.current.leftButton.isPressed);
+            if (lockPlayerMovementDuringDialogue && currentPlayerMovement != null)
+                currentPlayerMovement.UnlockMovement();
 
-        if (clicked)
-            Interact();
+            if (disableAfterUse)
+                enabled = false;
+        }
     }
 
     private void Interact()
@@ -83,10 +98,12 @@ public class DialogueInteractable : MonoBehaviour
         }
 
         SetHover(false);
-        dialogue.StartConversationFromInteraction();
+        interactionStarted = true;
 
-        if (disableAfterUse)
-            enabled = false;
+        if (lockPlayerMovementDuringDialogue && currentPlayerMovement != null)
+            currentPlayerMovement.LockMovement();
+
+        dialogue.StartConversationFromInteraction();
     }
 
     private void SetHover(bool on)
@@ -101,7 +118,6 @@ public class DialogueInteractable : MonoBehaviour
             return;
         }
 
-        // brighten without changing alpha
         Color c = normalColor;
         c.r *= hoverBrightnessMultiplier;
         c.g *= hoverBrightnessMultiplier;
@@ -109,5 +125,23 @@ public class DialogueInteractable : MonoBehaviour
         c.a = normalColor.a;
 
         spriteRenderer.color = c;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag(playerTag)) return;
+
+        playerInRange = true;
+        currentPlayerMovement = other.GetComponent<PlayerMovement2D>();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag(playerTag)) return;
+
+        playerInRange = false;
+        SetHover(false);
+
+        currentPlayerMovement = null;
     }
 }

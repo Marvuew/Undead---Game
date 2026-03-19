@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4845547260742819811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3232005452999719883}
+  - component: {fileID: 6853154469862771177}
+  m_Layer: 0
+  m_Name: CharacterController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3232005452999719883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845547260742819811}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0247, y: -0.0863, z: 0}
+  m_LocalScale: {x: 0.7051311, y: 0.5400856, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6853154469862771177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845547260742819811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32253c9c52554b458435f27965c9717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueCharacterWorldController
+  mcEntryMode: 0
+  enemyEntryMode: 0
+  mcAutoEnterDialogueIds: []
+  enemyAutoEnterDialogueIds: []
+  mc: {fileID: 0}
+  enemy: {fileID: 0}
+  dialoguePanel: {fileID: 0}
+  mcSprites: {fileID: 0}
+  enemySprites: {fileID: 0}
+  mcOffscreenLeft: {x: -12.07, y: -1.58, z: -2.74}
+  mcOnscreen: {x: -6.43, y: -1.53, z: -2.74}
+  enemyOffscreenRight: {x: 11.1, y: -2.04, z: -2.74}
+  enemyOnscreen: {x: 7.61, y: -2.04, z: -2.74}
+  slideSeconds: 0.25
+  enemyHoldSeconds: 1.5

@@ -22,6 +22,10 @@ public class MessageChainDialogue : MonoBehaviour
         React
     }
 
+    [SerializeField] private bool lockPlayerMovementWhileDialogueIsOpen = true;
+
+    private PlayerMovement2D lockedPlayerMovement;
+
     [Serializable]
     public class QuestionNode
     {
@@ -55,7 +59,7 @@ public class MessageChainDialogue : MonoBehaviour
         public float humansOnNo = 0f;
         public float undeadOnNo = 0f;
     }
-
+    private bool hasLockedMovementThisConversation = false; 
     [Header("Start Behavior")]
     [SerializeField] private bool autoStartOnPlay = false;
 
@@ -139,6 +143,8 @@ public class MessageChainDialogue : MonoBehaviour
     private Coroutine flowRoutine;
     private Coroutine finalWaitRoutine;
 
+    public bool IsConversationRunning { get; private set; }
+
     private string CompletedKey => $"DialogueCompleted_{conversationId}";
     private string ChoiceAppliedKey(int nodeIndex) => $"ChoiceApplied_{conversationId}_Node_{nodeIndex}";
 
@@ -185,6 +191,13 @@ public class MessageChainDialogue : MonoBehaviour
         HandleSoftResetInput();
     }
 
+    private void OnDisable()
+    {
+        IsConversationRunning = false;
+        UnlockPlayerMovement();
+        EndInteractionProtection();
+    }
+
     public void StartConversationFromInteraction()
     {
         StartConversation();
@@ -211,6 +224,9 @@ public class MessageChainDialogue : MonoBehaviour
         }
 
         OpenDialogue();
+        UnlockPlayerMovement();
+        LockPlayerMovement();
+        IsConversationRunning = true;
 
         if (rememberCompletion && IsCompleted())
         {
@@ -586,6 +602,8 @@ public class MessageChainDialogue : MonoBehaviour
         if (characterWorld != null)
             characterWorld.NotifyDialogueClosed();
 
+        IsConversationRunning = false;
+        UnlockPlayerMovement();
         EndInteractionProtection();
     }
 
@@ -756,4 +774,43 @@ public class MessageChainDialogue : MonoBehaviour
         if (alignmentPopupSpawner == null)
             alignmentPopupSpawner = FindFirstObjectByType<AlignmentPointPopupSpawner>(FindObjectsInactive.Include);
     }
+
+    private void LockPlayerMovement()
+{
+    if (!lockPlayerMovementWhileDialogueIsOpen)
+        return;
+
+    if (hasLockedMovementThisConversation)
+        return;
+
+    if (lockedPlayerMovement == null)
+        lockedPlayerMovement = FindObjectOfType<PlayerMovement2D>();
+
+    if (lockedPlayerMovement != null)
+    {
+        lockedPlayerMovement.LockMovement();
+        hasLockedMovementThisConversation = true;
+    }
+}
+   private void UnlockPlayerMovement()
+{
+    if (!lockPlayerMovementWhileDialogueIsOpen)
+        return;
+
+    if (!hasLockedMovementThisConversation)
+        return;
+
+    if (lockedPlayerMovement != null)
+        lockedPlayerMovement.UnlockMovement();
+
+    hasLockedMovementThisConversation = false;
+}
+    public string ConversationId => conversationId;
+        public static bool HasCompletedConversation(string id)
+{
+    if (string.IsNullOrWhiteSpace(id))
+        return false;
+
+    return PlayerPrefs.GetInt($"DialogueCompleted_{id}", 0) == 1;
+}
 }

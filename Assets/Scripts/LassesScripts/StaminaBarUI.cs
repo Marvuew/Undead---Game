@@ -11,11 +11,19 @@ public class GlobalTimeSystem : MonoBehaviour
     [SerializeField] private int startHour = 8;
     [SerializeField] private int endHour = 16;
 
-    [Header("Clock Speed")]
-    [Tooltip("Real seconds that equal one in-game minute while the clock runs normally.")]
-    [Range(0.1f, 30f)]
-    [SerializeField] private float secondsPerMinute = 10f;
+    [Header("Passive Clock Speed")]
+    [Tooltip("If true, passive time only moves while the player is walking around.")]
+    [SerializeField] private bool onlyAdvancePassiveTimeWhilePlayerMoves = true;
 
+    [Tooltip("Real seconds per in-game minute while standing still. Ignored if onlyAdvancePassiveTimeWhilePlayerMoves is true.")]
+    [Range(0.05f, 30f)]
+    [SerializeField] private float idleSecondsPerMinute = 999f;
+
+    [Tooltip("Real seconds per in-game minute while the player is moving. Lower = faster clock.")]
+    [Range(0.05f, 30f)]
+    [SerializeField] private float movingSecondsPerMinute = 0.5f;
+
+    [Header("Interaction Fast Forward")]
     [Tooltip("Speed used when fast-forwarding time from interactions.")]
     [Range(0.01f, 5f)]
     [SerializeField] private float fastForwardMinuteSpeed = 0.05f;
@@ -75,12 +83,14 @@ public class GlobalTimeSystem : MonoBehaviour
     private bool isPausedForNewHour;
     private bool isEndingSequenceRunning;
     private int protectedInteractionCount;
+    private bool playerIsMoving;
 
     public bool IsAdvancingTime => advanceRoutine != null;
     public bool IsPausedForHourChange => isPausedForNewHour;
     public bool IsTimeUp => minutes >= EndMinutes;
     public bool IsEndingSequenceRunning => isEndingSequenceRunning;
     public bool IsInteractionProtected => protectedInteractionCount > 0;
+    public bool IsPlayerMoving => playerIsMoving;
 
     private void Awake()
     {
@@ -135,6 +145,10 @@ public class GlobalTimeSystem : MonoBehaviour
             return;
         }
 
+        if (!ShouldAdvancePassiveTime())
+            return;
+
+        float secondsPerMinute = GetCurrentPassiveSecondsPerMinute();
         timer += Time.deltaTime;
 
         if (timer >= secondsPerMinute)
@@ -142,6 +156,12 @@ public class GlobalTimeSystem : MonoBehaviour
             timer = 0f;
             AddMinuteAndRefresh();
         }
+    }
+
+    public void SetPlayerMoving(bool moving)
+    {
+        playerIsMoving = moving;
+        timer = 0f;
     }
 
     public void BeginProtectedInteraction()
@@ -216,6 +236,7 @@ public class GlobalTimeSystem : MonoBehaviour
         isPausedForNewHour = false;
         isEndingSequenceRunning = false;
         protectedInteractionCount = 0;
+        playerIsMoving = false;
 
         minutes = StartMinutes;
         timer = 0f;
@@ -249,6 +270,22 @@ public class GlobalTimeSystem : MonoBehaviour
         int h = minutes / 60;
         int m = minutes % 60;
         return $"{h:00}:{m:00}";
+    }
+
+    private bool ShouldAdvancePassiveTime()
+    {
+        if (onlyAdvancePassiveTimeWhilePlayerMoves)
+            return playerIsMoving;
+
+        return true;
+    }
+
+    private float GetCurrentPassiveSecondsPerMinute()
+    {
+        if (playerIsMoving)
+            return Mathf.Max(0.05f, movingSecondsPerMinute);
+
+        return Mathf.Max(0.05f, idleSecondsPerMinute);
     }
 
     private IEnumerator AdvanceTimeRoutine(int minutesToAdvance)
