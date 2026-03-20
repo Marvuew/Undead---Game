@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 public class RuntimeDialogueGraph : ScriptableObject
 {
@@ -11,7 +9,8 @@ public class RuntimeDialogueGraph : ScriptableObject
     public List<RuntimeNode> AllNodes = new List<RuntimeNode>();
 }
 
-
+#region Nodes
+// Abstract class for all nodes to derive from. So we use polymorphism to virtually disptach each nodes methods.
 [Serializable]
 public abstract class RuntimeNode
 {
@@ -25,6 +24,67 @@ public abstract class RuntimeNode
 }
 
 [Serializable]
+public class RuntimeDialogueNode : RuntimeNode
+{
+    // Dialogue
+    public List<string> Dialogue = new List<string>();
+    public Speaker speaker;
+
+    //Choices
+    public List<ChoiceData> Choices = new List<ChoiceData>();
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.ShowDialogue(this);
+        return NextNodeID;
+    }
+}
+
+#endregion
+// Container for choicedata
+[Serializable]
+public class ChoiceData
+{
+    public string ChoiceText;
+    public string DestinationNodeID;
+    public int HumanityChange;
+    public int UndeadChange;
+}
+
+#region Speaker 
+//Scriptable Object for a speaker
+[CreateAssetMenu(menuName = "Dialogue/Create new Speaker")]
+[Serializable]
+public class Speaker : ScriptableObject
+{
+    public Speakers speakerName;
+
+    public Sprite SpeakerSprite;
+}
+
+// Enum for all speaker
+public enum Speakers
+{
+    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger
+}
+#endregion
+
+#region Legacy Nodes
+
+/*[Serializable]
+public class RuntimeHumanityNode : RuntimeNode
+{
+    public int HumanityChange;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        GameEvents.ChangeHumanity(HumanityChange);
+        return NextNodeID;
+    }
+}*/
+
+
+/*[Serializable]
 public class RuntimeItemCheckNode : RuntimeNode
 {
     public Item RequiredItem;
@@ -39,40 +99,14 @@ public class RuntimeItemCheckNode : RuntimeNode
             return SuccessNodeID;
         }
         return FailureNodeID;
-    }  
-}
-
-[Serializable]
-public class RuntimeDialogueNode : RuntimeNode
-{
-    public string DialogueText;
-    public Speaker speaker;
-    public int HumanityChange;
-
-    public override string Execute(DialogueGraphManager manager)
-    {
-        manager.ShowDialogue(this);
-        return NextNodeID;
     }
-}
+}*/
 
-[Serializable]
-public class RuntimeHumanityNode : RuntimeNode
-{
-    public int HumanityChange;
-
-    public override string Execute(DialogueGraphManager manager)
-    {
-        GameEvents.ChangeHumanity(HumanityChange);
-        return NextNodeID;
-    }
-}
-
-[Serializable]
+/*[Serializable]
 public class RuntimeChoiceNode : RuntimeNode
 {
     public Speaker speaker;
-    public string DialogueText;
+    public List<string> Dialogue;
     public List<ChoiceData> Choices = new List<ChoiceData>();
 
     public override string Execute(DialogueGraphManager manager)
@@ -80,27 +114,6 @@ public class RuntimeChoiceNode : RuntimeNode
         manager.ShowChoices(this);
         return null;
     }
-}
-
-[Serializable]
-public class ChoiceData
-{
-    public string ChoiceText;
-    public string DestinationNodeID;
-    public int HumanityChange;
-}
-
-[CreateAssetMenu(menuName = "Dialogue/Create new Speaker")]
-[Serializable]
-public class Speaker : ScriptableObject
-{
-    public Speakers speakerName;
-
-    public Sprite SpeakerSprite;
-}
-
-public enum Speakers
-{
-    Dhampir, Rookie_Officer, Narrator, Drunk_Priest
-}
+}*/
+#endregion
 

@@ -1,10 +1,11 @@
-using UnityEngine;
-using UnityEditor.AssetImporters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.GraphToolkit.Editor;
 using System.Xml.Schema;
+using Unity.GraphToolkit.Editor;
+using UnityEditor.AssetImporters;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.Events;
 
 [ScriptedImporter(1, DialogueGraph.AssetExtension)]
@@ -44,7 +45,7 @@ public class DialogueGraphImporter : ScriptedImporter
 
                 runtimeNode = node;
             }
-            else if (iNode is ChoiceNode choiceNode)
+            /*else if (iNode is ChoiceNode choiceNode)
             {
                 var node = new RuntimeChoiceNode { NodeID = nodeIDMap[iNode]};
                 ProcessChoiceNode(choiceNode, node, nodeIDMap);
@@ -58,7 +59,7 @@ public class DialogueGraphImporter : ScriptedImporter
                 ProcessItemCheckNode(actionNode, node, nodeIDMap);
 
                 runtimeNode = node;
-            }
+            }*/
 
             runtimeGraph.AllNodes.Add(runtimeNode);
         }
@@ -67,10 +68,15 @@ public class DialogueGraphImporter : ScriptedImporter
         ctx.SetMainObject(runtimeGraph);
     }
 
-    private void ProcessDialogueNode(DialogueNode node, RuntimeDialogueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    /*private void ProcessDialogueNode(DialogueNode node, RuntimeDialogueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
         runtimeNode.speaker = GetPortValue<Speaker>(node.GetInputPortByName("Speaker"));
-        runtimeNode.DialogueText = GetPortValue<string>(node.GetInputPortByName("Dialogue"));
+
+        for (int i = 0; i < runtimeNode.Dialogue.sentences.Length; i++)
+        {
+            runtimeNode.Dialogue.sentences[i] = GetPortValue<string>(node.GetInputPortByName("Dialogue"));
+        }
+
         runtimeNode.HumanityChange = GetPortValue<int>(node.GetInputPortByName("Humanity"));
 
         var nextNodePort = node.GetOutputPortByName("out")?.firstConnectedPort;
@@ -78,13 +84,54 @@ public class DialogueGraphImporter : ScriptedImporter
         {
             runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
         }
+    }*/
+
+    private void ProcessDialogueNode(DialogueNode node, RuntimeDialogueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        //-----------------------------PROCESS SPEAKER--------------------------------//
+       runtimeNode.speaker = GetPortValue<Speaker>(node.GetInputPortByName("Speaker"));
+
+        //----------------------------PROCESS SENTENCES------------------------------//
+        node.GetNodeOptionByName("Sentences").TryGetValue(out int sentenceCount);
+        for (int i = 0; i < sentenceCount; i++)
+        {
+            string sentenceName = "Sentence " + i;
+            node.GetNodeOptionByName(sentenceName).TryGetValue(out string sentence);
+            runtimeNode.Dialogue.Add(sentence);
+        }
+
+        node.GetNodeOptionByName("Choices").TryGetValue(out int choiceCount);
+        for (int i = 0; i < choiceCount; i++)
+        {
+            string choiceName = $"Choice {i} Text";
+            string undeadName = $"Undead (Choice {i})";
+            string humanityName = $"Undead (Choice {i})";
+
+            string choiceOutputName = $"Choice {i}";
+
+            node.GetNodeOptionByName(choiceName).TryGetValue(out string choicetext);
+            node.GetNodeOptionByName(undeadName).TryGetValue(out int undead);
+            node.GetNodeOptionByName(humanityName).TryGetValue(out int humanity);
+
+            var choiceOutputPort = node.GetOutputPortByName(choiceOutputName);
+            var choiceData = new ChoiceData { ChoiceText = choicetext, HumanityChange = humanity, UndeadChange = undead, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null };
+            runtimeNode.Choices.Add(choiceData);  
+        }
+
+        //---------------------------FIND NEXT NODEID-----------------------------//
+        if (choiceCount == 0)
+        {
+            var nextNodePort = node.GetOutputPortByName("out")?.firstConnectedPort;
+            if (nextNodePort != null)
+            {
+                runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
+            }
+        }
     }
 
-    private void ProcessChoiceNode(ChoiceNode node, RuntimeChoiceNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    /*private void ProcessChoiceNode(ChoiceNode node, RuntimeChoiceNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
-        runtimeNode.speaker = GetPortValue<Speaker>(node.GetInputPortByName("Speaker"));
-        runtimeNode.DialogueText = GetPortValue<string>(node.GetInputPortByName("Dialogue"));
-        
+        runtimeNode.speaker = GetPortValue<Speaker>(node.GetInputPortByName("Speaker"));      
 
         var choiceOutputPorts = node.GetOutputPorts().Where(p => p.name.StartsWith("Choice "));
 
@@ -104,9 +151,9 @@ public class DialogueGraphImporter : ScriptedImporter
 
             runtimeNode.Choices.Add(choiceData);
         }    
-    }
+    }*/
 
-    private void ProcessItemCheckNode(ItemCheckNode node, RuntimeItemCheckNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    /*private void ProcessItemCheckNode(ItemCheckNode node, RuntimeItemCheckNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
         runtimeNode.RequiredItem = GetPortValue<Item>(node.GetInputPortByName("Item"));
 
@@ -122,7 +169,7 @@ public class DialogueGraphImporter : ScriptedImporter
             runtimeNode.FailureNodeID = nodeIDMap[failureNodePort.GetNode()];
         }
 
-    }
+    }*/
 
     private T GetPortValue<T>(IPort port)
     {

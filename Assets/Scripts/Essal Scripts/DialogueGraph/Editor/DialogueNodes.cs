@@ -25,15 +25,51 @@ public class EndNode : Node
 [Serializable]
 public class DialogueNode : Node
 {
+    INodeOption choices;
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
+        // In Port
         context.AddInputPort("in").Build();
-        context.AddOutputPort("out").Build();
 
+        //Speaker port
         context.AddInputPort<Speaker>("Speaker").Build();
-        context.AddInputPort<string>("Dialogue").Build();
 
-        context.AddInputPort<int>("Humanity").Build();
+        //Out Ports
+        choices.TryGetValue(out int choiceCount);
+        if (choiceCount == 0)
+        {
+            context.AddOutputPort("out").Build();
+        }
+        else
+        {
+            for (int i = 0; i < choiceCount; i++)
+            {
+                context.AddOutputPort($"Choice {i}").Build();
+            }
+        }
+    }
+
+    protected override void OnDefineOptions(IOptionDefinitionContext context)
+    {
+        // Number of sentences
+        var sentences = context.AddOption<int>("Sentences").WithDefaultValue(1).Build();
+
+        // Serializes a stirng for number of sentences
+        sentences.TryGetValue(out int sentenceCount);
+        for (int i = 0; i < sentenceCount; i++)
+        {
+            context.AddOption<string>("Sentence " + i).Build();
+        }
+
+        choices = context.AddOption<int>("Choices").WithDefaultValue(0).Build();
+        choices.TryGetValue(out int choiceCount);
+        for (int i = 0; i < choiceCount; i++)
+        {
+            context.AddOption<string>($"Choice {i} Text").Build();
+            context.AddOption<int>($"Humanity (Choice {i})").Build();
+            context.AddOption<int>($"Undead (Choice {i})").Build();
+        }
+
 
     }
 }

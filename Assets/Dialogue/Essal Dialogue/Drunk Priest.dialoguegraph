@@ -281,13 +281,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861412404232272
-          - rid: 4008861412404232273
-          - rid: 4008861412404232274
+          - rid: 4008861638615105910
+          - rid: 4008861638615105993
+          - rid: 4008861638615106059
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -303,18 +303,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861412404232275
-    - rid: 4008861412404232272
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 11400000, guid: 5540fcc21b5ada243bb9ed39f055dc9d, type: 2}
-    - rid: 4008861412404232273
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Hi there
-    - rid: 4008861412404232274
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
     - rid: 4008861412404232275
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -336,13 +324,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861412404232277
-          - rid: 4008861412404232278
-          - rid: 4008861412404232279
+          - rid: 4008861638615105911
+          - rid: 4008861638615105994
+          - rid: 4008861638615106060
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -358,18 +346,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861412404232280
-    - rid: 4008861412404232277
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 11400000, guid: 5540fcc21b5ada243bb9ed39f055dc9d, type: 2}
-    - rid: 4008861412404232278
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Hello
-    - rid: 4008861412404232279
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
     - rid: 4008861412404232280
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -393,19 +369,19 @@ MonoBehaviour:
           m_KeyList:
           - __option_portCount
           - Speaker
-          - Dialogue
           - Choice Text 0
           - Humanity - Choice 0
           - Choice Text 1
           - Humanity - Choice 1
+          - Dialogue
           m_ValueList:
           - rid: 4008861412404232282
           - rid: 4008861412404232283
-          - rid: 4008861412404232284
           - rid: 4008861412404232285
           - rid: 4008861412404232286
           - rid: 4008861412404232287
           - rid: 4008861412404232288
+          - rid: 4008861638615106017
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -428,11 +404,7 @@ MonoBehaviour:
     - rid: 4008861412404232283
       type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: {fileID: 11400000, guid: 5540fcc21b5ada243bb9ed39f055dc9d, type: 2}
-    - rid: 4008861412404232284
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Could you help me out
+        m_Value: {fileID: 0}
     - rid: 4008861412404232285
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -635,13 +607,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861412404232301
-          - rid: 4008861412404232302
-          - rid: 4008861412404232303
+          - rid: 4008861638615105912
+          - rid: 4008861638615105995
+          - rid: 4008861638615106061
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -657,18 +629,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861412404232304
-    - rid: 4008861412404232301
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 11400000, guid: 5540fcc21b5ada243bb9ed39f055dc9d, type: 2}
-    - rid: 4008861412404232302
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Thanks for the axe
-    - rid: 4008861412404232303
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 10
     - rid: 4008861412404232304
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -690,13 +650,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861412404232307
-          - rid: 4008861412404232308
-          - rid: 4008861412404232309
+          - rid: 4008861638615105913
+          - rid: 4008861638615105996
+          - rid: 4008861638615106062
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -712,18 +672,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861412404232310
-    - rid: 4008861412404232307
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 11400000, guid: 5540fcc21b5ada243bb9ed39f055dc9d, type: 2}
-    - rid: 4008861412404232308
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: You dont even have an axe
-    - rid: 4008861412404232309
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: -10
     - rid: 4008861412404232310
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -967,3 +915,55 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 4008861638615105910
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105911
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105912
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105913
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105993
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615105994
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615105995
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615105996
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615106017
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 4008861638615106059
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615106060
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615106061
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615106062
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0

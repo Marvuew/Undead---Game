@@ -236,13 +236,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861376905216116
-          - rid: 4008861369018089591
-          - rid: 4008861376905216092
+          - rid: 4008861638615105895
+          - rid: 4008861638615105978
+          - rid: 4008861638615106044
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -311,13 +311,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861376905216117
-          - rid: 4008861369018089592
-          - rid: 4008861376905216093
+          - rid: 4008861638615105896
+          - rid: 4008861638615105979
+          - rid: 4008861638615106045
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -425,19 +425,19 @@ MonoBehaviour:
           m_KeyList:
           - __option_portCount
           - Speaker
-          - Dialogue
           - Choice Text 0
           - Choice Text 1
           - Humanity - Choice 0
           - Humanity - Choice 1
+          - Dialogue
           m_ValueList:
           - rid: 4008861365213593601
           - rid: 4008861376905216127
-          - rid: 4008861369018089593
           - rid: 4008861369018089594
           - rid: 4008861369018089595
           - rid: 4008861376905216094
           - rid: 4008861376905216095
+          - rid: 4008861638615106016
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -542,13 +542,13 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
+          - __option_Sentences
           - Speaker
-          - Dialogue
-          - Humanity
+          - __option_Choices
           m_ValueList:
-          - rid: 4008861376905216119
-          - rid: 4008861369018089596
-          - rid: 4008861376905216096
+          - rid: 4008861638615105897
+          - rid: 4008861638615105980
+          - rid: 4008861638615106046
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -668,18 +668,6 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
-    - rid: 4008861369018089591
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 
-    - rid: 4008861369018089592
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 
-    - rid: 4008861369018089593
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 
     - rid: 4008861369018089594
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -688,18 +676,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 
-    - rid: 4008861369018089596
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 
-    - rid: 4008861376905216092
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 4008861376905216093
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
     - rid: 4008861376905216094
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -708,23 +684,47 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
-    - rid: 4008861376905216096
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 4008861376905216116
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
-    - rid: 4008861376905216117
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
-    - rid: 4008861376905216119
-      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
     - rid: 4008861376905216127
       type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: {fileID: 0}
+    - rid: 4008861638615105895
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105896
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105897
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615105978
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615105979
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615105980
+      type: {class: 'Constant`1[[Speaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861638615106016
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 4008861638615106044
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615106045
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861638615106046
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
