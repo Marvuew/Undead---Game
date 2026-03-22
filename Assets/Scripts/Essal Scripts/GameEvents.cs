@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,12 +10,10 @@ public class GameEvents : MonoBehaviour
         Dialogue.Invoke(dialogue);
     }
 
-   
-
-    public static UnityEvent<int> Humanity = new UnityEvent<int>();
-    public static void ChangeHumanity(int humanity)
+    public static UnityEvent<int, int> AlignmentChange = new UnityEvent<int, int>();
+    public static void ChangeAlignment(int humanityChange, int undeadChange)
     {
-        Humanity.Invoke(humanity);
+        AlignmentChange.Invoke(humanityChange, undeadChange);
     }
 
     public static UnityEvent<float> OnTimeChanged = new UnityEvent<float>();
@@ -40,6 +39,5 @@ public class GameEvents : MonoBehaviour
     {
         OnRealtimeClockChanged.Invoke(time);
     }
-
-
 }
+

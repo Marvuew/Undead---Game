@@ -13,13 +13,13 @@ public class HumanityAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.Humanity.AddListener(SetHumanity);
+        //GameEvents.AlignmentChange.AddListener(SetHumanity);
         fillColor = sliderFill.color;
     }
 
     private void OnDisable()
     {
-        GameEvents.Humanity.RemoveListener(SetHumanity);
+        //GameEvents.AlignmentChange.RemoveListener(SetHumanity);
     }
     private void Update()
     {

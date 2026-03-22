@@ -1,9 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using System.Collections;
 
     
 public class DialogueGraphManager : MonoBehaviour
@@ -42,12 +42,16 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Variables
+    // For controlling dialogue flow
     private bool skipTyping = false;
     private bool isWaitingForClick = false;
     private bool isTyping = false;
 
     private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();
     private RuntimeNode _currentNode;
+    
+    // For tracking choices
+    private HashSet<string> exploredChoices = new HashSet<string>();
     #endregion
 
     #region Event Subscribing
@@ -55,7 +59,6 @@ public class DialogueGraphManager : MonoBehaviour
     {
         GameEvents.Dialogue.AddListener(StartDialogue);
     }
-
     private void OnDisable()
     {
         GameEvents.Dialogue.RemoveListener(StartDialogue);
@@ -63,32 +66,8 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Input Handling (update)
-
-    /*private void Update()
-    {
-        if (_currentNode != null)
-        {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                if (isTyping)
-                {
-                    if (!skipTyping && !isWaitingForClick) skipTyping = true;
-                    else if (isWaitingForClick) isWaitingForClick = false;
-                }
-                else if (DialoguePanel.activeSelf && !isTyping)
-                {
-                    ShowNode(_currentNode.NextNodeID);
-                }
-            }
-        }
-        else if (DialoguePanel.activeSelf && !isTyping)
-        {
-            StartCoroutine(EndDialogue());
-        }
-    }*/
-
     private void Update()
-    {
+    {   // Runs if the current node is and end node.
         if (_currentNode == null)
         {
             if (DialoguePanel.activeSelf && !isTyping)
@@ -100,106 +79,66 @@ public class DialogueGraphManager : MonoBehaviour
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // A: Hvis vi stadig skriver tekst
             if (isTyping)
             {
                 if (!skipTyping && !isWaitingForClick) skipTyping = true;
                 else if (isWaitingForClick) isWaitingForClick = false;
             }
-            // B: Hvis teksten er færdig - Tjek om vi må klikke videre
             else
             {
-                // Vi må KUN klikke videre, hvis der ikke er nogen svarknapper (Choices)
                 if (_currentNode is RuntimeDialogueNode dialogueNode && dialogueNode.Choices.Count == 0)
                 {
                     ShowNode(_currentNode.NextNodeID);
                 }
-                // Hvis der ER choices, gør vi intet her. 
-                // Vi venter på at OnClick() på knappen kalder ShowNode.
             }
         }
     }
     #endregion
 
-    #region Dialogue Methods
+    #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
         _nodeLookup.Clear();
         
         foreach (var node in dialogue.AllNodes)
         {
-            Debug.Log("All Nodes Added");
             _nodeLookup[node.NodeID] = node;
         }
 
         if (!string.IsNullOrEmpty(dialogue.EntryNodeID))
         {
-            Debug.Log("Showing Entry Node");
             ShowNode(dialogue.EntryNodeID);
         }
         else
         {
             StartCoroutine(EndDialogue());
         }
-
+        // The DialougeBox Appears
         DialogueAnimator.SetBool("IsOpen", true);
     }
 
     public void ShowNode(string nodeID)
     {
-        Debug.Log($"Showing node {nodeID}");
-        if (!_nodeLookup.ContainsKey(nodeID))
+        while (nodeID != null)
         {
-            Debug.Log("Ending Dialogue");
-            StartCoroutine(EndDialogue());
-            return;
-        }
-        Debug.Log("Updating CurrentNode");
-        _currentNode = _nodeLookup[nodeID];
-
-        string nextNode = _currentNode.Execute(this);    
-    }
-
-    public void ShowDialogue(RuntimeDialogueNode node)
-    {
-        Debug.Log("Showing Dialogue");
-        DialoguePanel.SetActive(true);
-
-        SpeakerNameText.text = node.speaker.speakerName.ToString();
-
-        HandleSpeakerSprite(node.speaker.SpeakerSprite);
-
-        StopAllCoroutines();
-        StartCoroutine(TypeDialogue(node.Dialogue, node));
-    }
-
-    public void ListChoices(RuntimeDialogueNode node)
-    {
-        ClearChoices();
-            foreach (var choice in node.Choices)
+            if (!_nodeLookup.ContainsKey(nodeID))
             {
-                Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
-
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
-
-                    button.onClick.AddListener(() =>
-                    {
-                        if (!string.IsNullOrEmpty(choice.DestinationNodeID))
-                        {
-                            TriggerHumanityChange(choice.HumanityChange);
-
-                            ClearChoices();
-
-                            ShowNode(choice.DestinationNodeID);
-                        }
-                        /*else
-                        {
-                            StartCoroutine(EndDialogue());
-                        }*/
-                    });  
+                StartCoroutine(EndDialogue());
+                return;
             }
+
+            _currentNode = _nodeLookup[nodeID];
+
+            string nextNode = _currentNode.Execute(this);
+
+            // 🛑 Dialogue pauses the system
+            if (_currentNode is RuntimeDialogueNode)
+                return;
+
+            nodeID = nextNode;
+        }
     }
+
 
     private IEnumerator EndDialogue()
     {
@@ -216,9 +155,35 @@ public class DialogueGraphManager : MonoBehaviour
     }
     #endregion
 
+    #region NodeHandling
+    public void HandleDialogueNode(RuntimeDialogueNode node)
+    {
+        if (DialoguePanel.gameObject.activeSelf == false)
+        {
+            DialoguePanel.SetActive(true);
+        }
+
+        SpeakerNameText.text = node.SpeakerName;
+
+        HandleSpeakerSprite(node.SpeakerSprite);
+
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue(node.Dialogue, node));
+    }
+
+    public void HandleAlignmentNode(RuntimeAlignmentNode node)
+    {
+        GameEvents.ChangeAlignment(node.HumanityChange, node.UndeadChange);
+    }
+
+    public void HandleActionNode(RuntimeActionNode node)
+    {
+        DialogueGraphEventTriggers.Trigger(node.eventName);
+        Debug.Log("NextNodeBegin");
+    }
+
+    #endregion
     #region Helping Functions
-
-
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
         isTyping = true;
@@ -256,15 +221,39 @@ public class DialogueGraphManager : MonoBehaviour
 
     }
 
+    public void ListChoices(RuntimeDialogueNode node)
+    {
+        ClearChoices();
+        foreach (var choice in node.Choices)
+        {
+            Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
+
+            TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
+
+            if (exploredChoices.Contains(choice.ChoiceID))
+            {
+                button.GetComponent<Image>().color = Color.red;
+            }
+
+            button.onClick.AddListener(() =>
+            {
+                if (!string.IsNullOrEmpty(choice.DestinationNodeID))
+                {
+                    exploredChoices.Add(choice.ChoiceID);
+
+                    ClearChoices();
+
+                    ShowNode(choice.DestinationNodeID);
+                }
+            });
+        }
+    }
+
     void HandleSpeakerSprite(Sprite sprite)
     {
         if (sprite != null)
             SpeakerSprite.sprite = sprite;
-    }
-
-    void TriggerHumanityChange(int humanityChange)
-    {
-        Debug.Log("Changing Humanity");
     }
 
     private void ClearChoices()
@@ -277,6 +266,15 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Legacy Code
+    /*public void HandleInteractionNode(RuntimeinteractionNode node)
+{
+    SpeakerNameText.text = node.Name;
+    HandleSpeakerSprite(node.Image);
+
+    StopAllCoroutines();
+    StartCoroutine(TypeDialogue(node.FluffText, node));
+}*/
+
     /*public void ShowChoices(RuntimeChoiceNode node)
     {
         DialoguePanel.SetActive(true);

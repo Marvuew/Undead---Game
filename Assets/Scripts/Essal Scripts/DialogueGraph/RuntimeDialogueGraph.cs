@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class RuntimeDialogueGraph : ScriptableObject
 {
@@ -28,28 +29,55 @@ public class RuntimeDialogueNode : RuntimeNode
 {
     // Dialogue
     public List<string> Dialogue = new List<string>();
-    public Speaker speaker;
+    public Sprite SpeakerSprite;
+    public string SpeakerName;
 
     //Choices
     public List<ChoiceData> Choices = new List<ChoiceData>();
 
     public override string Execute(DialogueGraphManager manager)
     {
-        manager.ShowDialogue(this);
+        manager.HandleDialogueNode(this);
+        return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeAlignmentNode : RuntimeNode
+{
+    public int HumanityChange;
+    public int UndeadChange;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleAlignmentNode(this);
+        return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeActionNode : RuntimeNode
+{
+    public string eventName;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleActionNode(this);
         return NextNodeID;
     }
 }
 
 #endregion
+
+#region Data Containers
 // Container for choicedata
 [Serializable]
 public class ChoiceData
 {
     public string ChoiceText;
     public string DestinationNodeID;
-    public int HumanityChange;
-    public int UndeadChange;
+    public string ChoiceID;
 }
+#endregion
 
 #region Speaker 
 //Scriptable Object for a speaker
@@ -65,11 +93,58 @@ public class Speaker : ScriptableObject
 // Enum for all speaker
 public enum Speakers
 {
-    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger
+    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger, Strigoi
 }
+
+public enum Actions
+{
+    Kill,
+    Resolve
+}
+
 #endregion
 
 #region Legacy Nodes
+
+/*[Serializable] 
+public class RuntimeActionNode: RuntimeNode
+{
+    public GameEvent Action;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleActionNode(this);
+        return NextNodeID;
+    }
+}*/
+/*[CreateAssetMenu(menuName = "Events/Game Event")]
+public class GameEvent : ScriptableObject
+{
+    // This is the "Basic Event" (C# Action)
+    private Action<object> _onTrigger;
+
+    public void Register(Action<object> listener) => _onTrigger += listener;
+    public void Unregister(Action<object> listener) => _onTrigger -= listener;
+
+    public void Raise(object data = null)
+    {
+        _onTrigger?.Invoke(data);
+    }
+}*/
+
+/*[Serializable]
+public class RuntimeinteractionNode : RuntimeNode
+{
+    public string Name;
+    public List<string> FluffText;
+    public Sprite Image;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleInteractionNode(this);
+        return NextNodeID;
+    }
+}*/
+
 
 /*[Serializable]
 public class RuntimeHumanityNode : RuntimeNode

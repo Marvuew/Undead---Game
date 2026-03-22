@@ -927,6 +927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ce75922cd8bca479afbf0a5820f3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  Humanity: 0
+  Undead: 0
 --- !u!4 &343999833
 Transform:
   m_ObjectHideFlags: 0
@@ -1069,6 +1071,55 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &473878889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473878891}
+  - component: {fileID: 473878890}
+  m_Layer: 0
+  m_Name: SpeakerDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &473878890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473878889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93bf7f8c3c212ed4eb1e01f8abd84aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeakerSpriteScript
+  speakerSpriteList:
+  - speaker: 5
+    sprite: {fileID: 21300000, guid: d35c42e382cdfd84da7a7e48efb8df2a, type: 3}
+  - speaker: 0
+    sprite: {fileID: 21300000, guid: aeb3fce3d288949448edccdea2f7ee2d, type: 3}
+--- !u!4 &473878891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473878889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1066.8732, y: 864.8506, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &595322448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,6 +2680,50 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!1 &1950700753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950700755}
+  - component: {fileID: 1950700754}
+  m_Layer: 0
+  m_Name: ConfrontationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1950700754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950700753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aef622b823672e4581113c2dd4833e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConfrontationManager
+--- !u!4 &1950700755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950700753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1066.8732, y: 864.8506, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002765402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,7 +2776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d301849a71dee8469ed9c1f7eb33524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
-  dialogue: {fileID: 3965311268370046156, guid: 88dd96eae320d2e4aa63115131ac2256, type: 3}
+  dialogue: {fileID: 3965311268370046156, guid: 5218159c37e1f264eb4ce838e5d51d28, type: 3}
 --- !u!114 &2002765405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3156,3 +3251,5 @@ SceneRoots:
   - {fileID: 1597684201}
   - {fileID: 2083298576}
   - {fileID: 2031715771}
+  - {fileID: 1950700755}
+  - {fileID: 473878891}

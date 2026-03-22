@@ -7,12 +7,18 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
 
-    int humanity;
-    int stamina;
+    public int Humanity;
+    public int Undead;
 
-    List<string> inventory;
+    public void OnEnable()
+    {
+        GameEvents.AlignmentChange.AddListener(HandleAlignmentChange);
+    }
 
-    public static event Action<float> OnHumanityChanged;
+    public void OnDisable()
+    {
+        GameEvents.AlignmentChange.RemoveListener(HandleAlignmentChange);
+    }
 
 
     private void Awake()
@@ -29,10 +35,11 @@ public class Player : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void ChangeHumanity(float value)
+    public void HandleAlignmentChange(int humanityChange, int undeadChange)
     {
-        OnHumanityChanged.Invoke(value);
+        Humanity += humanityChange;
+        Undead += undeadChange;
+
+        Debug.Log($"Humanity {Humanity} + Undead {Undead}");
     }
-
-
 }

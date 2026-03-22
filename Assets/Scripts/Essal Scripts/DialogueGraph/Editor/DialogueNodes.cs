@@ -1,9 +1,15 @@
-using UnityEngine;
-using Unity.GraphToolkit.Editor;
+using JetBrains.Annotations;
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using Unity.GraphToolkit.Editor;
+using UnityEditor.PackageManager;
+using UnityEngine;
 using UnityEngine.Events;
-using JetBrains.Annotations;
+
+#region In and out
 [Serializable]
 public class StartNode : Node
 {
@@ -21,30 +27,52 @@ public class EndNode : Node
         context.AddInputPort("in").Build();
     }
 }
+#endregion
 
+#region Nodes
 [Serializable]
 public class DialogueNode : Node
 {
-    INodeOption choices;
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_SPEAKER = "Speaker";
+    public static readonly string OUT_PORT_CHOICE = "Choice";
+    public static readonly string IN_OPTION_SENTENCE_COUNT = "Sentences";
+    public static readonly string IN_OPTION_SENTENCE = "Sentence";
+    public static readonly string IN_OPTION_CHOICE_COUNT = "Choices";
+    public static readonly string IN_OPTION_CHOICE_TEXT = "Choice text";
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         // In Port
-        context.AddInputPort("in").Build();
+        context.AddInputPort(IN_PORT).Build();
 
         //Speaker port
-        context.AddInputPort<Speaker>("Speaker").Build();
+        context.AddInputPort<Speakers>(IN_PORT_SPEAKER).Build();
+
+        // Spawn Sentence Ports
+        GetNodeOptionByName(IN_OPTION_SENTENCE_COUNT).TryGetValue(out int sentenceCount);
+        for (int i = 0; i < sentenceCount; i++)
+        {
+            context.AddInputPort<string>(IN_OPTION_SENTENCE + i).WithConnectorUI(PortConnectorUI.Arrowhead).Build();
+        }
+        
+        // Spawn Choice Ports
+        GetNodeOptionByName(IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
+        for (int i = 0; i < choiceCount; i++)
+        {
+            context.AddInputPort<string>(IN_OPTION_CHOICE_TEXT + i).Build();
+        }
 
         //Out Ports
-        choices.TryGetValue(out int choiceCount);
         if (choiceCount == 0)
         {
-            context.AddOutputPort("out").Build();
+            context.AddOutputPort(OUT_PORT).Build();
         }
         else
         {
             for (int i = 0; i < choiceCount; i++)
             {
-                context.AddOutputPort($"Choice {i}").Build();
+                context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
             }
         }
     }
@@ -52,29 +80,77 @@ public class DialogueNode : Node
     protected override void OnDefineOptions(IOptionDefinitionContext context)
     {
         // Number of sentences
-        var sentences = context.AddOption<int>("Sentences").WithDefaultValue(1).Build();
+        context.AddOption<int>(IN_OPTION_SENTENCE_COUNT).WithDefaultValue(1).Build();
+        // Number of choices
+        context.AddOption<int>(IN_OPTION_CHOICE_COUNT).WithDefaultValue(0).Build();
+    }
+}
+[Serializable]
+public class AlignmentNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_OPTION_HUMANITY = "HumanityChange";
+    public static readonly string IN_OPTION_UNDEAD = "UndeadChange";
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
 
-        // Serializes a stirng for number of sentences
-        sentences.TryGetValue(out int sentenceCount);
-        for (int i = 0; i < sentenceCount; i++)
-        {
-            context.AddOption<string>("Sentence " + i).Build();
-        }
-
-        choices = context.AddOption<int>("Choices").WithDefaultValue(0).Build();
-        choices.TryGetValue(out int choiceCount);
-        for (int i = 0; i < choiceCount; i++)
-        {
-            context.AddOption<string>($"Choice {i} Text").Build();
-            context.AddOption<int>($"Humanity (Choice {i})").Build();
-            context.AddOption<int>($"Undead (Choice {i})").Build();
-        }
-
-
+        context.AddInputPort<int>(IN_OPTION_UNDEAD).WithConnectorUI(PortConnectorUI.Arrowhead).WithDefaultValue(0).Build();
+        context.AddInputPort<int>(IN_OPTION_HUMANITY).WithConnectorUI(PortConnectorUI.Circle).WithDefaultValue(0).Build();
     }
 }
 
 [Serializable]
+public class ActionNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string OPTION_EVENT = "EventName";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+    }
+
+    protected override void OnDefineOptions(IOptionDefinitionContext context)
+    {
+        context.AddOption<Actions>(OPTION_EVENT).Build();
+    }
+}
+#endregion
+#region Legacy Nodes
+/*[Serializable]
+public class ActionNode : Node
+{
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort("in").Build();
+        context.AddOutputPort("out").Build();
+
+        context.AddInputPort<UnityEvent>("Action").WithConnectorUI(PortConnectorUI.Arrowhead).WithDisplayName("Speaker").Build();
+    }
+}*/
+
+/*[Serializable]
+public class ItemCheckNode : Node
+{
+protected override void OnDefinePorts(IPortDefinitionContext context)
+{
+    context.AddInputPort("in").Build();
+
+    context.AddInputPort<Item>("Item").Build();
+
+    context.AddOutputPort("Success").Build();
+    context.AddOutputPort("Failure").Build();
+}
+}*/
+
+
+
+/*[Serializable]
 public class ChoiceNode : Node
 {
     const string optionID = "portCount";
@@ -101,18 +177,23 @@ public class ChoiceNode : Node
     {
         context.AddOption<int>(optionID).WithDefaultValue(2).Delayed();
     }
-}
+}*/
 
-[Serializable]
-public class ItemCheckNode : Node
+/*[Serializable]
+public class InteractionNode : Node
 {
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         context.AddInputPort("in").Build();
-
-        context.AddInputPort<Item>("Item").Build();
-
-        context.AddOutputPort("Success").Build();
-        context.AddOutputPort("Failure").Build();
+        context.AddOutputPort("out").Build();
     }
-}
+
+    protected override void OnDefineOptions(IOptionDefinitionContext context)
+    {
+        context.AddOption<string>("Name").Build();
+        context.AddOption<string>("Fluff Text").Build();
+        context.AddOption<Sprite>("Image").Build();
+    }
+}*/
+#endregion
+
