@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using JetBrains.Annotations;
+using Unity.GraphToolkit.Editor;
 
 public class RuntimeDialogueGraph : ScriptableObject
 {
@@ -76,19 +78,11 @@ public class ChoiceData
     public string ChoiceText;
     public string DestinationNodeID;
     public string ChoiceID;
+    public DialogueCondition Condition;
 }
 #endregion
 
 #region Speaker 
-//Scriptable Object for a speaker
-[CreateAssetMenu(menuName = "Dialogue/Create new Speaker")]
-[Serializable]
-public class Speaker : ScriptableObject
-{
-    public Speakers speakerName;
-
-    public Sprite SpeakerSprite;
-}
 
 // Enum for all speaker
 public enum Speakers
@@ -100,6 +94,11 @@ public enum Actions
 {
     Kill,
     Resolve
+}
+
+public enum Requirement
+{
+    Axe, Wine, Book
 }
 
 #endregion

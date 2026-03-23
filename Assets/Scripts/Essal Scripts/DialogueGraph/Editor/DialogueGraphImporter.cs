@@ -102,12 +102,26 @@ public class DialogueGraphImporter : ScriptedImporter
         node.GetNodeOptionByName(DialogueNode.IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
         for (int i = 0; i < choiceCount; i++)
         {
-            string choiceText = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_OPTION_CHOICE_TEXT + i));
+            //Requirements
+            node.GetNodeOptionByName(DialogueNode.IN_OPTION_CONDITION_TOGGLE).TryGetValue(out bool conditionToggle);
+            if (conditionToggle)
+            {
+                DialogueCondition condition = GetPortValue<DialogueCondition>(node.GetInputPortByName(DialogueNode.IN_PORT_CONDITION + i));
+                string choiceText = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_OPTION_CHOICE_TEXT + i));
+                var choiceOutputPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CHOICE + i);
+                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null, Condition = condition};
+                runtimeNode.Choices.Add(choiceData);
+            }
+            else
+            {
+                string choiceText = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_OPTION_CHOICE_TEXT + i));
+                var choiceOutputPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CHOICE + i);
+                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null};
+                runtimeNode.Choices.Add(choiceData);
+            }
 
-            var choiceOutputPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CHOICE + i);
-            var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null };
-            runtimeNode.Choices.Add(choiceData);
         }
+
 
         // Handles finding the nextnodeID
         if (choiceCount == 0)

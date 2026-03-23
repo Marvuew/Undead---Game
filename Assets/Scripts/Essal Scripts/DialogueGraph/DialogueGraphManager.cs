@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -163,7 +164,6 @@ public class DialogueGraphManager : MonoBehaviour
             DialoguePanel.SetActive(true);
         }
 
-        
         Sprite SpeakerSprite = GetSpeakerSprite(node.SpeakerName);
         HandleSpeakerData(SpeakerSprite, node.SpeakerName);
 
@@ -226,15 +226,20 @@ public class DialogueGraphManager : MonoBehaviour
         ClearChoices();
         foreach (var choice in node.Choices)
         {
-            Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
 
-            TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            if (!ViableChoice(choice)) return;
+            Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
 
+            //------------------CHOICE COLOR_________________________________//
+            var choiceColor = button.GetComponent<Image>().color;
+            choiceColor = choice.Condition == null ? Color.white : Color.yellow;
             if (exploredChoices.Contains(choice.ChoiceID))
             {
-                button.GetComponent<Image>().color = Color.red;
+                choiceColor = Color.red;
             }
+            button.GetComponent<Image>().color = choiceColor;
+            //_____________________________________________________________//
 
             button.onClick.AddListener(() =>
             {
@@ -248,6 +253,13 @@ public class DialogueGraphManager : MonoBehaviour
                 }
             });
         }
+    }
+
+    bool ViableChoice(ChoiceData choice)
+    {
+        if (choice.Condition == null) return true;
+        if (choice.Condition.IsMet()) return true;
+        else return false;
     }
 
     void HandleSpeakerData(Sprite sprite, Speakers name)

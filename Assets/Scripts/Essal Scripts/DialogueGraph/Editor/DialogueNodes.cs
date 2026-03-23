@@ -8,6 +8,8 @@ using Unity.GraphToolkit.Editor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 #region In and out
 [Serializable]
@@ -41,6 +43,8 @@ public class DialogueNode : Node
     public static readonly string IN_OPTION_SENTENCE = "Sentence";
     public static readonly string IN_OPTION_CHOICE_COUNT = "Choices";
     public static readonly string IN_OPTION_CHOICE_TEXT = "Choice text";
+    public static readonly string IN_OPTION_CONDITION_TOGGLE = "Requirement";
+    public static readonly string IN_PORT_CONDITION= "Condition";
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         // In Port
@@ -55,7 +59,7 @@ public class DialogueNode : Node
         {
             context.AddInputPort<string>(IN_OPTION_SENTENCE + i).WithConnectorUI(PortConnectorUI.Arrowhead).Build();
         }
-        
+
         // Spawn Choice Ports
         GetNodeOptionByName(IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
         for (int i = 0; i < choiceCount; i++)
@@ -72,7 +76,17 @@ public class DialogueNode : Node
         {
             for (int i = 0; i < choiceCount; i++)
             {
-                context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
+                GetNodeOptionByName(IN_OPTION_CONDITION_TOGGLE).TryGetValue(out bool requirement);
+                if (requirement)
+                {
+                    context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
+                    context.AddInputPort<DialogueCondition>(IN_PORT_CONDITION + i).Build();
+                }
+                else
+                {
+                    context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
+                }
+
             }
         }
     }
@@ -83,6 +97,8 @@ public class DialogueNode : Node
         context.AddOption<int>(IN_OPTION_SENTENCE_COUNT).WithDefaultValue(1).Build();
         // Number of choices
         context.AddOption<int>(IN_OPTION_CHOICE_COUNT).WithDefaultValue(0).Build();
+        // Requirements
+        context.AddOption<bool>(IN_OPTION_CONDITION_TOGGLE).WithDefaultValue(false).Build();
     }
 }
 [Serializable]

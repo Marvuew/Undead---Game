@@ -268,11 +268,13 @@ MonoBehaviour:
           - __option_Choices
           - Speaker
           - Sentence0
+          - __option_Requirement
           m_ValueList:
           - rid: 4008861659019608652
           - rid: 4008861659019608653
           - rid: 4008861659019608696
           - rid: 4008861659019608655
+          - rid: 4008861707485053426
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -360,6 +362,7 @@ MonoBehaviour:
           - Sentence1
           - Choice text0
           - Choice text1
+          - __option_Requirement
           m_ValueList:
           - rid: 4008861659019608663
           - rid: 4008861659019608664
@@ -368,6 +371,7 @@ MonoBehaviour:
           - rid: 4008861659019608669
           - rid: 4008861659019608670
           - rid: 4008861659019608671
+          - rid: 4008861707485053427
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -915,3 +919,11 @@ MonoBehaviour:
         m_EnumType:
           m_Identification: Speakers, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
+    - rid: 4008861707485053426
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 4008861707485053427
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
