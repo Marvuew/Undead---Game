@@ -163,11 +163,9 @@ public class DialogueGraphManager : MonoBehaviour
             DialoguePanel.SetActive(true);
         }
 
-        HandleSpeakerData(node.SpeakerSprite, node.SpeakerName);
-
-        //SpeakerNameText.text = node.SpeakerName;
-
-        //HandleSpeakerSprite(node.SpeakerSprite);
+        
+        Sprite SpeakerSprite = GetSpeakerSprite(node.SpeakerName);
+        HandleSpeakerData(SpeakerSprite, node.SpeakerName);
 
         StopAllCoroutines();
         StartCoroutine(TypeDialogue(node.Dialogue, node));
@@ -252,7 +250,7 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
-    /*void HandleSpeakerSprite(Sprite sprite)
+    void HandleSpeakerData(Sprite sprite, Speakers name)
     {
         if (sprite != null)
         {
@@ -260,30 +258,30 @@ public class DialogueGraphManager : MonoBehaviour
             {
                 SpeakerSpriteContainer.gameObject.SetActive(true);
             }
-
-            SpeakerSprite.sprite = sprite;
-        }
-        if (sprite == null)
-        {
-            SpeakerSpriteContainer.gameObject.SetActive(false);
-        }
-    }*/
-
-    void HandleSpeakerData(Sprite sprite, string name)
-    {
-        if (sprite != null)
-        {
-            if (SpeakerSpriteContainer.gameObject.activeSelf == false)
-            {
-                SpeakerSpriteContainer.gameObject.SetActive(true);
-            }
-            SpeakerNameText.text = name;
+            SpeakerNameText.text = name.ToString();
             SpeakerSprite.sprite = sprite;
         }
         if (sprite == null)
         {
             SpeakerSpriteContainer.gameObject.SetActive(false);
             SpeakerNameText.text = "";
+        }
+    }
+
+    public Sprite GetSpeakerSprite(Speakers speaker)
+    {
+        if (SpeakerToSpriteHandler.instance.speakerSprites.TryGetValue(speaker, out Sprite sprite))
+        {
+            return sprite;
+        }
+        else
+        {
+            if (speaker == Speakers.None)
+            {
+                return null;
+            }
+            Debug.LogWarning($"No sprite found for speaker {speaker}");
+            return null;
         }
     }
 

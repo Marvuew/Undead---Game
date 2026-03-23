@@ -30,7 +30,7 @@ public class RuntimeDialogueNode : RuntimeNode
     // Dialogue
     public List<string> Dialogue = new List<string>();
     public Sprite SpeakerSprite;
-    public string SpeakerName;
+    public Speakers SpeakerName;
 
     //Choices
     public List<ChoiceData> Choices = new List<ChoiceData>();

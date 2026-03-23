@@ -86,9 +86,9 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         // Handle Speaker Port
         Speakers speaker = GetPortValue<Speakers>(node.GetInputPortByName(DialogueNode.IN_PORT_SPEAKER));
-        runtimeNode.SpeakerName = speaker.ToString();
+        runtimeNode.SpeakerName = speaker;
 
-        runtimeNode.SpeakerSprite = GetSpeakerSprite(speaker);
+        //runtimeNode.SpeakerSprite = GetSpeakerSprite(speaker);
 
         // Handle Sentence Count
         node.GetNodeOptionByName(DialogueNode.IN_OPTION_SENTENCE_COUNT).TryGetValue(out int sentenceCount);
@@ -164,23 +164,6 @@ public class DialogueGraphImporter : ScriptedImporter
         port.TryGetValue(out T fallbackValue);
         return fallbackValue;
 
-    }
-
-    public Sprite GetSpeakerSprite(Speakers speaker)
-    {
-        if (SpeakerToSpriteHandler.instance.speakerSprites.TryGetValue(speaker, out Sprite sprite))
-        {
-            return sprite;
-        }
-        else
-        {
-            if (speaker == Speakers.None)
-            {
-                return null;
-            }
-            Debug.LogWarning($"No sprite found for speaker {speaker}");
-            return null;
-        }
     }
 }
     #endregion

@@ -32,6 +32,7 @@ public class SpeakerToSpriteHandler : MonoBehaviour
 
             if (pair.sprite == null)
                 continue;
+
             speakerSprites[pair.speaker] = pair.sprite;
         }
     }
