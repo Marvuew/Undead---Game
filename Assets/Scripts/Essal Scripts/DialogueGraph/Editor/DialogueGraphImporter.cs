@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Unity.GraphToolkit.Editor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
@@ -167,12 +168,16 @@ public class DialogueGraphImporter : ScriptedImporter
 
     public Sprite GetSpeakerSprite(Speakers speaker)
     {
-        if (SpeakerSpriteScript.speakerSprites.TryGetValue(speaker, out Sprite sprite))
+        if (SpeakerToSpriteHandler.instance.speakerSprites.TryGetValue(speaker, out Sprite sprite))
         {
             return sprite;
         }
         else
         {
+            if (speaker == Speakers.None)
+            {
+                return null;
+            }
             Debug.LogWarning($"No sprite found for speaker {speaker}");
             return null;
         }

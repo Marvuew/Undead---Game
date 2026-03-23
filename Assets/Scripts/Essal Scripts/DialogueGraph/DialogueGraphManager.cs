@@ -163,9 +163,11 @@ public class DialogueGraphManager : MonoBehaviour
             DialoguePanel.SetActive(true);
         }
 
-        SpeakerNameText.text = node.SpeakerName;
+        HandleSpeakerData(node.SpeakerSprite, node.SpeakerName);
 
-        HandleSpeakerSprite(node.SpeakerSprite);
+        //SpeakerNameText.text = node.SpeakerName;
+
+        //HandleSpeakerSprite(node.SpeakerSprite);
 
         StopAllCoroutines();
         StartCoroutine(TypeDialogue(node.Dialogue, node));
@@ -179,11 +181,11 @@ public class DialogueGraphManager : MonoBehaviour
     public void HandleActionNode(RuntimeActionNode node)
     {
         DialogueGraphEventTriggers.Trigger(node.eventName);
-        Debug.Log("NextNodeBegin");
     }
 
     #endregion
     #region Helping Functions
+
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
         isTyping = true;
@@ -250,10 +252,39 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
-    void HandleSpeakerSprite(Sprite sprite)
+    /*void HandleSpeakerSprite(Sprite sprite)
     {
         if (sprite != null)
+        {
+            if (SpeakerSpriteContainer.gameObject.activeSelf == false)
+            {
+                SpeakerSpriteContainer.gameObject.SetActive(true);
+            }
+
             SpeakerSprite.sprite = sprite;
+        }
+        if (sprite == null)
+        {
+            SpeakerSpriteContainer.gameObject.SetActive(false);
+        }
+    }*/
+
+    void HandleSpeakerData(Sprite sprite, string name)
+    {
+        if (sprite != null)
+        {
+            if (SpeakerSpriteContainer.gameObject.activeSelf == false)
+            {
+                SpeakerSpriteContainer.gameObject.SetActive(true);
+            }
+            SpeakerNameText.text = name;
+            SpeakerSprite.sprite = sprite;
+        }
+        if (sprite == null)
+        {
+            SpeakerSpriteContainer.gameObject.SetActive(false);
+            SpeakerNameText.text = "";
+        }
     }
 
     private void ClearChoices()

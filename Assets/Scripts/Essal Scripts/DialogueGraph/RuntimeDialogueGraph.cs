@@ -93,7 +93,7 @@ public class Speaker : ScriptableObject
 // Enum for all speaker
 public enum Speakers
 {
-    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger, Strigoi
+    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger, Strigoi, None
 }
 
 public enum Actions
