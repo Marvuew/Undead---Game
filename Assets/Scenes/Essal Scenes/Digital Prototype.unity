@@ -2121,7 +2121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1450521765
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2162,7 +2162,7 @@ MonoBehaviour:
   SpeakerSpriteContainer: {fileID: 1284207093}
   ChoiceButtonPrefab: {fileID: 175347314173602819, guid: 7ea0a2c5407a85e488c41f95272b7cd2, type: 3}
   ChoiceButtonContainer: {fileID: 1487421454}
-  typingSpeed: 0.05
+  typingSpeed: 0.46
   DialogueAnimator: {fileID: 1496434573}
 --- !u!114 &1450521767
 MonoBehaviour:
@@ -2173,20 +2173,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1450521764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93bf7f8c3c212ed4eb1e01f8abd84aef, type: 3}
+  m_Script: {fileID: 11500000, guid: 49aa4b0f729c34f44bbf54cda2681339, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpeakerToSpriteHandler
-  speakerSpriteList:
-  - speaker: 5
-    sprite: {fileID: 21300000, guid: d35c42e382cdfd84da7a7e48efb8df2a, type: 3}
-  - speaker: 0
-    sprite: {fileID: 21300000, guid: aeb3fce3d288949448edccdea2f7ee2d, type: 3}
-  - speaker: 4
-    sprite: {fileID: 21300000, guid: fcc7f6be47bfffc4cb6deba3fb70e862, type: 3}
-  - speaker: 6
-    sprite: {fileID: 0}
-  - speaker: 3
-    sprite: {fileID: 21300000, guid: ff9f7d19a0341b4499e9267daa261778, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::isWillingToTalkManager
+  speakerList:
+  - {fileID: 11400000, guid: bc8d4c7e29b613b4ab241dcb51cdc25e, type: 2}
+  - {fileID: 11400000, guid: 2a3f1f38c4bc1074abefe21eaa37e4d1, type: 2}
+  - {fileID: 11400000, guid: 0d6fce5f739445a45999cf00da54f49a, type: 2}
+  - {fileID: 11400000, guid: 0694216063853074482f18b7a4aa49ea, type: 2}
+  - {fileID: 11400000, guid: 66487165263b18c4cbec3590128d210f, type: 2}
+  - {fileID: 11400000, guid: df1594fbb6464e34bac94d42f0bb97d9, type: 2}
 --- !u!1 &1487421453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1496434572
 RectTransform:
   m_ObjectHideFlags: 0

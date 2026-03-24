@@ -51,7 +51,7 @@ public class DialogueNode : Node
         context.AddInputPort(IN_PORT).Build();
 
         //Speaker port
-        context.AddInputPort<Speakers>(IN_PORT_SPEAKER).Build();
+        context.AddInputPort<DialogueSpeaker>(IN_PORT_SPEAKER).Build();
 
         // Spawn Sentence Ports
         GetNodeOptionByName(IN_OPTION_SENTENCE_COUNT).TryGetValue(out int sentenceCount);
@@ -123,17 +123,13 @@ public class ActionNode : Node
 {
     public static readonly string IN_PORT = "in";
     public static readonly string OUT_PORT = "out";
-    public static readonly string OPTION_EVENT = "ActionName";
+    public static readonly string IN_PORT_ACTION = "Action";
 
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         context.AddInputPort(IN_PORT).Build();
         context.AddOutputPort(OUT_PORT).Build();
-    }
-
-    protected override void OnDefineOptions(IOptionDefinitionContext context)
-    {
-        context.AddOption<DialogueAction>(OPTION_EVENT).Build();
+        context.AddInputPort<DialogueAction>(IN_PORT_ACTION).Build();
     }
 }
 #endregion

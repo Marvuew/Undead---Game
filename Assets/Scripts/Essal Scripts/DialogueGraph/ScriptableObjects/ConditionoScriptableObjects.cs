@@ -23,3 +23,13 @@ public class ClueCondition : DialogueCondition
         return true;
     }
 }
+
+[CreateAssetMenu(menuName = "Dialogue/Conditions/New isWillingToTalk Requirement")]
+public class isWillingToTalkCondition : DialogueCondition
+{
+    public DialogueSpeaker Speaker;
+    public override bool IsMet()
+    {
+        return isWillingToTalkManager.instance.isSpeakerWillingToTalk[Speaker] ? true : false;
+    }
+}

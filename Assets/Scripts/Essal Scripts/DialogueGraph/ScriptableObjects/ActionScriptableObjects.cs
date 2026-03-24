@@ -22,3 +22,24 @@ public class ResolveAction : DialogueAction
         Debug.Log("RESOLVE");
     }
 }
+
+[CreateAssetMenu(menuName = "Dialogue/Actions/New TalkWillingness Action")]
+public class TalkWillingnessAction : DialogueAction
+{
+    public DialogueSpeaker Speaker;
+    public override void DoAction()
+    {
+        isWillingToTalkManager.instance.HandleVendetta(Speaker);
+    }
+}
+
+[CreateAssetMenu(menuName = "Dialogue/Actions/New Give Item")]
+public class GiveItemAction : DialogueAction
+{
+    public Item item;
+
+    public override void DoAction()
+    {
+        InventoryManager.Instance.Items.Remove(item);
+    }
+}

@@ -164,8 +164,7 @@ public class DialogueGraphManager : MonoBehaviour
             DialoguePanel.SetActive(true);
         }
 
-        Sprite SpeakerSprite = GetSpeakerSprite(node.SpeakerName);
-        HandleSpeakerData(SpeakerSprite, node.SpeakerName);
+        HandleSpeakerData(node);
 
         StopAllCoroutines();
         StartCoroutine(TypeDialogue(node.Dialogue, node));
@@ -227,7 +226,7 @@ public class DialogueGraphManager : MonoBehaviour
         foreach (var choice in node.Choices)
         {
 
-            if (!ViableChoice(choice)) return;
+            if (!ViableChoice(choice)) continue;
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
 
@@ -262,39 +261,11 @@ public class DialogueGraphManager : MonoBehaviour
         else return false;
     }
 
-    void HandleSpeakerData(Sprite sprite, Speakers name)
+    void HandleSpeakerData(RuntimeDialogueNode node)
     {
-        if (sprite != null)
-        {
-            if (SpeakerSpriteContainer.gameObject.activeSelf == false)
-            {
-                SpeakerSpriteContainer.gameObject.SetActive(true);
-            }
-            SpeakerNameText.text = name.ToString();
-            SpeakerSprite.sprite = sprite;
-        }
-        if (sprite == null)
-        {
-            SpeakerSpriteContainer.gameObject.SetActive(false);
-            SpeakerNameText.text = "";
-        }
-    }
-
-    public Sprite GetSpeakerSprite(Speakers speaker)
-    {
-        if (SpeakerToSpriteHandler.instance.speakerSprites.TryGetValue(speaker, out Sprite sprite))
-        {
-            return sprite;
-        }
-        else
-        {
-            if (speaker == Speakers.None)
-            {
-                return null;
-            }
-            Debug.LogWarning($"No sprite found for speaker {speaker}");
-            return null;
-        }
+        Debug.Log("Handling Speaker");
+        SpeakerNameText.text = node.Speaker.SpeakerName;
+        SpeakerSprite.sprite = node.Speaker.SpeakerSprite;
     }
 
     private void ClearChoices()

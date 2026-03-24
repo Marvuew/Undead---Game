@@ -31,8 +31,7 @@ public class RuntimeDialogueNode : RuntimeNode
 {
     // Dialogue
     public List<string> Dialogue = new List<string>();
-    public Sprite SpeakerSprite;
-    public Speakers SpeakerName;
+    public DialogueSpeaker Speaker;
 
     //Choices
     public List<ChoiceData> Choices = new List<ChoiceData>();
@@ -83,12 +82,6 @@ public class ChoiceData
 #endregion
 
 #region Speaker 
-
-// Enum for all speaker
-public enum Speakers
-{
-    Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger, Strigoi, None
-}
 
 #endregion
 
