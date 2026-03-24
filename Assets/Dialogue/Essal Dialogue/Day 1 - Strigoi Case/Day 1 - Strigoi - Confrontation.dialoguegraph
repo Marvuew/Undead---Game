@@ -627,9 +627,9 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
-          - __option_EventName
+          - __option_ActionName
           m_ValueList:
-          - rid: 4008861659019608683
+          - rid: 4008861707485053557
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -645,17 +645,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861659019608684
-    - rid: 4008861659019608683
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: Actions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 0
-        m_EnumType:
-          m_Identification: Actions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
     - rid: 4008861659019608684
       type: {class: ActionNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -709,9 +698,9 @@ MonoBehaviour:
         m_State: 0
         m_InputConstantsById:
           m_KeyList:
-          - __option_EventName
+          - __option_ActionName
           m_ValueList:
-          - rid: 4008861659019608688
+          - rid: 4008861707485053558
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -727,17 +716,6 @@ MonoBehaviour:
           m_HasUserColor: 0
         m_Node:
           rid: 4008861659019608689
-    - rid: 4008861659019608688
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: Actions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 1
-        m_EnumType:
-          m_Identification: Actions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
     - rid: 4008861659019608689
       type: {class: ActionNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -927,3 +905,11 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
+    - rid: 4008861707485053557
+      type: {class: 'Constant`1[[DialogueAction, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 4008861707485053558
+      type: {class: 'Constant`1[[DialogueAction, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}

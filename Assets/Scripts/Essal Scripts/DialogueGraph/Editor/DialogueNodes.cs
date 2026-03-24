@@ -123,7 +123,7 @@ public class ActionNode : Node
 {
     public static readonly string IN_PORT = "in";
     public static readonly string OUT_PORT = "out";
-    public static readonly string OPTION_EVENT = "EventName";
+    public static readonly string OPTION_EVENT = "ActionName";
 
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
@@ -133,7 +133,7 @@ public class ActionNode : Node
 
     protected override void OnDefineOptions(IOptionDefinitionContext context)
     {
-        context.AddOption<Actions>(OPTION_EVENT).Build();
+        context.AddOption<DialogueAction>(OPTION_EVENT).Build();
     }
 }
 #endregion

@@ -5,7 +5,7 @@ public abstract class DialogueCondition : ScriptableObject
     public abstract bool IsMet();
 }
 
-[CreateAssetMenu(menuName = "Dialogue/New Item Requirement")]
+[CreateAssetMenu(menuName = "Dialogue/Conditions/New Item Requirement")]
 public class ItemCondition : DialogueCondition
 {
     public Item RequiredItem;
@@ -15,7 +15,7 @@ public class ItemCondition : DialogueCondition
     }
 }
 
-[CreateAssetMenu(menuName = "Dialogue/New Clue Requirement")]
+[CreateAssetMenu(menuName = "Dialogue/Conditions/New Clue Requirement")]
 public class ClueCondition : DialogueCondition
 {
     public override bool IsMet()

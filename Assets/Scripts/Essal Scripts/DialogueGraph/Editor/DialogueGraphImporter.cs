@@ -148,9 +148,9 @@ public class DialogueGraphImporter : ScriptedImporter
 
     private void ProcessActionNode(ActionNode node, RuntimeActionNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
-        node.GetNodeOptionByName(ActionNode.OPTION_EVENT).TryGetValue(out Actions eName);
+        node.GetNodeOptionByName(ActionNode.OPTION_EVENT).TryGetValue(out DialogueAction action);
 
-        runtimeNode.eventName = eName.ToString();
+        runtimeNode.Action = action;
 
         var nextNodePort = node.GetOutputPortByName(AlignmentNode.OUT_PORT)?.firstConnectedPort;
         if (nextNodePort != null)

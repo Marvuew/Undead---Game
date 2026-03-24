@@ -60,7 +60,7 @@ public class RuntimeAlignmentNode : RuntimeNode
 [Serializable]
 public class RuntimeActionNode : RuntimeNode
 {
-    public string eventName;
+    public DialogueAction Action;
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleActionNode(this);
@@ -88,17 +88,6 @@ public class ChoiceData
 public enum Speakers
 {
     Dhampir, Rookie_Officer, Narrator, Drunk_Priest, Gravedigger, Strigoi, None
-}
-
-public enum Actions
-{
-    Kill,
-    Resolve
-}
-
-public enum Requirement
-{
-    Axe, Wine, Book
 }
 
 #endregion

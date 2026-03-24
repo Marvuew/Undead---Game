@@ -178,7 +178,7 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void HandleActionNode(RuntimeActionNode node)
     {
-        DialogueGraphEventTriggers.Trigger(node.eventName);
+        node.Action.DoAction();
     }
 
     #endregion
