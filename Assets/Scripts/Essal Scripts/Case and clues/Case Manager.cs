@@ -18,6 +18,19 @@ public class CaseManager : MonoBehaviour
         foundClues.Add(clue);
     }
 
+    public void HandleGuess(Culprit culprit)
+    {
+        if (currentCase.culprit == culprit)
+        {
+            CalculateConfrontation(foundClues.Count, culprit);
+        }
+        else
+        {
+            // If the player guesses wrong, the creature doesnt manifest...
+            StartCoroutine(ConfrontationManager.instance.Level0Manifestation());
+        }
+    }
+
     public void EndDay()
     {
         print($"You Found {foundClues.Count} out of {currentCase.clues.Count}");

@@ -37,10 +37,8 @@ public class ConfrontationManager : MonoBehaviour
     {
         confrontationAnimator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(confrontationAnimator.GetCurrentAnimatorStateInfo(0).length);
-        backGround.sprite = culprit.homeSprite;
-        yield return new WaitForSeconds(2f);
-        culpritImage.sprite = culprit.culpritSprite;
-        culpritImage.enabled = true;
+        HandleCulpritData(culprit);
+        yield return new WaitForSeconds(2f); // Should find another way...
         culpritAnimator.SetTrigger("Level1");
         print("Level 1");
     }
@@ -49,10 +47,8 @@ public class ConfrontationManager : MonoBehaviour
     {
         confrontationAnimator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(confrontationAnimator.GetCurrentAnimatorStateInfo(0).length);
-        backGround.sprite = culprit.homeSprite;
+        HandleCulpritData(culprit);
         yield return new WaitForSeconds(2f);
-        culpritImage.sprite = culprit.culpritSprite;
-        culpritImage.enabled = true;
         culpritAnimator.SetTrigger("Level2");
         print("Level 2");
     }
@@ -61,11 +57,15 @@ public class ConfrontationManager : MonoBehaviour
     {
         confrontationAnimator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(confrontationAnimator.GetCurrentAnimatorStateInfo(0).length);
-        backGround.sprite = culprit.homeSprite;
+        HandleCulpritData(culprit);
         yield return new WaitForSeconds(2f);
-        culpritImage.sprite = culprit.culpritSprite;
-        culpritImage.enabled = true;
         culpritAnimator.SetTrigger("Level3");
         print("Level 3");
+    }
+
+    public void HandleCulpritData(Culprit culprit)
+    {
+        backGround.sprite = culprit.homeSprite;
+        culpritImage.sprite = culprit.culpritSprite;
     }
 }
