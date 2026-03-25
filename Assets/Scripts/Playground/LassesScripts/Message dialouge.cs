@@ -59,7 +59,9 @@ public class MessageChainDialogue : MonoBehaviour
         public float humansOnNo = 0f;
         public float undeadOnNo = 0f;
     }
-    private bool hasLockedMovementThisConversation = false; 
+
+    private bool hasLockedMovementThisConversation = false;
+
     [Header("Start Behavior")]
     [SerializeField] private bool autoStartOnPlay = false;
 
@@ -107,6 +109,7 @@ public class MessageChainDialogue : MonoBehaviour
     [Tooltip("Unlocked only when this interaction is fully completed.")]
     [SerializeField] private string clueIdToUnlock = "";
 
+
     [Header("Time")]
     [Tooltip("If true, the main interaction time is spent as soon as the conversation starts. If false, it is spent when the interaction finishes.")]
     [SerializeField] private bool spendInteractionMinutesOnEnter = false;
@@ -147,6 +150,7 @@ public class MessageChainDialogue : MonoBehaviour
 
     private string CompletedKey => $"DialogueCompleted_{conversationId}";
     private string ChoiceAppliedKey(int nodeIndex) => $"ChoiceApplied_{conversationId}_Node_{nodeIndex}";
+    private string TickAppliedKey => $"DialogueTickApplied_{conversationId}";
 
     private void OnValidate()
     {
@@ -353,6 +357,8 @@ public class MessageChainDialogue : MonoBehaviour
             return;
 
         MarkCompleted();
+        TryApplyTickProgress();
+
         unlockedNewClueThisRun = UnlockClueAtEnd();
         ShowCluePopupIfNeeded();
 
@@ -361,6 +367,17 @@ public class MessageChainDialogue : MonoBehaviour
         SetChoiceLabels(defaultYesLabel, defaultNoLabel);
 
         StartLine(endPromptText, CloseDialogue, waitDelay: false);
+    }
+
+private void TryApplyTickProgress()
+{
+    // No longer needed.
+    // Clock system now reads completion automatically.
+}
+
+    private bool HasAppliedTickAlready()
+    {
+        return PlayerPrefs.GetInt(TickAppliedKey, 0) == 1;
     }
 
     private bool CanBeginInteraction()
@@ -722,6 +739,7 @@ public class MessageChainDialogue : MonoBehaviour
         StopFinalWaitRoutine();
 
         PlayerPrefs.DeleteKey(CompletedKey);
+        PlayerPrefs.DeleteKey(TickAppliedKey);
 
         if (nodes != null)
         {
@@ -746,7 +764,7 @@ public class MessageChainDialogue : MonoBehaviour
         SetChoiceLabels(defaultYesLabel, defaultNoLabel);
         CloseDialogue();
 
-        Debug.Log("Soft reset done (dialogue + clue + choice flags).");
+        Debug.Log("Soft reset done (dialogue + clue + choice flags + tick flag).");
     }
 
     private void MarkCompleted()
@@ -776,41 +794,44 @@ public class MessageChainDialogue : MonoBehaviour
     }
 
     private void LockPlayerMovement()
-{
-    if (!lockPlayerMovementWhileDialogueIsOpen)
-        return;
-
-    if (hasLockedMovementThisConversation)
-        return;
-
-    if (lockedPlayerMovement == null)
-        lockedPlayerMovement = FindObjectOfType<PlayerMovement2D>();
-
-    if (lockedPlayerMovement != null)
     {
-        lockedPlayerMovement.LockMovement();
-        hasLockedMovementThisConversation = true;
+        if (!lockPlayerMovementWhileDialogueIsOpen)
+            return;
+
+        if (hasLockedMovementThisConversation)
+            return;
+
+        if (lockedPlayerMovement == null)
+            lockedPlayerMovement = FindObjectOfType<PlayerMovement2D>();
+
+        if (lockedPlayerMovement != null)
+        {
+            lockedPlayerMovement.LockMovement();
+            hasLockedMovementThisConversation = true;
+        }
     }
-}
-   private void UnlockPlayerMovement()
-{
-    if (!lockPlayerMovementWhileDialogueIsOpen)
-        return;
 
-    if (!hasLockedMovementThisConversation)
-        return;
+    private void UnlockPlayerMovement()
+    {
+        if (!lockPlayerMovementWhileDialogueIsOpen)
+            return;
 
-    if (lockedPlayerMovement != null)
-        lockedPlayerMovement.UnlockMovement();
+        if (!hasLockedMovementThisConversation)
+            return;
 
-    hasLockedMovementThisConversation = false;
-}
+        if (lockedPlayerMovement != null)
+            lockedPlayerMovement.UnlockMovement();
+
+        hasLockedMovementThisConversation = false;
+    }
+
     public string ConversationId => conversationId;
-        public static bool HasCompletedConversation(string id)
-{
-    if (string.IsNullOrWhiteSpace(id))
-        return false;
 
-    return PlayerPrefs.GetInt($"DialogueCompleted_{id}", 0) == 1;
-}
+    public static bool HasCompletedConversation(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return false;
+
+        return PlayerPrefs.GetInt($"DialogueCompleted_{id}", 0) == 1;
+    }
 }
