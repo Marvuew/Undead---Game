@@ -9,6 +9,7 @@ namespace Assets.Scripts.GameScripts
     {
         public string text;
         public int humanityChange;
+        public int undeadChange;
         public Dialogue nextDialogue;
     }
 }

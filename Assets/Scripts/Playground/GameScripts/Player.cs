@@ -1,23 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEditor.Progress;
 
 namespace Assets.Scripts.GameScripts
 {
-    class Player
+    class Player : MonoBehaviour
     {
-        public int humanity { get; private set; } = 50;
+        public int humanity = 50;
+        public int undead = 50;
+
         List<string> inventory;
-        public int stamina;
-        public event Action onHumanityChanged;
+        public interactable currentInteractable;
+
+        private Vector2 moveInput;
+        public bool interacting;
+        [SerializeField] float speed;
+        [SerializeField] SpriteRenderer sprite;
+
 
         public static Player instance { get; private set; } = new Player();
         private Player() { }
-        public void ChangeHumanity(int change) 
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        private void Update()
+        {
+            if (interacting) return;
+            transform.position += (Vector3) moveInput * speed * Time.deltaTime;
+            if(moveInput.x != 0)
+                sprite.flipX = (moveInput.x > 0) ? false : true;
+        }
+        public void ChangeHumanity(int change) { humanity += change; }
+        public void ChangeUndead(int change) { undead += change; }
+
+        public void OnMove(InputAction.CallbackContext input) 
+        {
+            moveInput = input.ReadValue<Vector2>(); 
+        }
+        public void OnInteract(InputAction.CallbackContext input) 
         { 
-            humanity += change;
-            onHumanityChanged?.Invoke();
+            if(input.performed && currentInteractable != null) 
+            { 
+                currentInteractable.startInteraction();
+                interacting = true;
+            }
         }
     }
 }

@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Rendering.MaterialUpgrader;
 
@@ -50,7 +52,6 @@ namespace Assets.Scripts.GameScripts
             dialogueBox.SetActive(false);
             optionsBox.SetActive(false);
             exitDialogueBtn.onClick.AddListener(ExitDialogue);
-            exitDialogueBtn.interactable = false;
         }
         public void StartDialogue(Dialogue dialouge) 
         {
@@ -58,31 +59,33 @@ namespace Assets.Scripts.GameScripts
             optionsBox.SetActive(false);
             dialogueBox.SetActive(true);
             speakerTxt.text = $"{dialouge.speaker} :";
-            StartCoroutine(TypeTextCoroutine(dialougeTxt, dialouge.text, dialouge.typingDelay));
-
+            StartCoroutine(Speak(dialougeTxt, dialouge.text, dialouge.typingDelay, dialouge));
             ClearOptions();
+        }
 
-            if (dialouge.choices.Count > 0) 
+        private IEnumerator Speak(TextMeshProUGUI textBox, string text, float typeSpeed, Dialogue dialogue) 
+        {
+            yield return (TypeTextCoroutine(textBox, text, typeSpeed));
+            if (dialogue.choices.Count > 0)
             {
                 optionsBox.SetActive(true);
-                foreach (Choice choice in dialouge.choices) 
-                { 
+                foreach (Choice choice in dialogue.choices)
+                {
                     GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
                     button.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
                     button.GetComponent<Button>().onClick.AddListener(() => {
                         Player.instance.ChangeHumanity(choice.humanityChange);
+                        Player.instance.ChangeUndead(choice.undeadChange);
                         StartDialogue(choice.nextDialogue);
                     });
                 }
             }
-            exitDialogueBtn.interactable = true;
         }
-
-        private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed) 
+        private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed)
         {
             textBox.maxVisibleCharacters = 0;
             textBox.text = text;
-            for (int i = 0; i <= text.Length; i++) 
+            for (int i = 0; i <= text.Length; i++)
             {
                 textBox.maxVisibleCharacters = i;
                 yield return new WaitForSeconds(typeSpeed);
@@ -96,10 +99,13 @@ namespace Assets.Scripts.GameScripts
             }
         }
         private void ExitDialogue() 
-        { 
+        {
+            StopAllCoroutines();
+            Debug.Log("Exiting dialouge");
+            EventSystem.current.SetSelectedGameObject(null);
+            Player.instance.interacting = false;
             dialogueBox.SetActive(false);
             optionsBox.SetActive(false);
-            exitDialogueBtn.interactable = false;
         }
 
     }
