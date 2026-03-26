@@ -10,42 +10,43 @@ public class CaseManager : MonoBehaviour
     }
 
     public Case currentCase;
+    public CulpritSelectionScript culpritSelection;
 
-    List<Clue> foundClues = new List<Clue>();
+    public List<Clue> foundClues = new List<Clue>();
     
     public void AddClue(Clue clue)
     {
         foundClues.Add(clue);
     }
 
-    public void HandleGuess(Culprit culprit)
+    /*public void HandleGuess(Culprit culprit)
     {
+        print($"You Found {foundClues.Count} out of {currentCase.clues.Count}");
+        if (foundClues.Count == 0)
+        {
+            Debug.LogWarning("This is not serious, you cant be serious");
+        }
         if (currentCase.culprit == culprit)
         {
-            CalculateConfrontation(foundClues.Count, culprit);
+            CalculateConfrontation(foundClues.Count, currentCase.culprit);
         }
         else
         {
-            // If the player guesses wrong, the creature doesnt manifest...
             StartCoroutine(ConfrontationManager.instance.Level0Manifestation());
         }
-    }
+    }*/
 
     public void EndDay()
     {
-        print($"You Found {foundClues.Count} out of {currentCase.clues.Count}");
-        CalculateConfrontation(foundClues.Count, currentCase.culprit);
+        Debug.Log("Ending Day");
+        StartCoroutine(culpritSelection.CreateCorkBoard(GameManager.instance.CulpritDatabase));
     }
 
-    public void CalculateConfrontation(int foundClues, Culprit culprit)
+    /*public void CalculateConfrontation(int foundClues, Culprit culprit)
     {
         ConfrontationManager.instance.TransferCulprit(culprit);
 
-        if (foundClues == 0)
-        {
-            StartCoroutine(ConfrontationManager.instance.Level0Manifestation());
-        }
-        else if (foundClues == 1)
+        if (foundClues == 1)
         {
             StartCoroutine(ConfrontationManager.instance.Level1Manifestation());
         }
@@ -57,5 +58,5 @@ public class CaseManager : MonoBehaviour
         {
             StartCoroutine(ConfrontationManager.instance.Level3Manifestation());
         }
-    }
+    }*/
 }

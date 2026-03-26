@@ -4,6 +4,9 @@ using UnityEngine;
 public class Culprit : ScriptableObject
 {
     public string culpritName;
+    public string culpritHabitat;
+    public string culpritDescription;
+
     public Sprite homeSprite;
     public Sprite culpritSprite;
 }

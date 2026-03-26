@@ -7,24 +7,18 @@ public class ConfrontationManager : MonoBehaviour
 {
     public static ConfrontationManager instance;
 
-    public Animator confrontationAnimator;
-    public Animator culpritAnimator;
+    //public Animator confrontationAnimator;
+    //public Animator culpritAnimator;
 
     public SpriteRenderer backGround;
     public Image culpritImage;
-
-    private Culprit culprit;
 
     private void Awake()
     {
         instance = this;
     }
-    public void TransferCulprit(Culprit culprit)
-    {
-        this.culprit = culprit;
-    }
 
-    public IEnumerator Level0Manifestation()
+    /*public IEnumerator Level0Manifestation()
     {
         confrontationAnimator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(confrontationAnimator.GetCurrentAnimatorStateInfo(0).length);
@@ -61,6 +55,17 @@ public class ConfrontationManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         culpritAnimator.SetTrigger("Level3");
         print("Level 3");
+    }*/
+
+    public IEnumerator Manifest(int foundClues, bool rightCulprit, GameObject corkBoard, Culprit pickedCulprit)
+    {
+        Debug.Log("Manifesting");
+        AnimationManager.instance.BlackFadeAnimation();
+        yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false);
+        corkBoard.SetActive(false);
+        HandleCulpritData(pickedCulprit);
+        yield return new WaitForSeconds(2f);
+        AnimationManager.instance.UndeadManifestationAnimation(foundClues, rightCulprit);
     }
 
     public void HandleCulpritData(Culprit culprit)
