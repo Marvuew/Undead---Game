@@ -2690,50 +2690,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af0a1ac9db8040d19dc2f873cee1f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClockPhaseLightingController
-  globalLight: {fileID: 985992619}
   targetCamera: {fileID: 0}
+  clock: {fileID: 0}
   controlCameraBackground: 1
-  morningLightColor: {r: 1, g: 0.98, b: 0.92, a: 1}
-  morningLightIntensity: 1.1
-  morningSkyColor: {r: 0.72, g: 0.84, b: 1, a: 1}
-  sunsetLightColor: {r: 1, g: 0.72, b: 0.45, a: 1}
-  sunsetLightIntensity: 0.85
-  sunsetSkyColor: {r: 1, g: 0.58, b: 0.36, a: 1}
-  eveningLightColor: {r: 0.45, g: 0.52, b: 0.75, a: 1}
-  eveningLightIntensity: 0.45
-  eveningSkyColor: {r: 0.23, g: 0.32, b: 0.52, a: 1}
-  lateNightLightColor: {r: 0.22, g: 0.28, b: 0.45, a: 1}
-  lateNightLightIntensity: 0.25
-  lateNightSkyColor: {r: 0.05, g: 0.08, b: 0.16, a: 1}
-  colorLerpSpeed: 1.5
-  intensityLerpSpeed: 1.5
-  skyColorLerpSpeed: 1.25
-  applyInstantlyOnStart: 1
-  late2DLights:
-  - {fileID: 1092133385}
-  - {fileID: 506539216}
-  - {fileID: 643308996}
-  - {fileID: 801962068}
-  - {fileID: 908933995}
-  - {fileID: 523562164}
-  - {fileID: 66149781}
-  - {fileID: 139601234}
-  - {fileID: 475442380}
-  - {fileID: 2136760498}
-  - {fileID: 178266399}
-  late3DLights: []
-  fadeLateLights: 1
-  lateLightFadeSpeed: 2
-  late2DLightTargetIntensity: 1
-  late3DLightTargetIntensity: 1
-  enableFireFlicker: 1
-  fireYellow: {r: 1, g: 0.82, b: 0.28, a: 1}
-  fireOrange: {r: 1, g: 0.45, b: 0.08, a: 1}
-  fireRed: {r: 0.9, g: 0.16, b: 0.05, a: 1}
-  fireColorFlickerSpeed: 6
-  fireIntensityFlickerSpeed: 9
-  fireIntensityVariation: 0.22
-  randomizeEachLight: 1
+  morningColor: {r: 1, g: 0.95, b: 0.75, a: 1}
+  morningIntensity: 1.2
+  morningSky: {r: 0.6, g: 0.8, b: 1, a: 1}
+  sunsetColor: {r: 1, g: 0.55, b: 0.25, a: 1}
+  sunsetIntensity: 0.9
+  sunsetSky: {r: 1, g: 0.45, b: 0.2, a: 1}
+  eveningColor: {r: 0.4, g: 0.5, b: 0.8, a: 1}
+  eveningIntensity: 0.5
+  eveningSky: {r: 0.2, g: 0.3, b: 0.6, a: 1}
+  nightColor: {r: 0.15, g: 0.2, b: 0.4, a: 1}
+  nightIntensity: 0.25
+  nightSky: {r: 0.05, g: 0.08, b: 0.15, a: 1}
+  colorSpeed: 2
+  intensitySpeed: 2
+  skySpeed: 2
 --- !u!4 &306240028
 Transform:
   m_ObjectHideFlags: 0
@@ -6333,7 +6307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 821.9445, y: 384.0719}
+  m_AnchoredPosition: {x: 821.9, y: 384.22}
   m_SizeDelta: {x: 1955.6045, y: 1107.9304}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790068449
@@ -13730,90 +13704,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.64655536, y: -0.3823827}
   m_Radius: 1.1127015
---- !u!1 &985992618
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 985992620}
-  - component: {fileID: 985992619}
-  m_Layer: 0
-  m_Name: Global Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &985992619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985992618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
-  m_LightType: 4
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
---- !u!4 &985992620
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985992618}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.96, y: -2.0842345, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005038287
 GameObject:
   m_ObjectHideFlags: 0
@@ -41786,6 +41676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1846551576}
   - component: {fileID: 1846551575}
+  - component: {fileID: 1846551577}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -41815,12 +41706,27 @@ Transform:
   m_GameObject: {fileID: 1846551574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.3, y: -5.07, z: -1.05}
+  m_LocalPosition: {x: 4.51, y: -4.48, z: -1.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1846551577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846551574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348ee24cc1b844f80bc451ecc29495c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CutsceneSpawnPoint
+  playerTag: Player
+  applyRotation: 0
+  waitOneFrameBeforeSnap: 1
 --- !u!1 &1853184483
 GameObject:
   m_ObjectHideFlags: 0
@@ -44237,6 +44143,5 @@ SceneRoots:
   - {fileID: 857622937}
   - {fileID: 165903622}
   - {fileID: 1730861429}
-  - {fileID: 985992620}
   - {fileID: 306240028}
   - {fileID: 595344182}

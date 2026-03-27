@@ -101,7 +101,7 @@ public class GlobalTimeSystem : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+       
 
         minutes = StartMinutes;
 
