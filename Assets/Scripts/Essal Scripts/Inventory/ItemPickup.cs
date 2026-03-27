@@ -1,6 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ItemPickup : MonoBehaviour
+public class ItemPickup : MonoBehaviour, IPointerClickHandler
 {
     public Item Item;
 
@@ -11,6 +13,11 @@ public class ItemPickup : MonoBehaviour
     }
 
     private void OnMouseDown()
+    {
+        Pickup();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         Pickup();
     }

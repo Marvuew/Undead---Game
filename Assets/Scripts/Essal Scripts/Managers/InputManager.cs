@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     }
 
     public UnityEvent OnNecroLexiconActivated = new UnityEvent();
+    public UnityEvent OnVampireHearingActivated = new UnityEvent();
 
     private void Update()
     {
@@ -26,6 +27,12 @@ public class InputManager : MonoBehaviour
         {
             Debug.Log("E");
             OnNecroLexiconActivated.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log("V");
+            OnVampireHearingActivated.Invoke();
         }
     }
 }

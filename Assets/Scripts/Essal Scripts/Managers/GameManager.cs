@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public RuntimeClue[] runtimeClues;
+
     private void Awake()
     {
         instance = this;
     }
-
-    public List<Culprit> CulpritDatabase = new List<Culprit>();
 }
