@@ -74,6 +74,17 @@ public class NecroLexiconUI : MonoBehaviour
         }
     }
 
+    public void CloseBook()
+    {
+        DisableAllPages();
+        bookCover.SetActive(true);
+        pagesContainer.SetActive(false);
+
+        foreach (var pb in pageButtons)
+        {
+            pb.button.anchoredPosition = pb.closedPos;
+        }
+    }
 
 
 }

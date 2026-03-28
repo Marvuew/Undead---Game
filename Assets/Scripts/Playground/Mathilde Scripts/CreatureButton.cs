@@ -6,6 +6,7 @@ public class CreatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public GameObject highlightCircle;
     public GameObject creaturePanelPrefab;
     public Transform pagesContainer;
+    public Transform canvas;
 
     public CreatureData creatureData;
 
@@ -24,15 +25,29 @@ public class CreatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Debug.Log("CLICKED");
         
         GameObject newPanel = Instantiate(creaturePanelPrefab, pagesContainer);
-        newPanel.transform.SetAsLastSibling();
-        
+        newPanel.transform.SetParent(pagesContainer, false);
+
         RectTransform rect = newPanel.GetComponent<RectTransform>();
-        rect.anchoredPosition = Vector2.zero;
+        // Anchor til højre side (midt på Y)
+        rect.anchorMin = new Vector2(1f, 0.5f);
+        rect.anchorMax = new Vector2(1f, 0.5f);
+
+        // Pivot skal også være i højre side
+        rect.pivot = new Vector2(1f, 0.5f);
+
+        // Flyt lidt ind fra kanten (valgfrit)
+        rect.anchoredPosition = new Vector2(-50f, 0f);
+
+
+
 
         newPanel.GetComponent<CreaturePage>().Setup(creatureData);
         newPanel.SetActive(true);
 
         Debug.Log(newPanel);
         Debug.Log("Parent: " + newPanel.transform.parent);
+
+        Debug.Log(rect.anchoredPosition);
+        Debug.Log(rect.anchorMin + " / " + rect.anchorMax);
     }
 }
