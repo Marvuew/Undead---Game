@@ -1,18 +1,17 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CreatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class CaseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public GameObject highlightCircle;
-    public GameObject creaturePanelPrefab;
+    public GameObject casePagePanel;
     public Transform pageContainer;
     public Transform leftSideContainer;
     public Transform rightSideContainer;
     public Transform canvas;
 
-    public CreatureManager creatureManager;
-
-    public CreatureData creatureData;
+    public CaseManager caseManager;
+    public CaseData caseData;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -26,19 +25,19 @@ public class CreatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("CLICKED");
+        Debug.Log("CASE CLICKED");
 
-        creatureManager.OnTabChanged();
+        caseManager.OnTabChanged();
 
-        GameObject newPanel = Instantiate(creaturePanelPrefab, rightSideContainer);
+        GameObject newPanel = Instantiate(casePagePanel, rightSideContainer);
         newPanel.transform.SetParent(rightSideContainer, false);
 
         RectTransform rect = newPanel.GetComponent<RectTransform>();
 
-        newPanel.GetComponent<CreaturePage>().Setup(creatureData);
+        newPanel.GetComponent<CasePage>().Setup(caseData);
         newPanel.SetActive(true);
 
-        creatureManager.currentPage = newPanel;
+        caseManager.caseCurrentPage = newPanel;
     }
 
 }

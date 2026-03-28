@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class NecroLexiconUI : MonoBehaviour
@@ -9,6 +10,14 @@ public class NecroLexiconUI : MonoBehaviour
     public GameObject casePage;
     public GameObject bookCover;
     public GameObject pagesContainer;
+
+    public CreatureManager creatureManager;
+    public CasePage casePageScript;
+    public CaseData caseData;
+    public CaseManager caseManager;
+
+    public Transform leftSideContainer;
+    public GameObject casePanelPrefab;
 
     [System.Serializable]
     public class  PageButton
@@ -54,6 +63,7 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Case clicked");
         DisableAllPages();
         casePage.SetActive(true);
+
     }
 
     private void DisableAllPages()
@@ -61,6 +71,9 @@ public class NecroLexiconUI : MonoBehaviour
         cluesPage.SetActive(false);
         creaturesPage.SetActive(false);
         casePage.SetActive(false);
+        creatureManager.OnTabChanged();
+        caseManager.OnTabChanged();
+
     }
 
     public void OpenBook()
@@ -84,6 +97,14 @@ public class NecroLexiconUI : MonoBehaviour
         {
             pb.button.anchoredPosition = pb.closedPos;
         }
+    }
+
+    public void InstantiateCaseOne()
+    {
+        GameObject newPanel = Instantiate(casePanelPrefab, leftSideContainer);
+        newPanel.transform.SetParent(leftSideContainer, false);
+        newPanel.GetComponent<CasePage>().Setup(caseData);
+        newPanel.SetActive(true);
     }
 
 
