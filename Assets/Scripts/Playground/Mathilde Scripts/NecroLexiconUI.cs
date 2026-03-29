@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class NecroLexiconUI : MonoBehaviour
 {
+    [Header("UI Elements")]
     public GameObject cluesPage;
     public GameObject creaturesPage;
     public GameObject casePage;
     public GameObject bookCover;
     public GameObject pagesContainer;
+    public Transform leftSideContainer;
 
+    [Header("References")]
     public CreatureManager creatureManager;
     public CasePage casePageScript;
     public CaseData caseData;
     public CaseManager caseManager;
+    public SoundManager soundManager;
 
-    public Transform leftSideContainer;
+    [Header("Prefabs")]
     public GameObject casePanelPrefab;
+
+
+
 
     [System.Serializable]
     public class  PageButton
@@ -78,6 +85,15 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void OpenBook()
     {
+        if (bookCover.activeSelf == true)
+        {
+            soundManager.PlayOpenBookSound();
+        }
+        else
+        {
+            soundManager.PlayPageTurnSound();
+        }
+
         bookCover.SetActive(false);
         pagesContainer.SetActive(true);
 
@@ -89,6 +105,7 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void CloseBook()
     {
+        soundManager.PlayCloseBookSound();
         DisableAllPages();
         bookCover.SetActive(true);
         pagesContainer.SetActive(false);
@@ -107,5 +124,6 @@ public class NecroLexiconUI : MonoBehaviour
         newPanel.SetActive(true);
     }
 
+    
 
 }
