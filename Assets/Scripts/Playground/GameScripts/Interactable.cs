@@ -1,4 +1,5 @@
 using Assets.Scripts.GameScripts;
+using Assets.Scripts.Playground.GameScripts;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class interactable : MonoBehaviour
 {
     [SerializeField] private Dialogue dialogue;
     [SerializeField] private GameObject interactText;
+    public Clue clue;
+    bool found;
+
     private void Awake()
     {
         interactText.SetActive(false);
@@ -28,6 +32,11 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction() 
     {
-        DialougeManager.instance.StartDialogue(dialogue);
+        if (!found)
+        {
+            DialougeManager.instance.StartDialogue(dialogue);
+            CaseManager.instance.ClueFound(clue);
+        }
+        found = true;
     }
 }
