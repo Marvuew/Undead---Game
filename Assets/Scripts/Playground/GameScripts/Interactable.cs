@@ -32,11 +32,9 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction() 
     {
+        DialougeManager.instance.StartDialogue(dialogue);
         if (!found)
-        {
-            DialougeManager.instance.StartDialogue(dialogue);
             CaseManager.instance.ClueFound(clue);
-        }
         found = true;
     }
 }
