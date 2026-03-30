@@ -9,7 +9,7 @@ namespace Assets.Scripts.Playground.GameScripts
     public class Clue : ScriptableObject
     {
         public Vector3 position;
-        [TextArea(1,5)] public string description;
+        [TextArea(3, 5)] public string description;
         public List<Undead> undeadTypes;
     }
 }

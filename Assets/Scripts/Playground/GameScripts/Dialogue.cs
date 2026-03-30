@@ -10,5 +10,4 @@ public class Dialogue : ScriptableObject
     public float typingDelay = 0.05f;
     public bool isShaking;
     public List<Choice> choices;
-    
 }
