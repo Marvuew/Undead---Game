@@ -26,15 +26,17 @@ public class GameManager : MonoBehaviour
     public void MainMenu() { SceneManager.LoadScene("Main Menu"); }
 
     public void Quit() { Application.Quit(); }
-    public void Pause() 
+
+    // interacting doesnt exist on the player.instance?
+    /*public void Pause() 
     {
-        Player.instance.interacting = true; 
+        Player.Instance.interacting = true; 
         pauseMenu.SetActive(true);
     }
     public void Resume() 
     {
-        Player.instance.interacting = false;
+        Player.Instance.interacting = false;
         pauseMenu.SetActive(false);
-    }
+    }*/
 
 }

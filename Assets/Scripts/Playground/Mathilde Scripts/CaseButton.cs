@@ -10,7 +10,7 @@ public class CaseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Transform rightSideContainer;
     public Transform canvas;
 
-    public CaseManager caseManager;
+    public CaseManagerMathilde caseManager;
     public CaseData caseData;
 
     public void OnPointerEnter(PointerEventData eventData)

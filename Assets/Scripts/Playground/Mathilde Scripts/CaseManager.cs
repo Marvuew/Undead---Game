@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CaseManager : MonoBehaviour
+public class CaseManagerMathilde : MonoBehaviour
 {
     public GameObject casePagePanel;
     public GameObject caseCurrentPage;

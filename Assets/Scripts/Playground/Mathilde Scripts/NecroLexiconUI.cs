@@ -17,7 +17,7 @@ public class NecroLexiconUI : MonoBehaviour
     public CreatureManager creatureManager;
     public CasePage casePageScript;
     public CaseData caseData;
-    public CaseManager caseManager;
+    public CaseManagerMathilde caseManager;
     public SoundManager soundManager;
 
     [Header("Prefabs")]

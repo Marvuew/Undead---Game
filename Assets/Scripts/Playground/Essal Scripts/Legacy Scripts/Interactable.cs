@@ -14,7 +14,8 @@ public class interactable : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Player>().currentInteractable = this;
+            //CurrentInteractable isnt on the player class?
+            //collision.GetComponent<Player>().currentInteractable = this;
             interactText.SetActive(true);
         }
     }
@@ -22,7 +23,8 @@ public class interactable : MonoBehaviour
     {
         if (collision.CompareTag("Player")) 
         {
-            collision.GetComponent<Player>().currentInteractable = null;
+            //CurrentInteractable isnt on the player class?
+            //collision.GetComponent<Player>().currentInteractable = null;
             interactText.SetActive(false);
         }
     }
