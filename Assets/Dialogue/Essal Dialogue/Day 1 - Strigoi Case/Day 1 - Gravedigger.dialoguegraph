@@ -390,6 +390,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053009
           - rid: 4008861707485053010
@@ -401,6 +402,7 @@ MonoBehaviour:
           - rid: 4008861795959439440
           - rid: 4008861795959439441
           - rid: 8780718699554799931
+          - rid: 5696871244046270539
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -496,6 +498,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053018
           - rid: 4008861707485053019
@@ -504,6 +507,7 @@ MonoBehaviour:
           - rid: 4008861795959439442
           - rid: 4008861795959439443
           - rid: 8780718699554799932
+          - rid: 5696871244046270540
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -597,6 +601,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053025
           - rid: 4008861707485053026
@@ -610,6 +615,7 @@ MonoBehaviour:
           - rid: 4008861795959439444
           - rid: 4008861795959439445
           - rid: 8780718699554799933
+          - rid: 5696871244046270541
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -710,6 +716,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053039
           - rid: 4008861707485053040
@@ -718,6 +725,7 @@ MonoBehaviour:
           - rid: 4008861795959439446
           - rid: 4008861795959439447
           - rid: 8780718699554799934
+          - rid: 5696871244046270542
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -806,6 +814,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053046
           - rid: 4008861707485053047
@@ -815,6 +824,7 @@ MonoBehaviour:
           - rid: 4008861795959439448
           - rid: 4008861795959439449
           - rid: 8780718699554799935
+          - rid: 5696871244046270543
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -908,6 +918,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053055
           - rid: 4008861707485053056
@@ -916,6 +927,7 @@ MonoBehaviour:
           - rid: 4008861795959439450
           - rid: 4008861795959439451
           - rid: 8780718699554799936
+          - rid: 5696871244046270544
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1035,6 +1047,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053064
           - rid: 4008861707485053065
@@ -1043,6 +1056,7 @@ MonoBehaviour:
           - rid: 4008861795959439452
           - rid: 4008861795959439453
           - rid: 8780718699554799937
+          - rid: 5696871244046270545
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1130,6 +1144,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053071
           - rid: 4008861707485053072
@@ -1138,6 +1153,7 @@ MonoBehaviour:
           - rid: 4008861795959439454
           - rid: 4008861795959439455
           - rid: 8780718699554799938
+          - rid: 5696871244046270546
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1227,6 +1243,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053078
           - rid: 4008861707485053079
@@ -1237,6 +1254,7 @@ MonoBehaviour:
           - rid: 4008861795959439456
           - rid: 4008861795959439457
           - rid: 8780718699554799939
+          - rid: 5696871244046270547
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1333,6 +1351,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - __option_Requirements
+          - __option_Mark as Read
           m_ValueList:
           - rid: 4008861707485053087
           - rid: 4008861707485053088
@@ -1342,6 +1361,7 @@ MonoBehaviour:
           - rid: 4008861795959439458
           - rid: 4008861795959439459
           - rid: 8780718699554799940
+          - rid: 5696871244046270548
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1910,6 +1930,46 @@ MonoBehaviour:
         m_EnumType:
           m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
+    - rid: 5696871244046270539
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270540
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270541
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270542
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270543
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270544
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270545
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270546
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270547
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 5696871244046270548
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
     - rid: 8780718699554799931
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:

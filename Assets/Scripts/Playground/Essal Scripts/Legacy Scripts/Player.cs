@@ -37,7 +37,7 @@ namespace Assets.Scripts.GameScripts
         {
             if (interacting) return;
             transform.position += (Vector3) moveInput * speed * Time.deltaTime;
-            if(moveInput.x != 0)
+            if (moveInput.x != 0)
                 sprite.flipX = (moveInput.x > 0) ? false : true;
         }
         public void ChangeHumanity(int change) { humanity += change; }
