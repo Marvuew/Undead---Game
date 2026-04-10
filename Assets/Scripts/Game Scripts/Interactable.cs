@@ -6,6 +6,9 @@ public class interactable : MonoBehaviour
 {
     [SerializeField] private Dialogue dialogue;
     [SerializeField] private GameObject interactText;
+    public Clue clue;
+    bool found;
+
     private void Awake()
     {
         interactText.SetActive(false);
@@ -14,22 +17,24 @@ public class interactable : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //CurrentInteractable isnt on the player class?
-            //collision.GetComponent<Player>().currentInteractable = this;
+            collision.GetComponent<Player>().currentInteractable = this;
             interactText.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) 
+        if (collision.CompareTag("Player"))
         {
-            //CurrentInteractable isnt on the player class?
-            //collision.GetComponent<Player>().currentInteractable = null;
+            collision.GetComponent<Player>().currentInteractable = null;
             interactText.SetActive(false);
         }
     }
-    public void startInteraction() 
+    public void startInteraction()
     {
         DialougeManager.instance.StartDialogue(dialogue);
+        if (!found)
+            CaseManager.instance.ClueFound(clue);
+        found = true;
     }
+
 }

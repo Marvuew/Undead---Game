@@ -20,7 +20,7 @@ public class CaseOutroScript : MonoBehaviour
         SuperBlueBloodMoon = GetComponent<Image>();
     }
 
-    public IEnumerator SetupOutro(Culprit culprit, int foundClues, bool rightCulprit, Image confrontationBackground)
+    public IEnumerator SetupOutro(Suspect culprit, int foundClues, bool rightCulprit, Image confrontationBackground)
     {
         confrontationBackground.enabled = false;
         // Setup Outro UI
@@ -36,7 +36,7 @@ public class CaseOutroScript : MonoBehaviour
 
     }
 
-    public void CalculateTextOutput(int foundClues, bool rightCulprit, Culprit culprit)
+    public void CalculateTextOutput(int foundClues, bool rightCulprit, Suspect culprit)
     {
         if (foundClues == 0)
         {

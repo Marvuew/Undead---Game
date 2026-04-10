@@ -11,7 +11,7 @@ public class ConfrontationScript : MonoBehaviour
     public Image culpritImage;
     public CaseOutroScript caseOutroScript;
 
-    public IEnumerator Manifest(int foundClues, bool rightCulprit, GameObject corkBoard, Culprit pickedCulprit, Image selectBackground)
+    public IEnumerator Manifest(int foundClues, bool rightCulprit, GameObject corkBoard, Suspect pickedCulprit, Image selectBackground)
     {
         //Fade Animation
         AnimationManager.instance.BlackFadeAnimation();
@@ -35,7 +35,7 @@ public class ConfrontationScript : MonoBehaviour
 
     }
 
-    public void ContinueToOutro(Culprit pickedCulprit, int foundClues, bool rightCulprit)
+    public void ContinueToOutro(Suspect pickedCulprit, int foundClues, bool rightCulprit)
     {
         Debug.Log("Contine to Outro");
         //Stop the undead Animations
@@ -45,7 +45,7 @@ public class ConfrontationScript : MonoBehaviour
         StartCoroutine(caseOutroScript.SetupOutro(pickedCulprit, foundClues, rightCulprit, undeadBackGround));
     }
 
-    public void HandleCulpritData(Culprit culprit)
+    public void HandleCulpritData(Suspect culprit)
     {
         undeadBackGround.sprite = culprit.homeSprite;
         culpritImage.sprite = culprit.culpritSprite;

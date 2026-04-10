@@ -1,7 +1,9 @@
 using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using static UnityEditor.PlayerSettings;
 
 public class NecroLexiconScript : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class NecroLexiconScript : MonoBehaviour
         instance = this;
     }
 
-    List<Culprit> culpritList;
+    [SerializeField] List<Suspect> culpritList;
 
     public ContentScript leftContent;
     public ContentScript rightContent;
@@ -22,11 +24,9 @@ public class NecroLexiconScript : MonoBehaviour
 
     private void Start()
     {
-        culpritList = CaseManager.instance.CulpritDatabase;
         leftContent.SetContent(culpritList[pageNumber]);
-        rightContent.SetContent(culpritList[pageNumber + 1]);
+        rightContent.SetContent(culpritList[pageNumber++]);
     }
-
     public void LastPage()
     {
         if (pageNumber - 2 < 0)
@@ -66,5 +66,9 @@ public class NecroLexiconScript : MonoBehaviour
     public void ToggleNecroLexicon()
     {
         book.gameObject.SetActive(!book.gameObject.activeSelf);
+    }
+    public void UpdateClueList(Clue clue)
+    {
+        //Spawn Clues here
     }
 }

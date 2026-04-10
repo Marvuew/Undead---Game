@@ -15,7 +15,7 @@ public class CulpritSelectionScript : MonoBehaviour
     public Image backGround;
     public ConfrontationScript confrontationScript;
 
-    public IEnumerator SetupSelectScene(List<Culprit> culprits)
+    public IEnumerator SetupSelectScene(List<Suspect> culprits)
     {
         // Clear the buttons first
         ClearCulprits();
@@ -50,7 +50,7 @@ public class CulpritSelectionScript : MonoBehaviour
         }
     }
 
-    public void HandleCulpritGuess(Culprit culprit, Button button, Image selectionGround)
+    public void HandleCulpritGuess(Suspect culprit, Button button, Image selectionGround)
     {
         MakeButtonsNotInteractable();
         bool isCulprit = CaseManager.instance.currentCase.culprit == culprit;

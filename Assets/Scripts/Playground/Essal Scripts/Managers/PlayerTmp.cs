@@ -3,9 +3,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class Player : MonoBehaviour
+public class PlayerTmp : MonoBehaviour
 {
-    public static Player Instance;
+    public static PlayerTmp Instance;
 
     public int Humanity;
     public int Undead;
