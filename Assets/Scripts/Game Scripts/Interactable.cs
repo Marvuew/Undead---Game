@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class interactable : MonoBehaviour
 {
-    [SerializeField] private RuntimeDialogueGraph dialogueGraph;
+    public RuntimeDialogueGraph dialogueGraph;
     [SerializeField] private Dialogue dialogue;
     [SerializeField] private GameObject interactText;
     public Clue clue;

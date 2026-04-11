@@ -41,6 +41,7 @@ public class CaseManager : MonoBehaviour
         {
             GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
             newClue.GetComponent<interactable>().clue = clue;
+            newClue.GetComponent<interactable>().dialogueGraph = clue.dialogueGraph;
             newClue.GetComponent<SpriteRenderer>().sprite = clue.sprite;
         }
     }  // spawning in clues used maybe in the future

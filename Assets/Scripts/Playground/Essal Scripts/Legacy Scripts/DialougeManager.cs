@@ -110,7 +110,7 @@ namespace Assets.Scripts.GameScripts
             RuntimeDialogueNode node = currentGraph.AllNodes.FirstOrDefault(n => n.NodeID == nodeID) as RuntimeDialogueNode;
             if (node == null || node.Dialogue == null || node.Dialogue.Count == 0) return; 
             ClearOptions();
-            speakerTxt.text = $"{node.Speaker} :";
+            speakerTxt.text = $"{node.Speaker.name} :";
             StartCoroutine(SpeakCoroutine(dialougeTxt, node.Dialogue, 0.05f, node));
         }
         private IEnumerator SpeakCoroutine(TextMeshProUGUI textBox, List<string> text, float typeSpeed, RuntimeDialogueNode node)
