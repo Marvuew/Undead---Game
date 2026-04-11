@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,11 +25,13 @@ public class GameManager : MonoBehaviour
 
     public void StartGame() { SceneManager.LoadScene("Game"); }
     public void MainMenu() { SceneManager.LoadScene("Main Menu"); }
-
+    public void ToggleActive(GameObject target)
+    {
+        target.SetActive(!target.activeSelf);
+    }
     public void Quit() { Application.Quit(); }
 
-    // interacting doesnt exist on the player.instance?
-    /*public void Pause() 
+    public void Pause() 
     {
         Player.Instance.interacting = true; 
         pauseMenu.SetActive(true);
@@ -37,6 +40,6 @@ public class GameManager : MonoBehaviour
     {
         Player.Instance.interacting = false;
         pauseMenu.SetActive(false);
-    }*/
+    }
 
 }

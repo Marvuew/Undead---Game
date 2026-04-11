@@ -23,9 +23,6 @@ public class NecroLexiconUI : MonoBehaviour
     [Header("Prefabs")]
     public GameObject casePanelPrefab;
 
-
-
-
     [System.Serializable]
     public class  PageButton
     {
@@ -35,7 +32,6 @@ public class NecroLexiconUI : MonoBehaviour
     }
 
     public List<PageButton> pageButtons;
-
 
     private void Start()
     {

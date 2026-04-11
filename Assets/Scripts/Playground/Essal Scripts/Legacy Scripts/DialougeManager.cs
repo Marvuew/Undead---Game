@@ -61,7 +61,7 @@ namespace Assets.Scripts.GameScripts
         }
         public void StartDialogue(Dialogue dialouge) 
         {
-            Debug.Log($"Player humanity: {Player.instance.humanity}");
+            Debug.Log($"Player humanity: {Player.Instance.humanity}");
             optionsBox.SetActive(false);
             dialogueBox.SetActive(true);
             speakerTxt.text = $"{dialouge.speaker} :";
@@ -89,8 +89,8 @@ namespace Assets.Scripts.GameScripts
                     GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
                     button.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
                     button.GetComponent<Button>().onClick.AddListener(() => {
-                        Player.instance.ChangeHumanity(choice.humanityChange);
-                        Player.instance.ChangeUndead(choice.undeadChange);
+                        Player.Instance.ChangeHumanity(choice.humanityChange);
+                        Player.Instance.ChangeUndead(choice.undeadChange);
                         StartDialogue(choice.nextDialogue);
                     });
                 }
@@ -163,7 +163,7 @@ namespace Assets.Scripts.GameScripts
             StopAllCoroutines();
             Debug.Log("Exiting dialouge");
             EventSystem.current.SetSelectedGameObject(null);
-            Player.instance.interacting = false;
+            Player.Instance.interacting = false;
             dialogueBox.SetActive(false);
             optionsBox.SetActive(false);
         }

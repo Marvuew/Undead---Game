@@ -21,16 +21,16 @@ namespace Assets.Scripts.GameScripts
         [SerializeField] SpriteRenderer sprite;
 
 
-        public static Player instance { get; private set; }
+        public static Player Instance { get; private set; }
         private Player() { }
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         private void Update()
