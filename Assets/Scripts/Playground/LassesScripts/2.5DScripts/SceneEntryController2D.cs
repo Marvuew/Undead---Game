@@ -34,14 +34,14 @@ public class SceneEntryController2D : MonoBehaviour
             if (revealRoomOnEnter && roomToRevealOnEnter != null)
                 roomToRevealOnEnter.FadeOut();
 
-            CameraFollow2D cam = FindObjectOfType<CameraFollow2D>();
+            CameraFollow2D cam = Object.FindAnyObjectByType<CameraFollow2D>();
             if (cam != null)
                 cam.SnapToTarget();
 
             yield break;
         }
 
-        DoorSpawnPoint2D[] spawnPoints = FindObjectsOfType<DoorSpawnPoint2D>();
+        DoorSpawnPoint2D[] spawnPoints = Object.FindObjectsByType<DoorSpawnPoint2D>(FindObjectsSortMode.None);
         DoorSpawnPoint2D chosenSpawn = null;
 
         foreach (DoorSpawnPoint2D spawn in spawnPoints)
@@ -62,7 +62,7 @@ public class SceneEntryController2D : MonoBehaviour
                 rb.position = finalSpawnPosition;
         }
 
-        CameraFollow2D cameraFollow = FindObjectOfType<CameraFollow2D>();
+        CameraFollow2D cameraFollow = Object.FindAnyObjectByType<CameraFollow2D>();
         if (cameraFollow != null)
             cameraFollow.SnapToTarget();
 

@@ -26,11 +26,11 @@ public class CulpritSelectionScript : MonoBehaviour
         //Handle the Corkboard UI;
         backGround.enabled = true;
         corkBoard.SetActive(true);
-        foreach (var culprit in culprits)
+        foreach (var suspect in culprits)
         {
             Button button = Instantiate(culpritButtonPrefab, corkBoardContainer);
-            button.GetComponent<Image>().sprite = culprit.culpritSprite;
-            button.onClick.AddListener(() => HandleCulpritGuess(culprit, button, backGround));
+            button.GetComponent<Image>().sprite = suspect.sprite;
+            button.onClick.AddListener(() => HandleCulpritGuess(suspect, button, backGround));
         }
     }
 
@@ -50,11 +50,11 @@ public class CulpritSelectionScript : MonoBehaviour
         }
     }
 
-    public void HandleCulpritGuess(Suspect culprit, Button button, Image selectionGround)
+    public void HandleCulpritGuess(Suspect suspect, Button button, Image selectionGround)
     {
         MakeButtonsNotInteractable();
-        bool isCulprit = CaseManager.instance.currentCase.culprit == culprit;
-        StartCoroutine(confrontationScript.Manifest(CaseManager.instance.foundClues.Count, isCulprit, corkBoard, culprit, backGround));
+        bool isCulprit = CaseManager.Instance.currentCase.culprit == suspect;
+        StartCoroutine(confrontationScript.Manifest(CaseManager.Instance.GetClueCount(suspect.undeadType), isCulprit, corkBoard, suspect, backGround));
     }
 
 

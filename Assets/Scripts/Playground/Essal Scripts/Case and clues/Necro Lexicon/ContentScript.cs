@@ -13,14 +13,14 @@ public class ContentScript : MonoBehaviour
     public TextMeshProUGUI undeadHabitat;
     public TextMeshProUGUI undeadDescription;
 
-    public void SetContent(Suspect culprit)
+    public void SetContent(Suspect suspect)
     {
         undeadImage.enabled = true;
 
-        undeadImage.sprite = culprit.culpritSprite;
-        undeadName.text = culprit.culpritName;
-        undeadHabitat.text = culprit.culpritHabitat;
-        undeadDescription.text = culprit.culpritDescription;
+        undeadImage.sprite = suspect.sprite;
+        undeadName.text = suspect.name;
+        undeadHabitat.text = suspect.habitat;
+        undeadDescription.text = suspect.description;
     }
 
     public void Clear()

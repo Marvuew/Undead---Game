@@ -10,7 +10,7 @@ public class DialogueInteractable : MonoBehaviour
     [Header("Detection")]
     [SerializeField] private Camera cam;                 // kept for compatibility
     [SerializeField] private Collider2D targetCollider;  // if null -> GetComponent<Collider2D>()
-    [SerializeField] private bool requireLeftClick = true; // kept for compatibility, no longer used for interaction
+    //[SerializeField] private bool requireLeftClick = true; //Not used reducing warnings // kept for compatibility, no longer used for interaction
 
     [Header("Player Proximity Interaction")]
     [SerializeField] private string playerTag = "Player";

@@ -1,35 +1,39 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class CaseManager : MonoBehaviour
 {
-    public static CaseManager instance { get; private set; }
+    public static CaseManager Instance { get; private set; }
 
     [Header("Case SetUp")]
     [SerializeField] private GameObject cluePrefab;
     public Case currentCase;
 
-    private Dictionary<Undead, int> undeadTallly;
+    //Clues poiting to each given undead
+    private Dictionary<Undead, int> undeadTally = 
+    Enum.GetValues(typeof(Undead))
+        .Cast<Undead>()
+        .ToDictionary(value => value, value => 0);
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        foreach (Undead value in (Undead[])Enum.GetValues(typeof(Undead)))
-        {
-            undeadTallly[value] = 0;
-        }
-    }
+    } //Ensuring singleton pattern
+    public int GetClueCount(Undead undead) 
+    { 
+        return undeadTally.TryGetValue(undead, out int count) ? count : 0;
+    } // returns the tally/cluesfound for the given undead creature
 
     public void SetUpClues()
     {
@@ -37,18 +41,18 @@ public class CaseManager : MonoBehaviour
         {
             GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
             newClue.GetComponent<interactable>().clue = clue;
+            newClue.GetComponent<SpriteRenderer>().sprite = clue.sprite;
         }
-    }
-    public void ClueFound(Clue clueFound)
+    }  // spawning in clues used maybe in the future
+    public void OnClueFound(Clue clueFound)
     {
         foreach (Undead type in clueFound.undeadTypes) 
         {
-            if (undeadTallly.ContainsKey(type))
-                undeadTallly[type]++;
+            if (undeadTally.ContainsKey(type))
+                undeadTally[type]++;
         }
         NecroLexiconScript.instance.UpdateClueList(clueFound);
-    }
-
+    } //updates undead tally and clues found in book 
 }
 /*
 public static CaseManager instance;

@@ -33,7 +33,7 @@ public class interactable : MonoBehaviour
     {
         DialougeManager.instance.StartDialogue(dialogue);
         if (!found)
-            CaseManager.instance.ClueFound(clue);
+            CaseManager.Instance.OnClueFound(clue);
         found = true;
     }
 

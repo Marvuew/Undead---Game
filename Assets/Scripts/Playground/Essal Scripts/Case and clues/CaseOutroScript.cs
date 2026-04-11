@@ -36,7 +36,7 @@ public class CaseOutroScript : MonoBehaviour
 
     }
 
-    public void CalculateTextOutput(int foundClues, bool rightCulprit, Suspect culprit)
+    public void CalculateTextOutput(int foundClues, bool rightSuspect, Suspect suspect)
     {
         if (foundClues == 0)
         {
@@ -44,7 +44,7 @@ public class CaseOutroScript : MonoBehaviour
         }
         else if (foundClues > 0)
         {
-            outroText = $"You found {foundClues} clues which led you to believe that {culprit.culpritName} was the right culprit. This guess was {rightCulprit}";
+            outroText = $"You found {foundClues} clues which led you to believe that {suspect.name} was the right culprit. This guess was {rightSuspect}";
         }
     }
 
@@ -56,7 +56,7 @@ public class CaseOutroScript : MonoBehaviour
 
         DisableOutroUI();
 
-        CaseManager.instance.LoadNextCase();
+        //CaseManager.instance.LoadNextCase();
     }
 
     public void EnableOutroUI()

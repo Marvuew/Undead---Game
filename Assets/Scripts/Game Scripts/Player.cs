@@ -21,7 +21,7 @@ namespace Assets.Scripts.GameScripts
         [SerializeField] SpriteRenderer sprite;
 
 
-        public static Player instance { get; private set; } = new Player();
+        public static Player instance { get; private set; }
         private Player() { }
         private void Awake()
         {

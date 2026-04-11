@@ -48,7 +48,7 @@ public class DialogueGraphManager : MonoBehaviour
     #region Variables
     // For controlling dialogue flow
     private bool skipTyping = false;
-    private bool isWaitingForClick = false;
+    //private bool isWaitingForClick = false; //commented out because it not used yet warnings
     private bool isTyping = false;
 
     private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();

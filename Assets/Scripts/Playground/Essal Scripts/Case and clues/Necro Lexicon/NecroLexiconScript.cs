@@ -69,6 +69,6 @@ public class NecroLexiconScript : MonoBehaviour
     }
     public void UpdateClueList(Clue clue)
     {
-        //Spawn Clues here
+        Debug.Log("Updating book" + clue.description); //Spawn Clues here
     }
 }

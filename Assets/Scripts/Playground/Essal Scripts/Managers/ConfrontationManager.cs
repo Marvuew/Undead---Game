@@ -45,9 +45,9 @@ public class ConfrontationScript : MonoBehaviour
         StartCoroutine(caseOutroScript.SetupOutro(pickedCulprit, foundClues, rightCulprit, undeadBackGround));
     }
 
-    public void HandleCulpritData(Suspect culprit)
+    public void HandleCulpritData(Suspect suspect)
     {
-        undeadBackGround.sprite = culprit.homeSprite;
-        culpritImage.sprite = culprit.culpritSprite;
+        undeadBackGround.sprite = suspect.homeSprite;
+        culpritImage.sprite = suspect.sprite;
     }
 }

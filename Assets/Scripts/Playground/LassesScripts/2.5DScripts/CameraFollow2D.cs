@@ -41,7 +41,7 @@ public class CameraFollow2D : MonoBehaviour
             return;
         }
 
-        PlayerMovement2D player = FindObjectOfType<PlayerMovement2D>();
+        PlayerMovement2D player = Object.FindAnyObjectByType<PlayerMovement2D>();
         if (player != null)
             target = player.transform;
     }
