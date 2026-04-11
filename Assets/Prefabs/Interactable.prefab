@@ -95,7 +95,7 @@ SpriteRenderer:
   m_Size: {x: 0.625, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7629580898189008948
 MonoBehaviour:
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338f4a568c0b2184e8d2ca23ffd3f52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::interactable
+  dialogueGraph: {fileID: 3965311268370046156, guid: 5f3518a8ea7668f40a889231c3e9872f, type: 3}
   dialogue: {fileID: 11400000, guid: e975dbb423c89b2418b6352fd9a60362, type: 2}
   interactText: {fileID: 5115446778502478579}
   clue: {fileID: 0}

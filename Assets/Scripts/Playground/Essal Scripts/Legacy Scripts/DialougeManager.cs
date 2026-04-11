@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
+using Unity.GraphToolkit.Editor;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +26,9 @@ namespace Assets.Scripts.GameScripts
         private Button exitDialogueBtn;
         [SerializeField] Button startConvo;
         [SerializeField] Dialogue StartNode;
+
+        private RuntimeDialogueGraph currentGraph;
+
         public static DialougeManager instance { get; private set; }
         private void Awake()
         {
@@ -62,7 +68,16 @@ namespace Assets.Scripts.GameScripts
             StartCoroutine(Speak(dialougeTxt, dialouge.text, dialouge.typingDelay, dialouge));
             ClearOptions();
         }
-
+        private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed)
+        {
+            textBox.maxVisibleCharacters = 0;
+            textBox.text = text;
+            for (int i = 0; i <= text.Length; i++)
+            {
+                textBox.maxVisibleCharacters = i;
+                yield return new WaitForSeconds(typeSpeed);
+            }
+        }
         private IEnumerator Speak(TextMeshProUGUI textBox, string text, float typeSpeed, Dialogue dialogue) 
         {
             yield return (TypeTextCoroutine(textBox, text, typeSpeed));
@@ -81,14 +96,59 @@ namespace Assets.Scripts.GameScripts
                 }
             }
         }
-        private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed)
+        public void StartDialogue(RuntimeDialogueGraph graph)
+        {
+            this.currentGraph = graph;
+
+            optionsBox.SetActive(false);
+            dialogueBox.SetActive(true);
+
+            ShowDialouge(graph.EntryNodeID);
+        }
+        private void ShowDialouge(string nodeID)
+        {
+            RuntimeDialogueNode node = currentGraph.AllNodes.FirstOrDefault(n => n.NodeID == nodeID) as RuntimeDialogueNode;
+            if (node == null || node.Dialogue == null || node.Dialogue.Count == 0) return; 
+            ClearOptions();
+            speakerTxt.text = $"{node.Speaker} :";
+            StartCoroutine(SpeakCoroutine(dialougeTxt, node.Dialogue, 0.05f, node));
+        }
+        private IEnumerator SpeakCoroutine(TextMeshProUGUI textBox, List<string> text, float typeSpeed, RuntimeDialogueNode node)
+        {
+            yield return BTypeTextCoroutine(textBox, text, typeSpeed);
+
+            if (node.Choices != null && node.Choices.Count > 0)
+            {
+                optionsBox.SetActive(true);
+
+                foreach (ChoiceData choice in node.Choices)
+                {
+                    ChoiceData localChoice = choice;
+
+                    GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = localChoice.ChoiceText;
+
+                    button.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        ShowDialouge(localChoice.DestinationNodeID);
+                    });
+                }
+            }
+        }
+
+        private IEnumerator BTypeTextCoroutine(TextMeshProUGUI textBox, List<string> lines, float typeSpeed)
         {
             textBox.maxVisibleCharacters = 0;
-            textBox.text = text;
-            for (int i = 0; i <= text.Length; i++)
+            textBox.text = string.Join("\n", lines);
+
+            int totalVisible = textBox.text.Length;
+
+            WaitForSeconds delay = new WaitForSeconds(typeSpeed);
+
+            for (int i = 0; i <= totalVisible; i++)
             {
                 textBox.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(typeSpeed);
+                yield return delay;
             }
         }
         private void ClearOptions()

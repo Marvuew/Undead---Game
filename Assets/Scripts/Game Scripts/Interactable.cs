@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class interactable : MonoBehaviour
 {
+    [SerializeField] private RuntimeDialogueGraph dialogueGraph;
     [SerializeField] private Dialogue dialogue;
     [SerializeField] private GameObject interactText;
     public Clue clue;
@@ -31,7 +32,7 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction()
     {
-        DialougeManager.instance.StartDialogue(dialogue);
+        DialougeManager.instance.StartDialogue(dialogueGraph);
         if (!found)
             CaseManager.Instance.OnClueFound(clue);
         found = true;
