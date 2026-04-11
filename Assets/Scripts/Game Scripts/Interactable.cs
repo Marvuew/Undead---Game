@@ -32,7 +32,7 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction()
     {
-        DialougeManager.instance.StartDialogue(dialogueGraph);
+        DialougeManager.Instance.StartDialogue(dialogueGraph);
         if (!found)
             CaseManager.Instance.OnClueFound(clue);
         found = true;
