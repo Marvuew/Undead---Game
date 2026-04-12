@@ -34,7 +34,11 @@ public class interactable : MonoBehaviour
     {
         DialougeManager.Instance.StartDialogue(dialogueGraph);
         if (!found)
+        {
             CaseManager.Instance.OnClueFound(clue);
+            Debug.Log("New clue");
+        }
+        else Debug.Log("NOT new clue");
         found = true;
     }
 

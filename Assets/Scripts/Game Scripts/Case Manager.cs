@@ -47,12 +47,17 @@ public class CaseManager : MonoBehaviour
     }  // spawning in clues used maybe in the future
     public void OnClueFound(Clue clueFound)
     {
-        foreach (Undead type in clueFound.undeadTypes) 
+        if(clueFound.undeadTypes.Count > 0) 
         {
-            if (undeadTally.ContainsKey(type))
-                undeadTally[type]++;
+            foreach (Undead type in clueFound.undeadTypes) 
+            {
+                if (undeadTally.ContainsKey(type))
+                    undeadTally[type]++;
+            }
+            Debug.Log("Updated tally");
         }
-        NecroLexiconScript.instance.UpdateClueList(clueFound);
+        Debug.Log("calling book update");
+        NecroLexiconUI.Instance.UpdateCluesList(clueFound);
     } //updates undead tally and clues found in book 
 }
 /*

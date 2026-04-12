@@ -67,8 +67,4 @@ public class NecroLexiconScript : MonoBehaviour
     {
         book.gameObject.SetActive(!book.gameObject.activeSelf);
     }
-    public void UpdateClueList(Clue clue)
-    {
-        Debug.Log("Updating book" + clue.description); //Spawn Clues here
-    }
 }

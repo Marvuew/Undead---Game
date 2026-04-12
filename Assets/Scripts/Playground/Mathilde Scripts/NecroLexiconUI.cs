@@ -1,10 +1,13 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Overlays;
 using UnityEngine;
 
 public class NecroLexiconUI : MonoBehaviour
 {
+    public static NecroLexiconUI Instance;
+
     [Header("UI Elements")]
     public GameObject cluesPage;
     public GameObject creaturesPage;
@@ -12,6 +15,8 @@ public class NecroLexiconUI : MonoBehaviour
     public GameObject bookCover;
     public GameObject pagesContainer;
     public Transform leftSideContainer;
+    [SerializeField] Transform cluesContainer;
+    [SerializeField] GameObject clueTxtPrefab;
 
     [Header("References")]
     public CreatureManager creatureManager;
@@ -110,6 +115,12 @@ public class NecroLexiconUI : MonoBehaviour
         {
             pb.button.anchoredPosition = pb.closedPos;
         }
+    }
+    public void UpdateCluesList(Clue clue) 
+    {
+        Debug.Log("Updating clue list");
+        GameObject clueObject = Instantiate(clueTxtPrefab,cluesContainer);
+        clueObject.GetComponent<TextMeshProUGUI>().text = "* " + clue.description;
     }
 
     public void InstantiateCaseOne()
