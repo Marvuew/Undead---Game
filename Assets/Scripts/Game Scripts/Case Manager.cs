@@ -47,6 +47,7 @@ public class CaseManager : MonoBehaviour
     }  // spawning in clues used maybe in the future
     public void OnClueFound(Clue clueFound)
     {
+        Debug.Log("Clue=" + (clueFound));
         if(clueFound.undeadTypes.Count > 0) 
         {
             foreach (Undead type in clueFound.undeadTypes) 

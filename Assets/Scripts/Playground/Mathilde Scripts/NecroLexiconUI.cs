@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class NecroLexiconUI : MonoBehaviour
 {
-    public static NecroLexiconUI Instance;
-
     [Header("UI Elements")]
     public GameObject cluesPage;
     public GameObject creaturesPage;
@@ -27,6 +25,18 @@ public class NecroLexiconUI : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject casePanelPrefab;
+
+    public static NecroLexiconUI Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    } //Ensuring singleton pattern
 
     [System.Serializable]
     public class  PageButton
@@ -48,7 +58,6 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.anchoredPosition = pb.closedPos;
         }
     }
-
     public void OpenCluesPage()
     {
         OpenBook();
@@ -56,7 +65,6 @@ public class NecroLexiconUI : MonoBehaviour
         DisableAllPages();
         cluesPage.SetActive(true);
     }
-
     public void OpenCreaturesPage()
     {
         OpenBook();
@@ -71,7 +79,6 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Case clicked");
         DisableAllPages();
         casePage.SetActive(true);
-
     }
 
     private void DisableAllPages()
