@@ -42,11 +42,6 @@ namespace Assets.Scripts.GameScripts
 
             setUpDialougeUI();
         }
-        public void TestConvo() 
-        {
-            Debug.Log("Starting...");
-            StartDialogue(StartNode);
-        }
         private void setUpDialougeUI() 
         {
             dialogueBox = GameObject.Find("DialogueBox");
@@ -59,43 +54,43 @@ namespace Assets.Scripts.GameScripts
             optionsBox.SetActive(false);
             exitDialogueBtn.onClick.AddListener(ExitDialogue);
         }
-        public void StartDialogue(Dialogue dialouge) 
-        {
-            Debug.Log($"Player humanity: {Player.Instance.humanity}");
-            optionsBox.SetActive(false);
-            dialogueBox.SetActive(true);
-            speakerTxt.text = $"{dialouge.speaker} :";
-            StartCoroutine(Speak(dialougeTxt, dialouge.text, dialouge.typingDelay, dialouge));
-            ClearOptions();
-        }
-        private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed)
-        {
-            textBox.maxVisibleCharacters = 0;
-            textBox.text = text;
-            for (int i = 0; i <= text.Length; i++)
-            {
-                textBox.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(typeSpeed);
-            }
-        }
-        private IEnumerator Speak(TextMeshProUGUI textBox, string text, float typeSpeed, Dialogue dialogue) 
-        {
-            yield return (TypeTextCoroutine(textBox, text, typeSpeed));
-            if (dialogue.choices.Count > 0)
-            {
-                optionsBox.SetActive(true);
-                foreach (Choice choice in dialogue.choices)
-                {
-                    GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
-                    button.GetComponent<Button>().onClick.AddListener(() => {
-                        Player.Instance.ChangeHumanity(choice.humanityChange);
-                        Player.Instance.ChangeUndead(choice.undeadChange);
-                        StartDialogue(choice.nextDialogue);
-                    });
-                }
-            }
-        }
+        //public void StartDialogue(Dialogue dialouge) 
+        //{
+        //    Debug.Log($"Player humanity: {Player.Instance.humanity}");
+        //    optionsBox.SetActive(false);
+        //    dialogueBox.SetActive(true);
+        //    speakerTxt.text = $"{dialouge.speaker} :";
+        //    StartCoroutine(Speak(dialougeTxt, dialouge.text, dialouge.typingDelay, dialouge));
+        //    ClearOptions();
+        //}
+        //private IEnumerator TypeTextCoroutine(TextMeshProUGUI textBox, string text, float typeSpeed)
+        //{
+        //    textBox.maxVisibleCharacters = 0;
+        //    textBox.text = text;
+        //    for (int i = 0; i <= text.Length; i++)
+        //    {
+        //        textBox.maxVisibleCharacters = i;
+        //        yield return new WaitForSeconds(typeSpeed);
+        //    }
+        //}
+        //private IEnumerator Speak(TextMeshProUGUI textBox, string text, float typeSpeed, Dialogue dialogue) 
+        //{
+        //    yield return (TypeTextCoroutine(textBox, text, typeSpeed));
+        //    if (dialogue.choices.Count > 0)
+        //    {
+        //        optionsBox.SetActive(true);
+        //        foreach (Choice choice in dialogue.choices)
+        //        {
+        //            GameObject button = Instantiate(optionButtonPrefab, optionsContainer);
+        //            button.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
+        //            button.GetComponent<Button>().onClick.AddListener(() => {
+        //                Player.Instance.ChangeHumanity(choice.humanityChange);
+        //                Player.Instance.ChangeUndead(choice.undeadChange);
+        //                StartDialogue(choice.nextDialogue);
+        //            });
+        //        }
+        //    }
+        //}
         public void StartDialogue(RuntimeDialogueGraph graph)
         {
             this.currentGraph = graph;
