@@ -31,8 +31,8 @@ public class LightControl : MonoBehaviour
     [SerializeField] private Color nightSky = new Color(0.05f, 0.08f, 0.15f);
 
     [Header("Transition Speeds")]
-    [SerializeField] private float colorSpeed = 2f;
-    [SerializeField] private float intensitySpeed = 2f;
+    //[SerializeField] private float colorSpeed = 2f; //Not used yet reduce warnings uncomment if needed
+    //[SerializeField] private float intensitySpeed = 2f; //Not used yet reduce warnings uncomment if needed
     [SerializeField] private float skySpeed = 2f;
 
     private void Awake()

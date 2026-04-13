@@ -802,7 +802,7 @@ private void TryApplyTickProgress()
             return;
 
         if (lockedPlayerMovement == null)
-            lockedPlayerMovement = FindObjectOfType<PlayerMovement2D>();
+            lockedPlayerMovement = GameObject.FindAnyObjectByType<PlayerMovement2D>();
 
         if (lockedPlayerMovement != null)
         {

@@ -6,12 +6,12 @@ public class RuntimeClue : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseDown()
     {
-        CaseManager.instance.AddClue(clue);
+        //CaseManager.instance.AddClue(clue);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        CaseManager.instance.AddClue(clue);
+        //CaseManager.instance.AddClue(clue);
         Destroy(gameObject);
     }
 }

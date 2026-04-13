@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Overlays;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class NecroLexiconUI : MonoBehaviour
     public GameObject bookCover;
     public GameObject pagesContainer;
     public Transform leftSideContainer;
+    [SerializeField] Transform cluesContainer;
+    [SerializeField] GameObject clueTxtPrefab;
 
     [Header("References")]
     public CreatureManager creatureManager;
@@ -23,8 +26,17 @@ public class NecroLexiconUI : MonoBehaviour
     [Header("Prefabs")]
     public GameObject casePanelPrefab;
 
-
-
+    public static NecroLexiconUI Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    } //Ensuring singleton pattern
 
     [System.Serializable]
     public class  PageButton
@@ -36,7 +48,6 @@ public class NecroLexiconUI : MonoBehaviour
 
     public List<PageButton> pageButtons;
 
-
     private void Start()
     {
         bookCover.SetActive(true);
@@ -47,7 +58,6 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.anchoredPosition = pb.closedPos;
         }
     }
-
     public void OpenCluesPage()
     {
         OpenBook();
@@ -55,7 +65,6 @@ public class NecroLexiconUI : MonoBehaviour
         DisableAllPages();
         cluesPage.SetActive(true);
     }
-
     public void OpenCreaturesPage()
     {
         OpenBook();
@@ -70,7 +79,6 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Case clicked");
         DisableAllPages();
         casePage.SetActive(true);
-
     }
 
     private void DisableAllPages()
@@ -114,6 +122,12 @@ public class NecroLexiconUI : MonoBehaviour
         {
             pb.button.anchoredPosition = pb.closedPos;
         }
+    }
+    public void UpdateCluesList(Clue clue) 
+    {
+        Debug.Log("Updating clue list");
+        GameObject clueObject = Instantiate(clueTxtPrefab,cluesContainer);
+        clueObject.GetComponent<TextMeshProUGUI>().text = "* " + clue.description;
     }
 
     public void InstantiateCaseOne()
