@@ -14,6 +14,8 @@ public class CaseManager : MonoBehaviour
     [SerializeField] private GameObject cluePrefab;
     public Case currentCase;
 
+    bool isActive = false;
+
     //Clues pointing to each given undead
     private Dictionary<Undead, int> undeadTally = 
     Enum.GetValues(typeof(Undead))
@@ -37,6 +39,12 @@ public class CaseManager : MonoBehaviour
 
     public void SetUpClues()
     {
+        if (isActive)
+        {
+            Debug.LogWarning("Case is already set up");
+            return;
+        }
+        isActive = true;
         foreach (Clue clue in currentCase.clues)
         {
             GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
