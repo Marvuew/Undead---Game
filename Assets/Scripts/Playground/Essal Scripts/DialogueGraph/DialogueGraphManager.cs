@@ -82,7 +82,7 @@ public class DialogueGraphManager : MonoBehaviour
         }
 
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             // First click finishes the text.
             if (isTyping && DialoguePanel.activeSelf)
@@ -272,7 +272,7 @@ public class DialogueGraphManager : MonoBehaviour
 
             // Wait until the mouse is up and then you can continue to the next node.
             yield return new WaitUntil(() => !Mouse.current.leftButton.isPressed);
-            yield return new WaitUntil(() => Mouse.current.leftButton.wasPressedThisFrame);
+            yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
 
         }
         isTyping = false;
