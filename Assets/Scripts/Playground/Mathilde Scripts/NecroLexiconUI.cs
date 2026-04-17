@@ -69,11 +69,11 @@ public class NecroLexiconUI : MonoBehaviour
         {
             if (pb == selected)
             {
-                pb.image.color = new Color32(128, 0, 0, 255); // selected farve (dark red)
+                pb.image.color = new Color32(227, 138, 138, 255); // selected farve
             }
             else
             {
-                pb.image.color = new Color32(74, 52, 41, 255); // brun farve
+                pb.image.color = Color.white; // white
             }
         }
     }
