@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -185,6 +186,8 @@ public class DialogueGraphManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        
+        Player.Instance.interacting = false;
     }
     #endregion
 
