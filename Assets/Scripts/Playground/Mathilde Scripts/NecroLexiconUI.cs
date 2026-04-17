@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Overlays;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NecroLexiconUI : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class NecroLexiconUI : MonoBehaviour
         public RectTransform button;
         public Vector2 closedPos;
         public Vector2 openPos;
+        public Button uiButton;
+        public UnityEngine.UI.Image image;
     }
 
     public List<PageButton> pageButtons;
@@ -52,18 +55,37 @@ public class NecroLexiconUI : MonoBehaviour
     {
         bookCover.SetActive(true);
         pagesContainer.SetActive(false);
-
+        
         foreach (var pb in pageButtons)
         {
             pb.button.anchoredPosition = pb.closedPos;
+            pb.button.gameObject.SetActive(false);
         }
     }
+
+    void SetSelectedButton(PageButton selected)
+    {
+        foreach (var pb in pageButtons)
+        {
+            if (pb == selected)
+            {
+                pb.image.color = new Color32(128, 0, 0, 255); // selected farve (dark red)
+            }
+            else
+            {
+                pb.image.color = new Color32(74, 52, 41, 255); // brun farve
+            }
+        }
+    }
+
     public void OpenCluesPage()
     {
         OpenBook();
         Debug.Log("Clues clicked");
         DisableAllPages();
         cluesPage.SetActive(true);
+
+        SetSelectedButton(pageButtons[0]);
     }
     public void OpenCreaturesPage()
     {
@@ -71,6 +93,8 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Creatures clicked");
         DisableAllPages();
         creaturesPage.SetActive(true);
+
+        SetSelectedButton(pageButtons[1]);
     }
 
     public void OpenCasePage()
@@ -79,6 +103,8 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Case clicked");
         DisableAllPages();
         casePage.SetActive(true);
+
+        SetSelectedButton(pageButtons[2]);
     }
 
     private void DisableAllPages()
@@ -108,6 +134,7 @@ public class NecroLexiconUI : MonoBehaviour
         foreach (var pb in pageButtons)
         {
             pb.button.anchoredPosition = pb.openPos;
+            pb.button.gameObject.SetActive(true);
         }
     }
 
@@ -121,7 +148,10 @@ public class NecroLexiconUI : MonoBehaviour
         foreach (var pb in pageButtons)
         {
             pb.button.anchoredPosition = pb.closedPos;
+            pb.button.gameObject.SetActive(false);
         }
+
+        SetSelectedButton(pageButtons[3]);
     }
     public void UpdateCluesList(Clue clue) 
     {
@@ -137,7 +167,4 @@ public class NecroLexiconUI : MonoBehaviour
         newPanel.GetComponent<CasePage>().Setup(caseData);
         newPanel.SetActive(true);
     }
-
-    
-
 }
