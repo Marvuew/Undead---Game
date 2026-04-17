@@ -86,6 +86,18 @@ public class RuntimeRandomizer : RuntimeNode
     }
 }
 
+[Serializable]
+public class RuntimeClueNode : RuntimeNode
+{
+    public Clue clue;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleClueNode(this);
+        return NextNodeID;
+    }
+}
+
 
 
 #endregion
@@ -104,14 +116,15 @@ public class ChoiceData
 
 #region Enums
 
-public enum TypingSpeed
-{
-    Slow, Mid, Fast
-}
 
 public enum Emotion
 {
     Happy, Sad, Content, Angry
+}
+
+public enum TypingSpeed
+{
+    Slow, Mid, Fast
 }
 
 #endregion

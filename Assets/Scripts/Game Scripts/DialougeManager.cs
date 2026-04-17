@@ -32,6 +32,8 @@ namespace Assets.Scripts.GameScripts
         public static DialougeManager Instance { get; private set; }
         private void Awake()
         {
+            // So its visible before hitting play but invisible when playing, to avoid confusion and bugs
+            gameObject.SetActive(false);
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);

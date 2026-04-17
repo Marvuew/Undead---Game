@@ -173,6 +173,22 @@ public class Randomizer : Node
         context.AddOutputPort(OUT_PORT).Build();
     }
 }
+
+[Serializable]
+public class ClueNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_CLUE = "Clue";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+
+        context.AddInputPort<Clue>(IN_PORT_CLUE).Build();
+    }
+}
 #endregion
 #region Legacy Nodes
 /*[Serializable]

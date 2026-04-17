@@ -14,7 +14,7 @@ public class CaseManager : MonoBehaviour
     [SerializeField] private GameObject cluePrefab;
     public Case currentCase;
 
-    //Clues poiting to each given undead
+    //Clues pointing to each given undead
     private Dictionary<Undead, int> undeadTally = 
     Enum.GetValues(typeof(Undead))
         .Cast<Undead>()

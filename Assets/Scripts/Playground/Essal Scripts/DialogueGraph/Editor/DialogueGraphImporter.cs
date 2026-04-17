@@ -83,6 +83,15 @@ public class DialogueGraphImporter : ScriptedImporter
                 runtimeNode = node;
             }
 
+            if (iNode is ClueNode clueNode)
+            {
+                var node = new RuntimeClueNode { NodeID = nodeIDMap[iNode] };
+
+                ProcessClueNode(clueNode, node, nodeIDMap);
+
+                runtimeNode = node;
+            }
+
             runtimeGraph.AllNodes.Add(runtimeNode);
         }
 
@@ -231,6 +240,17 @@ public class DialogueGraphImporter : ScriptedImporter
         foreach (var port in ports)
         {
             runtimeNode.randomNextNodeID.Add(nodeIDMap[port.GetNode()]);
+        }
+    }
+
+    private void ProcessClueNode(ClueNode node, RuntimeClueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        runtimeNode.clue = GetPortValue<Clue>(node.GetInputPortByName(ClueNode.IN_PORT_CLUE));
+
+        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.firstConnectedPort;
+        if (nextNodePort != null)
+        {
+            runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
         }
     }
 
