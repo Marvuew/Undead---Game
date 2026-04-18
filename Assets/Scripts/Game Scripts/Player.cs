@@ -20,6 +20,8 @@ namespace Assets.Scripts.GameScripts
         [SerializeField] float speed;
         [SerializeField] SpriteRenderer sprite;
 
+        Coroutine walkingCoroutine;
+
 
         public static Player Instance { get; private set; }
         private Player() { }
@@ -45,8 +47,26 @@ namespace Assets.Scripts.GameScripts
 
         public void OnMove(InputAction.CallbackContext input) 
         {
-            moveInput = input.ReadValue<Vector2>(); 
+            moveInput = input.ReadValue<Vector2>();
+
+            if (input.performed)
+            {
+                if (walkingCoroutine == null)
+                {
+                    walkingCoroutine = StartCoroutine(AudioManager.instance.WalkingLoop());
+                }
+            }
+            else if (input.canceled)
+            {
+                if (walkingCoroutine != null)
+                {
+                    StopCoroutine(walkingCoroutine);
+                    walkingCoroutine = null;
+                }
+            }
         }
+
+        
         public void OnInteract(InputAction.CallbackContext input) 
         { 
             if(input.performed && currentInteractable != null) 

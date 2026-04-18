@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
@@ -82,5 +84,19 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Stop();
+    }
+
+    public IEnumerator WalkingLoop()
+    {
+        while (true)
+        {
+            Sound walkSound = Array.Find(sounds, sound => sound.name == "Walk");
+
+            walkSound.source.pitch = UnityEngine.Random.Range((float)0.8, 1.2f);
+            PlaySFX(walkSound.name);
+
+            float delay = 0.35f + UnityEngine.Random.Range((float)-0.05f, 0.08f);
+            yield return new WaitForSeconds(delay);
+        }  
     }
 }
