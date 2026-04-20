@@ -285,68 +285,92 @@ public class HalfClockHand : MonoBehaviour
             lastPlayerPosition = playerTransform.position;
             hasPlayerPosition = true;
         }
+        // After the existing reset logic, before the end of the method:
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement2D pm = player.GetComponent<PlayerMovement2D>();
+            if (pm != null) pm.UnlockMovement();
+        }
+
     }
 
     private void TryStartTimeUpSequence()
-    {
-        if (!triggerEndingWhenTimeIsUp || endingTriggered)
-            return;
+{
+    if (!triggerEndingWhenTimeIsUp || endingTriggered)
+        return;
 
-        endingTriggered = true;
-        endingRoutine = StartCoroutine(TimeUpSequenceRoutine());
+    endingTriggered = true;
+
+    // Lock player movement
+    GameObject player = GameObject.FindGameObjectWithTag("Player");
+    if (player != null)
+    {
+        PlayerMovement2D pm = player.GetComponent<PlayerMovement2D>();
+        if (pm != null) pm.LockMovement();
     }
+
+    endingRoutine = StartCoroutine(TimeUpSequenceRoutine());
+}
+
 
     private IEnumerator TimeUpSequenceRoutine()
+{
+    if (timeUpMessageText != null)
+        timeUpMessageText.text = "";
+
+    if (timeUpMessageGroup != null)
     {
-        if (timeUpMessageText != null)
-            timeUpMessageText.text = timeUpMessage;
-
-        if (timeUpMessageGroup != null)
-        {
-            timeUpMessageGroup.alpha = 1f;
-            timeUpMessageGroup.blocksRaycasts = true;
-            timeUpMessageGroup.interactable = false;
-        }
-        else if (timeUpMessageText != null)
-        {
-            Color c = timeUpMessageText.color;
-            c.a = 1f;
-            timeUpMessageText.color = c;
-        }
-
-        yield return new WaitForSeconds(timeUpMessageSeconds);
-
-        if (timeUpMessageGroup != null)
-        {
-            yield return StartCoroutine(FadeCanvasGroup(
-                timeUpMessageGroup,
-                timeUpMessageGroup.alpha,
-                0f,
-                textFadeOutSeconds
-            ));
-
-            timeUpMessageGroup.blocksRaycasts = false;
-            timeUpMessageGroup.interactable = false;
-        }
-        else if (timeUpMessageText != null)
-        {
-            yield return StartCoroutine(FadeTMPText(
-                timeUpMessageText,
-                timeUpMessageText.alpha,
-                0f,
-                textFadeOutSeconds
-            ));
-        }
-
-        if (usePersistentScreenFader && PersistentScreenFader.Instance != null)
-        {
-            PersistentScreenFader.Instance.FadeToBlackAndLoadScene(loadingSceneName, fadeToBlackSeconds);
-        }
-        else
-        {
-            SceneManager.LoadScene(loadingSceneName);
-        }
+        timeUpMessageGroup.alpha = 1f;
+        timeUpMessageGroup.blocksRaycasts = true;
+        timeUpMessageGroup.interactable = false;
     }
+
+    if (timeUpMessageText != null)
+        yield return StartCoroutine(TypewriterByWord(timeUpMessageText, timeUpMessage, 0.15f));
+
+    yield return new WaitForSeconds(timeUpMessageSeconds);
+
+    if (timeUpMessageGroup != null)
+    {
+        yield return StartCoroutine(FadeCanvasGroup(
+            timeUpMessageGroup,
+            timeUpMessageGroup.alpha,
+            0f,
+            textFadeOutSeconds
+        ));
+
+        timeUpMessageGroup.blocksRaycasts = false;
+        timeUpMessageGroup.interactable = false;
+    }
+    else if (timeUpMessageText != null)
+    {
+        yield return StartCoroutine(FadeTMPText(
+            timeUpMessageText,
+            timeUpMessageText.alpha,
+            0f,
+            textFadeOutSeconds
+        ));
+    }
+
+    if (usePersistentScreenFader && PersistentScreenFader.Instance != null)
+        PersistentScreenFader.Instance.FadeToBlackAndLoadScene(loadingSceneName, fadeToBlackSeconds);
+    else
+        SceneManager.LoadScene(loadingSceneName);
+}
+
+private IEnumerator TypewriterByWord(TMP_Text text, string fullText, float delayBetweenWords)
+{
+    string[] words = fullText.Split(' ');
+    string current = "";
+
+    for (int i = 0; i < words.Length; i++)
+    {
+        current += (i == 0 ? "" : " ") + words[i];
+        text.text = current;
+        yield return new WaitForSeconds(delayBetweenWords);
+    }
+}
 
     private IEnumerator FadeCanvasGroup(CanvasGroup group, float from, float to, float duration)
     {

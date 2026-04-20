@@ -27,7 +27,6 @@ public class PersistentGlobalLight : MonoBehaviour
         // Create the persistent light
         CreatePersistentLight();
 
-        Debug.Log("PersistentGlobalLight created with intensity: " + intensity);
     }
 
     private void CreatePersistentLight()
@@ -50,7 +49,6 @@ public class PersistentGlobalLight : MonoBehaviour
             // Make sure the light is enabled
             globalLight.enabled = true;
 
-            Debug.Log($"Created persistent light: Color={lightColor}, Intensity={intensity}, BlendStyle={blendStyleIndex}, Layers={globalLight.targetSortingLayers.Length}");
         }
     }
 
@@ -63,8 +61,7 @@ public class PersistentGlobalLight : MonoBehaviour
         {
             globalLight.color = color;
             globalLight.intensity = newIntensity;
-            Debug.Log($"Updated persistent light: Color={color}, Intensity={newIntensity}");
-        }
+         }
         else
         {
             Debug.LogError("PersistentGlobalLight: globalLight is null!");
