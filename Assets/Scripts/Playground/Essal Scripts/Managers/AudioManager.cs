@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -100,5 +101,12 @@ public class AudioManager : MonoBehaviour
             float delay = 0.35f + UnityEngine.Random.Range((float)-0.05f, 0.08f);
             yield return new WaitForSeconds(delay);
         }  
+    }
+
+    public IEnumerator QueueClueFoundSound()
+    {
+        yield return null;
+        yield return new WaitUntil(() => Player.Instance.interacting == false);
+        PlaySFX("ClueFound");
     }
 }

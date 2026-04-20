@@ -49,6 +49,8 @@ public class DialogueGraphManager : MonoBehaviour
     [Header("Choice Button UI")]
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
+    public Color PathExplored;
+    public Color Unlockable;
     private List<GameObject> buttons = new List<GameObject>();
 
     // Typing Speeds
@@ -71,7 +73,6 @@ public class DialogueGraphManager : MonoBehaviour
     // For tracking choices - they will be marked as read
     private HashSet<string> exploredChoices = new HashSet<string>();
     #endregion
-
 
     #region Input Handling (update)
     private void Update()
@@ -313,11 +314,11 @@ public class DialogueGraphManager : MonoBehaviour
             // Handle the Color
             // If its an unlockable choice set the color to yellow.
             var choiceColor = button.GetComponent<Image>().color;
-            choiceColor = choice.Condition == null ? choiceColor : Color.yellow;
+            choiceColor = choice.Condition == null ? choiceColor : Unlockable;
             if (exploredChoices.Contains(choice.ChoiceID))
             {
                 //Set the color to red if it is alreade explored.
-                choiceColor = Color.red;
+                choiceColor = PathExplored;
             }
             button.GetComponent<Image>().color = choiceColor;
 
@@ -343,16 +344,16 @@ public class DialogueGraphManager : MonoBehaviour
 
     public IEnumerator SelectFirst(List<GameObject> buttons)
     {
-        print(buttons);
-
         EventSystem.current.SetSelectedGameObject(buttons[0]);
+        GameObject lastSelected = buttons[0];
+
         for (int i = 0; i < buttons.Count; i++)
         {
             Navigation nav = new Navigation();
             nav.mode = Navigation.Mode.Explicit;
 
-            Selectable up = i > 0 ? buttons[i - 1].GetComponent<Selectable>() : null;
-            Selectable down = i < buttons.Count - 1 ? buttons[i + 1].GetComponent<Selectable>() : null;
+            Selectable up = i > 0 ? buttons[i - 1].GetComponent<Selectable>() : buttons[buttons.Count - 1].GetComponent<Selectable>();
+            Selectable down = i < buttons.Count - 1 ? buttons[i + 1].GetComponent<Selectable>() : buttons[0].GetComponent<Selectable>();
 
             nav.selectOnDown = down;
             nav.selectOnUp = up;
@@ -363,8 +364,22 @@ public class DialogueGraphManager : MonoBehaviour
                 selectable.navigation = nav;
             }
         }
+        
+        while (true)
+        {
+            var current = EventSystem.current.currentSelectedGameObject;
 
-        yield return null;
+            if (buttons.Contains(current))
+            {
+                lastSelected = current;
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(lastSelected);
+            }
+
+            yield return null;
+        }
     }
 
     public 
@@ -466,6 +481,7 @@ public class DialogueGraphManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         buttons.Clear();
+        StopCoroutine(SelectFirst(buttons));
     }
 
     //Reset the dialogue

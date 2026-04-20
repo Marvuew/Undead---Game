@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 1948354899269419640}
   - component: {fileID: 1375998317105786767}
   - component: {fileID: 175347314173602819}
+  - component: {fileID: -4937287962603459904}
   m_Layer: 5
   m_Name: ChoiceButton
   m_TagString: Untagged
@@ -236,8 +237,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.61960787, g: 0.15294118, b: 0.15294118, a: 1}
+    m_PressedColor: {r: 0.24528301, g: 0.21520112, b: 0.21520112, a: 1}
     m_SelectedColor: {r: 0.6179246, g: 0.1515664, b: 0.1515664, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -258,3 +259,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4937287962603459904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536378488261822998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1813518018e2ec042b258fd3a32f74ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayNavigateSound

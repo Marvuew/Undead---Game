@@ -1,5 +1,6 @@
 using Assets.Scripts.GameScripts;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class interactable : MonoBehaviour
@@ -9,6 +10,7 @@ public class interactable : MonoBehaviour
     [SerializeField] private GameObject interactText;
     public Clue clue;
     bool found;
+    public ClueType clueType;
 
     private void Awake()
     {
@@ -32,8 +34,8 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction()
     {
-        //DialougeManager.Instance.StartDialogue(dialogueGraph);
         DialogueGraphManager.instance.StartDialogue(dialogueGraph);
+        if (clue.clueType == ClueType.Human) AudioManager.instance.PlaySFX("InteractableHuman");
         if (!found && clue != null)
             CaseManager.Instance.OnClueFound(clue);
         found = true;
