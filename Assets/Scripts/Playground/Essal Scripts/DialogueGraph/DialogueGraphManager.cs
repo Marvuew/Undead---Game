@@ -234,6 +234,7 @@ public class DialogueGraphManager : MonoBehaviour
 
     #region Helping Functions
 
+
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
         // Find the typingspeed

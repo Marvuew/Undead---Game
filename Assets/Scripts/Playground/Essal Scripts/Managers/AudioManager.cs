@@ -33,6 +33,8 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.playOnAwake = s.PlayOnAwake;
         }
+
+        PlayMusic("AmbientDay");
     }
 
     public void PlayMusic(string name)
