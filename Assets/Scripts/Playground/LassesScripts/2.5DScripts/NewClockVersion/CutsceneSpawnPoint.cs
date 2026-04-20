@@ -9,6 +9,9 @@ public class CutsceneSpawnPoint : MonoBehaviour
 
     private IEnumerator Start()
     {
+        if (!TransitionState2D.hasPendingTransition)
+            yield break;
+
         if (waitOneFrameBeforeSnap)
             yield return null;
 

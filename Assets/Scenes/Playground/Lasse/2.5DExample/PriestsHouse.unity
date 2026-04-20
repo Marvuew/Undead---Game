@@ -2705,8 +2705,6 @@ MonoBehaviour:
   nightColor: {r: 0.15, g: 0.2, b: 0.4, a: 1}
   nightIntensity: 0.25
   nightSky: {r: 0.05, g: 0.08, b: 0.15, a: 1}
-  colorSpeed: 2
-  intensitySpeed: 2
   skySpeed: 2
 --- !u!4 &306240028
 Transform:
@@ -3109,7 +3107,6 @@ MonoBehaviour:
   dialogue: {fileID: 602701158}
   cam: {fileID: 0}
   targetCollider: {fileID: 430723198}
-  requireLeftClick: 1
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -5503,6 +5500,8 @@ GameObject:
   m_Component:
   - component: {fileID: 630448768}
   - component: {fileID: 630448769}
+  - component: {fileID: 630448771}
+  - component: {fileID: 630448770}
   m_Layer: 0
   m_Name: EntryController
   m_TagString: Untagged
@@ -5519,10 +5518,11 @@ Transform:
   m_GameObject: {fileID: 630448766}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.55, y: -4.18, z: -1.05}
+  m_LocalPosition: {x: 4.504, y: -4.18, z: -1.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1846551576}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &630448769
@@ -5541,6 +5541,76 @@ MonoBehaviour:
   revealRoomOnEnter: 1
   autoWalkSpeed: 2.5
   spawnOffset: {x: 0, y: 0}
+--- !u!114 &630448770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630448766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd5c9ac32d19463f9989c7ec1ae87a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorTransition2D
+  sceneToLoad: 2.5DExample
+  targetSpawnPointId: OutSide
+  interactKey: 101
+  playerTag: Player
+  Enter: 0
+  Exit: 1
+  autoWalkDirection: {x: 0, y: 1}
+  autoWalkDistance: 1
+  fadeDuration: 1
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  promptOffset: {x: 0, y: -40}
+  fontSize: 24
+--- !u!61 &630448771
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630448766}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &643308995
 GameObject:
   m_ObjectHideFlags: 0
@@ -6228,7 +6298,6 @@ MonoBehaviour:
   dialogue: {fileID: 1900150396}
   cam: {fileID: 973976348}
   targetCollider: {fileID: 787648538}
-  requireLeftClick: 0
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -13659,7 +13728,6 @@ MonoBehaviour:
   dialogue: {fileID: 1468804462}
   cam: {fileID: 0}
   targetCollider: {fileID: 978340380}
-  requireLeftClick: 1
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -14065,7 +14133,7 @@ Transform:
   m_GameObject: {fileID: 1060373433}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8, y: -9.36, z: 0}
+  m_LocalPosition: {x: 2.8, y: -9.212, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15490,7 +15558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1183125327
 Transform:
   m_ObjectHideFlags: 0
@@ -29879,7 +29947,6 @@ MonoBehaviour:
   dialogue: {fileID: 1663040434}
   cam: {fileID: 0}
   targetCollider: {fileID: 1235422520}
-  requireLeftClick: 1
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -31125,7 +31192,6 @@ MonoBehaviour:
   dialogue: {fileID: 1351779013}
   cam: {fileID: 973976348}
   targetCollider: {fileID: 1336080905}
-  requireLeftClick: 0
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -34956,7 +35022,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1563283960}
   - component: {fileID: 1563283963}
-  - component: {fileID: 1563283962}
   - component: {fileID: 1563283961}
   m_Layer: 0
   m_Name: Entrance
@@ -34998,24 +35063,6 @@ MonoBehaviour:
   roomCover: {fileID: 22884322}
   playerTag: Player
   revealOnlyOnce: 1
---- !u!114 &1563283962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563283959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd5c9ac32d19463f9989c7ec1ae87a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoorTransition2D
-  sceneToLoad: 2.5DExample
-  targetSpawnPointId: OutSide
-  interactKey: 101
-  playerTag: Player
-  autoWalkDirection: {x: 0, y: -1}
-  autoWalkDistance: 1.2
 --- !u!61 &1563283963
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -36867,7 +36914,7 @@ Transform:
   m_GameObject: {fileID: 1670541400}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7906003, y: -8.2877, z: 0}
+  m_LocalPosition: {x: 2.791, y: -8.2877, z: 0}
   m_LocalScale: {x: 1, y: 1.1447, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41705,12 +41752,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846551574}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.51, y: -4.48, z: -1.05}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.06000042, y: -0.3000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 630448768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1846551577
 MonoBehaviour:
@@ -43215,7 +43262,6 @@ MonoBehaviour:
   dialogue: {fileID: 2127130149}
   cam: {fileID: 0}
   targetCollider: {fileID: 2018490184}
-  requireLeftClick: 1
   playerTag: Player
   interactKey: 19
   requirePlayerInRange: 1
@@ -44135,10 +44181,9 @@ SceneRoots:
   - {fileID: 1649051622}
   - {fileID: 1134572529}
   - {fileID: 661042077}
-  - {fileID: 1846551576}
   - {fileID: 630448768}
-  - {fileID: 1336080907}
   - {fileID: 783276739}
+  - {fileID: 1336080907}
   - {fileID: 437247280}
   - {fileID: 857622937}
   - {fileID: 165903622}
