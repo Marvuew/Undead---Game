@@ -19426,7 +19426,7 @@ MonoBehaviour:
     rid: 3822441480482979919
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 1251822904}
+    m_Mesh: {fileID: 1245685548}
     m_LocalBounds:
       m_Center: {x: 0, y: 1.5, z: 0}
       m_Extent: {x: 0.8999939, y: 1.3999939, z: 0}
@@ -19866,7 +19866,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244286409}
   m_CullTransparentMesh: 1
---- !u!43 &1251822904
+--- !u!43 &1245685548
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23074,10 +23074,13 @@ MonoBehaviour:
   DialogueText: {fileID: 761694535}
   SpeakerSprite: {fileID: 424121974}
   SpeakerSpriteContainer: {fileID: 424121973}
+  TemporaryDataSolution: 1
+  TemporarySpeakerData: {fileID: 0}
   ChoiceButtonPrefab: {fileID: 175347314173602819, guid: 7ea0a2c5407a85e488c41f95272b7cd2, type: 3}
   ChoiceButtonContainer: {fileID: 590289838}
   PathExplored: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0.73333335}
   Unlockable: {r: 0.8962264, g: 0.8139874, b: 0.16064437, a: 1}
+  scroll: {fileID: 2073876522}
 --- !u!1 &1745771468
 GameObject:
   m_ObjectHideFlags: 0

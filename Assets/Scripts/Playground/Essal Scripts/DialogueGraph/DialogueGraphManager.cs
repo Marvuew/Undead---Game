@@ -45,12 +45,17 @@ public class DialogueGraphManager : MonoBehaviour
     [Header("Speaker UI")]
     public Image SpeakerSprite;
     public Transform SpeakerSpriteContainer;
+    public bool TemporaryDataSolution;
+
+    [HideInInspector]
+    public Clue TemporarySpeakerData;
 
     [Header("Choice Button UI")]
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
     public Color PathExplored;
     public Color Unlockable;
+    public ScrollRect scroll;
     private List<GameObject> buttons = new List<GameObject>();
 
     // Typing Speeds
@@ -242,16 +247,24 @@ public class DialogueGraphManager : MonoBehaviour
         float _typingSpeed = HandleTypingSpeed(node.TypingSpeed);
         isTyping = true;
 
-        // Set the text at the top where the name should be.
-        if (node.Speaker == null)
+        // TEMPORARY!!!!!!!!!!!
+        if (TemporaryDataSolution)
         {
             DialogueText.transform.position = SpeakerTextY;
-            DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, DialogueText.transform.position.y + 60f, DialogueText.transform.position.z);
         }
         else
         {
-            DialogueText.transform.position = SpeakerTextY;
+            if (node.Speaker == null)
+            {
+                DialogueText.transform.position = SpeakerTextY;
+                DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, DialogueText.transform.position.y + 60f, DialogueText.transform.position.z);
+            }
+            else
+            {
+                DialogueText.transform.position = SpeakerTextY;
+            }
         }
+        // Set the text at the top where the name should be.
 
         //yield return null; // Wait a frame to ensure UI updates before typing starts
         foreach (string sentence in dialogue)
@@ -310,7 +323,6 @@ public class DialogueGraphManager : MonoBehaviour
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
-            button.GetComponent<PlayNavigateSound>().scroll = FindFirstObjectByType<ScrollRect>();
 
             // Handle the Color
             // If its an unlockable choice set the color to yellow.
@@ -365,6 +377,8 @@ public class DialogueGraphManager : MonoBehaviour
                 selectable.navigation = nav;
             }
         }
+
+        int lastIndex = -1;
         
         while (true)
         {
@@ -372,7 +386,38 @@ public class DialogueGraphManager : MonoBehaviour
 
             if (buttons.Contains(current))
             {
+                int currentindex = buttons.IndexOf(current);
+
+                if (Mathf.Abs(currentindex - lastIndex) > 1)
+                {
+                    if (currentindex == 0)
+                    {
+                        for (int i = 0; i < Mathf.Abs(currentindex - lastIndex); i++)
+                        {
+                            SetViewPortToSelectedButton(1);
+                        }
+                    }
+                    else if (currentindex == buttons.Count - 1)
+                    {
+                        for (int i = 0; i < Mathf.Abs(currentindex - lastIndex); i++)
+                        {
+                            SetViewPortToSelectedButton(-1);
+                        }
+                    }
+                }
+                else if (currentindex > lastIndex && currentindex > 2)
+                {
+                    Debug.Log("Moved Down");
+                    SetViewPortToSelectedButton(-1);
+                    
+                }
+                else if (currentindex < lastIndex && currentindex < buttons.Count - 3)
+                {
+                    Debug.Log("Moved Up");
+                    SetViewPortToSelectedButton(1);
+                }
                 lastSelected = current;
+                lastIndex = currentindex;
             }
             else
             {
@@ -383,7 +428,33 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
-    public 
+    public void SetViewPortToSelectedButton(int direction)
+    {
+        RectTransform content = scroll.content;
+
+        // Get ANY child (they're same size)
+        RectTransform item = content.GetChild(0) as RectTransform;
+
+        float itemHeight = item.rect.height;
+        float spacing = content.GetComponent<VerticalLayoutGroup>().spacing;
+        float stepSize = itemHeight + spacing;
+
+        Vector2 pos = content.anchoredPosition;
+
+        if (direction == 1) // DOWN
+        {
+            pos.y -= stepSize;
+        }
+        else if (direction == -1) // UP
+        {
+            pos.y += stepSize;
+        }
+
+        float maxY = content.rect.height - scroll.viewport.rect.height;
+        pos.y = Mathf.Clamp(pos.y, 0, maxY);
+
+        content.anchoredPosition = pos;
+    }
 
     // Check if its a viable choice. Otherwise dont show the Choice
     bool ViableChoice(ChoiceData choice)
@@ -408,18 +479,34 @@ public class DialogueGraphManager : MonoBehaviour
 
     void HandleSpeakerData(RuntimeDialogueNode node)
     {
-        // if there is no speaker attaches then it disables the speaker and sets the text to an empty string.
-        if (node.Speaker == null)
+        // TEMPORARY !!!!!!!!!!!!!
+        if (TemporaryDataSolution)
         {
-            SpeakerNameText.text = "";
-            SpeakerSprite.enabled = false;
+            TemporaryHandleSpeakerData();
         }
         else
         {
-            SpeakerSprite.enabled = true;
-            SpeakerNameText.text = node.Speaker.SpeakerName;
-            HandleEmotion(node.Emotion, node);
+            // if there is no speaker attaches then it disables the speaker and sets the text to an empty string.
+            if (node.Speaker == null)
+            {
+                SpeakerNameText.text = "";
+                SpeakerSprite.enabled = false;
+            }
+            else
+            {
+                SpeakerSprite.enabled = true;
+                SpeakerNameText.text = node.Speaker.SpeakerName;
+                HandleEmotion(node.Emotion, node);
+            }
         }
+    }
+
+    void TemporaryHandleSpeakerData()
+    {
+        SpeakerNameText.text = TemporarySpeakerData.name;
+        SpeakerSprite.enabled = true;
+        SpeakerSprite.preserveAspect = true;
+        SpeakerSprite.sprite = TemporarySpeakerData.sprite;
     }
 
     // Set the Sprite in relation to the given emotion.
