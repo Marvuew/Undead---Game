@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
         }
 
         PlayMusic("AmbientDay");
+        PlayMusic("Music1");
     }
 
     public void PlayMusic(string name)
@@ -108,5 +109,14 @@ public class AudioManager : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => Player.Instance.interacting == false);
         PlaySFX("ClueFound");
+    }
+
+    public IEnumerator MusicController()
+    {
+        int waitTime = 30;
+        int randomWaitTime = UnityEngine.Random.Range(waitTime - 10, waitTime + 10);
+        PlayMusic("Music1");
+        yield return new WaitForSeconds(Array.Find(sounds, s => s.name == "Music1").clip.length);
+        yield return new WaitForSeconds(randomWaitTime);
     }
 }
