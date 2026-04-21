@@ -56,6 +56,7 @@ public class CaseManager : MonoBehaviour
     public void OnClueFound(Clue clueFound)
     {
         Debug.Log("Clue=" + (clueFound));
+        StartCoroutine(AudioManager.instance.QueueClueFoundSound());
         if(clueFound.undeadTypes.Count > 0) 
         {
             foreach (Undead type in clueFound.undeadTypes) 

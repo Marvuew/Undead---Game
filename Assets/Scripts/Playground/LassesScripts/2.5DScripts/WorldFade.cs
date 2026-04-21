@@ -1,0 +1,108 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class WorldFade : MonoBehaviour
+{
+    private static WorldFade instance;
+    public static WorldFade Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<WorldFade>();
+                if (instance == null)
+                {
+                    GameObject fadeObject = new GameObject("WorldFade");
+                    instance = fadeObject.AddComponent<WorldFade>();
+                }
+            }
+            return instance;
+        }
+    }
+
+    [Header("Default Fade Settings")]
+    public float defaultFadeDuration = 1.0f;
+    public Color defaultFadeColor = Color.black;
+
+    private static Texture2D fadeTexture;
+    private float fadeAlpha = 0f;
+    private bool isFading = false;
+    private bool isSceneTransitioning = false;
+    private Color currentFadeColor = Color.black;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (fadeTexture == null)
+        {
+            fadeTexture = new Texture2D(1, 1);
+            fadeTexture.SetPixel(0, 0, Color.white);
+            fadeTexture.Apply();
+        }
+    }
+
+    public void StartSceneTransition(string sceneName, float duration, Color color)
+    {
+        StartCoroutine(FadeSceneTransition(sceneName, duration, color));
+    }
+
+    private IEnumerator FadeSceneTransition(string sceneName, float duration, Color color)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        isSceneTransitioning = true;
+        SceneManager.LoadScene(sceneName);
+
+        while (isSceneTransitioning)
+            yield return null;
+
+        yield return StartCoroutine(Fade(1f, 0f, duration, color));
+    }
+
+    private IEnumerator Fade(float from, float to, float duration, Color color)
+    {
+        isFading = true;
+        currentFadeColor = color;
+        fadeAlpha = from;
+
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            fadeAlpha = Mathf.Lerp(from, to, Mathf.Clamp01(timer / duration));
+            yield return null;
+        }
+
+        fadeAlpha = to;
+        isFading = false;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!isSceneTransitioning) return;
+        isSceneTransitioning = false;
+    }
+
+    private void OnGUI()
+    {
+        if (!isFading && fadeAlpha <= 0f) return;
+
+        Color oldColor = GUI.color;
+        GUI.color = new Color(currentFadeColor.r, currentFadeColor.g, currentFadeColor.b, fadeAlpha);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeTexture);
+        GUI.color = oldColor;
+    }
+}

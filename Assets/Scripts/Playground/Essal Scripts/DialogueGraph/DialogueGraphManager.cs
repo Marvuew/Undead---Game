@@ -2,10 +2,12 @@ using Assets.Scripts.GameScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
@@ -40,19 +42,23 @@ public class DialogueGraphManager : MonoBehaviour
     public TextMeshProUGUI DialogueText;
     private Vector3 SpeakerTextY;
 
-[Header("Speaker UI")]
+    [Header("Speaker UI")]
     public Image SpeakerSprite;
     public Transform SpeakerSpriteContainer;
 
     [Header("Choice Button UI")]
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
+    public Color PathExplored;
+    public Color Unlockable;
+    private List<GameObject> buttons = new List<GameObject>();
 
     // Typing Speeds
     private const float Slow = 0.1f;
     private const float Mid = 0.03f;
     private const float Fast = 0.001f;
-    
+
+
     #endregion
 
     #region Variables
@@ -67,7 +73,6 @@ public class DialogueGraphManager : MonoBehaviour
     // For tracking choices - they will be marked as read
     private HashSet<string> exploredChoices = new HashSet<string>();
     #endregion
-
 
     #region Input Handling (update)
     private void Update()
@@ -230,6 +235,7 @@ public class DialogueGraphManager : MonoBehaviour
 
     #region Helping Functions
 
+
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
         // Find the typingspeed
@@ -256,6 +262,7 @@ public class DialogueGraphManager : MonoBehaviour
             // Type each letter step by step according to typingspeed
             foreach (char letter in sentence.ToCharArray())
             {
+                AudioManager.instance.PlaySFX("Dialogue");
                 DialogueText.text += letter;
                 float timer = 0f;
                 while (timer < _typingSpeed)
@@ -267,10 +274,12 @@ public class DialogueGraphManager : MonoBehaviour
                 // Set the text if player has clicked
                 if (skipTyping)
                 {
+                    AudioManager.instance.PlaySFX("skipTyping");
                     DialogueText.text = sentence;
                     break;
                 }
             }
+            AudioManager.instance.StopSFX("Dialogue");
             skipTyping = false;
 
             // Wait until the mouse is up and then you can continue to the next node.
@@ -294,26 +303,29 @@ public class DialogueGraphManager : MonoBehaviour
         ClearChoices();
         foreach (var choice in node.Choices)
         {
+            AudioManager.instance.PlaySFX("spawnChoice");
             // if it isnt a viable choice return
             if (!ViableChoice(choice)) continue;
             // Instantiate the button and set the text
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
+            buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
 
             // Handle the Color
             // If its an unlockable choice set the color to yellow.
             var choiceColor = button.GetComponent<Image>().color;
-            choiceColor = choice.Condition == null ? choiceColor : Color.yellow;
+            choiceColor = choice.Condition == null ? choiceColor : Unlockable;
             if (exploredChoices.Contains(choice.ChoiceID))
             {
                 //Set the color to red if it is alreade explored.
-                choiceColor = Color.red;
+                choiceColor = PathExplored;
             }
             button.GetComponent<Image>().color = choiceColor;
-            
+
             // Add an OnClick Event
             button.onClick.AddListener(() =>
             {
+                AudioManager.instance.PlaySFX("pickChoice");
                 if (!string.IsNullOrEmpty(choice.DestinationNodeID))
                 {
                     // Add it to the hashset of explored choices
@@ -325,8 +337,52 @@ public class DialogueGraphManager : MonoBehaviour
                     ShowNode(choice.DestinationNodeID);
                 }
             });
+
+        }
+        StartCoroutine(SelectFirst(buttons));
+    }
+
+    public IEnumerator SelectFirst(List<GameObject> buttons)
+    {
+        EventSystem.current.SetSelectedGameObject(buttons[0]);
+        GameObject lastSelected = buttons[0];
+
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Navigation nav = new Navigation();
+            nav.mode = Navigation.Mode.Explicit;
+
+            Selectable up = i > 0 ? buttons[i - 1].GetComponent<Selectable>() : buttons[buttons.Count - 1].GetComponent<Selectable>();
+            Selectable down = i < buttons.Count - 1 ? buttons[i + 1].GetComponent<Selectable>() : buttons[0].GetComponent<Selectable>();
+
+            nav.selectOnDown = down;
+            nav.selectOnUp = up;
+
+            var selectable = buttons[i].GetComponent<Selectable>();
+            if (selectable != null)
+            {
+                selectable.navigation = nav;
+            }
+        }
+        
+        while (true)
+        {
+            var current = EventSystem.current.currentSelectedGameObject;
+
+            if (buttons.Contains(current))
+            {
+                lastSelected = current;
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(lastSelected);
+            }
+
+            yield return null;
         }
     }
+
+    public 
 
     // Check if its a viable choice. Otherwise dont show the Choice
     bool ViableChoice(ChoiceData choice)
@@ -424,6 +480,8 @@ public class DialogueGraphManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        buttons.Clear();
+        StopCoroutine(SelectFirst(buttons));
     }
 
     //Reset the dialogue
