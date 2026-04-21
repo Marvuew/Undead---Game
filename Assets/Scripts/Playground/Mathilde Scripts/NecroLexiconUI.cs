@@ -22,7 +22,6 @@ public class NecroLexiconUI : MonoBehaviour
     public CasePage casePageScript;
     public CaseData caseData;
     public CaseManagerMathilde caseManager;
-    public SoundManager soundManager;
 
     [Header("Prefabs")]
     public GameObject casePanelPrefab;
@@ -121,11 +120,13 @@ public class NecroLexiconUI : MonoBehaviour
     {
         if (bookCover.activeSelf == true)
         {
-            soundManager.PlayOpenBookSound();
+            //soundManager.PlayOpenBookSound();
+            AudioManager.instance.PlaySFX("OpenBook");
         }
         else
         {
-            soundManager.PlayPageTurnSound();
+            //soundManager.PlayPageTurnSound();
+            AudioManager.instance.PlaySFX("PageTurn1");
         }
 
         bookCover.SetActive(false);
@@ -140,7 +141,8 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void CloseBook()
     {
-        soundManager.PlayCloseBookSound();
+        //soundManager.PlayCloseBookSound();
+        AudioManager.instance.PlaySFX("CloseBook");
         DisableAllPages();
         bookCover.SetActive(true);
         pagesContainer.SetActive(false);
