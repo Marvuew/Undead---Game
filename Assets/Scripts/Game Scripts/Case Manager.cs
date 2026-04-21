@@ -13,6 +13,7 @@ public class CaseManager : MonoBehaviour
     [Header("Case SetUp")]
     [SerializeField] private GameObject cluePrefab;
     public Case currentCase;
+    public HashSet<Clue> cluesfound = new HashSet<Clue>();
 
     bool isActive = false;
 
@@ -55,7 +56,13 @@ public class CaseManager : MonoBehaviour
     }  // spawning in clues used maybe in the future
     public void OnClueFound(Clue clueFound)
     {
+        if (cluesfound.Contains(clueFound))
+        {
+            print("Clue has already been found");
+            return;
+        }
         Debug.Log("Clue=" + (clueFound));
+        cluesfound.Add(clueFound);
         StartCoroutine(AudioManager.instance.QueueClueFoundSound());
         if(clueFound.undeadTypes.Count > 0) 
         {
@@ -67,7 +74,7 @@ public class CaseManager : MonoBehaviour
             Debug.Log("Updated tally");
         }
         Debug.Log("calling book update");
-        NecroLexiconUI.Instance.UpdateCluesList(clueFound);
+        NecroLexiconUI.Instance.UpdateCluesList();
     } //updates undead tally and clues found in book 
 }
 /*

@@ -155,11 +155,23 @@ public class NecroLexiconUI : MonoBehaviour
 
         SetSelectedButton(pageButtons[3]);
     }
-    public void UpdateCluesList(Clue clue) 
+    public void UpdateCluesList() 
     {
+        ClearClueList();
+        foreach(Clue _clue in CaseManager.Instance.cluesfound)
+        {
+            GameObject clueObject = Instantiate(clueTxtPrefab, cluesContainer);
+            clueObject.GetComponent<TextMeshProUGUI>().text = "* " + _clue.description;
+        }
         Debug.Log("Updating clue list");
-        GameObject clueObject = Instantiate(clueTxtPrefab,cluesContainer);
-        clueObject.GetComponent<TextMeshProUGUI>().text = "* " + clue.description;
+    }
+
+    public void ClearClueList()
+    {
+        foreach(Transform child in cluesContainer)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     public void InstantiateCaseOne()
