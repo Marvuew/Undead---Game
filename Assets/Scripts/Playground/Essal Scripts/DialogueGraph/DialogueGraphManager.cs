@@ -310,6 +310,7 @@ public class DialogueGraphManager : MonoBehaviour
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
+            button.GetComponent<PlayNavigateSound>().scroll = FindFirstObjectByType<ScrollRect>();
 
             // Handle the Color
             // If its an unlockable choice set the color to yellow.
