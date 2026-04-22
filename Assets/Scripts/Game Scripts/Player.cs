@@ -19,9 +19,7 @@ namespace Assets.Scripts.GameScripts
         public bool interacting;
         [SerializeField] float speed;
         [SerializeField] SpriteRenderer sprite;
-
-        Coroutine walkingCoroutine;
-
+        private Rigidbody2D rb;
 
         public static Player Instance { get; private set; }
         private Player() { }
@@ -34,39 +32,22 @@ namespace Assets.Scripts.GameScripts
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            rb = GetComponent<Rigidbody2D>();
         }
-        private void Update()
+        void FixedUpdate()
         {
             if (interacting) return;
-            transform.position += (Vector3) moveInput * speed * Time.deltaTime;
+            rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
             if (moveInput.x != 0)
-                sprite.flipX = (moveInput.x > 0) ? false : true;
+                sprite.flipX = moveInput.x < 0;
         }
         public void ChangeHumanity(int change) { humanity += change; }
         public void ChangeUndead(int change) { undead += change; }
 
         public void OnMove(InputAction.CallbackContext input) 
         {
-            moveInput = input.ReadValue<Vector2>();
-
-            if (input.performed)
-            {
-                if (walkingCoroutine == null)
-                {
-                    walkingCoroutine = StartCoroutine(AudioManager.instance.WalkingLoop());
-                }
-            }
-            else if (input.canceled)
-            {
-                if (walkingCoroutine != null)
-                {
-                    StopCoroutine(walkingCoroutine);
-                    walkingCoroutine = null;
-                }
-            }
+            moveInput = input.ReadValue<Vector2>(); 
         }
-
-        
         public void OnInteract(InputAction.CallbackContext input) 
         { 
             if(input.performed && currentInteractable != null) 
