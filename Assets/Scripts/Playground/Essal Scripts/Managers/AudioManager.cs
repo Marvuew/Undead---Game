@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private Sound[] sounds;
     public static AudioManager instance;
 
+    public AudioClip[] pageTurnSounds;
     private void Awake()
     {
         if (instance == null)
@@ -118,5 +119,15 @@ public class AudioManager : MonoBehaviour
         PlayMusic("Music1");
         yield return new WaitForSeconds(Array.Find(sounds, s => s.name == "Music1").clip.length);
         yield return new WaitForSeconds(randomWaitTime);
+    }
+
+    public void PlayPageTurnSound()
+    {
+        
+        if (pageTurnSounds != null && pageTurnSounds.Length > 0)
+        {
+            int index = UnityEngine.Random.Range(0, pageTurnSounds.Length);
+            PlaySFX(pageTurnSounds[index].name);
+        }
     }
 }
