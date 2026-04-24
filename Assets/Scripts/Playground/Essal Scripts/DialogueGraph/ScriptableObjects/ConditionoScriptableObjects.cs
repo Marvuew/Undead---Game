@@ -33,3 +33,13 @@ public class isWillingToTalkCondition : DialogueCondition
         return isWillingToTalkManager.instance.isSpeakerWillingToTalk[Speaker] ? true : false;
     }
 }
+
+/*[CreateAssetMenu(menuName = "Dialogue/Conditions/New Callback Condition")]
+public class CallBackCondition : DialogueCondition
+{
+    CallBackAction
+    public override bool IsMet()
+    {
+        CallbackManager.instance.Callbacks.Add(CallbackTarget);
+    }
+}*/

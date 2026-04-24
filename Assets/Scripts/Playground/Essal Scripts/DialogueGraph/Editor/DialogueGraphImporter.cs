@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Unity.GraphToolkit.Editor;
+using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
@@ -88,6 +89,15 @@ public class DialogueGraphImporter : ScriptedImporter
                 var node = new RuntimeClueNode { NodeID = nodeIDMap[iNode] };
 
                 ProcessClueNode(clueNode, node, nodeIDMap);
+
+                runtimeNode = node;
+            }
+
+            if (iNode is CallBackNode callBackNode)
+            {
+                var node = new RuntimeCallBackNode { NodeID = nodeIDMap[iNode] };
+
+                ProcessCallbackNode(callBackNode, node, nodeIDMap);
 
                 runtimeNode = node;
             }
@@ -188,6 +198,37 @@ public class DialogueGraphImporter : ScriptedImporter
 
         }
 
+        // Handle Callbacks
+        node.GetNodeOptionByName(DialogueNode.IN_OPTION_CALLBACK_COUNT).TryGetValue(out int callbackCount);
+        for (int i = 0; i < callbackCount; i++)
+        {
+            // 1. Get the data from ports
+            string callbackSentence = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACK_SENTENCE + i));
+            int index = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACK_INDEX + i));
+            bool replace = GetPortValue<bool>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACK_REPLACE_TOGGLE + i));
+            Callback callback = GetPortValue<Callback>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACKS + i));
+
+            // 2. CRITICAL: Check if the callback object exists
+            if (callback != null)
+            {
+                var CallbackData = new CallbackData
+                {
+                    CallbackAsset = callback,
+                    Sentence = callbackSentence,
+                    Index = index,
+                    Replace = replace
+
+                };
+
+                runtimeNode.Callbacks.Add(CallbackData);
+                
+            }
+            else
+            {
+                Debug.LogWarning($"Callback at index {i} in node {node} is null. Skipping.");
+            }
+        }
+
 
         // Handles finding the nextnodeID
         if (choiceCount == 0)
@@ -246,6 +287,17 @@ public class DialogueGraphImporter : ScriptedImporter
     private void ProcessClueNode(ClueNode node, RuntimeClueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
         runtimeNode.clue = GetPortValue<Clue>(node.GetInputPortByName(ClueNode.IN_PORT_CLUE));
+
+        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.firstConnectedPort;
+        if (nextNodePort != null)
+        {
+            runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
+        }
+    }
+
+    private void ProcessCallbackNode(CallBackNode node, RuntimeCallBackNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        runtimeNode.callback = GetPortValue<Callback>(node.GetInputPortByName(CallBackNode.IN_PORT_CALLBACK));
 
         var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.firstConnectedPort;
         if (nextNodePort != null)

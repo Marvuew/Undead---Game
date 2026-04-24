@@ -219,6 +219,7 @@ MonoBehaviour:
           - Sentence0
           - Choice text0
           - Choice text1
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572175
           - rid: 8780719046317572176
@@ -230,6 +231,7 @@ MonoBehaviour:
           - rid: 8780719046317572182
           - rid: 8780719046317572185
           - rid: 8780719046317572186
+          - rid: 8780719083073307073
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -360,6 +362,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572189
           - rid: 8780719046317572190
@@ -369,6 +372,7 @@ MonoBehaviour:
           - rid: 8780719046317572194
           - rid: 8780719046317572195
           - rid: 8780719046317572196
+          - rid: 8780719083073307074
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -641,3 +645,11 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 8780719083073307073
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307074
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0

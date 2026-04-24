@@ -149,6 +149,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780718627794977168
           - rid: 8780718627794977169
@@ -158,6 +159,7 @@ MonoBehaviour:
           - rid: 8780718627794977174
           - rid: 8780718699554799823
           - rid: 3822441412232216582
+          - rid: 8780719083073307112
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -381,5 +383,9 @@ MonoBehaviour:
           m_Title: in
     - rid: 8780718699554799823
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307112
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0

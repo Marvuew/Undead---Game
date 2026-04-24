@@ -52,6 +52,12 @@ public class DialogueNode : Node
     public static readonly string OUT_PORT_CONDITION_FAIL = "Node Condition Fail";
     public static readonly string IN_OPTION_MARK_AS_READ = "Mark as Read";
     public static readonly string OUT_PORT_MARK_AS_READ = "If marked as read - Out";
+
+    public static readonly string IN_OPTION_CALLBACK_COUNT = "Callback Count";
+    public static readonly string IN_PORT_CALLBACKS = "Callback ";
+    public static readonly string IN_PORT_CALLBACK_SENTENCE = "Callback Sentence";
+    public static readonly string IN_PORT_CALLBACK_INDEX = "Callback Occurence Index";
+    public static readonly string IN_PORT_CALLBACK_REPLACE_TOGGLE = "Replace at index?";
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         // In Port
@@ -69,6 +75,16 @@ public class DialogueNode : Node
         if (markAsRead)
         {
             context.AddOutputPort(OUT_PORT_MARK_AS_READ).Build();
+        }
+
+        // Create Callback Ports
+        GetNodeOptionByName(IN_OPTION_CALLBACK_COUNT).TryGetValue(out int callbackCount);
+        for (int i = 0; i < callbackCount; i++)
+        {
+            context.AddInputPort<Callback>(IN_PORT_CALLBACKS + i).Build();
+            context.AddInputPort<string>(IN_PORT_CALLBACK_SENTENCE + i).Build();
+            context.AddInputPort<int>(IN_PORT_CALLBACK_INDEX + i).Build();
+            context.AddInputPort<bool>(IN_PORT_CALLBACK_REPLACE_TOGGLE + i).Build();
         }
 
         //Speaker port
@@ -127,6 +143,9 @@ public class DialogueNode : Node
         context.AddOption<bool>(IN_OPTION_CONDITION_TOGGLE).WithDefaultValue(false).Build();
 
         context.AddOption<bool>(IN_OPTION_MARK_AS_READ).WithDefaultValue(false).Build();
+
+        //CallBacks
+        context.AddOption<int>(IN_OPTION_CALLBACK_COUNT).WithDefaultValue(0).Build();
     }
 }
 [Serializable]
@@ -189,7 +208,23 @@ public class ClueNode : Node
         context.AddInputPort<Clue>(IN_PORT_CLUE).Build();
     }
 }
+
+[Serializable]
+public class CallBackNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_CALLBACK = "Callback";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<Callback>(IN_PORT_CALLBACK).Build();
+    }
+}
 #endregion
+
 #region Legacy Nodes
 /*[Serializable]
 public class ActionNode : Node

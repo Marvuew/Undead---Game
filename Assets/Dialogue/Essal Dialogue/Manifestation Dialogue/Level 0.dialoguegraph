@@ -323,6 +323,7 @@ MonoBehaviour:
           - Sentence1
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718629894
           - rid: 4008861826718629895
@@ -333,6 +334,7 @@ MonoBehaviour:
           - rid: 4008861826718629903
           - rid: 8780718699554799896
           - rid: 3822441412232216576
+          - rid: 8780719083073307059
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -589,6 +591,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718629994
           - rid: 4008861826718629995
@@ -598,6 +601,7 @@ MonoBehaviour:
           - rid: 4008861826718630000
           - rid: 8780718699554799897
           - rid: 3822441412232216577
+          - rid: 8780719083073307060
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -712,6 +716,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718630004
           - rid: 4008861826718630005
@@ -721,6 +726,7 @@ MonoBehaviour:
           - rid: 4008861826718630010
           - rid: 8780718699554799898
           - rid: 3822441412232216578
+          - rid: 8780719083073307061
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -867,6 +873,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718630015
           - rid: 4008861826718630016
@@ -876,6 +883,7 @@ MonoBehaviour:
           - rid: 4008861826718630021
           - rid: 8780718699554799899
           - rid: 3822441412232216579
+          - rid: 8780719083073307062
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -990,6 +998,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718630025
           - rid: 4008861826718630026
@@ -999,6 +1008,7 @@ MonoBehaviour:
           - rid: 4008861826718630031
           - rid: 8780718699554799900
           - rid: 3822441412232216580
+          - rid: 8780719083073307063
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1113,6 +1123,7 @@ MonoBehaviour:
           - Sentence0
           - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
           m_ValueList:
           - rid: 4008861826718630035
           - rid: 4008861826718630036
@@ -1122,6 +1133,7 @@ MonoBehaviour:
           - rid: 4008861826718630041
           - rid: 8780718699554799901
           - rid: 3822441412232216581
+          - rid: 8780719083073307064
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1264,5 +1276,29 @@ MonoBehaviour:
         m_Value: 0
     - rid: 8780718699554799901
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307059
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307060
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307061
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307062
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307063
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307064
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0

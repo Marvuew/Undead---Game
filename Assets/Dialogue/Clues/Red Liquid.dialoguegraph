@@ -265,6 +265,7 @@ MonoBehaviour:
           - Sentence1
           - Choice text0
           - Choice text1
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572215
           - rid: 8780719046317572216
@@ -277,6 +278,7 @@ MonoBehaviour:
           - rid: 8780719046317572225
           - rid: 8780719046317572226
           - rid: 8780719046317572227
+          - rid: 8780719083073307065
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -638,6 +640,7 @@ MonoBehaviour:
           - Sentence0
           - Sentence1
           - Sentence2
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572247
           - rid: 8780719046317572248
@@ -649,6 +652,7 @@ MonoBehaviour:
           - rid: 8780719046317572254
           - rid: 8780719046317572257
           - rid: 8780719046317572258
+          - rid: 8780719083073307066
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -811,6 +815,7 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572273
           - rid: 8780719046317572274
@@ -820,6 +825,7 @@ MonoBehaviour:
           - rid: 8780719046317572278
           - rid: 8780719046317572279
           - rid: 8780719046317572280
+          - rid: 8780719083073307067
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -948,3 +954,15 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 8780719083073307065
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307066
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719083073307067
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0

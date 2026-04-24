@@ -263,6 +263,7 @@ MonoBehaviour:
           - Choice text7
           - Choice text8
           - Choice text9
+          - __option_Callback Count
           m_ValueList:
           - rid: 8780719036652060754
           - rid: 8780719036652060755
@@ -282,6 +283,7 @@ MonoBehaviour:
           - rid: 8780719036652060771
           - rid: 8780719036652060772
           - rid: 8780719036652060773
+          - rid: 8780719083073307152
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -775,3 +777,7 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 8780719083073307152
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0

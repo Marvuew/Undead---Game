@@ -77,6 +77,10 @@ public class DialogueGraphManager : MonoBehaviour
     
     // For tracking choices - they will be marked as read
     private HashSet<string> exploredChoices = new HashSet<string>();
+
+    // For tracking Callbacks
+    [HideInInspector]
+    public HashSet<Callback> Callbacks = new HashSet<Callback>();
     #endregion
 
     #region Input Handling (update)
@@ -243,9 +247,30 @@ public class DialogueGraphManager : MonoBehaviour
 
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
+        List<string> activeDialogue = new List<string>(dialogue);
+
         // Find the typingspeed
         float _typingSpeed = HandleTypingSpeed(node.TypingSpeed);
         isTyping = true;
+
+        //Handle CallBacks first
+        if (node.Callbacks != null)
+        {
+            foreach (var callback in node.Callbacks)
+            {
+                if (Callbacks.Contains(callback.CallbackAsset))
+                {
+                    if (!callback.Replace)
+                    {
+                        activeDialogue.Insert(callback.Index, callback.Sentence);
+                    }
+                    else if (callback.Replace)
+                    {
+                        activeDialogue[callback.Index] = callback.Sentence;
+                    }
+                }
+            }
+        }
 
         // TEMPORARY!!!!!!!!!!!
         if (TemporaryDataSolution)
@@ -267,7 +292,7 @@ public class DialogueGraphManager : MonoBehaviour
         // Set the text at the top where the name should be.
 
         //yield return null; // Wait a frame to ensure UI updates before typing starts
-        foreach (string sentence in dialogue)
+        foreach (string sentence in activeDialogue)
         {
 
             DialogueText.text = "";

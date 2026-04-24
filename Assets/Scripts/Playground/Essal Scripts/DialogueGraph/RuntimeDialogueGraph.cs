@@ -45,6 +45,8 @@ public class RuntimeDialogueNode : RuntimeNode
     //Choices
     public List<ChoiceData> Choices = new List<ChoiceData>();
 
+    //Callbacks
+    public List<CallbackData> Callbacks = new List<CallbackData>();
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleDialogueNode(this);
@@ -98,8 +100,18 @@ public class RuntimeClueNode : RuntimeNode
     }
 }
 
-
-
+[Serializable]
+public class RuntimeCallBackNode : RuntimeNode
+{
+    public Callback callback;
+    
+    // Registers Callback to a hashset
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.Callbacks.Add(callback);
+        return NextNodeID;
+    }
+}
 #endregion
 
 #region Data Containers
@@ -112,6 +124,16 @@ public class ChoiceData
     public string ChoiceID;
     public DialogueCondition Condition;
 }
+
+[Serializable]
+public class CallbackData
+{
+    public Callback CallbackAsset;
+    public string Sentence;
+    public int Index;
+    public bool Replace;
+}
+
 #endregion
 
 #region Enums
@@ -131,6 +153,12 @@ public enum TypingSpeed
 
 #region Legacy Nodes
 
+/*[Serializable]
+public class Callback
+{
+    public DialogueSpeaker speaker;
+    public string CallBackSentence;
+}*/
 /*[Serializable] 
 public class RuntimeActionNode: RuntimeNode
 {
