@@ -6,8 +6,8 @@ public enum Undead { Strigoi, Lamia, Draugr, Banshee, Myling, Nisse, Vaettir, Ch
 [CreateAssetMenu(menuName = "Case and Clues/New Clue")]
 public class Clue : ScriptableObject
 {
-    public Vector3 position;
     public Sprite sprite;
+    public Vector3 position;
     [TextArea(3, 5)] public string description;
     public RuntimeDialogueGraph dialogueGraph;
     public List<Undead> undeadTypes;

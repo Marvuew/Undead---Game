@@ -1,16 +1,11 @@
 using Assets.Scripts.GameScripts;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
     
 public class DialogueGraphManager : MonoBehaviour
@@ -45,10 +40,9 @@ public class DialogueGraphManager : MonoBehaviour
     [Header("Speaker UI")]
     public Image SpeakerSprite;
     public Transform SpeakerSpriteContainer;
-    public bool TemporaryDataSolution;
 
     [HideInInspector]
-    public Clue TemporarySpeakerData;
+    public Clue currentInteractable;
 
     [Header("Choice Button UI")]
     public Button ChoiceButtonPrefab;
@@ -272,24 +266,20 @@ public class DialogueGraphManager : MonoBehaviour
             }
         }
 
-        // TEMPORARY!!!!!!!!!!!
-        if (TemporaryDataSolution)
+        // Set the text at the top where the name should be.
+        if (node.Speaker == null)
         {
             DialogueText.transform.position = SpeakerTextY;
         }
         else
         {
-            if (node.Speaker == null)
+            if (node.Speaker.SpeakerName == "Narrator")
             {
-                DialogueText.transform.position = SpeakerTextY;
                 DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, DialogueText.transform.position.y + 60f, DialogueText.transform.position.z);
             }
-            else
-            {
-                DialogueText.transform.position = SpeakerTextY;
-            }
+
+            DialogueText.transform.position = SpeakerTextY;
         }
-        // Set the text at the top where the name should be.
 
         //yield return null; // Wait a frame to ensure UI updates before typing starts
         foreach (string sentence in activeDialogue)
@@ -348,6 +338,7 @@ public class DialogueGraphManager : MonoBehaviour
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
+            print(choice.ChoiceText);
 
             // Handle the Color
             // If its an unlockable choice set the color to yellow.
@@ -504,35 +495,29 @@ public class DialogueGraphManager : MonoBehaviour
 
     void HandleSpeakerData(RuntimeDialogueNode node)
     {
-        // TEMPORARY !!!!!!!!!!!!!
-        if (TemporaryDataSolution)
+        // if there is no speaker attaches then it disables the speaker and sets the text to an empty string.
+        if (node.Speaker == null)
         {
-            TemporaryHandleSpeakerData();
+            SpeakerSprite.enabled = true;
+            SpeakerSprite.preserveAspect = true;
+            SpeakerNameText.text = currentInteractable.name;
+            SpeakerSprite.sprite = currentInteractable.sprite;
         }
         else
         {
-            // if there is no speaker attaches then it disables the speaker and sets the text to an empty string.
-            if (node.Speaker == null)
+            if (node.Speaker.SpeakerName == "Narrator")
             {
                 SpeakerNameText.text = "";
                 SpeakerSprite.enabled = false;
             }
-            else
-            {
-                SpeakerSprite.enabled = true;
-                SpeakerNameText.text = node.Speaker.SpeakerName;
-                HandleEmotion(node.Emotion, node);
-            }
+
+            SpeakerSprite.enabled = true;
+            SpeakerNameText.text = node.Speaker.SpeakerName;
+            SpeakerSprite.preserveAspect = true;
+            HandleEmotion(node.Emotion, node);
         }
     }
 
-    void TemporaryHandleSpeakerData()
-    {
-        SpeakerNameText.text = TemporarySpeakerData.name;
-        SpeakerSprite.enabled = true;
-        SpeakerSprite.preserveAspect = true;
-        SpeakerSprite.sprite = TemporarySpeakerData.sprite;
-    }
 
     // Set the Sprite in relation to the given emotion.
     void HandleEmotion(Emotion emotion, RuntimeDialogueNode node)

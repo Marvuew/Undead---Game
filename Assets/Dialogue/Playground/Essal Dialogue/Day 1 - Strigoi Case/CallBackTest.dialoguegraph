@@ -40,7 +40,6 @@ MonoBehaviour:
         - rid: 8780719067371667874
         - rid: 8780719083073306845
         - rid: 8780719083073306862
-        - rid: 8780719083073306877
         - rid: 8780719083073306878
         - rid: 8780719083073306879
         m_GraphStickyNoteModels: []
@@ -54,9 +53,9 @@ MonoBehaviour:
         m_LastKnownBounds:
           serializedVersion: 2
           x: -361
-          y: 79.5
+          y: 5.5
           width: 2198
-          height: 804
+          height: 926
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 1000504816867816436
@@ -139,21 +138,13 @@ MonoBehaviour:
           m_Category: 0
           m_Index: 5
         - m_Guid:
-            m_Value0: 18284948928970419986
-            m_Value1: 16944823048986614620
-          m_HashGuid:
-            serializedVersion: 2
-            Hash: 12ef704f2c30c1fd5cdbb218c91a28eb
-          m_Category: 2
-          m_Index: 3
-        - m_Guid:
             m_Value0: 18322591093125338001
             m_Value1: 4622623729766301571
           m_HashGuid:
             serializedVersion: 2
             Hash: 91d3789e85eb46fe83ff025fcadb2640
           m_Category: 2
-          m_Index: 4
+          m_Index: 3
         - m_Guid:
             m_Value0: 11180278813465299369
             m_Value1: 18162120980133773537
@@ -161,7 +152,7 @@ MonoBehaviour:
             serializedVersion: 2
             Hash: a9c96c5e5854289be1008beccdd00cfc
           m_Category: 2
-          m_Index: 5
+          m_Index: 4
         m_EntryPoint:
           rid: 8780719056306045831
         m_Graph:
@@ -599,6 +590,8 @@ MonoBehaviour:
           - Callback Sentence0
           - Callback Occurence Index0
           - Replace at index?0
+          - Choice text0
+          - Choice text1
           m_ValueList:
           - rid: 8780719083073306863
           - rid: 8780719083073306864
@@ -613,6 +606,8 @@ MonoBehaviour:
           - rid: 8780719083073307161
           - rid: 8780719083073307162
           - rid: 8780719083073307163
+          - rid: 8780719107861643342
+          - rid: 8780719107861643343
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -667,7 +662,7 @@ MonoBehaviour:
     - rid: 8780719083073306864
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: 0
+        m_Value: 2
     - rid: 8780719083073306865
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -752,38 +747,6 @@ MonoBehaviour:
     - rid: 8780719083073306876
       type: {class: CallBackNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
-    - rid: 8780719083073306877
-      type: {class: WireModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Guid:
-          m_Value0: 18284948928970419986
-          m_Value1: 16944823048986614620
-        m_HashGuid:
-          serializedVersion: 2
-          Hash: 12ef704f2c30c1fd5cdbb218c91a28eb
-        m_Version: 2
-        m_FromPortReference:
-          m_NodeModelGuid:
-            m_Value0: 12045422277635399583
-            m_Value1: 6098020469270467113
-          m_NodeModelHashGuid:
-            serializedVersion: 2
-            Hash: 9fdf08fcbdef29a72952eddf4e85a054
-          m_UniqueId: out
-          m_PortDirection: 2
-          m_PortOrientation: 0
-          m_Title: out
-        m_ToPortReference:
-          m_NodeModelGuid:
-            m_Value0: 11625501092099527955
-            m_Value1: 12064435935400784779
-          m_NodeModelHashGuid:
-            serializedVersion: 2
-            Hash: 13158212a61356a18b730529907c6da7
-          m_UniqueId: in
-          m_PortDirection: 1
-          m_PortOrientation: 0
-          m_Title: in
     - rid: 8780719083073306878
       type: {class: WireModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -892,3 +855,11 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 1
+    - rid: 8780719107861643342
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719107861643343
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
