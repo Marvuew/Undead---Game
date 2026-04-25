@@ -24,9 +24,9 @@ public abstract class RuntimeNode
     public string ConditionFailNodeID;
     public DialogueCondition NodeCondition;
 
+    // Mark as Read
     public string MarkAsReadNodeID;
     public bool MarkAsRead;
-    public bool RuntimeMarkAsRead;
     public virtual string Execute(DialogueGraphManager manager)
     {
         return null;

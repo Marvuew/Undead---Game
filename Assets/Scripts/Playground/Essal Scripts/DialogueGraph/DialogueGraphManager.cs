@@ -75,6 +75,9 @@ public class DialogueGraphManager : MonoBehaviour
     // For tracking Callbacks
     [HideInInspector]
     public HashSet<Callback> Callbacks = new HashSet<Callback>();
+
+    // For handling MarkAsRead
+    private HashSet<RuntimeDialogueNode> MarkedAsReadNodes = new HashSet<RuntimeDialogueNode>();
     #endregion
 
     #region Input Handling (update)
@@ -153,7 +156,7 @@ public class DialogueGraphManager : MonoBehaviour
             _currentNode = _nodeLookup[nodeID];
 
             // If it has the MarkAsRead attribute lead to another node saying like: You already asked me that or.. smth...
-            if (_currentNode.RuntimeMarkAsRead)
+            if (MarkedAsReadNodes.Contains(_currentNode as RuntimeDialogueNode))
             {
                 ShowNode(_currentNode.MarkAsReadNodeID);
                 return;
@@ -316,10 +319,10 @@ public class DialogueGraphManager : MonoBehaviour
 
         }
         isTyping = false;
-        //Mark Node as MarkAsRead if the node should be deletede for second dialogue playthroughs
-        if (node.MarkAsRead == true)
+        //Handles the mark as read attribute
+        if (node.MarkAsRead)
         {
-            MarkAsRead(node);
+            MarkedAsReadNodes.Add(node);
         }
 
         //Now list choice
@@ -486,11 +489,6 @@ public class DialogueGraphManager : MonoBehaviour
         if (node.NodeCondition == null) return true;
         if (node.NodeCondition.IsMet()) return true;
         else return false;
-    }
-
-    public void MarkAsRead(RuntimeDialogueNode node)
-    {
-        node.RuntimeMarkAsRead = node.MarkAsRead;
     }
 
     void HandleSpeakerData(RuntimeDialogueNode node)
