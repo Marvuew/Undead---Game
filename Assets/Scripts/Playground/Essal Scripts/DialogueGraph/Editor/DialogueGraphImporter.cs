@@ -126,32 +126,32 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         // Get the condition type
         node.GetNodeOptionByName(DialogueNode.IN_PORT_CONDITION_NODE_OPTION).TryGetValue(out ConditionOptions conditionOption);
-        node.GetNodeOptionByName(DialogueNode.IN_OPTION_NODE_CONDITION_TOGGLE).TryGetValue(out bool conditionToggle);
-        if (conditionToggle)
+        if (conditionOption != ConditionOptions.NONE)
         {
             runtimeNode.conditionToggle = true;
-            if (conditionOption == ConditionOptions.NONE)
-            {
-                runtimeNode.conditionToggle = false;
-                runtimeNode.condition = conditionOption;
-            }
-            else if (conditionOption == ConditionOptions.Alignment)
+            if (conditionOption == ConditionOptions.ALIGNMENT)
             {
                 runtimeNode.conditionHumanity = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_HUMANITY));
                 runtimeNode.conditionUndead = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_UNDEAD));
-                runtimeNode.condition = ConditionOptions.Alignment;
+                runtimeNode.condition = ConditionOptions.ALIGNMENT;
             }
-            else if (conditionOption == ConditionOptions.Clue)
+            else if (conditionOption == ConditionOptions.CLUE)
             {
                 var clue = GetPortValue<Clue>(node.GetInputPortByName(DialogueNode.IN_PORT_CLUE_CONDITION_CLUE));
                 if (clue != null) runtimeNode.conditionClue = clue;
-                runtimeNode.condition = ConditionOptions.Clue;
+                runtimeNode.condition = ConditionOptions.CLUE;
             }
-            else if (conditionOption == ConditionOptions.WillingToTalk)
+            else if (conditionOption == ConditionOptions.WILLING_TO_TALK)
             {
                 var speaker = GetPortValue<DialogueSpeaker>(node.GetInputPortByName(DialogueNode.IN_PORT_ISWIILINGTOTALK_CONDITION));
                 if (speaker != null) runtimeNode.conditionSpeaker = speaker;
-                runtimeNode.condition = ConditionOptions.WillingToTalk;
+                runtimeNode.condition = ConditionOptions.WILLING_TO_TALK;
+            }
+            else if (conditionOption == ConditionOptions.CALLBACK)
+            {
+                var callback = GetPortValue<Callback>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACK_CONDITION));
+                if (callback != null) runtimeNode.callbackCondition = callback;
+                runtimeNode.condition = conditionOption;
             }
         }
         else
@@ -160,10 +160,15 @@ public class DialogueGraphImporter : ScriptedImporter
         }
 
 
-        var conditionNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CONDITION_FAIL)?.FirstConnectedPort;
-        if (conditionNodePort != null)
+        var conditionFailPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CONDITION_FAIL)?.FirstConnectedPort;
+        var conditionNodeSuccesPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CONDITION_SUCCES)?.FirstConnectedPort;
+        if (conditionFailPort != null)
         {
-            runtimeNode.ConditionFailNodeID = nodeIDMap[conditionNodePort.GetNode()];
+            runtimeNode.ConditionFailNodeID = nodeIDMap[conditionFailPort.GetNode()];
+        }
+        if (conditionNodeSuccesPort != null)
+        {
+            runtimeNode.ConditionSuccessNodeID = nodeIDMap[conditionNodeSuccesPort.GetNode()];
         }
 
         // Handle Mark As Read Option
@@ -206,7 +211,6 @@ public class DialogueGraphImporter : ScriptedImporter
 
         // Handle Choice Count
         node.GetNodeOptionByName(DialogueNode.IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
-        node.GetNodeOptionByName(DialogueNode.IN_OPTION_CHOICE_CONDITION_TOGGLE).TryGetValue(out bool showChoiceCondition);
 
         for (int i = 0; i < choiceCount; i++)
         {
@@ -220,37 +224,34 @@ public class DialogueGraphImporter : ScriptedImporter
             {
                 ChoiceText = choiceText,
                 DestinationNodeID = destinationID,
-                conditionToggled = showChoiceCondition
             };
-
-            if (showChoiceCondition)
-            {
                 // FIX: Read from Options, not Ports
                 if (node.GetNodeOptionByName(DialogueNode.IN_PORT_CONDITON_CHOICE_OPTION + i).TryGetValue(out ConditionOptions condition))
                 {
-                    choiceData.condition = condition;
+                    if (condition != ConditionOptions.NONE)
+                    {
+                        choiceData.condition = condition;
 
-                    // If the designer set it to NONE but toggled conditions ON, 
-                    // we treat it as always viable but still a "conditioned" choice.
-                    if (condition == ConditionOptions.NONE)
-                    {
-                        // Logic stays default
-                    }
-                    else if (condition == ConditionOptions.Alignment)
-                    {
-                        choiceData.choiceHumanityCondtion = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_HUMANITY + i));
-                        choiceData.choiceUndeadCondtion = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_UNDEAD + i));
-                    }
-                    else if (condition == ConditionOptions.Clue)
-                    {
-                        choiceData.choiceConditionClue = GetPortValue<Clue>(node.GetInputPortByName(DialogueNode.IN_PORT_CLUE_CONDITION_CLUE + i));
-                    }
-                    else if (condition == ConditionOptions.WillingToTalk)
-                    {
-                        choiceData.choiceConditionSpeaker = GetPortValue<DialogueSpeaker>(node.GetInputPortByName(DialogueNode.IN_PORT_ISWIILINGTOTALK_CONDITION + i));
+                        if (condition == ConditionOptions.ALIGNMENT)
+                        {
+                            choiceData.choiceHumanityCondtion = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_HUMANITY + i));
+                            choiceData.choiceUndeadCondtion = GetPortValue<int>(node.GetInputPortByName(DialogueNode.IN_PORT_ALIGNMENT_CONDITION_UNDEAD + i));
+                        }
+                        else if (condition == ConditionOptions.CLUE)
+                        {
+                            choiceData.choiceConditionClue = GetPortValue<Clue>(node.GetInputPortByName(DialogueNode.IN_PORT_CLUE_CONDITION_CLUE + i));
+                        }
+                        else if (condition == ConditionOptions.WILLING_TO_TALK)
+                        {
+                            choiceData.choiceConditionSpeaker = GetPortValue<DialogueSpeaker>(node.GetInputPortByName(DialogueNode.IN_PORT_ISWIILINGTOTALK_CONDITION + i));
+                        }
+                        else if (conditionOption == ConditionOptions.CALLBACK)
+                        {
+                            choiceData.choiceConditionCallback = GetPortValue<Callback>(node.GetInputPortByName(DialogueNode.IN_PORT_CALLBACK_CONDITION + i));
+                        }
                     }
                 }
-            }
+
             runtimeNode.Choices.Add(choiceData);
         }
 
@@ -287,7 +288,7 @@ public class DialogueGraphImporter : ScriptedImporter
 
 
         // Handles finding the nextnodeID
-        if (choiceCount == 0)
+        if (choiceCount == 0 && conditionOption == ConditionOptions.NONE)
         {
             var nextNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT)?.FirstConnectedPort;
             if (nextNodePort != null)

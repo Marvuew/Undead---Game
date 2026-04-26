@@ -20,6 +20,7 @@ public abstract class RuntimeNode
     public string NodeID;
     public string NextNodeID;
     public string ConditionFailNodeID;
+    public string ConditionSuccessNodeID;
     public string MarkAsReadNodeID;
     public virtual string Execute(DialogueGraphManager manager)
     {
@@ -42,6 +43,7 @@ public class RuntimeDialogueNode : RuntimeNode
     public int conditionUndead;
     public DialogueSpeaker conditionSpeaker;
     public Clue conditionClue;
+    public Callback callbackCondition;
     public bool conditionToggle;
 
     // Mark as Read
@@ -117,7 +119,7 @@ public class RuntimeCallBackNode : RuntimeNode
         return NextNodeID;
     }
 }
-
+[Serializable]
 public class RuntimeTalkWillingnessNode : RuntimeNode
 {
     public DialogueSpeaker Speaker;
@@ -147,6 +149,7 @@ public class ChoiceData
     public int choiceUndeadCondtion;
     public DialogueSpeaker choiceConditionSpeaker;
     public Clue choiceConditionClue;
+    public Callback choiceConditionCallback;
     public bool conditionToggled;
 }
 
@@ -166,22 +169,22 @@ public class CallbackData
 
 public enum Emotion
 {
-    Happy, Sad, Content, Angry
+    HAPPY, SAD, CONTENT, ANGRY
 }
 
 public enum TypingSpeed
 {
-    Slow, Mid, Fast
+    SLOW, MID, FAST
 }
 
 public enum TalkWillingNessEnum
 {
-    Willing, NotWilling
+    WILLING, NOT_WILLING
 }
 
 public enum ConditionOptions
 {
-    Alignment, Clue, WillingToTalk, NONE
+    ALIGNMENT, CLUE, WILLING_TO_TALK, CALLBACK, NONE
 }
 
 #endregion

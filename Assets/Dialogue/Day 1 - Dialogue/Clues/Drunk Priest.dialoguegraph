@@ -104,7 +104,7 @@ MonoBehaviour:
           x: 165.33333
           y: -1588
           width: 6124.6665
-          height: 3459.3335
+          height: 3441.3335
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 12534623516599930404
@@ -670,8 +670,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -686,11 +684,13 @@ MonoBehaviour:
           - __option_Choose choice condition2
           - Choice text2
           - Sentence 1
+          - Required Callback
+          - Required Callback0
+          - Required Callback1
+          - Required Callback2
           m_ValueList:
           - rid: 8780719149093224794
           - rid: 8780719149093224795
-          - rid: 8780719149093224796
-          - rid: 8780719149093224797
           - rid: 8780719149093224798
           - rid: 8780719149093224799
           - rid: 8780719149093224800
@@ -705,6 +705,10 @@ MonoBehaviour:
           - rid: 8780719149093224810
           - rid: 8780719149093224811
           - rid: 8780719149093224894
+          - rid: 8780719149093225349
+          - rid: 8780719149093225350
+          - rid: 8780719149093225351
+          - rid: 8780719149093225352
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -760,14 +764,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 3
-    - rid: 8780719149093224796
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224797
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093224798
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -886,8 +882,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -901,11 +895,10 @@ MonoBehaviour:
           - Choice text1
           - __option_Choose choice condition2
           - Choice text2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224814
           - rid: 8780719149093224815
-          - rid: 8780719149093224816
-          - rid: 8780719149093224817
           - rid: 8780719149093224818
           - rid: 8780719149093224819
           - rid: 8780719149093224820
@@ -919,6 +912,7 @@ MonoBehaviour:
           - rid: 8780719149093224829
           - rid: 8780719149093224830
           - rid: 8780719149093224831
+          - rid: 8780719149093225353
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -974,14 +968,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 3
-    - rid: 8780719149093224816
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224817
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093224818
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1099,8 +1085,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -1114,11 +1098,10 @@ MonoBehaviour:
           - Choice text1
           - __option_Choose choice condition2
           - Choice text2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224834
           - rid: 8780719149093224835
-          - rid: 8780719149093224836
-          - rid: 8780719149093224837
           - rid: 8780719149093224838
           - rid: 8780719149093224839
           - rid: 8780719149093224840
@@ -1132,6 +1115,7 @@ MonoBehaviour:
           - rid: 8780719149093224849
           - rid: 8780719149093224850
           - rid: 8780719149093224851
+          - rid: 8780719149093225354
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1187,14 +1171,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 3
-    - rid: 8780719149093224836
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224837
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093224838
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1313,8 +1289,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -1322,11 +1296,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224854
           - rid: 8780719149093224855
-          - rid: 8780719149093224856
-          - rid: 8780719149093224857
           - rid: 8780719149093224858
           - rid: 8780719149093224859
           - rid: 8780719149093224860
@@ -1334,6 +1307,7 @@ MonoBehaviour:
           - rid: 8780719149093224862
           - rid: 8780719149093224863
           - rid: 8780719149093224864
+          - rid: 8780719149093225355
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1387,14 +1361,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093224855
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224856
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224857
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093224858
@@ -1469,8 +1435,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -1484,11 +1448,10 @@ MonoBehaviour:
           - Callback Occurence Index 0
           - Replace at index? 0
           - Sentence 2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224868
           - rid: 8780719149093224869
-          - rid: 8780719149093224870
-          - rid: 8780719149093224871
           - rid: 8780719149093224872
           - rid: 8780719149093224873
           - rid: 8780719149093224874
@@ -1502,6 +1465,7 @@ MonoBehaviour:
           - rid: 8780719149093224883
           - rid: 8780719149093224884
           - rid: 8780719149093224885
+          - rid: 8780719149093225356
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1555,14 +1519,6 @@ MonoBehaviour:
         m_Value: 3
     - rid: 8780719149093224869
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224870
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224871
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093224872
@@ -1823,8 +1779,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -1833,11 +1787,10 @@ MonoBehaviour:
           - TypingSpeed
           - Sentence 0
           - Sentence 1
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224897
           - rid: 8780719149093224898
-          - rid: 8780719149093224899
-          - rid: 8780719149093224900
           - rid: 8780719149093224901
           - rid: 8780719149093224902
           - rid: 8780719149093224903
@@ -1846,6 +1799,7 @@ MonoBehaviour:
           - rid: 8780719149093224906
           - rid: 8780719149093224907
           - rid: 8780719149093224909
+          - rid: 8780719149093225357
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1899,14 +1853,6 @@ MonoBehaviour:
         m_Value: 2
     - rid: 8780719149093224898
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224899
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224900
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093224901
@@ -1985,8 +1931,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -2002,11 +1946,10 @@ MonoBehaviour:
           - Choice text0
           - Choice text1
           - Choice text2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224912
           - rid: 8780719149093224913
-          - rid: 8780719149093224914
-          - rid: 8780719149093224915
           - rid: 8780719149093224916
           - rid: 8780719149093224917
           - rid: 8780719149093224918
@@ -2022,6 +1965,7 @@ MonoBehaviour:
           - rid: 8780719149093224929
           - rid: 8780719149093224930
           - rid: 8780719149093224931
+          - rid: 8780719149093225358
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -2077,14 +2021,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 3
-    - rid: 8780719149093224914
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224915
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093224916
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -2210,8 +2146,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -2221,11 +2155,10 @@ MonoBehaviour:
           - Sentence 0
           - Sentence 1
           - Sentence 2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224934
           - rid: 8780719149093224935
-          - rid: 8780719149093224936
-          - rid: 8780719149093224937
           - rid: 8780719149093224938
           - rid: 8780719149093224939
           - rid: 8780719149093224940
@@ -2235,6 +2168,7 @@ MonoBehaviour:
           - rid: 8780719149093224944
           - rid: 8780719149093224946
           - rid: 8780719149093224947
+          - rid: 8780719149093225359
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -2288,14 +2222,6 @@ MonoBehaviour:
         m_Value: 3
     - rid: 8780719149093224935
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224936
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224937
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093224938
@@ -2744,8 +2670,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -2759,11 +2683,10 @@ MonoBehaviour:
           - __option_Choose choice condition1
           - __option_Choose choice condition0
           - Sentence 2
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093224995
           - rid: 8780719149093224996
-          - rid: 8780719149093224997
-          - rid: 8780719149093224998
           - rid: 8780719149093224999
           - rid: 8780719149093225000
           - rid: 8780719149093225001
@@ -2777,6 +2700,7 @@ MonoBehaviour:
           - rid: 8780719149093225035
           - rid: 8780719149093225036
           - rid: 8780719149093225032
+          - rid: 8780719149093225360
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -2832,14 +2756,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 2
-    - rid: 8780719149093224997
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093224998
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093224999
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -2983,8 +2899,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -2992,11 +2906,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225040
           - rid: 8780719149093225041
-          - rid: 8780719149093225042
-          - rid: 8780719149093225043
           - rid: 8780719149093225044
           - rid: 8780719149093225045
           - rid: 8780719149093225046
@@ -3004,6 +2917,7 @@ MonoBehaviour:
           - rid: 8780719149093225048
           - rid: 8780719149093225049
           - rid: 8780719149093225050
+          - rid: 8780719149093225361
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3057,14 +2971,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225041
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225042
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225043
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225044
@@ -3140,8 +3046,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -3155,11 +3059,10 @@ MonoBehaviour:
           - __option_Choose choice condition1
           - Choice text0
           - Choice text1
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225054
           - rid: 8780719149093225055
-          - rid: 8780719149093225056
-          - rid: 8780719149093225057
           - rid: 8780719149093225058
           - rid: 8780719149093225059
           - rid: 8780719149093225060
@@ -3173,6 +3076,7 @@ MonoBehaviour:
           - rid: 8780719149093225069
           - rid: 8780719149093225070
           - rid: 8780719149093225071
+          - rid: 8780719149093225362
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3228,14 +3132,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 2
-    - rid: 8780719149093225056
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225057
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093225058
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -3346,8 +3242,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -3355,11 +3249,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225074
           - rid: 8780719149093225075
-          - rid: 8780719149093225076
-          - rid: 8780719149093225077
           - rid: 8780719149093225078
           - rid: 8780719149093225079
           - rid: 8780719149093225080
@@ -3367,6 +3260,7 @@ MonoBehaviour:
           - rid: 8780719149093225082
           - rid: 8780719149093225083
           - rid: 8780719149093225084
+          - rid: 8780719149093225363
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3420,14 +3314,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225075
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225076
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225077
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225078
@@ -3534,8 +3420,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -3543,11 +3427,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225089
           - rid: 8780719149093225090
-          - rid: 8780719149093225091
-          - rid: 8780719149093225092
           - rid: 8780719149093225093
           - rid: 8780719149093225094
           - rid: 8780719149093225095
@@ -3555,6 +3438,7 @@ MonoBehaviour:
           - rid: 8780719149093225097
           - rid: 8780719149093225098
           - rid: 8780719149093225099
+          - rid: 8780719149093225364
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3608,14 +3492,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225090
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225091
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225092
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225093
@@ -3690,8 +3566,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -3703,11 +3577,10 @@ MonoBehaviour:
           - __option_Choose choice condition1
           - Choice text0
           - Choice text1
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225103
           - rid: 8780719149093225104
-          - rid: 8780719149093225105
-          - rid: 8780719149093225106
           - rid: 8780719149093225107
           - rid: 8780719149093225108
           - rid: 8780719149093225109
@@ -3719,6 +3592,7 @@ MonoBehaviour:
           - rid: 8780719149093225116
           - rid: 8780719149093225117
           - rid: 8780719149093225118
+          - rid: 8780719149093225365
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3774,14 +3648,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 2
-    - rid: 8780719149093225105
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225106
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
     - rid: 8780719149093225107
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -3916,8 +3782,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -3925,11 +3789,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225123
           - rid: 8780719149093225124
-          - rid: 8780719149093225125
-          - rid: 8780719149093225126
           - rid: 8780719149093225127
           - rid: 8780719149093225128
           - rid: 8780719149093225129
@@ -3937,6 +3800,7 @@ MonoBehaviour:
           - rid: 8780719149093225131
           - rid: 8780719149093225132
           - rid: 8780719149093225133
+          - rid: 8780719149093225366
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -3990,14 +3854,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225124
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225125
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225126
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225127
@@ -4072,8 +3928,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -4094,11 +3948,10 @@ MonoBehaviour:
           - Choice text3
           - Required Clue2
           - Required Clue3
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225137
           - rid: 8780719149093225138
-          - rid: 8780719149093225139
-          - rid: 8780719149093225140
           - rid: 8780719149093225141
           - rid: 8780719149093225142
           - rid: 8780719149093225143
@@ -4119,6 +3972,7 @@ MonoBehaviour:
           - rid: 8780719149093225174
           - rid: 8780719149093225175
           - rid: 8780719149093225176
+          - rid: 8780719149093225367
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -4174,14 +4028,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 4
-    - rid: 8780719149093225139
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225140
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 1
     - rid: 8780719149093225141
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -4348,8 +4194,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -4357,11 +4201,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225161
           - rid: 8780719149093225162
-          - rid: 8780719149093225163
-          - rid: 8780719149093225164
           - rid: 8780719149093225165
           - rid: 8780719149093225166
           - rid: 8780719149093225167
@@ -4369,6 +4212,7 @@ MonoBehaviour:
           - rid: 8780719149093225169
           - rid: 8780719149093225170
           - rid: 8780719149093225171
+          - rid: 8780719149093225368
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -4422,14 +4266,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225162
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225163
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225164
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225165
@@ -4527,8 +4363,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -4536,11 +4370,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225179
           - rid: 8780719149093225180
-          - rid: 8780719149093225181
-          - rid: 8780719149093225182
           - rid: 8780719149093225183
           - rid: 8780719149093225184
           - rid: 8780719149093225185
@@ -4548,6 +4381,7 @@ MonoBehaviour:
           - rid: 8780719149093225187
           - rid: 8780719149093225188
           - rid: 8780719149093225189
+          - rid: 8780719149093225369
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -4601,14 +4435,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225180
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225181
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225182
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225183
@@ -4683,8 +4509,6 @@ MonoBehaviour:
           m_KeyList:
           - __option_Number of sentences
           - __option_Choices
-          - __option_Show Condition for node
-          - __option_Show Conditions for choices
           - __option_Mark as Read (MAR)
           - '__option_Callback Count '
           - __option_Choose node condition
@@ -4692,11 +4516,10 @@ MonoBehaviour:
           - Emotion
           - TypingSpeed
           - Sentence 0
+          - Required Speaker
           m_ValueList:
           - rid: 8780719149093225193
           - rid: 8780719149093225194
-          - rid: 8780719149093225195
-          - rid: 8780719149093225196
           - rid: 8780719149093225197
           - rid: 8780719149093225198
           - rid: 8780719149093225199
@@ -4704,6 +4527,7 @@ MonoBehaviour:
           - rid: 8780719149093225201
           - rid: 8780719149093225202
           - rid: 8780719149093225203
+          - rid: 8780719149093225370
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -4757,14 +4581,6 @@ MonoBehaviour:
         m_Value: 1
     - rid: 8780719149093225194
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225195
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
-      data:
-        m_Value: 0
-    - rid: 8780719149093225196
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
     - rid: 8780719149093225197
@@ -4952,3 +4768,91 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 8780719149093225349
+      type: {class: 'Constant`1[[Callback, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225350
+      type: {class: 'Constant`1[[Callback, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225351
+      type: {class: 'Constant`1[[Callback, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225352
+      type: {class: 'Constant`1[[Callback, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225353
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225354
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225355
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225356
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225357
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225358
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225359
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225360
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225361
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225362
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225363
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225364
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225365
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225366
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225367
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225368
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225369
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719149093225370
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}

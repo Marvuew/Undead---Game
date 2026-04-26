@@ -85,6 +85,11 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Input Handling (update)
+
+    public void Start()
+    {
+        
+    }
     private void Update()
     {   // Runs if the current node is an end node.
         if (_currentNode == null)
@@ -156,28 +161,43 @@ public class DialogueGraphManager : MonoBehaviour
 
             _currentNode = _nodeLookup[nodeID];
 
-            if (!ViableNode(_currentNode as RuntimeDialogueNode))
+            // 1. CONDITION CHECK (Logic Branching)
+            if (_currentNode is RuntimeDialogueNode diagNode && diagNode.conditionToggle)
             {
-                ShowNode(_currentNode.ConditionFailNodeID); // RATHER SKIP TO THE CONDITION FAIL NODE THAN MARK AS READ IF BOTH ARE LINKED
-                return;
+                if (!ViableNode(diagNode))
+                {
+                    // Move to Fail branch and continue loop
+                    nodeID = diagNode.ConditionFailNodeID;
+                    continue;
+                }
+                else if (!string.IsNullOrEmpty(diagNode.ConditionSuccessNodeID))
+                {
+                    // If we have a success branch, move there
+                    nodeID = diagNode.ConditionSuccessNodeID;
+                    continue;
+                }
             }
 
-            if (MarkAsReadNodeLookup.Contains(_currentNode as RuntimeDialogueNode))
+            // 2. MARK AS READ CHECK
+            if (_currentNode is RuntimeDialogueNode readNode && MarkAsReadNodeLookup.Contains(readNode))
             {
-                ShowNode(_currentNode.MarkAsReadNodeID);
-                return;
+                nodeID = readNode.MarkAsReadNodeID;
+                continue;
             }
 
-            // set the nexNodeID and execute the nodes implementation of execute. For dialogue it calls the HandleDialogueNode, for AlignmentNodes it calls the Handle Alignment etc...
+            // 3. EXECUTION
+            // This actually calls HandleDialogueNode, HandleAlignment, etc.
             string nextNode = _currentNode.Execute(this);
 
-            // Lastly catch dialogue nodes so it waits until that node it finished. That will be handled in the typedialogue function.
+            // 4. WAIT FOR USER (Dialogue Nodes only)
             if (_currentNode is RuntimeDialogueNode)
             {
+                // We stop the loop here because HandleDialogueNode started a 
+                // Coroutine and is waiting for player input/typing.
                 return;
             }
 
-            // set the next node so this loop will continue with the next node.
+            // 5. CONTINUE (For non-UI nodes like Alignment or Action)
             nodeID = nextNode;
         }
     }
@@ -237,14 +257,14 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void HandleTalkWillingnessNode(RuntimeTalkWillingnessNode node)
     {
-        if (node.IsWillingToTalk == TalkWillingNessEnum.Willing)
+        if (node.IsWillingToTalk == TalkWillingNessEnum.WILLING)
         {
             if (TalkWillingnessLookup.Contains(node.Speaker))
             {
                 TalkWillingnessLookup.Remove(node.Speaker);
             }
         }
-        else if (node.IsWillingToTalk == TalkWillingNessEnum.NotWilling)
+        else if (node.IsWillingToTalk == TalkWillingNessEnum.NOT_WILLING)
         {
             if (!TalkWillingnessLookup.Contains(node.Speaker))
             {
@@ -294,10 +314,12 @@ public class DialogueGraphManager : MonoBehaviour
         {
             if (node.Speaker.SpeakerName == "Narrator")
             {
-                DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, DialogueText.transform.position.y + 60f, DialogueText.transform.position.z);
+                DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, SpeakerTextY.y + 60f, DialogueText.transform.position.z);
             }
-
-            DialogueText.transform.position = SpeakerTextY;
+            else
+            {
+                DialogueText.transform.position = SpeakerTextY;
+            }
         }
 
         //yield return null; // Wait a frame to ensure UI updates before typing starts
@@ -350,8 +372,10 @@ public class DialogueGraphManager : MonoBehaviour
         ClearChoices();
         foreach (var choice in node.Choices)
         {
-           
 
+            // Inside your ListChoices loop
+            bool isViable = ViableChoice(choice);
+            if (!isViable) continue;
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
@@ -359,21 +383,10 @@ public class DialogueGraphManager : MonoBehaviour
             // --- COLOR SELECTION ---
             Color targetColor = Color.white; // Default
 
-            // Inside your ListChoices loop
-            bool isViable = ViableChoice(choice);
 
-            // A choice is "Locked" (Yellow) ONLY if:
-            // 1. Show Conditions is toggled ON in the graph
-            // 2. The specific condition (Alignment, Clue, etc.) is NOT met.
-            bool isLocked = choice.conditionToggled && choice.condition != ConditionOptions.NONE && !isViable;
-
-            if (isLocked)
+            if (exploredChoicesLookup.Contains(choice.ChoiceID))
             {
-                button.GetComponent<Image>().color = Unlockable; // Yellow
-                button.interactable = false;
-            }
-            else if (exploredChoicesLookup.Contains(choice.ChoiceID))
-            {
+                Debug.Log(choice);
                 button.GetComponent<Image>().color = PathExplored; // Gray/Red
                 button.interactable = true;
             }
@@ -383,31 +396,8 @@ public class DialogueGraphManager : MonoBehaviour
                 button.interactable = true;
             }
 
-            if (isLocked)
-            {
-                // This is the "Locked" state
-                targetColor = Unlockable;
-                button.interactable = false;
-            }
-            else if (exploredChoicesLookup.Contains(choice.ChoiceID))
-            {
-                // This is the "Already Picked" state
-                targetColor = PathExplored;
-                button.interactable = true;
-            }
-            else
-            {
-                // This is a standard, available choice
-                button.interactable = true;
-            }
+            Debug.Log($"Choice: {choice.ChoiceText} | Viable: {isViable} ");
 
-            button.GetComponent<Image>().color = targetColor;
-
-            Debug.Log($"Choice: {choice.ChoiceText} | Viable: {isViable} | Locked: {isLocked}") ;
-
-            // --- LISTENER ---
-            if (button.interactable)
-            {
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.instance.PlaySFX("pickChoice");
@@ -416,7 +406,6 @@ public class DialogueGraphManager : MonoBehaviour
                     ShowNode(choice.DestinationNodeID);
                 });
             }
-        }
         if (buttons.Count > 0) StartCoroutine(SelectFirst(buttons));
     }
 
@@ -525,61 +514,61 @@ public class DialogueGraphManager : MonoBehaviour
     // Update this in DialogueGraphManager.cs
     bool ViableChoice(ChoiceData choice)
     {
-        if (choice == null) return false;
+        if (choice == null) return true;
 
-        // If the designer didn't toggle a condition, it's always viable
-        if (!choice.conditionToggled || choice.condition == ConditionOptions.NONE)
-            return true;
-
-        if (choice.condition == ConditionOptions.Alignment)
+        if (choice.condition == ConditionOptions.NONE) return true;
+        else if (choice.condition == ConditionOptions.ALIGNMENT)
         {
             if (Player.Instance == null) return true;
-            // Check if player meets requirements
-            bool meetsHumanity = Player.Instance.humanity >= choice.choiceHumanityCondtion;
-            bool meetsUndead = Player.Instance.undead >= choice.choiceUndeadCondtion;
-            print($"{Player.Instance.undead} + {Player.Instance.humanity}");
-            return meetsHumanity && meetsUndead;
+            if (choice.choiceHumanityCondtion > Player.Instance.humanity) return false;
+            if (choice.choiceUndeadCondtion > Player.Instance.undead) return false;
         }
-        else if (choice.condition == ConditionOptions.Clue)
+        else if (choice.condition == ConditionOptions.CLUE)
         {
             if (choice.choiceConditionClue == null) return true;
-            return CaseManager.Instance.cluesfound.Contains(choice.choiceConditionClue);
+            if (CaseManager.Instance.cluesfound.Contains(choice.choiceConditionClue)) return true; else return false;
         }
-        else if (choice.condition == ConditionOptions.WillingToTalk)
+        else if (choice.condition == ConditionOptions.WILLING_TO_TALK)
         {
             if (choice.choiceConditionSpeaker == null) return true;
-            return !TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker);
+            print(TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker));
+            if (TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker)) return true; else return false;
         }
-
+        else if (choice.condition == ConditionOptions.CALLBACK)
+        {
+            if (choice.choiceConditionCallback == null) return true;
+            if (CallbackLookup.Contains(choice.choiceConditionCallback)) return true; else return false;
+        }
         return true;
     }
 
     bool ViableNode(RuntimeDialogueNode node)
     {
-        // CRITICAL: If the node being passed isn't a DialogueNode (like an ActionNode), 
-        // 'as RuntimeDialogueNode' returns null. We must return true so the loop continues.
         if (node == null) return true;
 
-        if (node.conditionToggle)
-        {
             if (node.condition == ConditionOptions.NONE) return true;
-            if (node.condition == ConditionOptions.Alignment)
+            else if (node.condition == ConditionOptions.ALIGNMENT)
             {
                 if (Player.Instance == null) return true;
                 if (node.conditionHumanity > Player.Instance.humanity) return false;
                 if (node.conditionUndead > Player.Instance.undead) return false;
             }
-            else if (node.condition == ConditionOptions.Clue)
+            else if (node.condition == ConditionOptions.CLUE)
             {
                 if (node.conditionClue == null) return true;
-                return CaseManager.Instance.cluesfound.Contains(node.conditionClue);
+                if (CaseManager.Instance.cluesfound.Contains(node.conditionClue)) return true; else return false;
             }
-            else if (node.condition == ConditionOptions.WillingToTalk)
+            else if (node.condition == ConditionOptions.WILLING_TO_TALK)
             {
                 if (node.conditionSpeaker == null) return true;
-                return !TalkWillingnessLookup.Contains(node.conditionSpeaker);
+            print(TalkWillingnessLookup.Contains(node.conditionSpeaker));
+            if (TalkWillingnessLookup.Contains(node.conditionSpeaker)) return true; else return false; 
             }
-        }
+            else if (node.condition == ConditionOptions.CALLBACK)
+            {
+                if (node.callbackCondition == null) return true;
+            if (CallbackLookup.Contains(node.callbackCondition)) return true; else return false;
+            }
         return true;
     }
 
@@ -600,11 +589,13 @@ public class DialogueGraphManager : MonoBehaviour
                 SpeakerNameText.text = "";
                 SpeakerSprite.enabled = false;
             }
-
-            SpeakerSprite.enabled = true;
-            SpeakerNameText.text = node.Speaker.SpeakerName;
-            SpeakerSprite.preserveAspect = true;
-            HandleEmotion(node.Emotion, node);
+            else
+            {
+                SpeakerSprite.enabled = true;
+                SpeakerNameText.text = node.Speaker.SpeakerName;
+                SpeakerSprite.preserveAspect = true;
+                HandleEmotion(node.Emotion, node);
+            }
         }
     }
 
@@ -614,19 +605,19 @@ public class DialogueGraphManager : MonoBehaviour
     {
         switch (emotion)
         {
-            case Emotion.Angry:
+            case Emotion.ANGRY:
                 SpeakerSprite.sprite = node.Speaker.Angry;
                 SpeakerSprite.preserveAspect = true;
                 break;
-            case Emotion.Happy:
+            case Emotion.HAPPY:
                 SpeakerSprite.sprite = node.Speaker.Happy;
                 SpeakerSprite.preserveAspect = true;
                 break;
-            case Emotion.Content:
+            case Emotion.CONTENT:
                 SpeakerSprite.sprite = node.Speaker.Content;
                 SpeakerSprite.preserveAspect = true;
                 break;
-            case Emotion.Sad:
+            case Emotion.SAD:
                 SpeakerSprite.sprite = node.Speaker.Sad;
                 SpeakerSprite.preserveAspect = true;
                 break;
@@ -644,13 +635,13 @@ public class DialogueGraphManager : MonoBehaviour
         float _typingSpeed;
         switch (typingSpeed)
         {
-            case TypingSpeed.Slow:
+            case TypingSpeed.SLOW:
                 _typingSpeed = Slow;
                 break;
-            case TypingSpeed.Mid:
+            case TypingSpeed.MID:
                 _typingSpeed = Mid;
                 break;
-            case TypingSpeed.Fast:
+            case TypingSpeed.FAST:
                 _typingSpeed = Fast;
                 break;
             default:
