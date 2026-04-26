@@ -315,9 +315,10 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630264
           - rid: 4008861826718630265
@@ -325,9 +326,10 @@ MonoBehaviour:
           - rid: 4008861826718630268
           - rid: 4008861826718630269
           - rid: 4008861826718630270
-          - rid: 8780718699554799942
           - rid: 3822441412232216596
           - rid: 8780719083073307113
+          - rid: 8780719136871809160
+          - rid: 8780719136871809161
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -442,9 +444,10 @@ MonoBehaviour:
           - Sentence0
           - Choice text0
           - Choice text1
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630274
           - rid: 4008861826718630275
@@ -454,9 +457,10 @@ MonoBehaviour:
           - rid: 4008861826718630280
           - rid: 4008861826718630283
           - rid: 4008861826718630284
-          - rid: 8780718699554799943
           - rid: 3822441412232216597
           - rid: 8780719083073307114
+          - rid: 8780719136871809162
+          - rid: 8780719136871809163
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -580,9 +584,10 @@ MonoBehaviour:
           - Sentence0
           - Sentence2
           - Sentence1
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630286
           - rid: 4008861826718630287
@@ -592,9 +597,10 @@ MonoBehaviour:
           - rid: 4008861826718630307
           - rid: 4008861826718630309
           - rid: 4008861826718630308
-          - rid: 8780718699554799944
           - rid: 3822441412232216598
           - rid: 8780719083073307115
+          - rid: 8780719136871809164
+          - rid: 8780719136871809165
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -684,9 +690,10 @@ MonoBehaviour:
           - Emotion
           - Sentence0
           - Sentence1
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630311
           - rid: 4008861826718630312
@@ -695,9 +702,10 @@ MonoBehaviour:
           - rid: 4008861826718630316
           - rid: 4008861826718630317
           - rid: 4008861826718630320
-          - rid: 8780718699554799945
           - rid: 3822441412232216599
           - rid: 8780719083073307116
+          - rid: 8780719136871809166
+          - rid: 8780719136871809167
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -782,9 +790,10 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630322
           - rid: 4008861826718630323
@@ -792,9 +801,10 @@ MonoBehaviour:
           - rid: 4008861826718630326
           - rid: 4008861826718630327
           - rid: 4008861826718630328
-          - rid: 8780718699554799946
           - rid: 3822441412232216600
           - rid: 8780719083073307117
+          - rid: 8780719136871809168
+          - rid: 8780719136871809169
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1008,9 +1018,10 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630336
           - rid: 4008861826718630337
@@ -1018,9 +1029,10 @@ MonoBehaviour:
           - rid: 4008861826718630340
           - rid: 4008861826718630341
           - rid: 4008861826718630342
-          - rid: 8780718699554799947
           - rid: 3822441412232216601
           - rid: 8780719083073307118
+          - rid: 8780719136871809170
+          - rid: 8780719136871809171
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1133,9 +1145,10 @@ MonoBehaviour:
           - TypingSpeed
           - Emotion
           - Sentence0
-          - __option_Requirements
           - __option_Mark as Read
           - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           m_ValueList:
           - rid: 4008861826718630346
           - rid: 4008861826718630347
@@ -1143,9 +1156,10 @@ MonoBehaviour:
           - rid: 4008861826718630350
           - rid: 4008861826718630351
           - rid: 4008861826718630352
-          - rid: 8780718699554799948
           - rid: 3822441412232216602
           - rid: 8780719083073307119
+          - rid: 8780719136871809172
+          - rid: 8780719136871809173
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1298,34 +1312,6 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
-    - rid: 8780718699554799942
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799943
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799944
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799945
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799946
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799947
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780718699554799948
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
     - rid: 8780719083073307113
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -1354,3 +1340,108 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
+    - rid: 8780719136871809160
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809161
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809162
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809163
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809164
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809165
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809166
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809167
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809168
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809169
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809170
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809171
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719136871809172
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719136871809173
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null

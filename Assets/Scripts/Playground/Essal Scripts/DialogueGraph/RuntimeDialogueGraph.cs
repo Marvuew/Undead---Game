@@ -19,14 +19,8 @@ public abstract class RuntimeNode
 {
     public string NodeID;
     public string NextNodeID;
-
-    // Node Condition
     public string ConditionFailNodeID;
-    public DialogueCondition NodeCondition;
-
-    // Mark as Read
     public string MarkAsReadNodeID;
-    public bool MarkAsRead;
     public virtual string Execute(DialogueGraphManager manager)
     {
         return null;
@@ -41,6 +35,17 @@ public class RuntimeDialogueNode : RuntimeNode
     public DialogueSpeaker Speaker;
     public Emotion Emotion;
     public TypingSpeed TypingSpeed;
+
+    // Node Condition
+    public ConditionOptions condition;
+    public int conditionHumanity;
+    public int conditionUndead;
+    public DialogueSpeaker conditionSpeaker;
+    public Clue conditionClue;
+    public bool conditionToggle;
+
+    // Mark as Read
+    public bool MarkAsRead;
 
     //Choices
     public List<ChoiceData> Choices = new List<ChoiceData>();
@@ -108,7 +113,19 @@ public class RuntimeCallBackNode : RuntimeNode
     // Registers Callback to a hashset
     public override string Execute(DialogueGraphManager manager)
     {
-        manager.Callbacks.Add(callback);
+        manager.CallbackLookup.Add(callback);
+        return NextNodeID;
+    }
+}
+
+public class RuntimeTalkWillingnessNode : RuntimeNode
+{
+    public DialogueSpeaker Speaker;
+    public TalkWillingNessEnum IsWillingToTalk;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleTalkWillingnessNode(this);
         return NextNodeID;
     }
 }
@@ -122,7 +139,15 @@ public class ChoiceData
     public string ChoiceText;
     public string DestinationNodeID;
     public string ChoiceID;
-    public DialogueCondition Condition;
+
+
+    // Condtions
+    public ConditionOptions condition;
+    public int choiceHumanityCondtion;
+    public int choiceUndeadCondtion;
+    public DialogueSpeaker choiceConditionSpeaker;
+    public Clue choiceConditionClue;
+    public bool conditionToggled;
 }
 
 [Serializable]
@@ -147,6 +172,16 @@ public enum Emotion
 public enum TypingSpeed
 {
     Slow, Mid, Fast
+}
+
+public enum TalkWillingNessEnum
+{
+    Willing, NotWilling
+}
+
+public enum ConditionOptions
+{
+    Alignment, Clue, WillingToTalk, NONE
 }
 
 #endregion

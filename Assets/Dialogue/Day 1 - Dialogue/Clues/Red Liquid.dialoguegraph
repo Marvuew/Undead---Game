@@ -256,8 +256,10 @@ MonoBehaviour:
           m_KeyList:
           - __option_Sentences
           - __option_Choices
-          - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           - Speaker
           - TypingSpeed
           - Emotion
@@ -265,20 +267,20 @@ MonoBehaviour:
           - Sentence1
           - Choice text0
           - Choice text1
-          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572215
           - rid: 8780719046317572216
-          - rid: 8780719046317572217
-          - rid: 8780719046317572218
-          - rid: 8780719046317572219
-          - rid: 8780719046317572220
-          - rid: 8780719046317572221
-          - rid: 8780719046317572222
-          - rid: 8780719046317572225
-          - rid: 8780719046317572226
-          - rid: 8780719046317572227
-          - rid: 8780719083073307065
+          - rid: 8780719133513744711
+          - rid: 8780719133513744712
+          - rid: 8780719133513744980
+          - rid: 8780719133513744981
+          - rid: 8780719133513744982
+          - rid: 8780719133513744983
+          - rid: 8780719133513744984
+          - rid: 8780719133513744985
+          - rid: 8780719133513744986
+          - rid: 8780719133513744987
+          - rid: 8780719133513744988
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -302,59 +304,9 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 2
-    - rid: 8780719046317572217
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780719046317572218
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780719046317572219
-      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
-    - rid: 8780719046317572220
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 1
-        m_EnumType:
-          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572221
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 2
-        m_EnumType:
-          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572222
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 'A temptingly delicious red pool of liquid covers the floor. '
     - rid: 8780719046317572223
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
-    - rid: 8780719046317572225
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Its hard to determine what it is...
-    - rid: 8780719046317572226
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Taste
-    - rid: 8780719046317572227
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Ignore
     - rid: 8780719046317572229
       type: {class: UserNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:
@@ -632,27 +584,29 @@ MonoBehaviour:
           m_KeyList:
           - __option_Sentences
           - __option_Choices
-          - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           - Speaker
           - TypingSpeed
           - Emotion
           - Sentence0
           - Sentence1
           - Sentence2
-          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572247
           - rid: 8780719046317572248
-          - rid: 8780719046317572249
-          - rid: 8780719046317572250
-          - rid: 8780719046317572251
-          - rid: 8780719046317572252
-          - rid: 8780719046317572253
-          - rid: 8780719046317572254
-          - rid: 8780719046317572257
-          - rid: 8780719046317572258
-          - rid: 8780719083073307066
+          - rid: 8780719133513744714
+          - rid: 8780719133513744715
+          - rid: 8780719133513744989
+          - rid: 8780719133513744990
+          - rid: 8780719133513744991
+          - rid: 8780719133513744992
+          - rid: 8780719133513744993
+          - rid: 8780719133513744994
+          - rid: 8780719133513744995
+          - rid: 8780719133513744996
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -676,44 +630,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
-    - rid: 8780719046317572249
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780719046317572250
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 1
-    - rid: 8780719046317572251
-      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
-    - rid: 8780719046317572252
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 2
-        m_EnumType:
-          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572253
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 3
-        m_EnumType:
-          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572254
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: GROSS!!!
     - rid: 8780719046317572255
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -749,14 +665,6 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
-    - rid: 8780719046317572257
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: I knew i was righ about you...
-    - rid: 8780719046317572258
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: Youre just a common beast.
     - rid: 8780719046317572259
       type: {class: WireModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -809,23 +717,25 @@ MonoBehaviour:
           m_KeyList:
           - __option_Sentences
           - __option_Choices
-          - __option_Requirements
           - __option_Mark as Read
+          - __option_Callback Count
+          - __option_Show Conditions for choices
+          - __option_Choose node condition
           - Speaker
           - TypingSpeed
           - Emotion
           - Sentence0
-          - __option_Callback Count
           m_ValueList:
           - rid: 8780719046317572273
           - rid: 8780719046317572274
-          - rid: 8780719046317572275
-          - rid: 8780719046317572276
-          - rid: 8780719046317572277
-          - rid: 8780719046317572278
-          - rid: 8780719046317572279
-          - rid: 8780719046317572280
-          - rid: 8780719083073307067
+          - rid: 8780719133513744717
+          - rid: 8780719133513744718
+          - rid: 8780719133513744997
+          - rid: 8780719133513744998
+          - rid: 8780719133513744999
+          - rid: 8780719133513745000
+          - rid: 8780719133513745001
+          - rid: 8780719133513745002
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -881,44 +791,6 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
-    - rid: 8780719046317572275
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780719046317572276
-      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 8780719046317572277
-      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: {fileID: 0}
-    - rid: 8780719046317572278
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 1
-        m_EnumType:
-          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572279
-      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value:
-          m_EnumType:
-            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-              PublicKeyToken=null
-          m_Value: 2
-        m_EnumType:
-          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-    - rid: 8780719046317572280
-      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: That didnt end too well last time did it?
     - rid: 8780719046317572281
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -954,15 +826,182 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
-    - rid: 8780719083073307065
+    - rid: 8780719133513744711
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744712
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
-    - rid: 8780719083073307066
+    - rid: 8780719133513744714
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744715
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
-    - rid: 8780719083073307067
+    - rid: 8780719133513744717
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744718
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value: 0
+    - rid: 8780719133513744980
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744981
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744982
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719133513744983
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 1
+        m_EnumType:
+          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744984
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 2
+        m_EnumType:
+          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744985
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744986
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744987
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744988
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744989
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744990
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744991
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719133513744992
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 1
+        m_EnumType:
+          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744993
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 2
+        m_EnumType:
+          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744994
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744995
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744996
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 
+    - rid: 8780719133513744997
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 0
+    - rid: 8780719133513744998
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+          m_Value: 3
+        m_EnumType:
+          m_Identification: ConditionOptions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513744999
+      type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: {fileID: 0}
+    - rid: 8780719133513745000
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 1
+        m_EnumType:
+          m_Identification: TypingSpeed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513745001
+      type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value:
+          m_EnumType:
+            m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+          m_Value: 2
+        m_EnumType:
+          m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+    - rid: 8780719133513745002
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data:
+        m_Value: 

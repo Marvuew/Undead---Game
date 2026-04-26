@@ -2,12 +2,13 @@ using Assets.Scripts.GameScripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-    
+
 public class DialogueGraphManager : MonoBehaviour
 {
     #region Singleton Pattern
@@ -70,14 +71,17 @@ public class DialogueGraphManager : MonoBehaviour
     private RuntimeNode _currentNode;
     
     // For tracking choices - they will be marked as read
-    private HashSet<string> exploredChoices = new HashSet<string>();
+    private HashSet<string> exploredChoicesLookup = new HashSet<string>();
 
     // For tracking Callbacks
     [HideInInspector]
-    public HashSet<Callback> Callbacks = new HashSet<Callback>();
+    public HashSet<Callback> CallbackLookup = new HashSet<Callback>();
 
     // For handling MarkAsRead
-    private HashSet<RuntimeDialogueNode> MarkedAsReadNodes = new HashSet<RuntimeDialogueNode>();
+    private HashSet<RuntimeDialogueNode> MarkAsReadNodeLookup = new HashSet<RuntimeDialogueNode>();
+
+    // For Handling TalkWillingness
+    public HashSet<DialogueSpeaker> TalkWillingnessLookup = new HashSet<DialogueSpeaker>();
     #endregion
 
     #region Input Handling (update)
@@ -142,34 +146,26 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void ShowNode(string nodeID)
     {
-        // Runs while handling the node
         while (nodeID != null)
         {
-            // If it encounters a wrong key to node mapping => end dialogue
             if (!_nodeLookup.ContainsKey(nodeID))
             {
                 EndDialogue();
                 return;
             }
 
-            // Set the current node
             _currentNode = _nodeLookup[nodeID];
 
-            // If it has the MarkAsRead attribute lead to another node saying like: You already asked me that or.. smth...
-            if (MarkedAsReadNodes.Contains(_currentNode as RuntimeDialogueNode))
+            if (!ViableNode(_currentNode as RuntimeDialogueNode))
             {
-                ShowNode(_currentNode.MarkAsReadNodeID);
+                ShowNode(_currentNode.ConditionFailNodeID); // RATHER SKIP TO THE CONDITION FAIL NODE THAN MARK AS READ IF BOTH ARE LINKED
                 return;
             }
 
-            // Show the node if its a viable one: If it has the right requirements met.
-            if (_currentNode is RuntimeDialogueNode)
+            if (MarkAsReadNodeLookup.Contains(_currentNode as RuntimeDialogueNode))
             {
-                if (!ViableNode(_currentNode as RuntimeDialogueNode))
-                {
-                    ShowNode(_currentNode.ConditionFailNodeID);
-                    return;
-                }
+                ShowNode(_currentNode.MarkAsReadNodeID);
+                return;
             }
 
             // set the nexNodeID and execute the nodes implementation of execute. For dialogue it calls the HandleDialogueNode, for AlignmentNodes it calls the Handle Alignment etc...
@@ -217,7 +213,9 @@ public class DialogueGraphManager : MonoBehaviour
     }
     public void HandleAlignmentNode(RuntimeAlignmentNode node)
     {
-        GameEvents.ChangeAlignment(node.HumanityChange, node.UndeadChange);
+        //GameEvents.ChangeAlignment(node.HumanityChange, node.UndeadChange);
+        Player.Instance.ChangeHumanity(node.HumanityChange);
+        Player.Instance.ChangeUndead(node.UndeadChange);
     }
 
     public void HandleActionNode(RuntimeActionNode node)
@@ -235,6 +233,24 @@ public class DialogueGraphManager : MonoBehaviour
     {
         CaseManager.Instance.OnClueFound(node.clue);
         Debug.Log("Handling the clue");
+    }
+
+    public void HandleTalkWillingnessNode(RuntimeTalkWillingnessNode node)
+    {
+        if (node.IsWillingToTalk == TalkWillingNessEnum.Willing)
+        {
+            if (TalkWillingnessLookup.Contains(node.Speaker))
+            {
+                TalkWillingnessLookup.Remove(node.Speaker);
+            }
+        }
+        else if (node.IsWillingToTalk == TalkWillingNessEnum.NotWilling)
+        {
+            if (!TalkWillingnessLookup.Contains(node.Speaker))
+            {
+                TalkWillingnessLookup.Add(node.Speaker);
+            }
+        }
     }
 
     #endregion
@@ -255,7 +271,7 @@ public class DialogueGraphManager : MonoBehaviour
         {
             foreach (var callback in node.Callbacks)
             {
-                if (Callbacks.Contains(callback.CallbackAsset))
+                if (CallbackLookup.Contains(callback.CallbackAsset))
                 {
                     if (!callback.Replace)
                     {
@@ -322,7 +338,7 @@ public class DialogueGraphManager : MonoBehaviour
         //Handles the mark as read attribute
         if (node.MarkAsRead)
         {
-            MarkedAsReadNodes.Add(node);
+            MarkAsReadNodeLookup.Add(node);
         }
 
         //Now list choice
@@ -334,44 +350,74 @@ public class DialogueGraphManager : MonoBehaviour
         ClearChoices();
         foreach (var choice in node.Choices)
         {
-            AudioManager.instance.PlaySFX("spawnChoice");
-            // if it isnt a viable choice return
-            if (!ViableChoice(choice)) continue;
-            // Instantiate the button and set the text
+           
+
             Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
             buttons.Add(button.gameObject);
             button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
-            print(choice.ChoiceText);
 
-            // Handle the Color
-            // If its an unlockable choice set the color to yellow.
-            var choiceColor = button.GetComponent<Image>().color;
-            choiceColor = choice.Condition == null ? choiceColor : Unlockable;
-            if (exploredChoices.Contains(choice.ChoiceID))
+            // --- COLOR SELECTION ---
+            Color targetColor = Color.white; // Default
+
+            // Inside your ListChoices loop
+            bool isViable = ViableChoice(choice);
+
+            // A choice is "Locked" (Yellow) ONLY if:
+            // 1. Show Conditions is toggled ON in the graph
+            // 2. The specific condition (Alignment, Clue, etc.) is NOT met.
+            bool isLocked = choice.conditionToggled && choice.condition != ConditionOptions.NONE && !isViable;
+
+            if (isLocked)
             {
-                //Set the color to red if it is alreade explored.
-                choiceColor = PathExplored;
+                button.GetComponent<Image>().color = Unlockable; // Yellow
+                button.interactable = false;
             }
-            button.GetComponent<Image>().color = choiceColor;
-
-            // Add an OnClick Event
-            button.onClick.AddListener(() =>
+            else if (exploredChoicesLookup.Contains(choice.ChoiceID))
             {
-                AudioManager.instance.PlaySFX("pickChoice");
-                if (!string.IsNullOrEmpty(choice.DestinationNodeID))
+                button.GetComponent<Image>().color = PathExplored; // Gray/Red
+                button.interactable = true;
+            }
+            else
+            {
+                button.GetComponent<Image>().color = Color.white; // Normal
+                button.interactable = true;
+            }
+
+            if (isLocked)
+            {
+                // This is the "Locked" state
+                targetColor = Unlockable;
+                button.interactable = false;
+            }
+            else if (exploredChoicesLookup.Contains(choice.ChoiceID))
+            {
+                // This is the "Already Picked" state
+                targetColor = PathExplored;
+                button.interactable = true;
+            }
+            else
+            {
+                // This is a standard, available choice
+                button.interactable = true;
+            }
+
+            button.GetComponent<Image>().color = targetColor;
+
+            Debug.Log($"Choice: {choice.ChoiceText} | Viable: {isViable} | Locked: {isLocked}") ;
+
+            // --- LISTENER ---
+            if (button.interactable)
+            {
+                button.onClick.AddListener(() =>
                 {
-                    // Add it to the hashset of explored choices
-                    exploredChoices.Add(choice.ChoiceID);
-
+                    AudioManager.instance.PlaySFX("pickChoice");
+                    exploredChoicesLookup.Add(choice.ChoiceID);
                     ClearChoices();
-
-                    // Call the the next node with the designated nextnodeID
                     ShowNode(choice.DestinationNodeID);
-                }
-            });
-
+                });
+            }
         }
-        StartCoroutine(SelectFirst(buttons));
+        if (buttons.Count > 0) StartCoroutine(SelectFirst(buttons));
     }
 
     public IEnumerator SelectFirst(List<GameObject> buttons)
@@ -476,19 +522,65 @@ public class DialogueGraphManager : MonoBehaviour
     }
 
     // Check if its a viable choice. Otherwise dont show the Choice
+    // Update this in DialogueGraphManager.cs
     bool ViableChoice(ChoiceData choice)
     {
-        if (choice.Condition == null) return true;
-        if (choice.Condition.IsMet()) return true;
-        else return false;
+        if (choice == null) return false;
+
+        // If the designer didn't toggle a condition, it's always viable
+        if (!choice.conditionToggled || choice.condition == ConditionOptions.NONE)
+            return true;
+
+        if (choice.condition == ConditionOptions.Alignment)
+        {
+            if (Player.Instance == null) return true;
+            // Check if player meets requirements
+            bool meetsHumanity = Player.Instance.humanity >= choice.choiceHumanityCondtion;
+            bool meetsUndead = Player.Instance.undead >= choice.choiceUndeadCondtion;
+            print($"{Player.Instance.undead} + {Player.Instance.humanity}");
+            return meetsHumanity && meetsUndead;
+        }
+        else if (choice.condition == ConditionOptions.Clue)
+        {
+            if (choice.choiceConditionClue == null) return true;
+            return CaseManager.Instance.cluesfound.Contains(choice.choiceConditionClue);
+        }
+        else if (choice.condition == ConditionOptions.WillingToTalk)
+        {
+            if (choice.choiceConditionSpeaker == null) return true;
+            return !TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker);
+        }
+
+        return true;
     }
 
-    // Unlockable Dialogue Nodes. If its node Viable there should be designed another fail node to run instead.
     bool ViableNode(RuntimeDialogueNode node)
     {
-        if (node.NodeCondition == null) return true;
-        if (node.NodeCondition.IsMet()) return true;
-        else return false;
+        // CRITICAL: If the node being passed isn't a DialogueNode (like an ActionNode), 
+        // 'as RuntimeDialogueNode' returns null. We must return true so the loop continues.
+        if (node == null) return true;
+
+        if (node.conditionToggle)
+        {
+            if (node.condition == ConditionOptions.NONE) return true;
+            if (node.condition == ConditionOptions.Alignment)
+            {
+                if (Player.Instance == null) return true;
+                if (node.conditionHumanity > Player.Instance.humanity) return false;
+                if (node.conditionUndead > Player.Instance.undead) return false;
+            }
+            else if (node.condition == ConditionOptions.Clue)
+            {
+                if (node.conditionClue == null) return true;
+                return CaseManager.Instance.cluesfound.Contains(node.conditionClue);
+            }
+            else if (node.condition == ConditionOptions.WillingToTalk)
+            {
+                if (node.conditionSpeaker == null) return true;
+                return !TalkWillingnessLookup.Contains(node.conditionSpeaker);
+            }
+        }
+        return true;
     }
 
     void HandleSpeakerData(RuntimeDialogueNode node)

@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using Codice.Client.BaseCommands.WkStatus.Printers;
+using Unity.VisualScripting;
 
 #region In and out
 [Serializable]
@@ -39,96 +41,136 @@ public class DialogueNode : Node
     public static readonly string OUT_PORT = "out";
     public static readonly string IN_PORT_SPEAKER = "Speaker";
     public static readonly string OUT_PORT_CHOICE = "Choice";
-    public static readonly string IN_OPTION_SENTENCE_COUNT = "Sentences";
-    public static readonly string IN_OPTION_SENTENCE = "Sentence";
+    public static readonly string IN_OPTION_SENTENCE_COUNT = "Number of sentences";
+    public static readonly string IN_OPTION_SENTENCE = "Sentence ";
     public static readonly string IN_OPTION_CHOICE_COUNT = "Choices";
     public static readonly string IN_OPTION_CHOICE_TEXT = "Choice text";
-    public static readonly string IN_OPTION_CONDITION_TOGGLE = "Requirements";
-    public static readonly string IN_PORT_CONDITION_CHOICE= "Condition for choice ";
     public static readonly string IN_PORT_TYPING_SPEED = "TypingSpeed";
     public static readonly string IN_PORT_EMOTION = "Emotion";
 
-    public static readonly string IN_PORT_CONDITION_NODE = "Condition for node";
-    public static readonly string OUT_PORT_CONDITION_FAIL = "Node Condition Fail";
-    public static readonly string IN_OPTION_MARK_AS_READ = "Mark as Read";
-    public static readonly string OUT_PORT_MARK_AS_READ = "If marked as read - Out";
+    public static readonly string IN_OPTION_MARK_AS_READ = "Mark as Read (MAR)";
+    public static readonly string OUT_PORT_MARK_AS_READ = "If MAR - out";
 
-    public static readonly string IN_OPTION_CALLBACK_COUNT = "Callback Count";
+    public static readonly string IN_OPTION_CALLBACK_COUNT = "Callback Count ";
     public static readonly string IN_PORT_CALLBACKS = "Callback ";
-    public static readonly string IN_PORT_CALLBACK_SENTENCE = "Callback Sentence";
-    public static readonly string IN_PORT_CALLBACK_INDEX = "Callback Occurence Index";
-    public static readonly string IN_PORT_CALLBACK_REPLACE_TOGGLE = "Replace at index?";
+    public static readonly string IN_PORT_CALLBACK_SENTENCE = "Callback Sentence ";
+    public static readonly string IN_PORT_CALLBACK_INDEX = "Callback Occurence Index ";
+    public static readonly string IN_PORT_CALLBACK_REPLACE_TOGGLE = "Replace at index? ";
+
+    //Conditions
+    public static readonly string OUT_PORT_CONDITION_FAIL = "Node Condition Fail - out";
+    public static readonly string IN_OPTION_CHOICE_CONDITION_TOGGLE = "Show Conditions for choices";
+    public static readonly string IN_OPTION_NODE_CONDITION_TOGGLE = "Show Condition for node";
+    public static readonly string IN_OPTION_CHOICE_CONDITION = "Choice condition ";
+    public static readonly string IN_PORT_CONDITION_NODE_OPTION = "Choose node condition";
+    public static readonly string IN_PORT_CONDITON_CHOICE_OPTION = "Choose choice condition";
+
+    public static readonly string IN_PORT_ALIGNMENT_CONDITION_HUMANITY = "Requried Humanity";
+    public static readonly string IN_PORT_ALIGNMENT_CONDITION_UNDEAD = "Required Undead";
+    public static readonly string IN_PORT_CLUE_CONDITION_CLUE = "Required Clue";
+    public static readonly string IN_PORT_ISWIILINGTOTALK_CONDITION = "Required Speaker";
+
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
-        // In Port
+        // IN PORT
         context.AddInputPort(IN_PORT).Build();
 
-        // If requirements toggle is on, add condition to the start of the node.
-        GetNodeOptionByName(IN_OPTION_CONDITION_TOGGLE).TryGetValue(out bool requirement);
-        if (requirement)
-        {
-            context.AddInputPort<DialogueCondition>(IN_PORT_CONDITION_NODE);
-            context.AddOutputPort(OUT_PORT_CONDITION_FAIL).Build();
-        }
-
-        GetNodeOptionByName(IN_OPTION_MARK_AS_READ).TryGetValue(out bool markAsRead);
-        if (markAsRead)
-        {
-            context.AddOutputPort(OUT_PORT_MARK_AS_READ).Build();
-        }
-
-        // Create Callback Ports
-        GetNodeOptionByName(IN_OPTION_CALLBACK_COUNT).TryGetValue(out int callbackCount);
-        for (int i = 0; i < callbackCount; i++)
-        {
-            context.AddInputPort<Callback>(IN_PORT_CALLBACKS + i).Build();
-            context.AddInputPort<string>(IN_PORT_CALLBACK_SENTENCE + i).Build();
-            context.AddInputPort<int>(IN_PORT_CALLBACK_INDEX + i).Build();
-            context.AddInputPort<bool>(IN_PORT_CALLBACK_REPLACE_TOGGLE + i).Build();
-        }
-
-        //Speaker port
+        // SPEAKER
         context.AddInputPort<DialogueSpeaker>(IN_PORT_SPEAKER).Build();
-
-        //Typing Speed Port => Default is Mid
+        // SPEAKER EMOTION
+        context.AddInputPort<Emotion>(IN_PORT_EMOTION).WithDefaultValue(Emotion.Content).Build();
+        // TYPING SPEED
         context.AddInputPort<TypingSpeed>(IN_PORT_TYPING_SPEED).WithDefaultValue(TypingSpeed.Mid).Build();
 
-        //Emotion port => Default is content
-        context.AddInputPort<Emotion>(IN_PORT_EMOTION).WithDefaultValue(Emotion.Content).Build();
+        // NODE CONDITION
+        GetNodeOptionByName(IN_PORT_CONDITION_NODE_OPTION).TryGetValue(out ConditionOptions conditionOption);
+        GetNodeOptionByName(IN_OPTION_NODE_CONDITION_TOGGLE).TryGetValue(out bool conditionToggle);
+        {
+            if (conditionToggle)
+            {
+                if (conditionOption == ConditionOptions.Alignment)
+                {
+                    context.AddInputPort<int>(IN_PORT_ALIGNMENT_CONDITION_HUMANITY).Build();
+                    context.AddInputPort<int>(IN_PORT_ALIGNMENT_CONDITION_UNDEAD).Build();
+                    context.AddOutputPort(OUT_PORT_CONDITION_FAIL).Build();
+                }
+                else if (conditionOption == ConditionOptions.Clue)
+                {
+                    context.AddInputPort<Clue>(IN_PORT_CLUE_CONDITION_CLUE).Build();
+                    context.AddOutputPort(OUT_PORT_CONDITION_FAIL).Build();
+                }
+                else if (conditionOption == ConditionOptions.WillingToTalk)
+                {
+                    context.AddInputPort<DialogueSpeaker>(IN_PORT_ISWIILINGTOTALK_CONDITION).Build();
+                    context.AddOutputPort(OUT_PORT_CONDITION_FAIL).Build();
+                }
+            }
 
-        // Spawn Sentence Ports
-        GetNodeOptionByName(IN_OPTION_SENTENCE_COUNT).TryGetValue(out int sentenceCount);
-        for (int i = 0; i < sentenceCount; i++)
-        {
-            context.AddInputPort<string>(IN_OPTION_SENTENCE + i).WithConnectorUI(PortConnectorUI.Arrowhead).Build();
-        }
+            // SPAWN SENTENCES
+            GetNodeOptionByName(IN_OPTION_SENTENCE_COUNT).TryGetValue(out int sentenceCount);
+            for (int i = 0; i < sentenceCount; i++)
+            {
+                context.AddInputPort<string>(IN_OPTION_SENTENCE + i).WithConnectorUI(PortConnectorUI.Arrowhead).AsTextArea().Build();
+            }
 
-        // Spawn Choice Ports
-        GetNodeOptionByName(IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
-        for (int i = 0; i < choiceCount; i++)
-        {
-            context.AddInputPort<string>(IN_OPTION_CHOICE_TEXT + i).Build();
-        }
+            // CALLBACKS
+            GetNodeOptionByName(IN_OPTION_CALLBACK_COUNT).TryGetValue(out int callbackCount);
+            for (int i = 0; i < callbackCount; i++)
+            {
+                context.AddInputPort<Callback>(IN_PORT_CALLBACKS + i).Build();
+                context.AddInputPort<string>(IN_PORT_CALLBACK_SENTENCE + i).AsTextArea().Build();
+                context.AddInputPort<int>(IN_PORT_CALLBACK_INDEX + i).Build();
+                context.AddInputPort<bool>(IN_PORT_CALLBACK_REPLACE_TOGGLE + i).Build();
+            }
 
-        //Out Ports
-        if (choiceCount == 0)
-        {
-            context.AddOutputPort(OUT_PORT).Build();
-        }
-        else
-        {
+            // SPAWN CHOICES
+            GetNodeOptionByName(IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
             for (int i = 0; i < choiceCount; i++)
             {
-                if (requirement)
-                {
-                    context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
-                    context.AddInputPort<DialogueCondition>(IN_PORT_CONDITION_CHOICE + i).Build();
-                }
-                else
-                {
-                    context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
-                }
+                context.AddInputPort<string>(IN_OPTION_CHOICE_TEXT + i).AsTextArea().Build();
+            }
 
+
+            // OUT PORTS
+
+            // MARK AS READ
+            GetNodeOptionByName(IN_OPTION_MARK_AS_READ).TryGetValue(out bool markAsRead);
+            if (markAsRead)
+            {
+                context.AddOutputPort(OUT_PORT_MARK_AS_READ).Build();
+            }
+
+            if (choiceCount == 0)
+            {
+                context.AddOutputPort(OUT_PORT).Build();
+            }
+            else
+            {
+                GetNodeOptionByName(IN_OPTION_CHOICE_CONDITION_TOGGLE).TryGetValue(out bool showChoiceCondition);
+                for (int i = 0; i < choiceCount; i++)
+                {
+                    context.AddOutputPort(OUT_PORT_CHOICE + i).Build();
+
+                    if (showChoiceCondition)
+                    {
+                        // READ FROM OPTION, NOT PORT
+                        GetNodeOptionByName(IN_PORT_CONDITON_CHOICE_OPTION + i).TryGetValue(out ConditionOptions option);
+
+                        if (option == ConditionOptions.Alignment)
+                        {
+                            context.AddInputPort<int>(IN_PORT_ALIGNMENT_CONDITION_HUMANITY + i).Build();
+                            context.AddInputPort<int>(IN_PORT_ALIGNMENT_CONDITION_UNDEAD + i).Build();
+                        }
+                        else if (option == ConditionOptions.Clue)
+                        {
+                            context.AddInputPort<Clue>(IN_PORT_CLUE_CONDITION_CLUE + i).Build();
+                        }
+                        else if (option == ConditionOptions.WillingToTalk)
+                        {
+                            context.AddInputPort<DialogueSpeaker>(IN_PORT_ISWIILINGTOTALK_CONDITION + i).Build();
+                        }
+                    }
+                }
             }
         }
     }
@@ -139,13 +181,32 @@ public class DialogueNode : Node
         context.AddOption<int>(IN_OPTION_SENTENCE_COUNT).WithDefaultValue(1).Build();
         // Number of choices
         context.AddOption<int>(IN_OPTION_CHOICE_COUNT).WithDefaultValue(0).Build();
-        // Requirements
-        context.AddOption<bool>(IN_OPTION_CONDITION_TOGGLE).WithDefaultValue(false).Build();
+        // Node Condition
+        context.AddOption<ConditionOptions>(IN_PORT_CONDITION_NODE_OPTION).WithDefaultValue(ConditionOptions.WillingToTalk);
+        context.AddOption<bool>(IN_OPTION_NODE_CONDITION_TOGGLE).WithDefaultValue(false).Build();
 
+        // Choice Condition
+        context.AddOption<bool>(IN_OPTION_CHOICE_CONDITION_TOGGLE).WithDefaultValue(false).Build();
+
+        // Mark As Read
         context.AddOption<bool>(IN_OPTION_MARK_AS_READ).WithDefaultValue(false).Build();
-
         //CallBacks
         context.AddOption<int>(IN_OPTION_CALLBACK_COUNT).WithDefaultValue(0).Build();
+
+        GetNodeOptionByName(IN_OPTION_CHOICE_COUNT).TryGetValue(out int choiceCount);
+
+        for (int i = 0; i < choiceCount; i++)
+        {
+            context.AddOption<ConditionOptions>(IN_PORT_CONDITON_CHOICE_OPTION + i)
+                   .WithDefaultValue(ConditionOptions.NONE)
+                   .Build();
+        }
+    }
+
+    public override void OnEnable()
+    {
+        Subtitle = "Dialogue Node for designing dialogue";
+        DefaultColor = Color.green;
     }
 }
 [Serializable]
@@ -223,7 +284,28 @@ public class CallBackNode : Node
         context.AddInputPort<Callback>(IN_PORT_CALLBACK).Build();
     }
 }
+
+[Serializable]
+public class TalkWillingnessNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_SPEAKER = "Speaker";
+    public static readonly string IN_PORT_TALKWILLINGNESS_TOGGLE = "Set talkwillingness";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<DialogueSpeaker>(IN_PORT_SPEAKER).Build();
+        context.AddInputPort<TalkWillingNessEnum>(IN_PORT_TALKWILLINGNESS_TOGGLE).Build();
+    }  
+}
+
+
 #endregion
+
+
 
 #region Legacy Nodes
 /*[Serializable]
