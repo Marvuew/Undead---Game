@@ -95,10 +95,10 @@ public class DialogueGraphManager : MonoBehaviour
     }
     private void Update()
     {
-        // 1. Safety Check: If no dialogue is active, do nothing.
         if (!DialoguePanel.activeSelf) return;
 
-        // 2. End Case: If we have no current node, we are at the end of a branch.
+        if (ChoiceButtonContainer.childCount > 0) return;
+
         if (_currentNode == null)
         {
             if (!isTyping && Keyboard.current.spaceKey.wasPressedThisFrame)
@@ -108,22 +108,15 @@ public class DialogueGraphManager : MonoBehaviour
             return;
         }
 
-        // 3. Input Handling (Space Bar)
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (isTyping)
             {
-                // If still typing, the first press skips the animation to show the full sentence.
                 skipTyping = true;
             }
-            else
+            else if (_currentNode is RuntimeDialogueNode dialogueNode)
             {
-                // If typing is DONE, we move to the next part of the graph.
-                // We only do this for DialogueNodes. ChoiceNodes handle their own input via buttons.
-                if (_currentNode is RuntimeDialogueNode dialogueNode)
-                {
-                    ShowNode(dialogueNode.NextNodeID);
-                }
+                ShowNode(dialogueNode.NextNodeID);
             }
         }
     }
@@ -181,7 +174,7 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
-    private void EndDialogue()
+    public void EndDialogue()
     {
         StopAllCoroutines(); // Kill any typing or navigation
         _navigationCoroutine = null;
@@ -252,6 +245,7 @@ public class DialogueGraphManager : MonoBehaviour
 
     public bool HandleConditionNode(RuntimeConditionNode node)
     {
+        Debug.Log(callbacksCollected.Contains(node.callback));
         if (node == null || node.condition == ConditionOptions.NONE) return true;
 
         return node.condition switch
@@ -318,18 +312,15 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Helping Functions
-
-
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
         float _typingSpeed = HandleTypingSpeed(node.TypingSpeed);
         isTyping = true;
-
-        // Handle UI Position
         UpdateDialoguePosition(node.Speaker);
 
-        foreach (string sentence in dialogue)
+        for (int i = 0; i < dialogue.Count; i++)
         {
+            string sentence = dialogue[i];
             DialogueText.text = "";
             skipTyping = false;
 
@@ -354,12 +345,20 @@ public class DialogueGraphManager : MonoBehaviour
                     break;
                 }
             }
+
             AudioManager.instance.StopSFX("Dialogue");
             skipTyping = false;
 
-            // --- Input Wait ---
-            yield return new WaitUntil(() => !Mouse.current.leftButton.isPressed);
-            yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
+            // NEW LOGIC: Only wait for input if this is NOT the last sentence of the node.
+            // If it IS the last sentence, we exit the loop so Update() handles the transition.
+            bool isLastSentence = (i == dialogue.Count - 1);
+
+            if (!isLastSentence)
+            {
+                yield return null; // Buffer frame
+                yield return new WaitUntil(() => !Keyboard.current.spaceKey.isPressed);
+                yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
+            }
         }
 
         isTyping = false;

@@ -307,7 +307,7 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         // 1. SAFELY get the condition type option
         // Ensure you use the exact string defined in your ConditionNode class!
-        var conditionOption = node.GetNodeOptionByName("Condition Type"); // Adjust string if needed
+        var conditionOption = node.GetNodeOptionByName(ConditionNode.IN_OPTION_CONDITION_TYPE); // Adjust string if needed
 
         if (conditionOption != null && conditionOption.TryGetValue(out ConditionOptions option))
         {
@@ -317,18 +317,18 @@ public class DialogueGraphImporter : ScriptedImporter
             switch (option)
             {
                 case ConditionOptions.ALIGNMENT:
-                    runtimeNode.humanity = GetPortValueSafe<int>(node, "Humanity");
-                    runtimeNode.undead = GetPortValueSafe<int>(node, "Undead");
+                    runtimeNode.humanity = GetPortValueSafe<int>(node, ConditionNode.IN_PORT_HUMANITY_CONDITION);
+                    runtimeNode.undead = GetPortValueSafe<int>(node, ConditionNode.IN_PORT_UNDEAD_CONDITION);
                     break;
                 case ConditionOptions.CLUE:
-                    runtimeNode.clue = GetPortValueSafe<Clue>(node, "Clue");
+                    runtimeNode.clue = GetPortValueSafe<Clue>(node, ConditionNode.IN_PORT_CLUE_CONDITION);
                     break;
                 case ConditionOptions.WILLING_TO_TALK:
-                    runtimeNode.TalkWillingnessTarget = GetPortValueSafe<DialogueSpeaker>(node, "Talk Willingness Target");
+                    runtimeNode.TalkWillingnessTarget = GetPortValueSafe<DialogueSpeaker>(node, ConditionNode.IN_PORT_IS_WILLING_TO_TALK_CONDITION);
                     break;
                 case ConditionOptions.CALLBACK:
                     // Note: Ensure your RuntimeConditionNode has a 'callback' field of type Callback
-                    runtimeNode.callback = GetPortValueSafe<Callback>(node, "Callback");
+                    runtimeNode.callback = GetPortValueSafe<Callback>(node, ConditionNode.IN_PORT_CALLBACK_CONDITION);
                     break;
             }
         }

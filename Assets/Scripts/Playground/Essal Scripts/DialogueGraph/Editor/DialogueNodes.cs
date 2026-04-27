@@ -258,8 +258,8 @@ public class ConditionNode : Node
 {
     // PORTS AND OPTIONS
     public static readonly string IN_PORT = "in";
-    public static readonly string OUT_PORT_FAIL = "fail out";
-    public static readonly string OUT_PORT_SUCCESS = "succes out";
+    public static readonly string OUT_PORT_FAIL = "condition failed out";
+    public static readonly string OUT_PORT_SUCCESS = "condition met out";
     public static readonly string IN_OPTION_CONDITION_TYPE = "Choose Condition Type";
 
     // DESIGN YOUR CONDITION
