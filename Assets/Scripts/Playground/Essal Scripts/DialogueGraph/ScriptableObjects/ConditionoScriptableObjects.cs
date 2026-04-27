@@ -33,7 +33,7 @@ public class isWillingToTalkCondition : DialogueCondition
     public DialogueSpeaker Speaker;
     public override bool IsMet()
     {
-        return DialogueGraphManager.instance.TalkWillingnessLookup.Contains(Speaker) ? false : true;
+        return DialogueGraphManager.instance.speakersNotWillingToTalk.Contains(Speaker) ? false : true;
     }
 }
 

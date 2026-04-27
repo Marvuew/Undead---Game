@@ -1,4 +1,5 @@
 using Assets.Scripts.GameScripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEditor.Rendering.MaterialUpgrader;
 
 
 public class DialogueGraphManager : MonoBehaviour
@@ -69,53 +71,58 @@ public class DialogueGraphManager : MonoBehaviour
     // NodeIDs pointing to a node
     private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();
     private RuntimeNode _currentNode;
-    
+
     // For tracking choices - they will be marked as read
     private HashSet<string> exploredChoicesLookup = new HashSet<string>();
 
     // For tracking Callbacks
-    [HideInInspector]
-    public HashSet<Callback> CallbackLookup = new HashSet<Callback>();
+    [NonSerialized]
+    public HashSet<Callback> callbacksCollected = new HashSet<Callback>();
 
     // For handling MarkAsRead
-    private HashSet<RuntimeDialogueNode> MarkAsReadNodeLookup = new HashSet<RuntimeDialogueNode>();
+    private HashSet<RuntimeDialogueNode> nodesMarkedAsRead = new HashSet<RuntimeDialogueNode>();
 
     // For Handling TalkWillingness
-    public HashSet<DialogueSpeaker> TalkWillingnessLookup = new HashSet<DialogueSpeaker>();
+    [NonSerialized]
+    public HashSet<DialogueSpeaker> speakersNotWillingToTalk = new HashSet<DialogueSpeaker>();
     #endregion
 
     #region Input Handling (update)
 
     public void Start()
     {
-        
+        gameObject.SetActive(false);
     }
     private void Update()
-    {   // Runs if the current node is an end node.
+    {
+        // 1. Safety Check: If no dialogue is active, do nothing.
+        if (!DialoguePanel.activeSelf) return;
+
+        // 2. End Case: If we have no current node, we are at the end of a branch.
         if (_currentNode == null)
         {
-            // Only closes if it is finished typing
-            if (DialoguePanel.activeSelf && !isTyping)
+            if (!isTyping && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 EndDialogue();
             }
             return;
         }
 
-
+        // 3. Input Handling (Space Bar)
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            // First click finishes the text.
-            if (isTyping && DialoguePanel.activeSelf)
+            if (isTyping)
             {
-                if (!skipTyping) skipTyping = true;
+                // If still typing, the first press skips the animation to show the full sentence.
+                skipTyping = true;
             }
             else
             {
-                // If the text is finsihed typing show next node
-                if (_currentNode is RuntimeDialogueNode dialogueNode && dialogueNode.Choices.Count == 0)
+                // If typing is DONE, we move to the next part of the graph.
+                // We only do this for DialogueNodes. ChoiceNodes handle their own input via buttons.
+                if (_currentNode is RuntimeDialogueNode dialogueNode)
                 {
-                    ShowNode(_currentNode.NextNodeID);
+                    ShowNode(dialogueNode.NextNodeID);
                 }
             }
         }
@@ -126,17 +133,14 @@ public class DialogueGraphManager : MonoBehaviour
     #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
-        // Clear Dialogue and reset the nodelookup
         ClearDialogue();
         _nodeLookup.Clear();
-        
-        // Add the nodes to the nodelookup
+
         foreach (var node in dialogue.AllNodes)
         {
             _nodeLookup[node.NodeID] = node;
         }
 
-        // Show the first node if it has a entry ID
         if (!string.IsNullOrEmpty(dialogue.EntryNodeID))
         {
             ShowNode(dialogue.EntryNodeID);
@@ -145,131 +149,169 @@ public class DialogueGraphManager : MonoBehaviour
         {
             EndDialogue();
         }
-        // Make Dialogue Visible
+
         DialoguePanel.SetActive(true);
     }
 
     public void ShowNode(string nodeID)
     {
-        while (nodeID != null)
+        while (!string.IsNullOrEmpty(nodeID))
         {
-            if (!_nodeLookup.ContainsKey(nodeID))
+            if (!_nodeLookup.TryGetValue(nodeID, out _currentNode))
             {
                 EndDialogue();
                 return;
             }
 
-            _currentNode = _nodeLookup[nodeID];
-
-            // 1. CONDITION CHECK (Logic Branching)
-            if (_currentNode is RuntimeDialogueNode diagNode && diagNode.conditionToggle)
-            {
-                if (!ViableNode(diagNode))
-                {
-                    // Move to Fail branch and continue loop
-                    nodeID = diagNode.ConditionFailNodeID;
-                    continue;
-                }
-                else if (!string.IsNullOrEmpty(diagNode.ConditionSuccessNodeID))
-                {
-                    // If we have a success branch, move there
-                    nodeID = diagNode.ConditionSuccessNodeID;
-                    continue;
-                }
-            }
-
-            // 2. MARK AS READ CHECK
-            if (_currentNode is RuntimeDialogueNode readNode && MarkAsReadNodeLookup.Contains(readNode))
+            // 1. Mark as Read Check (Priority)
+            if (_currentNode is RuntimeDialogueNode readNode && nodesMarkedAsRead.Contains(readNode))
             {
                 nodeID = readNode.MarkAsReadNodeID;
                 continue;
             }
 
-            // 3. EXECUTION
-            // This actually calls HandleDialogueNode, HandleAlignment, etc.
-            string nextNode = _currentNode.Execute(this);
+            // 2. Execution
+            string nextNodeID = _currentNode.Execute(this);
 
-            // 4. WAIT FOR USER (Dialogue Nodes only)
-            if (_currentNode is RuntimeDialogueNode)
-            {
-                // We stop the loop here because HandleDialogueNode started a 
-                // Coroutine and is waiting for player input/typing.
-                return;
-            }
+            // 3. Stop loop if we hit Dialogue (UI will take over)
+            if (_currentNode is RuntimeDialogueNode) return;
 
-            // 5. CONTINUE (For non-UI nodes like Alignment or Action)
-            nodeID = nextNode;
+            // 4. Continue loop for logic nodes
+            nodeID = nextNodeID;
         }
     }
 
-
-    // Ends Dialogue by setting it inactive and deleting all choices from container
     private void EndDialogue()
     {
+        StopAllCoroutines(); // Kill any typing or navigation
+        _navigationCoroutine = null;
+        isTyping = false;
+
+        AudioManager.instance.StopSFX("Dialogue");
         DialoguePanel.SetActive(false);
         _currentNode = null;
 
-        foreach(Transform child in ChoiceButtonContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        
-        Player.Instance.interacting = false;
+        ClearChoices();
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
     }
     #endregion
 
     #region NodeHandling
     public void HandleDialogueNode(RuntimeDialogueNode node)
     {
-        if (DialoguePanel.gameObject.activeSelf == false)
+        if (DialoguePanel.gameObject.activeSelf == false) // OPEN THE DIALOGUE UI
         {
             DialoguePanel.SetActive(true);
         }
 
-        HandleSpeakerData(node);
-
-        StopAllCoroutines();
+        HandleSpeakerData(node); // HANDLE THE SPEAKER DATA
+        StopAllCoroutines(); // STOP ALL COROUTINES AND START THE TYPING COROUTINE
         StartCoroutine(TypeDialogue(node.Dialogue, node));
     }
-    public void HandleAlignmentNode(RuntimeAlignmentNode node)
+    public void HandleAlignmentNode(RuntimeAlignmentNode node) // SETS THE ALIGNMENT ON THE PLAYER SINGLETON
     {
-        //GameEvents.ChangeAlignment(node.HumanityChange, node.UndeadChange);
         Player.Instance.ChangeHumanity(node.HumanityChange);
         Player.Instance.ChangeUndead(node.UndeadChange);
     }
 
-    public void HandleActionNode(RuntimeActionNode node)
+    public void HandleActionNode(RuntimeActionNode node) // OBSOLETE
     {
         node.Action.DoAction();
     }
 
-    public void HandleRandomizer(RuntimeRandomizer node)
+    public void HandleRandomizer(RuntimeRandomizer node) // FINDS A RANDOM PORT IF ITS CONNECTED TO SEVERAL NODES
     {
         int randomIndex = UnityEngine.Random.Range(0, node.randomNextNodeID.Count);
         node.NextNodeID = node.randomNextNodeID[randomIndex];
     }
 
-    public void HandleClueNode(RuntimeClueNode node)
+    public void HandleClueNode(RuntimeClueNode node) // ADDS CLUE TO CASEMANAGERS CLUEFOUND LIST
     {
         CaseManager.Instance.OnClueFound(node.clue);
-        Debug.Log("Handling the clue");
     }
 
     public void HandleTalkWillingnessNode(RuntimeTalkWillingnessNode node)
     {
-        if (node.IsWillingToTalk == TalkWillingNessEnum.WILLING)
+        if (node.IsWillingToTalk == TalkWillingNessEnum.WILLING) // IF WILLING
         {
-            if (TalkWillingnessLookup.Contains(node.Speaker))
+            if (speakersNotWillingToTalk.Contains(node.Speaker)) // AND THE TALK WILLINGNESS LOOKUP CONTAINS THAT SPEAKER
             {
-                TalkWillingnessLookup.Remove(node.Speaker);
+                speakersNotWillingToTalk.Remove(node.Speaker); // REMOVE IT, SO YOUR ABLE TO PASS THE TALK WILLINGNESS CHECK
             }
         }
-        else if (node.IsWillingToTalk == TalkWillingNessEnum.NOT_WILLING)
+        else if (node.IsWillingToTalk == TalkWillingNessEnum.NOT_WILLING) // IF NOT WIILLING
         {
-            if (!TalkWillingnessLookup.Contains(node.Speaker))
+            if (!speakersNotWillingToTalk.Contains(node.Speaker)) // AND THE WILLINGNESS LOOKUP DOESNT CONTAIN THAT SPEAKER
             {
-                TalkWillingnessLookup.Add(node.Speaker);
+                speakersNotWillingToTalk.Add(node.Speaker); // ADD IT, SO THAT NEXT TIME YOU WONT BE ABLE TO PASS THE TALK WILLINGNESS CHECK
             }
+        }
+    }
+
+    public bool HandleConditionNode(RuntimeConditionNode node)
+    {
+        if (node == null || node.condition == ConditionOptions.NONE) return true;
+
+        return node.condition switch
+        {
+            ConditionOptions.ALIGNMENT =>
+                Player.Instance != null &&
+                Player.Instance.humanity >= node.humanity &&
+                Player.Instance.undead >= node.undead,
+
+            ConditionOptions.CLUE =>
+                node.clue == null || CaseManager.Instance.cluesfound.Contains(node.clue),
+
+            ConditionOptions.WILLING_TO_TALK =>
+                node.TalkWillingnessTarget == null ||
+                !speakersNotWillingToTalk.Contains(node.TalkWillingnessTarget),
+
+            ConditionOptions.CALLBACK =>
+                node.callback == null || callbacksCollected.Contains(node.callback),
+
+            _ => true
+        };
+    }
+
+    private Coroutine _navigationCoroutine;
+
+    public void HandleChoiceNode(RuntimeChoiceNode node)
+    {
+        ClearChoices();
+        List<GameObject> choiceButtons = new List<GameObject>();
+
+        foreach (var choice in node.choices)
+        {
+            if (!ViableChoice(choice)) continue;
+
+            Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
+
+            // Setup visual state
+            button.GetComponent<Image>().color = exploredChoicesLookup.Contains(choice.ChoiceID)
+                ? PathExplored
+                : Color.white;
+
+            // Button Logic
+            button.onClick.AddListener(() =>
+            {
+                if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine); // Stop navigating
+                AudioManager.instance.PlaySFX("pickChoice");
+                exploredChoicesLookup.Add(choice.ChoiceID);
+                ClearChoices();
+                ShowNode(choice.DestinationNodeID);
+            });
+
+            choiceButtons.Add(button.gameObject);
+        }
+
+        // Start the navigation logic if we have buttons
+        if (choiceButtons.Count > 0)
+        {
+            if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine);
+            _navigationCoroutine = StartCoroutine(SelectFirst(choiceButtons));
         }
     }
 
@@ -280,59 +322,23 @@ public class DialogueGraphManager : MonoBehaviour
 
     IEnumerator TypeDialogue(List<string> dialogue, RuntimeDialogueNode node)
     {
-        List<string> activeDialogue = new List<string>(dialogue);
-
-        // Find the typingspeed
         float _typingSpeed = HandleTypingSpeed(node.TypingSpeed);
         isTyping = true;
 
-        //Handle CallBacks first
-        if (node.Callbacks != null)
-        {
-            foreach (var callback in node.Callbacks)
-            {
-                if (CallbackLookup.Contains(callback.CallbackAsset))
-                {
-                    if (!callback.Replace)
-                    {
-                        activeDialogue.Insert(callback.Index, callback.Sentence);
-                    }
-                    else if (callback.Replace)
-                    {
-                        activeDialogue[callback.Index] = callback.Sentence;
-                    }
-                }
-            }
-        }
+        // Handle UI Position
+        UpdateDialoguePosition(node.Speaker);
 
-        // Set the text at the top where the name should be.
-        if (node.Speaker == null)
+        foreach (string sentence in dialogue)
         {
-            DialogueText.transform.position = SpeakerTextY;
-        }
-        else
-        {
-            if (node.Speaker.SpeakerName == "Narrator")
-            {
-                DialogueText.transform.position = new Vector3(DialogueText.transform.position.x, SpeakerTextY.y + 60f, DialogueText.transform.position.z);
-            }
-            else
-            {
-                DialogueText.transform.position = SpeakerTextY;
-            }
-        }
-
-        //yield return null; // Wait a frame to ensure UI updates before typing starts
-        foreach (string sentence in activeDialogue)
-        {
-
             DialogueText.text = "";
             skipTyping = false;
-            // Type each letter step by step according to typingspeed
+
+            // --- Typing Loop ---
             foreach (char letter in sentence.ToCharArray())
             {
                 AudioManager.instance.PlaySFX("Dialogue");
                 DialogueText.text += letter;
+
                 float timer = 0f;
                 while (timer < _typingSpeed)
                 {
@@ -340,142 +346,109 @@ public class DialogueGraphManager : MonoBehaviour
                     timer += Time.deltaTime;
                     yield return null;
                 }
-                // Set the text if player has clicked
+
                 if (skipTyping)
                 {
-                    AudioManager.instance.PlaySFX("skipTyping");
                     DialogueText.text = sentence;
+                    AudioManager.instance.PlaySFX("skipTyping");
                     break;
                 }
             }
             AudioManager.instance.StopSFX("Dialogue");
             skipTyping = false;
 
-            // Wait until the mouse is up and then you can continue to the next node.
+            // --- Input Wait ---
             yield return new WaitUntil(() => !Mouse.current.leftButton.isPressed);
             yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
-
         }
+
         isTyping = false;
-        //Handles the mark as read attribute
+
         if (node.MarkAsRead)
         {
-            MarkAsReadNodeLookup.Add(node);
+            nodesMarkedAsRead.Add(node);
         }
-
-        //Now list choice
-        if (node.Choices.Count > 0) ListChoices(node);
     }
 
-    public void ListChoices(RuntimeDialogueNode node)
+    private void UpdateDialoguePosition(DialogueSpeaker speaker)
     {
-        ClearChoices();
-        foreach (var choice in node.Choices)
+        if (speaker == null)
         {
+            DialogueText.transform.position = SpeakerTextY;
+            return;
+        }
 
-            // Inside your ListChoices loop
-            bool isViable = ViableChoice(choice);
-            if (!isViable) continue;
-            Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
-            buttons.Add(button.gameObject);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = choice.ChoiceText;
-
-            // --- COLOR SELECTION ---
-            Color targetColor = Color.white; // Default
-
-
-            if (exploredChoicesLookup.Contains(choice.ChoiceID))
-            {
-                Debug.Log(choice);
-                button.GetComponent<Image>().color = PathExplored; // Gray/Red
-                button.interactable = true;
-            }
-            else
-            {
-                button.GetComponent<Image>().color = Color.white; // Normal
-                button.interactable = true;
-            }
-
-            Debug.Log($"Choice: {choice.ChoiceText} | Viable: {isViable} ");
-
-                button.onClick.AddListener(() =>
-                {
-                    AudioManager.instance.PlaySFX("pickChoice");
-                    exploredChoicesLookup.Add(choice.ChoiceID);
-                    ClearChoices();
-                    ShowNode(choice.DestinationNodeID);
-                });
-            }
-        if (buttons.Count > 0) StartCoroutine(SelectFirst(buttons));
+        float offset = (speaker.SpeakerName == "Narrator") ? 60f : 0f;
+        DialogueText.transform.position = new Vector3(
+            DialogueText.transform.position.x,
+            SpeakerTextY.y + offset,
+            DialogueText.transform.position.z
+        );
     }
 
     public IEnumerator SelectFirst(List<GameObject> buttons)
     {
+        if (buttons == null || buttons.Count == 0) yield break;
+
+        // 1. Initial Setup
         EventSystem.current.SetSelectedGameObject(buttons[0]);
         GameObject lastSelected = buttons[0];
 
+        // 2. Setup Explicit Navigation (Wrapping)
         for (int i = 0; i < buttons.Count; i++)
         {
-            Navigation nav = new Navigation();
-            nav.mode = Navigation.Mode.Explicit;
+            Navigation nav = new Navigation { mode = Navigation.Mode.Explicit };
 
-            Selectable up = i > 0 ? buttons[i - 1].GetComponent<Selectable>() : buttons[buttons.Count - 1].GetComponent<Selectable>();
-            Selectable down = i < buttons.Count - 1 ? buttons[i + 1].GetComponent<Selectable>() : buttons[0].GetComponent<Selectable>();
+            // Wrap around logic
+            Selectable up = buttons[i > 0 ? i - 1 : buttons.Count - 1].GetComponent<Selectable>();
+            Selectable down = buttons[i < buttons.Count - 1 ? i + 1 : 0].GetComponent<Selectable>();
 
-            nav.selectOnDown = down;
             nav.selectOnUp = up;
+            nav.selectOnDown = down;
 
-            var selectable = buttons[i].GetComponent<Selectable>();
-            if (selectable != null)
+            if (buttons[i].TryGetComponent<Selectable>(out var selectable))
             {
                 selectable.navigation = nav;
             }
         }
 
-        int lastIndex = -1;
-        
+        int lastIndex = 0;
+
+        // 3. Navigation Loop
         while (true)
         {
             var current = EventSystem.current.currentSelectedGameObject;
 
-            if (buttons.Contains(current))
+            // If the player clicks away or uses a mouse to click empty space, force selection back
+            if (current == null || !buttons.Contains(current))
             {
-                int currentindex = buttons.IndexOf(current);
-
-                if (Mathf.Abs(currentindex - lastIndex) > 1)
-                {
-                    if (currentindex == 0)
-                    {
-                        for (int i = 0; i < Mathf.Abs(currentindex - lastIndex); i++)
-                        {
-                            SetViewPortToSelectedButton(1);
-                        }
-                    }
-                    else if (currentindex == buttons.Count - 1)
-                    {
-                        for (int i = 0; i < Mathf.Abs(currentindex - lastIndex); i++)
-                        {
-                            SetViewPortToSelectedButton(-1);
-                        }
-                    }
-                }
-                else if (currentindex > lastIndex && currentindex > 2)
-                {
-                    Debug.Log("Moved Down");
-                    SetViewPortToSelectedButton(-1);
-                    
-                }
-                else if (currentindex < lastIndex && currentindex < buttons.Count - 3)
-                {
-                    Debug.Log("Moved Up");
-                    SetViewPortToSelectedButton(1);
-                }
-                lastSelected = current;
-                lastIndex = currentindex;
+                EventSystem.current.SetSelectedGameObject(lastSelected);
             }
             else
             {
-                EventSystem.current.SetSelectedGameObject(lastSelected);
+                int currentindex = buttons.IndexOf(current);
+
+                if (currentindex != lastIndex)
+                {
+                    // Logic for Jumping (Top to Bottom or Bottom to Top)
+                    if (Mathf.Abs(currentindex - lastIndex) > 1)
+                    {
+                        if (currentindex == 0) SetViewPortToSelectedButton(10); // Snap to top
+                        else if (currentindex == buttons.Count - 1) SetViewPortToSelectedButton(-10); // Snap to bottom
+                    }
+                    // Standard Sequential Scroll
+                    else if (currentindex > lastIndex && currentindex > 2)
+                    {
+                        SetViewPortToSelectedButton(-1);
+                    }
+                    else if (currentindex < lastIndex && currentindex < buttons.Count - 3)
+                    {
+                        SetViewPortToSelectedButton(1);
+                    }
+
+                    lastSelected = current;
+                    lastIndex = currentindex;
+                }
             }
 
             yield return null;
@@ -484,34 +457,35 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void SetViewPortToSelectedButton(int direction)
     {
+        if (scroll.content.childCount == 0) return;
+
         RectTransform content = scroll.content;
+        VerticalLayoutGroup layout = content.GetComponent<VerticalLayoutGroup>();
 
-        // Get ANY child (they're same size)
+        // Measure the "Step" (Height of one button + the gap between them)
         RectTransform item = content.GetChild(0) as RectTransform;
-
-        float itemHeight = item.rect.height;
-        float spacing = content.GetComponent<VerticalLayoutGroup>().spacing;
-        float stepSize = itemHeight + spacing;
+        float stepSize = item.rect.height + layout.spacing;
 
         Vector2 pos = content.anchoredPosition;
 
-        if (direction == 1) // DOWN
-        {
-            pos.y -= stepSize;
-        }
-        else if (direction == -1) // UP
+        // direction -1 = Player moved DOWN index -> Content moves UP (y increases)
+        // direction  1 = Player moved UP index   -> Content moves DOWN (y decreases)
+        if (direction == -1)
         {
             pos.y += stepSize;
         }
+        else if (direction == 1)
+        {
+            pos.y -= stepSize;
+        }
 
-        float maxY = content.rect.height - scroll.viewport.rect.height;
+        // Clamp the scroll so we don't fly off into the void
+        float maxY = Mathf.Max(0, content.rect.height - scroll.viewport.rect.height);
         pos.y = Mathf.Clamp(pos.y, 0, maxY);
 
         content.anchoredPosition = pos;
     }
 
-    // Check if its a viable choice. Otherwise dont show the Choice
-    // Update this in DialogueGraphManager.cs
     bool ViableChoice(ChoiceData choice)
     {
         if (choice == null) return true;
@@ -531,56 +505,26 @@ public class DialogueGraphManager : MonoBehaviour
         else if (choice.condition == ConditionOptions.WILLING_TO_TALK)
         {
             if (choice.choiceConditionSpeaker == null) return true;
-            print(TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker));
-            if (TalkWillingnessLookup.Contains(choice.choiceConditionSpeaker)) return true; else return false;
+            print(speakersNotWillingToTalk.Contains(choice.choiceConditionSpeaker));
+            if (speakersNotWillingToTalk.Contains(choice.choiceConditionSpeaker)) return true; else return false;
         }
         else if (choice.condition == ConditionOptions.CALLBACK)
         {
             if (choice.choiceConditionCallback == null) return true;
-            if (CallbackLookup.Contains(choice.choiceConditionCallback)) return true; else return false;
+            if (callbacksCollected.Contains(choice.choiceConditionCallback)) return true; else return false;
         }
         return true;
     }
 
-    bool ViableNode(RuntimeDialogueNode node)
-    {
-        if (node == null) return true;
-
-            if (node.condition == ConditionOptions.NONE) return true;
-            else if (node.condition == ConditionOptions.ALIGNMENT)
-            {
-                if (Player.Instance == null) return true;
-                if (node.conditionHumanity > Player.Instance.humanity) return false;
-                if (node.conditionUndead > Player.Instance.undead) return false;
-            }
-            else if (node.condition == ConditionOptions.CLUE)
-            {
-                if (node.conditionClue == null) return true;
-                if (CaseManager.Instance.cluesfound.Contains(node.conditionClue)) return true; else return false;
-            }
-            else if (node.condition == ConditionOptions.WILLING_TO_TALK)
-            {
-                if (node.conditionSpeaker == null) return true;
-            print(TalkWillingnessLookup.Contains(node.conditionSpeaker));
-            if (TalkWillingnessLookup.Contains(node.conditionSpeaker)) return true; else return false; 
-            }
-            else if (node.condition == ConditionOptions.CALLBACK)
-            {
-                if (node.callbackCondition == null) return true;
-            if (CallbackLookup.Contains(node.callbackCondition)) return true; else return false;
-            }
-        return true;
-    }
 
     void HandleSpeakerData(RuntimeDialogueNode node)
     {
-        // if there is no speaker attaches then it disables the speaker and sets the text to an empty string.
         if (node.Speaker == null)
         {
-            SpeakerSprite.enabled = true;
+            SpeakerSprite.enabled = currentInteractable != null;
+            SpeakerNameText.text = currentInteractable != null ? currentInteractable.name : "???";
+            if (currentInteractable != null) SpeakerSprite.sprite = currentInteractable.sprite;
             SpeakerSprite.preserveAspect = true;
-            SpeakerNameText.text = currentInteractable.name;
-            SpeakerSprite.sprite = currentInteractable.sprite;
         }
         else
         {
@@ -606,24 +550,44 @@ public class DialogueGraphManager : MonoBehaviour
         switch (emotion)
         {
             case Emotion.ANGRY:
-                SpeakerSprite.sprite = node.Speaker.Angry;
+                if (node.Speaker.Angry == null)
+                {
+                    SpeakerSprite.sprite = currentInteractable.sprite;
+                }
+                else SpeakerSprite.sprite = node.Speaker.Angry;
                 SpeakerSprite.preserveAspect = true;
                 break;
             case Emotion.HAPPY:
-                SpeakerSprite.sprite = node.Speaker.Happy;
+                if (node.Speaker.Happy == null)
+                {
+                    SpeakerSprite.sprite = currentInteractable.sprite;
+                }
+                else SpeakerSprite.sprite = node.Speaker.Happy;
                 SpeakerSprite.preserveAspect = true;
                 break;
             case Emotion.CONTENT:
-                SpeakerSprite.sprite = node.Speaker.Content;
+                if (node.Speaker.Content == null)
+                {
+                    SpeakerSprite.sprite = currentInteractable.sprite;
+                }
+                else SpeakerSprite.sprite = node.Speaker.Content;
                 SpeakerSprite.preserveAspect = true;
                 break;
             case Emotion.SAD:
-                SpeakerSprite.sprite = node.Speaker.Sad;
+                if (node.Speaker.Sad == null)
+                {
+                    SpeakerSprite.sprite = currentInteractable.sprite;
+                }
+                else SpeakerSprite.sprite = node.Speaker.Sad;
                 SpeakerSprite.preserveAspect = true;
                 break;
             default:
                 Debug.LogWarning("Setting speaker to content!");
-                SpeakerSprite.sprite = node.Speaker.Content;
+                if (node.Speaker.Content == null)
+                {
+                    SpeakerSprite.sprite = currentInteractable.sprite;
+                }
+                else SpeakerSprite.sprite = node.Speaker.Content;
                 break;
         }
     }
@@ -651,16 +615,19 @@ public class DialogueGraphManager : MonoBehaviour
         }
         return _typingSpeed;
     }
-
-    // Delete all choicebuttons
     private void ClearChoices()
     {
+        if (_navigationCoroutine != null)
+        {
+            StopCoroutine(_navigationCoroutine);
+            _navigationCoroutine = null;
+        }
+
         foreach (Transform child in ChoiceButtonContainer)
         {
             Destroy(child.gameObject);
         }
         buttons.Clear();
-        StopCoroutine(SelectFirst(buttons));
     }
 
     //Reset the dialogue
@@ -673,79 +640,6 @@ public class DialogueGraphManager : MonoBehaviour
         isTyping = false;
         ClearChoices();
     }
+}
 
     #endregion
-
-    #region Legacy Code
-    /*public void HandleInteractionNode(RuntimeinteractionNode node)
-{
-    SpeakerNameText.text = node.Name;
-    HandleSpeakerSprite(node.Image);
-
-    StopAllCoroutines();
-    StartCoroutine(TypeDialogue(node.FluffText, node));
-}*/
-
-    /*public void ShowChoices(RuntimeChoiceNode node)
-    {
-        DialoguePanel.SetActive(true);
-
-        SpeakerNameText.text = node.speaker.speakerName.ToString();
-
-        HandleSpeakerSprite(node.speaker.SpeakerSprite);
-
-        StopAllCoroutines();
-        StartCoroutine(TypeDialogue(node.Dialogue));
-
-        foreach (Transform child in ChoiceButtonContainer)
-        {
-            Destroy(child.gameObject);
-        }
-
-        if (node.Choices.Count > 0)
-        {
-            foreach (var choice in node.Choices)
-            {
-                Button button = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer);
-
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null)
-                {
-                    buttonText.text = choice.ChoiceText;
-                }
-
-                if (button != null)
-                {
-                    button.onClick.AddListener(() =>
-                    {
-                        if (!string.IsNullOrEmpty(choice.DestinationNodeID))
-                        {
-                            if (choice.HumanityChange != 0)
-                            {
-                                Debug.Log("Changing Humanity");
-                                TriggerHumanityChange(choice.HumanityChange);
-                            }
-                            ShowNode(choice.DestinationNodeID);
-                        }
-                        else
-                        {
-                            StartCoroutine(EndDialogue());
-                        }
-                    });
-                }
-            }
-        }
-    }*/
-
-    /*#region Event Subscribing
-private void OnEnable()
-{
-    GameEvents.Dialogue.AddListener(StartDialogue);
-}
-private void OnDisable()
-{
-    GameEvents.Dialogue.RemoveListener(StartDialogue);
-}
-#endregion*/
-    #endregion
-}

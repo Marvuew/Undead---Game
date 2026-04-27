@@ -13,14 +13,11 @@ public class RuntimeDialogueGraph : ScriptableObject
 }
 
 #region Nodes
-// Abstract class for all nodes to derive from. So we use polymorphism to virtually disptach each nodes methods.
 [Serializable]
 public abstract class RuntimeNode
 {
     public string NodeID;
     public string NextNodeID;
-    public string ConditionFailNodeID;
-    public string ConditionSuccessNodeID;
     public string MarkAsReadNodeID;
     public virtual string Execute(DialogueGraphManager manager)
     {
@@ -31,33 +28,15 @@ public abstract class RuntimeNode
 [Serializable]
 public class RuntimeDialogueNode : RuntimeNode
 {
-    // Dialogue
     public List<string> Dialogue = new List<string>();
     public DialogueSpeaker Speaker;
     public Emotion Emotion;
     public TypingSpeed TypingSpeed;
-
-    // Node Condition
-    public ConditionOptions condition;
-    public int conditionHumanity;
-    public int conditionUndead;
-    public DialogueSpeaker conditionSpeaker;
-    public Clue conditionClue;
-    public Callback callbackCondition;
-    public bool conditionToggle;
-
-    // Mark as Read
-    public bool MarkAsRead;
-
-    //Choices
-    public List<ChoiceData> Choices = new List<ChoiceData>();
-
-    //Callbacks
-    public List<CallbackData> Callbacks = new List<CallbackData>();
+    public bool MarkAsRead; 
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleDialogueNode(this);
-        return NextNodeID;
+        return null;
     }
 }
 
@@ -111,11 +90,9 @@ public class RuntimeClueNode : RuntimeNode
 public class RuntimeCallBackNode : RuntimeNode
 {
     public Callback callback;
-    
-    // Registers Callback to a hashset
     public override string Execute(DialogueGraphManager manager)
     {
-        manager.CallbackLookup.Add(callback);
+        manager.callbacksCollected.Add(callback);
         return NextNodeID;
     }
 }
@@ -129,6 +106,45 @@ public class RuntimeTalkWillingnessNode : RuntimeNode
     {
         manager.HandleTalkWillingnessNode(this);
         return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeChoiceNode : RuntimeNode
+{
+    public List<ChoiceData> choices = new List<ChoiceData>();
+
+    public ConditionOptions condition;
+    public int humanity;
+    public int undead;
+    public Callback callback;
+    public Clue clue;
+    public DialogueSpeaker TalkWillingnessTarget;
+    public bool TalkWillingness;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleChoiceNode(this);
+        return null; // FOR STOPING THE SHOWNODE METHOD IN THE DIALOUGE MANAGER - TO WAIT FOR PLAYER INPUT
+    }
+}
+
+[Serializable]
+public class RuntimeConditionNode : RuntimeNode
+{
+    public ConditionOptions condition;
+    public int humanity;
+    public int undead;
+    public Callback callback;
+    public Clue clue;
+    public DialogueSpeaker TalkWillingnessTarget;
+    public bool TalkWillingness;
+
+    public string FailNodeID;
+    public string SuccessNodeID;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        return manager.HandleConditionNode(this) ? SuccessNodeID : FailNodeID;
     }
 }
 #endregion
