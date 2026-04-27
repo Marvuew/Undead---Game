@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+[DefaultExecutionOrder(-100)]
 public class PersistentGlobalLight : MonoBehaviour
 {
     public static PersistentGlobalLight Instance;
@@ -24,32 +25,55 @@ public class PersistentGlobalLight : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Create the persistent light
         CreatePersistentLight();
-
     }
 
     private void CreatePersistentLight()
     {
-        // Create a new GameObject for the light if it doesn't exist
-        if (globalLight == null)
+        if (globalLight != null)
+            return;
+
+        Color startupColor = lightColor;
+        float startupIntensity = intensity;
+        int startupBlendStyle = blendStyleIndex;
+
+        // Try to match an already-existing scene Global Light so there is no startup flash.
+        Light2D[] sceneLights = FindObjectsByType<Light2D>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        for (int i = 0; i < sceneLights.Length; i++)
         {
-            GameObject lightObj = new GameObject("PersistentGlobalLight");
-            lightObj.transform.SetParent(transform);
+            Light2D candidate = sceneLights[i];
 
-            globalLight = lightObj.AddComponent<Light2D>();
-            globalLight.lightType = Light2D.LightType.Global;
-            globalLight.color = lightColor;
-            globalLight.intensity = intensity;
-            globalLight.blendStyleIndex = blendStyleIndex;
+            if (candidate == null)
+                continue;
 
-            // Target all existing sorting layers explicitly
-            globalLight.targetSortingLayers = SortingLayer.layers.Select(layer => layer.id).ToArray();
+            if (candidate.lightType != Light2D.LightType.Global)
+                continue;
 
-            // Make sure the light is enabled
-            globalLight.enabled = true;
+            if (candidate.transform.IsChildOf(transform))
+                continue;
 
+            startupColor = candidate.color;
+            startupIntensity = candidate.intensity;
+            startupBlendStyle = candidate.blendStyleIndex;
+            break;
         }
+
+        GameObject lightObj = new GameObject("PersistentGlobalLight");
+        lightObj.transform.SetParent(transform, false);
+
+        globalLight = lightObj.AddComponent<Light2D>();
+        globalLight.lightType = Light2D.LightType.Global;
+        globalLight.color = startupColor;
+        globalLight.intensity = startupIntensity;
+        globalLight.blendStyleIndex = startupBlendStyle;
+        globalLight.targetSortingLayers = SortingLayer.layers.Select(layer => layer.id).ToArray();
+        globalLight.enabled = true;
+
+        // Sync stored values so future updates continue from the correct startup state.
+        lightColor = startupColor;
+        intensity = startupIntensity;
+        blendStyleIndex = startupBlendStyle;
     }
 
     public void UpdateLightSettings(Color color, float newIntensity)
@@ -61,7 +85,7 @@ public class PersistentGlobalLight : MonoBehaviour
         {
             globalLight.color = color;
             globalLight.intensity = newIntensity;
-         }
+        }
         else
         {
             Debug.LogError("PersistentGlobalLight: globalLight is null!");
@@ -71,6 +95,7 @@ public class PersistentGlobalLight : MonoBehaviour
     public void SetBlendStyle(int styleIndex)
     {
         blendStyleIndex = styleIndex;
+
         if (globalLight != null)
         {
             globalLight.blendStyleIndex = styleIndex;
