@@ -7,7 +7,7 @@ public class CreatureManager : MonoBehaviour
     public GameObject creaturePagePanel;
     public GameObject currentPage;
 
-    public void ShowCreature(CreatureData data)
+    public void ShowCreature(Undead data)
     {
         creaturePagePanel.SetActive(true);
     }
