@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-[DefaultExecutionOrder(100)]
 public class DayProgressLightingController : MonoBehaviour
 {
+    [Header("Clock Source")]
+    [SerializeField] private HalfClockHand clockHand;
+
     [Header("Main Light")]
     [SerializeField] private Light2D globalLight;
 
@@ -43,25 +45,39 @@ public class DayProgressLightingController : MonoBehaviour
 
     [SerializeField] private float lateLightsFadeSpeed = 2f;
 
+    [Header("Fire Flicker")]
+    [SerializeField] private bool enableFireFlicker = true;
+    [SerializeField] private Color fireYellow = new Color(1f, 0.9f, 0.25f, 1f);
+    [SerializeField] private Color fireOrange = new Color(1f, 0.45f, 0.05f, 1f);
+    [SerializeField] private Color fireRed = new Color(0.95f, 0.12f, 0.04f, 1f);
+    [SerializeField] private float fireColorFlickerSpeed = 6f;
+    [SerializeField] private float fireIntensityFlickerSpeed = 9f;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float fireIntensityVariation = 0.22f;
+
+    [SerializeField] private bool randomizeEachLight = true;
+
     private float[] base2DIntensities;
     private float[] base3DIntensities;
+    private Color[] base2DColors;
+    private Color[] base3DColors;
+    private float[] seed2D;
+    private float[] seed3D;
 
     private void Awake()
     {
-        ResolveMainLight();
+        if (clockHand == null)
+            clockHand = FindFirstObjectByType<HalfClockHand>();
+
+        if (globalLight == null)
+            globalLight = FindFirstObjectByType<Light2D>();
 
         if (targetCamera == null)
             targetCamera = Camera.main;
 
         CacheLateLightBaseData();
-
-        if (applyInstantlyOnStart)
-            ApplyInstant();
-    }
-
-    private void Start()
-    {
-        ResolveMainLight();
+        BuildFlickerSeeds();
 
         if (applyInstantlyOnStart)
             ApplyInstant();
@@ -69,42 +85,22 @@ public class DayProgressLightingController : MonoBehaviour
 
     private void Update()
     {
-        if (ClockMemory.Instance == null)
+        if (clockHand == null)
             return;
 
-        if (globalLight == null)
-            ResolveMainLight();
-
-        float progress = ClockMemory.Instance.GetNormalizedProgress();
+        float progress = clockHand.NormalizedDayProgress;
 
         UpdateGlobalLight(progress);
         UpdateSkyColor(progress);
         UpdateLateLights(progress);
     }
 
-    private void ResolveMainLight()
-    {
-        if (globalLight != null && globalLight.lightType == Light2D.LightType.Global)
-            return;
-
-        Light2D[] allLights = FindObjectsByType<Light2D>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
-        for (int i = 0; i < allLights.Length; i++)
-        {
-            if (allLights[i] != null && allLights[i].lightType == Light2D.LightType.Global)
-            {
-                globalLight = allLights[i];
-                return;
-            }
-        }
-    }
-
     private void ApplyInstant()
     {
-        if (ClockMemory.Instance == null)
+        if (clockHand == null)
             return;
 
-        float progress = ClockMemory.Instance.GetNormalizedProgress();
+        float progress = clockHand.NormalizedDayProgress;
 
         Color lightColor = EvaluateLightColor(progress);
         float lightIntensity = EvaluateLightIntensity(progress);
@@ -144,34 +140,55 @@ public class DayProgressLightingController : MonoBehaviour
     private Color EvaluateLightColor(float progress)
     {
         if (progress <= 0.33f)
-            return Color.Lerp(morningLightColor, noonLightColor, progress / 0.33f);
+        {
+            float t = progress / 0.33f;
+            return Color.Lerp(morningLightColor, noonLightColor, t);
+        }
 
         if (progress <= 0.66f)
-            return Color.Lerp(noonLightColor, sunsetLightColor, (progress - 0.33f) / 0.33f);
+        {
+            float t = (progress - 0.33f) / 0.33f;
+            return Color.Lerp(noonLightColor, sunsetLightColor, t);
+        }
 
-        return Color.Lerp(sunsetLightColor, eveningLightColor, (progress - 0.66f) / 0.34f);
+        float u = (progress - 0.66f) / 0.34f;
+        return Color.Lerp(sunsetLightColor, eveningLightColor, u);
     }
 
     private float EvaluateLightIntensity(float progress)
     {
         if (progress <= 0.33f)
-            return Mathf.Lerp(morningLightIntensity, noonLightIntensity, progress / 0.33f);
+        {
+            float t = progress / 0.33f;
+            return Mathf.Lerp(morningLightIntensity, noonLightIntensity, t);
+        }
 
         if (progress <= 0.66f)
-            return Mathf.Lerp(noonLightIntensity, sunsetLightIntensity, (progress - 0.33f) / 0.33f);
+        {
+            float t = (progress - 0.33f) / 0.33f;
+            return Mathf.Lerp(noonLightIntensity, sunsetLightIntensity, t);
+        }
 
-        return Mathf.Lerp(sunsetLightIntensity, eveningLightIntensity, (progress - 0.66f) / 0.34f);
+        float u = (progress - 0.66f) / 0.34f;
+        return Mathf.Lerp(sunsetLightIntensity, eveningLightIntensity, u);
     }
 
     private Color EvaluateSkyColor(float progress)
     {
         if (progress <= 0.33f)
-            return Color.Lerp(morningSkyColor, noonSkyColor, progress / 0.33f);
+        {
+            float t = progress / 0.33f;
+            return Color.Lerp(morningSkyColor, noonSkyColor, t);
+        }
 
         if (progress <= 0.66f)
-            return Color.Lerp(noonSkyColor, sunsetSkyColor, (progress - 0.33f) / 0.33f);
+        {
+            float t = (progress - 0.33f) / 0.33f;
+            return Color.Lerp(noonSkyColor, sunsetSkyColor, t);
+        }
 
-        return Color.Lerp(sunsetSkyColor, eveningSkyColor, (progress - 0.66f) / 0.34f);
+        float u = (progress - 0.66f) / 0.34f;
+        return Color.Lerp(sunsetSkyColor, eveningSkyColor, u);
     }
 
     private void CacheLateLightBaseData()
@@ -179,6 +196,7 @@ public class DayProgressLightingController : MonoBehaviour
         if (late2DLights != null)
         {
             base2DIntensities = new float[late2DLights.Length];
+            base2DColors = new Color[late2DLights.Length];
 
             for (int i = 0; i < late2DLights.Length; i++)
             {
@@ -186,6 +204,7 @@ public class DayProgressLightingController : MonoBehaviour
                     continue;
 
                 base2DIntensities[i] = late2DLights[i].intensity;
+                base2DColors[i] = late2DLights[i].color;
                 late2DLights[i].intensity = 0f;
             }
         }
@@ -193,6 +212,7 @@ public class DayProgressLightingController : MonoBehaviour
         if (late3DLights != null)
         {
             base3DIntensities = new float[late3DLights.Length];
+            base3DColors = new Color[late3DLights.Length];
 
             for (int i = 0; i < late3DLights.Length; i++)
             {
@@ -200,8 +220,26 @@ public class DayProgressLightingController : MonoBehaviour
                     continue;
 
                 base3DIntensities[i] = late3DLights[i].intensity;
+                base3DColors[i] = late3DLights[i].color;
                 late3DLights[i].intensity = 0f;
             }
+        }
+    }
+
+    private void BuildFlickerSeeds()
+    {
+        if (late2DLights != null)
+        {
+            seed2D = new float[late2DLights.Length];
+            for (int i = 0; i < late2DLights.Length; i++)
+                seed2D[i] = randomizeEachLight ? Random.Range(0f, 1000f) : 0f;
+        }
+
+        if (late3DLights != null)
+        {
+            seed3D = new float[late3DLights.Length];
+            for (int i = 0; i < late3DLights.Length; i++)
+                seed3D[i] = randomizeEachLight ? Random.Range(0f, 1000f) : 0f;
         }
     }
 
@@ -213,11 +251,22 @@ public class DayProgressLightingController : MonoBehaviour
         {
             for (int i = 0; i < late2DLights.Length; i++)
             {
-                if (late2DLights[i] == null)
+                Light2D light = late2DLights[i];
+                if (light == null)
                     continue;
 
-                float target = base2DIntensities[i] * lateBlend;
-                late2DLights[i].intensity = Mathf.Lerp(late2DLights[i].intensity, target, Time.deltaTime * lateLightsFadeSpeed);
+                float baseIntensity = Get2DBaseIntensity(i) * lateBlend;
+                float flickerIntensity = enableFireFlicker
+                    ? ApplyFireIntensityFlicker(baseIntensity, GetSeed2D(i))
+                    : baseIntensity;
+
+                light.intensity = Mathf.Lerp(light.intensity, flickerIntensity, Time.deltaTime * lateLightsFadeSpeed);
+
+                Color targetColor = enableFireFlicker && lateBlend > 0f
+                    ? GetFireFlickerColor(GetSeed2D(i))
+                    : Get2DBaseColor(i);
+
+                light.color = Color.Lerp(light.color, targetColor, Time.deltaTime * fireColorFlickerSpeed);
             }
         }
 
@@ -225,12 +274,101 @@ public class DayProgressLightingController : MonoBehaviour
         {
             for (int i = 0; i < late3DLights.Length; i++)
             {
-                if (late3DLights[i] == null)
+                Light light = late3DLights[i];
+                if (light == null)
                     continue;
 
-                float target = base3DIntensities[i] * lateBlend;
-                late3DLights[i].intensity = Mathf.Lerp(late3DLights[i].intensity, target, Time.deltaTime * lateLightsFadeSpeed);
+                float baseIntensity = Get3DBaseIntensity(i) * lateBlend;
+                float flickerIntensity = enableFireFlicker
+                    ? ApplyFireIntensityFlicker(baseIntensity, GetSeed3D(i))
+                    : baseIntensity;
+
+                light.intensity = Mathf.Lerp(light.intensity, flickerIntensity, Time.deltaTime * lateLightsFadeSpeed);
+
+                Color targetColor = enableFireFlicker && lateBlend > 0f
+                    ? GetFireFlickerColor(GetSeed3D(i))
+                    : Get3DBaseColor(i);
+
+                light.color = Color.Lerp(light.color, targetColor, Time.deltaTime * fireColorFlickerSpeed);
             }
         }
+    }
+
+    private float ApplyFireIntensityFlicker(float baseIntensity, float seed)
+    {
+        float t = Time.time * fireIntensityFlickerSpeed + seed;
+
+        float noiseA = Mathf.PerlinNoise(t, 0.123f);
+        float noiseB = Mathf.PerlinNoise(0.456f, t * 0.73f);
+        float noise = Mathf.Lerp(noiseA, noiseB, 0.5f);
+
+        float multiplier = Mathf.Lerp(1f - fireIntensityVariation, 1f, noise);
+        return baseIntensity * multiplier;
+    }
+
+    private Color GetFireFlickerColor(float seed)
+    {
+        float t = Time.time * fireColorFlickerSpeed + seed;
+
+        float a = Mathf.PerlinNoise(t, 1.731f);
+        float b = Mathf.PerlinNoise(4.921f, t * 0.61f);
+        float mix = Mathf.Lerp(a, b, 0.5f);
+
+        if (mix < 0.4f)
+        {
+            float p = Mathf.InverseLerp(0f, 0.4f, mix);
+            return Color.Lerp(fireRed, fireOrange, p);
+        }
+
+        float q = Mathf.InverseLerp(0.4f, 1f, mix);
+        return Color.Lerp(fireOrange, fireYellow, q);
+    }
+
+    private float Get2DBaseIntensity(int index)
+    {
+        if (base2DIntensities == null || index < 0 || index >= base2DIntensities.Length)
+            return 1f;
+
+        return base2DIntensities[index];
+    }
+
+    private float Get3DBaseIntensity(int index)
+    {
+        if (base3DIntensities == null || index < 0 || index >= base3DIntensities.Length)
+            return 1f;
+
+        return base3DIntensities[index];
+    }
+
+    private Color Get2DBaseColor(int index)
+    {
+        if (base2DColors == null || index < 0 || index >= base2DColors.Length)
+            return Color.white;
+
+        return base2DColors[index];
+    }
+
+    private Color Get3DBaseColor(int index)
+    {
+        if (base3DColors == null || index < 0 || index >= base3DColors.Length)
+            return Color.white;
+
+        return base3DColors[index];
+    }
+
+    private float GetSeed2D(int index)
+    {
+        if (seed2D == null || index < 0 || index >= seed2D.Length)
+            return 0f;
+
+        return seed2D[index];
+    }
+
+    private float GetSeed3D(int index)
+    {
+        if (seed3D == null || index < 0 || index >= seed3D.Length)
+            return 0f;
+
+        return seed3D[index];
     }
 }

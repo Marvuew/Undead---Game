@@ -8,8 +8,6 @@ public static class TransitionState2D
     public static Vector2 autoWalkDirection = Vector2.zero;
     public static float autoWalkDistance = 0f;
 
-    public static bool isSceneEntryInProgress = false;
-
     public static void SetTransition(string targetSpawnPointId, Vector2 direction, float distance)
     {
         hasPendingTransition = true;
@@ -24,6 +22,5 @@ public static class TransitionState2D
         spawnPointId = "";
         autoWalkDirection = Vector2.zero;
         autoWalkDistance = 0f;
-        isSceneEntryInProgress = false;
     }
 }

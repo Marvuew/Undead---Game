@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class DoorTransition2D : MonoBehaviour
 {
     [Header("Scene")]
-    public SceneNames sceneName;
-    public SceneNames sceneID;
+    public string sceneToLoad;
+    public string targetSpawnPointId;
 
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
@@ -45,19 +46,12 @@ public class DoorTransition2D : MonoBehaviour
             isTransitioning = true;
 
             TransitionState2D.SetTransition(
-                sceneName.ToString(),
+                targetSpawnPointId,
                 autoWalkDirection,
                 autoWalkDistance
             );
 
-            if (WorldFade.Instance != null)
-            {
-                WorldFade.Instance.StartSceneTransition(sceneName.ToString(), fadeDuration, fadeColor);
-            }
-            else
-            {
-                SceneManager.LoadScene(sceneName.ToString());
-            }
+            WorldFade.Instance.StartSceneTransition(sceneToLoad, fadeDuration, fadeColor);
         }
     }
 
@@ -77,7 +71,15 @@ public class DoorTransition2D : MonoBehaviour
     {
         if (!playerInRange || isTransitioning) return;
 
-        string actionText = Enter ? "Enter" : Exit ? "Exit" : "Use";
+        string actionText = "Use";
+
+        if (Enter && !Exit)
+            actionText = "Enter";
+        else if (Exit && !Enter)
+            actionText = "Exit";
+        else if (Enter && Exit)
+            actionText = "Enter / Exit";
+
         string prompt = $"Press {interactKey} to {actionText}";
 
         GUIStyle style = new GUIStyle(GUI.skin.label);
@@ -99,4 +101,11 @@ public class DoorTransition2D : MonoBehaviour
         GUI.color = Color.white;
         GUI.Label(rect, prompt, style);
     }
+    void OnGUIDebug()
+{
+    Debug.Log($"OnGUI called on {gameObject.name}");
+    if (!playerInRange || isTransitioning) return;
+    // ... rest of method
+}
+
 }

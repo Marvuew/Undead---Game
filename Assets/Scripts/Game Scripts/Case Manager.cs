@@ -2,9 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
@@ -15,24 +13,14 @@ public class CaseManager : MonoBehaviour
     [Header("Case SetUp")]
     [SerializeField] private GameObject cluePrefab;
     public Case currentCase;
-    [NonSerialized]
     public HashSet<Clue> cluesfound = new HashSet<Clue>();
-
-    [SerializeField]
-    List<Undead> UndeadDatabase = new List<Undead>();
-
-    public List<Case> allCases = new List<Case>();
-    private List<GameObject> ActiveInteractables = new List<GameObject>();
-
-    [Header("Temporary")]
-    public UndeadType undeadChosen;
 
     bool isActive = false;
 
     //Clues pointing to each given undead
-    private Dictionary<UndeadType, int> undeadTally = 
-    Enum.GetValues(typeof(UndeadType))
-        .Cast<UndeadType>()
+    private Dictionary<Undead, int> undeadTally = 
+    Enum.GetValues(typeof(Undead))
+        .Cast<Undead>()
         .ToDictionary(value => value, value => 0);
 
     private void Awake()
@@ -45,14 +33,13 @@ public class CaseManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     } //Ensuring singleton pattern
-    public int GetClueCount(UndeadType undead) 
+    public int GetClueCount(Undead undead) 
     { 
         return undeadTally.TryGetValue(undead, out int count) ? count : 0;
     } // returns the tally/cluesfound for the given undead creature
 
     public void SetUpClues()
     {
-        ClearActiveClues();
         if (isActive)
         {
             Debug.LogWarning("Case is already set up");
@@ -61,13 +48,10 @@ public class CaseManager : MonoBehaviour
         isActive = true;
         foreach (Clue clue in currentCase.clues)
         {
-            Debug.Log("Instantiating: " + clue);
-            if (clue.sceneName.ToString() != SceneManager.GetActiveScene().name) continue;
             GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
             newClue.GetComponent<interactable>().clue = clue;
             newClue.GetComponent<interactable>().dialogueGraph = clue.dialogueGraph;
             newClue.GetComponent<SpriteRenderer>().sprite = clue.sprite;
-            ActiveInteractables.Add(newClue);
         }
     }  // spawning in clues used maybe in the future
     public void OnClueFound(Clue clueFound)
@@ -82,7 +66,7 @@ public class CaseManager : MonoBehaviour
         StartCoroutine(AudioManager.instance.QueueClueFoundSound());
         if(clueFound.undeadTypes.Count > 0) 
         {
-            foreach (UndeadType type in clueFound.undeadTypes) 
+            foreach (Undead type in clueFound.undeadTypes) 
             {
                 if (undeadTally.ContainsKey(type))
                     undeadTally[type]++;
@@ -92,42 +76,6 @@ public class CaseManager : MonoBehaviour
         Debug.Log("calling book update");
         NecroLexiconUI.Instance.UpdateCluesList();
     } //updates undead tally and clues found in book 
-
-    public void TransitionToSelectScene()
-    {
-        var selectScene = FindAnyObjectByType<CulpritSelectionScript>();
-        StartCoroutine(selectScene.SetupSelectScene(UndeadDatabase));
-    }
-
-    public void TemporaryAddTallyToSuspect()
-    {
-        undeadTally[undeadChosen]++;
-    }
-
-    public void LoadNextCase()
-    {
-        ClearActiveClues();
-        cluesfound.Clear();
-        int currentCaseIndex = allCases.IndexOf(currentCase);
-        Debug.Log(currentCaseIndex);
-        Debug.Log(allCases[currentCaseIndex]);
-        if (currentCaseIndex++ >= allCases.Count)
-        {
-            Debug.LogWarning("Youve reached the last case");
-            return;
-        }
-        isActive = false;
-        currentCase = allCases[currentCaseIndex++];
-        SetUpClues();
-    }
-
-    public void ClearActiveClues()
-    {
-        foreach (var interactable in ActiveInteractables)
-        {
-            Destroy(interactable);
-        }
-    }
 }
 /*
 public static CaseManager instance;

@@ -12,10 +12,6 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     public AudioClip[] pageTurnSounds;
-
-    [Header("Music")]
-    public AudioClip[] Songs;
-    public int songChangeWaitTime = 30;
     private void Awake()
     {
         if (instance == null)
@@ -40,12 +36,8 @@ public class AudioManager : MonoBehaviour
             s.source.playOnAwake = s.PlayOnAwake;
         }
 
-    }
-
-    public void Start()
-    {
-        PlayMusic("AmbientDay"); // START THE AMBIENCE
-        StartCoroutine(SongController()); // START THE RANDOM SONG LOOP
+        PlayMusic("AmbientDay");
+        PlayMusic("Music1");
     }
 
     public void PlayMusic(string name)
@@ -120,6 +112,15 @@ public class AudioManager : MonoBehaviour
         PlaySFX("ClueFound");
     }
 
+    public IEnumerator MusicController()
+    {
+        int waitTime = 30;
+        int randomWaitTime = UnityEngine.Random.Range(waitTime - 10, waitTime + 10);
+        PlayMusic("Music1");
+        yield return new WaitForSeconds(Array.Find(sounds, s => s.name == "Music1").clip.length);
+        yield return new WaitForSeconds(randomWaitTime);
+    }
+
     public void PlayPageTurnSound()
     {
         
@@ -127,28 +128,6 @@ public class AudioManager : MonoBehaviour
         {
             int index = UnityEngine.Random.Range(0, pageTurnSounds.Length);
             PlaySFX(pageTurnSounds[index].name);
-        }
-    }
-
-    public IEnumerator SongController()
-    {
-        foreach(var song in Songs)
-        {
-            Debug.Log(song.name);
-        }
-        int lastIndex = -1; // INIT LAST INDEX TO -1 TO PREVENT ACCIDENTAL INFINITE LOOP
-        while (true)
-        {
-            if (Songs.Length == 0) yield break;
-            int index; // 
-            do { index = UnityEngine.Random.Range(0, Songs.Length); } // TRY TO FIND AN INDEX AS LONG AS IT ISNT THE SAME AS THE LAST ONE
-            while (index == lastIndex && Songs.Length > 1);
-            var song = Songs[index]; // MAKE A VARIABLE FOR THE SONG
-            lastIndex = index; // UPDATE THE LAST INDEX
-            PlayMusic(song.name); // PLAY THE SONG
-            yield return new WaitForSeconds(Array.Find(sounds, s => s.name == song.name).clip.length); // WAIT FOR SONG TO FINISH
-            int randomWaitTime = UnityEngine.Random.Range(songChangeWaitTime - 15, songChangeWaitTime + 15); // MAKE THE WAITTIME IN BETWEEN SONGS A BIT RANDOM
-            yield return new WaitForSeconds(randomWaitTime); // WAIT A RANDOM AMOUNT OF TIME TILL NEXT SONG
         }
     }
 }

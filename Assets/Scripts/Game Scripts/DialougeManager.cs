@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Rendering.MaterialUpgrader;
 
-/*namespace Assets.Scripts.GameScripts
+namespace Assets.Scripts.GameScripts
 {
     internal class DialougeManager : MonoBehaviour
     {
@@ -169,4 +169,4 @@ using static UnityEditor.Rendering.MaterialUpgrader;
         }
 
     }
-}*/
+}

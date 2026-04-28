@@ -11,37 +11,43 @@ public class ConfrontationScript : MonoBehaviour
     public Image culpritImage;
     public CaseOutroScript caseOutroScript;
 
-    public IEnumerator Manifest(int foundClues, bool rightCulprit, GameObject corkBoard, Undead pickedCulprit, Image selectBackground)
+    public IEnumerator Manifest(int foundClues, bool rightCulprit, GameObject corkBoard, Suspect pickedCulprit, Image selectBackground)
     {
-        AnimationManager.instance.BlackFadeAnimation(); // FADE ANIMATION
-        yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false); // WAIT TILL ITS DONE
-
-        selectBackground.enabled = false; // DISABLE THE SELECT BACKGROUND
-        corkBoard.SetActive(false); // DISBALE THE CORKBOARD
-        undeadBackGround.enabled = true; // ENABLE THE UNDEAD SPECIFIC BACKGROUND
-
-
-        HandleCulpritData(pickedCulprit); // SET THE CULPRIT DATA, BACKGROUND AND CHARACTER SPRITE...
-        AnimationManager.instance.UndeadManifestationAnimation(foundClues, rightCulprit); // PICK THE RIGHT ANIMATION
-        yield return new WaitForSeconds(3f); // WAIT A LITTLE
-
-        yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame); // PROCEED WITH SPACE BAR
-        AnimationManager.instance.BlackFadeAnimation(); // THEN CALL FADEANIMATION
+        //Fade Animation
+        AnimationManager.instance.BlackFadeAnimation();
         yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false);
 
-        ContinueToOutro(pickedCulprit, foundClues, rightCulprit); // CALL THE TRANSITION MEHTOD TO OUTRO
+        selectBackground.enabled = false;
+        corkBoard.SetActive(false);
+        undeadBackGround.enabled = true;
+
+        Debug.Log("HEY");
+        //Culprit Animation
+        HandleCulpritData(pickedCulprit);
+        AnimationManager.instance.UndeadManifestationAnimation(foundClues, rightCulprit);
+
+        //Proceed with mouse click => Fade Animation
+        yield return new WaitUntil(() => Mouse.current.leftButton.wasPressedThisFrame);
+
+        AnimationManager.instance.BlackFadeAnimation();
+        yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false);
+        ContinueToOutro(pickedCulprit, foundClues, rightCulprit);
+
     }
 
-    public void ContinueToOutro(Undead pickedCulprit, int foundClues, bool rightCulprit)
+    public void ContinueToOutro(Suspect pickedCulprit, int foundClues, bool rightCulprit)
     {
-        AnimationManager.instance.StopUndeadAnimation(); // STOPPING THE UNDEAD ANIMATIONS
+        Debug.Log("Contine to Outro");
+        //Stop the undead Animations
+        AnimationManager.instance.StopUndeadAnimation();
 
-        StartCoroutine(caseOutroScript.SetupOutro(pickedCulprit, foundClues, rightCulprit, undeadBackGround)); // START THE OUTRO
+        //Continues on with the Case outro.
+        StartCoroutine(caseOutroScript.SetupOutro(pickedCulprit, foundClues, rightCulprit, undeadBackGround));
     }
 
-    public void HandleCulpritData(Undead suspect)
+    public void HandleCulpritData(Suspect suspect)
     {
         undeadBackGround.sprite = suspect.homeSprite;
-        culpritImage.sprite = suspect.undeadSprite;
+        culpritImage.sprite = suspect.sprite;
     }
 }

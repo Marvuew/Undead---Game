@@ -11,10 +11,10 @@ public class CreaturePage : MonoBehaviour
     public TMP_Text creatureDescriptionText;
 
 
-    public void Setup(Undead data)
+    public void Setup(CreatureData data)
     {
-        creatureNameText.text = data.undeadType.ToString();
-        creatureImage.sprite = data.cardSprite;
+        creatureNameText.text = data.creatureName;
+        creatureImage.sprite = data.image;
         creatureDescriptionText.text = data.description;
         gameObject.SetActive(true);
     }

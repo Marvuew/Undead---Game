@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Assets.Scripts.GameScripts;
 
 [RequireComponent(typeof(Camera))]
 public class CameraFollow2D : MonoBehaviour
@@ -36,13 +35,13 @@ public class CameraFollow2D : MonoBehaviour
 
     private void ReacquireTarget()
     {
-        if (Player.Instance != null)
+        if (PersistentPlayer2D.Instance != null)
         {
-            target = Player.Instance.transform;
+            target = PersistentPlayer2D.Instance.transform;
             return;
         }
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerMovement2D player = Object.FindAnyObjectByType<PlayerMovement2D>();
         if (player != null)
             target = player.transform;
     }

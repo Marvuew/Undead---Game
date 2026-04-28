@@ -29,11 +29,6 @@ public class SceneEntryController2D : MonoBehaviour
         PlayerMovement2D movement = player.GetComponent<PlayerMovement2D>();
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
 
-        // 🔴 FIND CLOCK AND PAUSE IT BEFORE ANY MOVEMENT
-        HalfClockHand clock = Object.FindAnyObjectByType<HalfClockHand>();
-        if (clock != null)
-            clock.PauseClockTracking(true);
-
         if (!TransitionState2D.hasPendingTransition)
         {
             if (revealRoomOnEnter && roomToRevealOnEnter != null)
@@ -43,13 +38,6 @@ public class SceneEntryController2D : MonoBehaviour
             if (cam != null)
                 cam.SnapToTarget();
 
-            // 🔴 RESUME CLOCK SAFELY
-            if (clock != null)
-            {
-                clock.ResyncPlayerTracking();
-                clock.PauseClockTracking(false);
-            }
-
             yield break;
         }
 
@@ -58,7 +46,7 @@ public class SceneEntryController2D : MonoBehaviour
 
         foreach (DoorSpawnPoint2D spawn in spawnPoints)
         {
-            if (spawn.sceneName.ToString() == TransitionState2D.spawnPointId)
+            if (spawn.spawnPointId == TransitionState2D.spawnPointId)
             {
                 chosenSpawn = spawn;
                 break;
@@ -104,14 +92,6 @@ public class SceneEntryController2D : MonoBehaviour
 
         if (movement != null)
             movement.SetMovementEnabled(true);
-
-        // 🔴 THIS IS THE CRITICAL PART
-        // Reset tracking AFTER everything is finished
-        if (clock != null)
-        {
-            clock.ResyncPlayerTracking();
-            clock.PauseClockTracking(false);
-        }
 
         TransitionState2D.Clear();
     }
