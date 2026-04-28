@@ -27,7 +27,7 @@ public class CulpritSelectionScript : MonoBehaviour
         foreach (var suspect in culprits)
         {
             Button button = Instantiate(culpritButtonPrefab, corkBoardContainer);
-            button.GetComponent<Image>().sprite = suspect.undeadSprite;
+            button.GetComponent<Image>().sprite = suspect.cardSprite;
             button.onClick.AddListener(() => HandleCulpritGuess(suspect, button, backGround));
         }
     }
