@@ -13,16 +13,16 @@ public class CaseManager : MonoBehaviour
     public static CaseManager Instance { get; private set; }
 
     [Header("Case SetUp")]
-    [SerializeField] private GameObject cluePrefab;
+    [SerializeField] private GameObject interactablePrefab;
     public Case currentCase;
     [NonSerialized]
     public HashSet<Clue> cluesfound = new HashSet<Clue>();
 
     [SerializeField]
-    List<Undead> UndeadDatabase = new List<Undead>();
+    List<Undead> undeadDatabase = new List<Undead>();
 
     public List<Case> allCases = new List<Case>();
-    private List<GameObject> ActiveInteractables = new List<GameObject>();
+    private List<GameObject> activeInteractables = new List<GameObject>();
 
     [Header("Temporary")]
     public UndeadType undeadChosen;
@@ -53,23 +53,31 @@ public class CaseManager : MonoBehaviour
     public void SetUpClues()
     {
         ClearActiveClues();
-        if (isActive)
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        foreach (InteractableScriptableObject data in currentCase.interactables)
         {
-            Debug.LogWarning("Case is already set up");
-            return;
+            if (data.homeScene.ToString() != currentSceneName) continue;
+
+            GameObject newInteractable = Instantiate(interactablePrefab, data.position, Quaternion.identity);
+
+            SpriteRenderer sr = newInteractable.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.sprite = data.interactableSprite;
+                sr.sortingLayerName = data.sortingLayerName; // SET THE LAYER
+                sr.sortingOrder = data.orderInLayer;         // SET THE ORDER
+                Debug.Log($"Spawning {data.name} at Order: {data.orderInLayer}");
+            }
+
+            RuntimeInteractable script = newInteractable.GetComponent<RuntimeInteractable>();
+            script.interactableData = data;
+            script.interactableType = data.interactableType;
+            script.dialogueGraph = data.dialogue;
+
+            activeInteractables.Add(newInteractable);
         }
-        isActive = true;
-        foreach (Clue clue in currentCase.clues)
-        {
-            Debug.Log("Instantiating: " + clue);
-            if (clue.sceneName.ToString() != SceneManager.GetActiveScene().name) continue;
-            GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
-            newClue.GetComponent<interactable>().clue = clue;
-            newClue.GetComponent<interactable>().dialogueGraph = clue.dialogueGraph;
-            newClue.GetComponent<SpriteRenderer>().sprite = clue.sprite;
-            ActiveInteractables.Add(newClue);
-        }
-    }  // spawning in clues used maybe in the future
+    }
     public void OnClueFound(Clue clueFound)
     {
         if (cluesfound.Contains(clueFound))
@@ -96,7 +104,7 @@ public class CaseManager : MonoBehaviour
     public void TransitionToSelectScene()
     {
         var selectScene = FindAnyObjectByType<CulpritSelectionScript>();
-        StartCoroutine(selectScene.SetupSelectScene(UndeadDatabase));
+        StartCoroutine(selectScene.SetupSelectScene(undeadDatabase));
     }
 
     public void TemporaryAddTallyToSuspect()
@@ -123,7 +131,7 @@ public class CaseManager : MonoBehaviour
 
     public void ClearActiveClues()
     {
-        foreach (var interactable in ActiveInteractables)
+        foreach (var interactable in activeInteractables)
         {
             Destroy(interactable);
         }

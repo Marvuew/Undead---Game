@@ -13,7 +13,7 @@ namespace Assets.Scripts.GameScripts
         public int undead = 50;
 
         List<string> inventory;
-        public interactable currentInteractable;
+        public RuntimeInteractable currentInteractable;
 
         private Vector2 moveInput;
         public bool interacting;

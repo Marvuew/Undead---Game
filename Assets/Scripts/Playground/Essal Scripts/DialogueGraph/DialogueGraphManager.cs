@@ -45,7 +45,7 @@ public class DialogueGraphManager : MonoBehaviour
     public Transform SpeakerSpriteContainer;
 
     [HideInInspector]
-    public Clue currentInteractable;
+    public InteractableScriptableObject currentInteractable;
 
     [Header("Choice Button UI")]
     public Button ChoiceButtonPrefab;
@@ -522,7 +522,7 @@ public class DialogueGraphManager : MonoBehaviour
         {
             SpeakerSprite.enabled = currentInteractable != null;
             SpeakerNameText.text = currentInteractable != null ? currentInteractable.name : "???";
-            if (currentInteractable != null) SpeakerSprite.sprite = currentInteractable.sprite;
+            if (currentInteractable != null) SpeakerSprite.sprite = currentInteractable.interactableSprite;
             SpeakerSprite.preserveAspect = true;
         }
         else
@@ -551,7 +551,7 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.ANGRY:
                 if (node.Speaker.Angry == null)
                 {
-                    SpeakerSprite.sprite = currentInteractable.sprite;
+                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Angry;
                 SpeakerSprite.preserveAspect = true;
@@ -559,7 +559,7 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.HAPPY:
                 if (node.Speaker.Happy == null)
                 {
-                    SpeakerSprite.sprite = currentInteractable.sprite;
+                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Happy;
                 SpeakerSprite.preserveAspect = true;
@@ -567,7 +567,7 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.CONTENT:
                 if (node.Speaker.Content == null)
                 {
-                    SpeakerSprite.sprite = currentInteractable.sprite;
+                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Content;
                 SpeakerSprite.preserveAspect = true;
@@ -575,7 +575,7 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.SAD:
                 if (node.Speaker.Sad == null)
                 {
-                    SpeakerSprite.sprite = currentInteractable.sprite;
+                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Sad;
                 SpeakerSprite.preserveAspect = true;
@@ -584,7 +584,7 @@ public class DialogueGraphManager : MonoBehaviour
                 Debug.LogWarning("Setting speaker to content!");
                 if (node.Speaker.Content == null)
                 {
-                    SpeakerSprite.sprite = currentInteractable.sprite;
+                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Content;
                 break;
