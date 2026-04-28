@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1303163274418847765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040101702390683100}
+  - component: {fileID: 4657798583298908555}
+  m_Layer: 0
+  m_Name: NecroLexiconManager 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2040101702390683100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303163274418847765}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57448.156, y: 540, z: 194634.17}
+  m_LocalScale: {x: 14.029612, y: 14.029612, z: 14.029612}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4657798583298908555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303163274418847765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad4a05ba38ecf843b9962ffde80ab6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NecroLexiconUI
+  cluesPage: {fileID: 0}
+  cluesText: {fileID: 0}
+  creaturesPage: {fileID: 0}
+  creaturesText: {fileID: 0}
+  casePage: {fileID: 0}
+  bookCover: {fileID: 0}
+  pagesContainer: {fileID: 0}
+  leftSideContainer: {fileID: 0}
+  cluesContainer: {fileID: 0}
+  clueTxtPrefab: {fileID: 1478059602223163657, guid: 2d66699323879d544a0baa0bd9f33027, type: 3}
+  creatureManager: {fileID: 0}
+  casePageScript: {fileID: 3202469963305023806, guid: 3c61cfcc0fdbf0e4db5bbf926b05b9f7, type: 3}
+  caseData: {fileID: 11400000, guid: 3b3498b6b6696204d827086fa2ef9edc, type: 2}
+  caseManager: {fileID: 0}
+  casePanelPrefab: {fileID: 779980302050722405, guid: 3c61cfcc0fdbf0e4db5bbf926b05b9f7, type: 3}
+  pageButtons:
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 50}
+    openPos: {x: 468.656, y: 31.65496}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 115}
+    openPos: {x: 468.656, y: 95.04596}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 178}
+    openPos: {x: 468.656, y: 157.7}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: -154}
+    openPos: {x: -346, y: -205}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
