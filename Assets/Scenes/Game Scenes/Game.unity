@@ -13469,17 +13469,22 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 1325
+  - serializedVersion: 2
+    m_RefCount: 1325
     m_Data: {fileID: 11400000, guid: 5dd3888a9e7724086865ee6a24826037, type: 2}
-  - m_RefCount: 0
+  - serializedVersion: 2
+    m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1325
+  - serializedVersion: 2
+    m_RefCount: 1325
     m_Data: {fileID: 1215474264, guid: ff82ef372d0af4d399246aa87be2bcb4, type: 3}
-  - m_RefCount: 0
+  - serializedVersion: 2
+    m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileMatrixArray:
-  - m_RefCount: 1325
+  - serializedVersion: 2
+    m_RefCount: 1325
     m_Data:
       e00: 1
       e01: 0
@@ -13498,7 +13503,8 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1325
+  - serializedVersion: 2
+    m_RefCount: 1325
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -13888,7 +13894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &160926199
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 1830436165}
@@ -13945,6 +13951,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &160926200
 Transform:
   m_ObjectHideFlags: 0
@@ -14112,7 +14119,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 109981f20af83b240bdb87c69b87be8a, type: 2}
+  creatureData: {fileID: 0}
 --- !u!114 &188512043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14675,7 +14682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &576174659
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 2013133888}
@@ -14732,6 +14739,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &576174660
 Transform:
   m_ObjectHideFlags: 0
@@ -14856,7 +14864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &610623353
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 1260408855}
@@ -14913,6 +14921,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &610623354
 Transform:
   m_ObjectHideFlags: 0
@@ -15052,7 +15061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &655763880
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 1572092025}
@@ -15109,6 +15118,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &655763881
 Transform:
   m_ObjectHideFlags: 0
@@ -15276,7 +15286,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 960d5001972a55047b4562c0722d2ba2, type: 2}
+  creatureData: {fileID: 0}
 --- !u!114 &663406043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15403,7 +15413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &750299954
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 852367425}
@@ -15460,6 +15470,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &750299955
 Transform:
   m_ObjectHideFlags: 0
@@ -16160,7 +16171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &895187472
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 1380062413}
@@ -16217,6 +16228,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &895187473
 Transform:
   m_ObjectHideFlags: 0
@@ -16264,7 +16276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &978345657
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 643998402}
@@ -16321,6 +16333,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &978345658
 Transform:
   m_ObjectHideFlags: 0
@@ -16380,9 +16393,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
+  m_ComponentVersion: 3
   m_LightType: 4
   m_BlendStyleIndex: 0
+  m_Light2DProvider:
+    rid: -2
+  m_SelectionSources:
+    rid: 5696871655851426010
   m_FalloffIntensity: 0.5
   m_Color: {r: 0.66818947, g: 0.7637592, b: 0.91194963, a: 1}
   m_Intensity: 0.89
@@ -16420,6 +16437,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5696871655851426010
+      type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_SelectedHashCode: 4
+        m_SelectedSource:
+          rid: -2
+        m_Provider2DCache:
+          rid: -2
 --- !u!1 &1064814324
 GameObject:
   m_ObjectHideFlags: 0
@@ -16604,7 +16634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1134215490
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -16661,6 +16691,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1134215491
 Transform:
   m_ObjectHideFlags: 0
@@ -16709,7 +16740,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1142561579
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 1556602699}
@@ -16766,6 +16797,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1142561580
 Transform:
   m_ObjectHideFlags: 0
@@ -16795,7 +16827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
   m_ShadowGroup: 0
   m_Priority: 0
-  m_ComponentVersion: 5
+  m_ComponentVersion: 6
   m_HasRenderer: 1
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
@@ -16814,26 +16846,163 @@ MonoBehaviour:
     rid: 3822441480482979919
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 1450063433}
-    m_LocalBounds:
-      m_Center: {x: 0, y: 1.5, z: 0}
-      m_Extent: {x: 0.8999939, y: 1.3999939, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.1
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
+    rid: 5696871655851426008
   m_CastingOption: 1
   m_PreviousTrimEdge: 0.1
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
   m_PreviousShadowShape2DSource: {fileID: 1142561579}
+  m_SelectionSources:
+    rid: 5696871655851426009
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 3822441480482979919
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+    - rid: 5696871655851426008
+      type: {class: ShadowMesh2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Vertices:
+        - position: {x: 0.6773224, y: 0.15696716, z: 0}
+          tangent: {x: -1, y: 0, z: 0.8999939, w: 0.33015442}
+        - position: {x: 0.8999939, y: 0.33015442, z: 0}
+          tangent: {x: -1, y: 0, z: 0.8999939, w: 1.043457}
+        - position: {x: 0.8999939, y: 1.043457, z: 0}
+          tangent: {x: -1, y: 0, z: 0.37919617, w: 2.3607635}
+        - position: {x: 0.37919617, y: 2.3607635, z: 0}
+          tangent: {x: -1, y: 0, z: 0.038635254, w: 2.899994}
+        - position: {x: 0.038635254, y: 2.899994, z: 0}
+          tangent: {x: -1, y: 0, z: -0.03338623, w: 2.899994}
+        - position: {x: -0.03338623, y: 2.899994, z: 0}
+          tangent: {x: -1, y: 0, z: -0.3159027, w: 2.3632202}
+        - position: {x: -0.3159027, y: 2.3632202, z: 0}
+          tangent: {x: -1, y: 0, z: -0.8999939, w: 1.0105896}
+        - position: {x: -0.8999939, y: 1.0105896, z: 0}
+          tangent: {x: -1, y: 0, z: -0.8999939, w: 0.39118958}
+        - position: {x: -0.8999939, y: 0.39118958, z: 0}
+          tangent: {x: -1, y: 0, z: -0.8584442, w: 0.2665558}
+        - position: {x: -0.8584442, y: 0.2665558, z: 0}
+          tangent: {x: -1, y: 0, z: -0.35881042, w: 0.1000061}
+        - position: {x: -0.35881042, y: 0.1000061, z: 0}
+          tangent: {x: -1, y: 0, z: 0.33555603, w: 0.1000061}
+        - position: {x: 0.33555603, y: 0.1000061, z: 0}
+          tangent: {x: -1, y: 0, z: 0.6773224, w: 0.15696716}
+        - position: {x: 0.6773224, y: 0.15696716, z: 0}
+          tangent: {x: 0, y: 0, z: 0.8999939, w: 0.33015442}
+        - position: {x: 0.8999939, y: 0.33015442, z: 0}
+          tangent: {x: 0, y: 0, z: 0.6773224, w: 0.15696716}
+        - position: {x: 0.6773224, y: 0.15696716, z: 0}
+          tangent: {x: 1, y: 0, z: 0.8999939, w: 0.33015442}
+        - position: {x: 0.6773224, y: 0.15696716, z: 0}
+          tangent: {x: 3, y: 0, z: 0.8999939, w: 0.33015442}
+        - position: {x: 0.8999939, y: 0.33015442, z: 0}
+          tangent: {x: 0, y: 0, z: 0.8999939, w: 1.043457}
+        - position: {x: 0.8999939, y: 1.043457, z: 0}
+          tangent: {x: 0, y: 0, z: 0.8999939, w: 0.33015442}
+        - position: {x: 0.8999939, y: 0.33015442, z: 0}
+          tangent: {x: 1, y: 0, z: 0.8999939, w: 1.043457}
+        - position: {x: 0.8999939, y: 0.33015442, z: 0}
+          tangent: {x: 3, y: 0, z: 0.8999939, w: 1.043457}
+        - position: {x: 0.8999939, y: 1.043457, z: 0}
+          tangent: {x: 0, y: 0, z: 0.37919617, w: 2.3607635}
+        - position: {x: 0.37919617, y: 2.3607635, z: 0}
+          tangent: {x: 0, y: 0, z: 0.8999939, w: 1.043457}
+        - position: {x: 0.8999939, y: 1.043457, z: 0}
+          tangent: {x: 1, y: 0, z: 0.37919617, w: 2.3607635}
+        - position: {x: 0.8999939, y: 1.043457, z: 0}
+          tangent: {x: 3, y: 0, z: 0.37919617, w: 2.3607635}
+        - position: {x: 0.37919617, y: 2.3607635, z: 0}
+          tangent: {x: 0, y: 0, z: 0.038635254, w: 2.899994}
+        - position: {x: 0.038635254, y: 2.899994, z: 0}
+          tangent: {x: 0, y: 0, z: 0.37919617, w: 2.3607635}
+        - position: {x: 0.37919617, y: 2.3607635, z: 0}
+          tangent: {x: 1, y: 0, z: 0.038635254, w: 2.899994}
+        - position: {x: 0.37919617, y: 2.3607635, z: 0}
+          tangent: {x: 3, y: 0, z: 0.038635254, w: 2.899994}
+        - position: {x: 0.038635254, y: 2.899994, z: 0}
+          tangent: {x: 0, y: 0, z: -0.03338623, w: 2.899994}
+        - position: {x: -0.03338623, y: 2.899994, z: 0}
+          tangent: {x: 0, y: 0, z: 0.038635254, w: 2.899994}
+        - position: {x: 0.038635254, y: 2.899994, z: 0}
+          tangent: {x: 1, y: 0, z: -0.03338623, w: 2.899994}
+        - position: {x: 0.038635254, y: 2.899994, z: 0}
+          tangent: {x: 3, y: 0, z: -0.03338623, w: 2.899994}
+        - position: {x: -0.03338623, y: 2.899994, z: 0}
+          tangent: {x: 0, y: 0, z: -0.3159027, w: 2.3632202}
+        - position: {x: -0.3159027, y: 2.3632202, z: 0}
+          tangent: {x: 0, y: 0, z: -0.03338623, w: 2.899994}
+        - position: {x: -0.03338623, y: 2.899994, z: 0}
+          tangent: {x: 1, y: 0, z: -0.3159027, w: 2.3632202}
+        - position: {x: -0.03338623, y: 2.899994, z: 0}
+          tangent: {x: 3, y: 0, z: -0.3159027, w: 2.3632202}
+        - position: {x: -0.3159027, y: 2.3632202, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8999939, w: 1.0105896}
+        - position: {x: -0.8999939, y: 1.0105896, z: 0}
+          tangent: {x: 0, y: 0, z: -0.3159027, w: 2.3632202}
+        - position: {x: -0.3159027, y: 2.3632202, z: 0}
+          tangent: {x: 1, y: 0, z: -0.8999939, w: 1.0105896}
+        - position: {x: -0.3159027, y: 2.3632202, z: 0}
+          tangent: {x: 3, y: 0, z: -0.8999939, w: 1.0105896}
+        - position: {x: -0.8999939, y: 1.0105896, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8999939, w: 0.39118958}
+        - position: {x: -0.8999939, y: 0.39118958, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8999939, w: 1.0105896}
+        - position: {x: -0.8999939, y: 1.0105896, z: 0}
+          tangent: {x: 1, y: 0, z: -0.8999939, w: 0.39118958}
+        - position: {x: -0.8999939, y: 1.0105896, z: 0}
+          tangent: {x: 3, y: 0, z: -0.8999939, w: 0.39118958}
+        - position: {x: -0.8999939, y: 0.39118958, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8584442, w: 0.2665558}
+        - position: {x: -0.8584442, y: 0.2665558, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8999939, w: 0.39118958}
+        - position: {x: -0.8999939, y: 0.39118958, z: 0}
+          tangent: {x: 1, y: 0, z: -0.8584442, w: 0.2665558}
+        - position: {x: -0.8999939, y: 0.39118958, z: 0}
+          tangent: {x: 3, y: 0, z: -0.8584442, w: 0.2665558}
+        - position: {x: -0.8584442, y: 0.2665558, z: 0}
+          tangent: {x: 0, y: 0, z: -0.35881042, w: 0.1000061}
+        - position: {x: -0.35881042, y: 0.1000061, z: 0}
+          tangent: {x: 0, y: 0, z: -0.8584442, w: 0.2665558}
+        - position: {x: -0.8584442, y: 0.2665558, z: 0}
+          tangent: {x: 1, y: 0, z: -0.35881042, w: 0.1000061}
+        - position: {x: -0.8584442, y: 0.2665558, z: 0}
+          tangent: {x: 3, y: 0, z: -0.35881042, w: 0.1000061}
+        - position: {x: -0.35881042, y: 0.1000061, z: 0}
+          tangent: {x: 0, y: 0, z: 0.33555603, w: 0.1000061}
+        - position: {x: 0.33555603, y: 0.1000061, z: 0}
+          tangent: {x: 0, y: 0, z: -0.35881042, w: 0.1000061}
+        - position: {x: -0.35881042, y: 0.1000061, z: 0}
+          tangent: {x: 1, y: 0, z: 0.33555603, w: 0.1000061}
+        - position: {x: -0.35881042, y: 0.1000061, z: 0}
+          tangent: {x: 3, y: 0, z: 0.33555603, w: 0.1000061}
+        - position: {x: 0.33555603, y: 0.1000061, z: 0}
+          tangent: {x: 0, y: 0, z: 0.6773224, w: 0.15696716}
+        - position: {x: 0.6773224, y: 0.15696716, z: 0}
+          tangent: {x: 0, y: 0, z: 0.33555603, w: 0.1000061}
+        - position: {x: 0.33555603, y: 0.1000061, z: 0}
+          tangent: {x: 1, y: 0, z: 0.6773224, w: 0.15696716}
+        - position: {x: 0.33555603, y: 0.1000061, z: 0}
+          tangent: {x: 3, y: 0, z: 0.6773224, w: 0.15696716}
+        m_Indices: 000000000c0000000d0000000d0000000100000000000000010000001000000011000000110000000200000001000000020000001400000015000000150000000300000002000000030000001800000019000000190000000400000003000000040000001c0000001d0000001d0000000500000004000000050000002000000021000000210000000600000005000000060000002400000025000000250000000700000006000000070000002800000029000000290000000800000007000000080000002c0000002d0000002d0000000900000008000000090000003000000031000000310000000a000000090000000a0000003400000035000000350000000b0000000a0000000b000000380000003900000039000000000000000b000000000000000e0000000f000000010000001200000013000000020000001600000017000000030000001a0000001b000000040000001e0000001f000000050000002200000023000000060000002600000027000000070000002a0000002b000000080000002e0000002f0000000900000032000000330000000a00000036000000370000000b0000003a0000003b000000
+        m_LocalBounds:
+          m_Center: {x: 0, y: 1.5, z: 0}
+          m_Extent: {x: 0.8999939, y: 1.3999939, z: 0}
+        m_EdgeProcessing: 1
+        m_TrimEdge: 0.1
+        m_FlipX: 0
+        m_FlipY: 0
+        m_InitialTrim: 0.1
+    - rid: 5696871655851426009
+      type: {class: Shadow2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_SelectedHashCode: -1382475489
+        m_SelectedSource:
+          rid: -2
+        m_Provider2DCache:
+          rid: -2
 --- !u!1 &1170574855
 GameObject:
   m_ObjectHideFlags: 0
@@ -17339,7 +17508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1299025091
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 166612347}
@@ -17396,6 +17565,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1299025092
 Transform:
   m_ObjectHideFlags: 0
@@ -17443,7 +17613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1323766893
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 2106774202}
@@ -17500,6 +17670,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1323766894
 Transform:
   m_ObjectHideFlags: 0
@@ -17639,7 +17810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1381454814
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 541871307}
@@ -17696,6 +17867,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1381454815
 Transform:
   m_ObjectHideFlags: 0
@@ -17889,184 +18061,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437217756}
   m_CullTransparentMesh: 1
---- !u!43 &1450063433
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 12
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 108
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 60
-    localAABB:
-      m_Center: {x: 0, y: 1.5, z: 0}
-      m_Extent: {x: 0.8999939, y: 1.3999939, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000c000d000d000100000001001000110011000200010002001400150015000300020003001800190019000400030004001c001d001d000500040005002000210021000600050006002400250025000700060007002800290029000800070008002c002d002d000900080009003000310031000a0009000a003400350035000b000a000b0038003900390000000b0000000e000f0001001200130002001600170003001a001b0004001e001f0005002200230006002600270007002a002b0008002e002f000900320033000a00360037000b003a003b00
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 60
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 1680
-    _typelessdata: 00652d3f00bc203e00000000000080bf000000000066663f000aa93e0066663f000aa93e00000000000080bf000000000066663f0090853f0066663f0090853f00000000000080bf000000000026c23ec01617400026c23ec016174000000000000080bf0000000000401e3d8099394000401e3d8099394000000000000080bf0000000000c008bd8099394000c008bd8099394000000000000080bf0000000000bea1be003f174000bea1be003f174000000000000080bf00000000006666bf005b813f006666bf005b813f00000000000080bf00000000006666bf004ac83e006666bf004ac83e00000000000080bf0000000000c35bbf007a883e00c35bbf007a883e00000000000080bf0000000000b6b7be00d0cc3d00b6b7be00d0cc3d00000000000080bf0000000000ceab3e00d0cc3d00ceab3e00d0cc3d00000000000080bf0000000000652d3f00bc203e00652d3f00bc203e0000000000000000000000000066663f000aa93e0066663f000aa93e00000000000000000000000000652d3f00bc203e00652d3f00bc203e000000000000803f000000000066663f000aa93e00652d3f00bc203e0000000000004040000000000066663f000aa93e0066663f000aa93e0000000000000000000000000066663f0090853f0066663f0090853f0000000000000000000000000066663f000aa93e0066663f000aa93e000000000000803f000000000066663f0090853f0066663f000aa93e0000000000004040000000000066663f0090853f0066663f0090853f0000000000000000000000000026c23ec01617400026c23ec01617400000000000000000000000000066663f0090853f0066663f0090853f000000000000803f000000000026c23ec01617400066663f0090853f0000000000004040000000000026c23ec01617400026c23ec016174000000000000000000000000000401e3d8099394000401e3d809939400000000000000000000000000026c23ec01617400026c23ec0161740000000000000803f0000000000401e3d809939400026c23ec016174000000000000040400000000000401e3d8099394000401e3d8099394000000000000000000000000000c008bd8099394000c008bd8099394000000000000000000000000000401e3d8099394000401e3d80993940000000000000803f0000000000c008bd8099394000401e3d8099394000000000000040400000000000c008bd8099394000c008bd8099394000000000000000000000000000bea1be003f174000bea1be003f174000000000000000000000000000c008bd8099394000c008bd80993940000000000000803f0000000000bea1be003f174000c008bd8099394000000000000040400000000000bea1be003f174000bea1be003f1740000000000000000000000000006666bf005b813f006666bf005b813f00000000000000000000000000bea1be003f174000bea1be003f1740000000000000803f00000000006666bf005b813f00bea1be003f1740000000000000404000000000006666bf005b813f006666bf005b813f000000000000000000000000006666bf004ac83e006666bf004ac83e000000000000000000000000006666bf005b813f006666bf005b813f000000000000803f00000000006666bf004ac83e006666bf005b813f000000000000404000000000006666bf004ac83e006666bf004ac83e00000000000000000000000000c35bbf007a883e00c35bbf007a883e000000000000000000000000006666bf004ac83e006666bf004ac83e000000000000803f0000000000c35bbf007a883e006666bf004ac83e00000000000040400000000000c35bbf007a883e00c35bbf007a883e00000000000000000000000000b6b7be00d0cc3d00b6b7be00d0cc3d00000000000000000000000000c35bbf007a883e00c35bbf007a883e000000000000803f0000000000b6b7be00d0cc3d00c35bbf007a883e00000000000040400000000000b6b7be00d0cc3d00b6b7be00d0cc3d00000000000000000000000000ceab3e00d0cc3d00ceab3e00d0cc3d00000000000000000000000000b6b7be00d0cc3d00b6b7be00d0cc3d000000000000803f0000000000ceab3e00d0cc3d00b6b7be00d0cc3d00000000000040400000000000ceab3e00d0cc3d00ceab3e00d0cc3d00000000000000000000000000652d3f00bc203e00652d3f00bc203e00000000000000000000000000ceab3e00d0cc3d00ceab3e00d0cc3d000000000000803f0000000000652d3f00bc203e00ceab3e00d0cc3d00000000000040400000000000652d3f00bc203e
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
-  m_MeshLodInfo:
-    serializedVersion: 2
-    m_LodSelectionCurve:
-      serializedVersion: 1
-      m_LodSlope: 0
-      m_LodBias: 0
-    m_NumLevels: 1
-    m_SubMeshes:
-    - serializedVersion: 2
-      m_Levels:
-      - serializedVersion: 1
-        m_IndexStart: 0
-        m_IndexCount: 0
 --- !u!1 &1497906206
 GameObject:
   m_ObjectHideFlags: 0
@@ -19098,7 +19092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1706073329
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 658097213}
@@ -19155,6 +19149,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1706073330
 Transform:
   m_ObjectHideFlags: 0
@@ -19226,8 +19221,7 @@ MonoBehaviour:
   DialogueText: {fileID: 761694535}
   SpeakerSprite: {fileID: 424121974}
   SpeakerSpriteContainer: {fileID: 424121973}
-  TemporaryDataSolution: 1
-  TemporarySpeakerData: {fileID: 0}
+  currentInteractable: {fileID: 0}
   ChoiceButtonPrefab: {fileID: 175347314173602819, guid: 7ea0a2c5407a85e488c41f95272b7cd2, type: 3}
   ChoiceButtonContainer: {fileID: 590289838}
   PathExplored: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0.73333335}
@@ -19734,6 +19728,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
   - {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
   - {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+  Songs: []
+  songChangeWaitTime: 30
 --- !u!4 &1810101410
 Transform:
   m_ObjectHideFlags: 0
@@ -19918,6 +19914,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -19981,7 +19978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1850771495
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: fe2d9066c8ceb144192f3328836cc20f, type: 3}
   m_PrefabInstance: {fileID: 378032324}
@@ -20038,6 +20035,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1850771496
 Transform:
   m_ObjectHideFlags: 0
@@ -20144,6 +20142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaseManager
   cluePrefab: {fileID: 2233396553007895774, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
   currentCase: {fileID: 11400000, guid: 5e84a63b3113f8442a01c2fd488554f3, type: 2}
+  UndeadDatabase: []
+  allCases: []
+  undeadChosen: 0
 --- !u!1 &1887032600
 GameObject:
   m_ObjectHideFlags: 0
@@ -20413,7 +20414,7 @@ MonoBehaviour:
   sprite: {fileID: 1887762048}
 --- !u!212 &1887762048
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -20470,6 +20471,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1887762049
 Transform:
   m_ObjectHideFlags: 0
@@ -20772,7 +20774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!212 &1973409797
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -20829,6 +20831,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!4 &1973409798
 Transform:
   m_ObjectHideFlags: 0
@@ -21649,7 +21652,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 4190687c54ddcc5489a25839390c37bd, type: 2}
+  creatureData: {fileID: 0}
 --- !u!222 &262428325968904210
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21769,7 +21772,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 56b9e002096198242aa3e425b46be519, type: 2}
+  creatureData: {fileID: 0}
 --- !u!1 &396240456609268735
 GameObject:
   m_ObjectHideFlags: 0
@@ -21967,7 +21970,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 355394edf778a3044a248fb2c3bede9e, type: 2}
+  creatureData: {fileID: 0}
 --- !u!222 &641475768109052796
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22658,7 +22661,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 6ea3bbfaf1e60e640be5481829a5c98d, type: 2}
+  creatureData: {fileID: 0}
 --- !u!4 &1682265355223709366
 Transform:
   m_ObjectHideFlags: 0
@@ -23750,7 +23753,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: fcf19e6c7d6fb494eb890069748dd79e, type: 2}
+  creatureData: {fileID: 0}
 --- !u!224 &2952625789793321394
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23985,7 +23988,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3228727126734113330
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -24042,6 +24045,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!224 &3230245558958923779
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25461,7 +25465,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: 9fdf1e80bd943be4098ae27192827103, type: 2}
+  creatureData: {fileID: 0}
 --- !u!1 &5615944745786077489
 GameObject:
   m_ObjectHideFlags: 0
@@ -26035,7 +26039,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: e2e34d827ceef8f4da261ab7c329fcd3, type: 2}
+  creatureData: {fileID: 0}
 --- !u!1 &6576145028459808704
 GameObject:
   m_ObjectHideFlags: 0
@@ -27118,7 +27122,7 @@ MonoBehaviour:
   rightSideContainer: {fileID: 2254845035807437525}
   canvas: {fileID: 0}
   creatureManager: {fileID: 835849462985456740}
-  creatureData: {fileID: 11400000, guid: c831d9038127d6d4abf77c1a1547bd47, type: 2}
+  creatureData: {fileID: 0}
 --- !u!1 &8419519984682817442
 GameObject:
   m_ObjectHideFlags: 0

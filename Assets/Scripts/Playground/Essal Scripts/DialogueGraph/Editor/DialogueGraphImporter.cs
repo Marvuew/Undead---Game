@@ -25,7 +25,7 @@ public class DialogueGraphImporter : ScriptedImporter
         var startNode = editorGraph .GetNodes().OfType<StartNode>().FirstOrDefault();
         if (startNode != null)
         {
-            var entryPort = startNode.GetOutputPorts().FirstOrDefault()?.firstConnectedPort;
+            var entryPort = startNode.GetOutputPorts().FirstOrDefault()?.FirstConnectedPort;
             if(entryPort != null)
             {
                 runtimeGraph.EntryNodeID = nodeIDMap[entryPort.GetNode()];
@@ -121,7 +121,7 @@ public class DialogueGraphImporter : ScriptedImporter
             }
             
             runtimeNode.NodeCondition = condition;
-            var conditionNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CONDITION_FAIL)?.firstConnectedPort;
+            var conditionNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CONDITION_FAIL)?.FirstConnectedPort;
             if (conditionNodePort != null)
             {
                 runtimeNode.ConditionFailNodeID = nodeIDMap[conditionNodePort.GetNode()];
@@ -133,7 +133,7 @@ public class DialogueGraphImporter : ScriptedImporter
         if (markAsRead)
         {
             runtimeNode.MarkAsRead = markAsRead;
-            var markAsReadPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_MARK_AS_READ)?.firstConnectedPort;
+            var markAsReadPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_MARK_AS_READ)?.FirstConnectedPort;
             if (markAsReadPort != null)
             {
                 runtimeNode.MarkAsReadNodeID = nodeIDMap[markAsReadPort.GetNode()];
@@ -175,14 +175,14 @@ public class DialogueGraphImporter : ScriptedImporter
                 DialogueCondition condition = GetPortValue<DialogueCondition>(node.GetInputPortByName(DialogueNode.IN_PORT_CONDITION_CHOICE + i));
                 string choiceText = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_OPTION_CHOICE_TEXT + i));
                 var choiceOutputPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CHOICE + i);
-                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null, Condition = condition};
+                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.FirstConnectedPort != null ? nodeIDMap[choiceOutputPort.FirstConnectedPort.GetNode()] : null, Condition = condition};
                 runtimeNode.Choices.Add(choiceData);
             }
             else
             {
                 string choiceText = GetPortValue<string>(node.GetInputPortByName(DialogueNode.IN_OPTION_CHOICE_TEXT + i));
                 var choiceOutputPort = node.GetOutputPortByName(DialogueNode.OUT_PORT_CHOICE + i);
-                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.firstConnectedPort != null ? nodeIDMap[choiceOutputPort.firstConnectedPort.GetNode()] : null};
+                var choiceData = new ChoiceData { ChoiceText = choiceText, DestinationNodeID = choiceOutputPort.FirstConnectedPort != null ? nodeIDMap[choiceOutputPort.FirstConnectedPort.GetNode()] : null};
                 runtimeNode.Choices.Add(choiceData);
             }
 
@@ -192,7 +192,7 @@ public class DialogueGraphImporter : ScriptedImporter
         // Handles finding the nextnodeID
         if (choiceCount == 0)
         {
-            var nextNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT)?.firstConnectedPort;
+            var nextNodePort = node.GetOutputPortByName(DialogueNode.OUT_PORT)?.FirstConnectedPort;
             if (nextNodePort != null)
             {
                 runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
@@ -205,7 +205,7 @@ public class DialogueGraphImporter : ScriptedImporter
         runtimeNode.HumanityChange = GetPortValue<int>(node.GetInputPortByName(AlignmentNode.IN_OPTION_HUMANITY));
         runtimeNode.UndeadChange = GetPortValue<int>(node.GetInputPortByName(AlignmentNode.IN_OPTION_UNDEAD));
 
-        var nextNodePort = node.GetOutputPortByName(AlignmentNode.OUT_PORT)?.firstConnectedPort;
+        var nextNodePort = node.GetOutputPortByName(AlignmentNode.OUT_PORT)?.FirstConnectedPort;
         if (nextNodePort != null)
         {
             runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
@@ -216,7 +216,7 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         runtimeNode.Action = GetPortValue<DialogueAction>(node.GetInputPortByName(ActionNode.IN_PORT_ACTION));
 
-        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.firstConnectedPort;
+        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.FirstConnectedPort;
         if (nextNodePort != null)
         {
             runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
@@ -247,7 +247,7 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         runtimeNode.clue = GetPortValue<Clue>(node.GetInputPortByName(ClueNode.IN_PORT_CLUE));
 
-        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.firstConnectedPort;
+        var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.FirstConnectedPort;
         if (nextNodePort != null)
         {
             runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
@@ -261,11 +261,11 @@ public class DialogueGraphImporter : ScriptedImporter
     {
         if (port == null) return default;
 
-        if (port.isConnected)
+        if (port.IsConnected)
         {
-            if (port.firstConnectedPort.GetNode() is IVariableNode variableNode)
+            if (port.FirstConnectedPort.GetNode() is IVariableNode variableNode)
             {
-                variableNode.variable.TryGetDefaultValue(out T value);
+                variableNode.Variable.TryGetDefaultValue(out T value);
                 return value;
             }
         }
