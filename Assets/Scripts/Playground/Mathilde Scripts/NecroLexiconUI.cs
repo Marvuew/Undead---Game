@@ -9,7 +9,9 @@ public class NecroLexiconUI : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject cluesPage;
+    public TMPro.TextMeshProUGUI cluesText; 
     public GameObject creaturesPage;
+    public TMPro.TextMeshProUGUI creaturesText;
     public GameObject casePage;
     public GameObject bookCover;
     public GameObject pagesContainer;
@@ -83,6 +85,7 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Clues clicked");
         DisableAllPages();
         cluesPage.SetActive(true);
+        cluesText.enabled = true;
 
         SetSelectedButton(pageButtons[0]);
     }
@@ -92,6 +95,7 @@ public class NecroLexiconUI : MonoBehaviour
         Debug.Log("Creatures clicked");
         DisableAllPages();
         creaturesPage.SetActive(true);
+        creaturesText.enabled = true;
 
         SetSelectedButton(pageButtons[1]);
     }
@@ -109,7 +113,9 @@ public class NecroLexiconUI : MonoBehaviour
     private void DisableAllPages()
     {
         cluesPage.SetActive(false);
+        cluesText.enabled = false;
         creaturesPage.SetActive(false);
+        creaturesText.enabled = false;
         casePage.SetActive(false);
         creatureManager.OnTabChanged();
         caseManager.OnTabChanged();
