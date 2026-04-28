@@ -98,6 +98,7 @@ public class ClockMemory : MonoBehaviour
 
     private void EndDay()
     {
+        CaseManager.Instance.TransitionToSelectScene();
         if (endOfDayTriggered)
             return;
 

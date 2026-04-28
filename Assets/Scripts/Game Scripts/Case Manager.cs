@@ -2,7 +2,9 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
@@ -18,6 +20,9 @@ public class CaseManager : MonoBehaviour
 
     [SerializeField]
     List<Undead> UndeadDatabase = new List<Undead>();
+
+    public List<Case> allCases = new List<Case>();
+    private List<GameObject> ActiveInteractables = new List<GameObject>();
 
     [Header("Temporary")]
     public UndeadType undeadChosen;
@@ -47,6 +52,7 @@ public class CaseManager : MonoBehaviour
 
     public void SetUpClues()
     {
+        ClearActiveClues();
         if (isActive)
         {
             Debug.LogWarning("Case is already set up");
@@ -55,10 +61,13 @@ public class CaseManager : MonoBehaviour
         isActive = true;
         foreach (Clue clue in currentCase.clues)
         {
+            Debug.Log("Instantiating: " + clue);
+            if (clue.sceneName.ToString() != SceneManager.GetActiveScene().name) continue;
             GameObject newClue = Instantiate(cluePrefab, clue.position, Quaternion.identity);
             newClue.GetComponent<interactable>().clue = clue;
             newClue.GetComponent<interactable>().dialogueGraph = clue.dialogueGraph;
             newClue.GetComponent<SpriteRenderer>().sprite = clue.sprite;
+            ActiveInteractables.Add(newClue);
         }
     }  // spawning in clues used maybe in the future
     public void OnClueFound(Clue clueFound)
@@ -93,6 +102,31 @@ public class CaseManager : MonoBehaviour
     public void TemporaryAddTallyToSuspect()
     {
         undeadTally[undeadChosen]++;
+    }
+
+    public void LoadNextCase()
+    {
+        ClearActiveClues();
+        cluesfound.Clear();
+        int currentCaseIndex = allCases.IndexOf(currentCase);
+        Debug.Log(currentCaseIndex);
+        Debug.Log(allCases[currentCaseIndex]);
+        if (currentCaseIndex++ >= allCases.Count)
+        {
+            Debug.LogWarning("Youve reached the last case");
+            return;
+        }
+        isActive = false;
+        currentCase = allCases[currentCaseIndex++];
+        SetUpClues();
+    }
+
+    public void ClearActiveClues()
+    {
+        foreach (var interactable in ActiveInteractables)
+        {
+            Destroy(interactable);
+        }
     }
 }
 /*
