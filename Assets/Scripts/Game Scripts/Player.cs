@@ -7,7 +7,7 @@ using static UnityEditor.Progress;
 
 namespace Assets.Scripts.GameScripts
 {
-    class Player : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         public int humanity = 50;
         public int undead = 50;

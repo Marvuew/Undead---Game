@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class DialogueAction : ScriptableObject
 {
@@ -23,16 +25,6 @@ public class ResolveAction : DialogueAction
     }
 }
 
-[CreateAssetMenu(menuName = "Dialogue/Actions/New TalkWillingness Action")]
-public class TalkWillingnessAction : DialogueAction
-{
-    public DialogueSpeaker Speaker;
-    public override void DoAction()
-    {
-        isWillingToTalkManager.instance.HandleVendetta(Speaker);
-    }
-}
-
 [CreateAssetMenu(menuName = "Dialogue/Actions/New Give Item")]
 public class GiveItemAction : DialogueAction
 {
@@ -43,3 +35,26 @@ public class GiveItemAction : DialogueAction
         InventoryManager.Instance.Items.Remove(item);
     }
 }
+
+/*[CreateAssetMenu(menuName = "Dialogue/Actions/New Will Remember That Action")]
+public class CallbackAction : DialogueAction
+{
+    public DialogueSpeaker CallbackTarget;
+    public string DescribeContext;
+    public CallBackNode callback;
+
+    public override void DoAction()
+    {
+        //CallbackManager.instance.Callbacks.Add(CallbackTarget);
+    }
+}*/
+
+/*[CreateAssetMenu(menuName = "Dialogue/Actions/New TalkWillingness Action")]
+public class TalkWillingnessAction : DialogueAction
+{
+    public DialogueSpeaker Speaker;
+    public override void DoAction()
+    {
+        isWillingToTalkManager.instance.HandleVendetta(Speaker);
+    }
+}*/

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ContentScript : MonoBehaviour
 {
-    private Suspect culprit;
+    private Undead culprit;
 
     [Header("Page Content")]
     public Image undeadImage;
@@ -13,11 +13,11 @@ public class ContentScript : MonoBehaviour
     public TextMeshProUGUI undeadHabitat;
     public TextMeshProUGUI undeadDescription;
 
-    public void SetContent(Suspect suspect)
+    public void SetContent(Undead suspect)
     {
         undeadImage.enabled = true;
 
-        undeadImage.sprite = suspect.sprite;
+        undeadImage.sprite = suspect.undeadSprite;
         undeadName.text = suspect.name;
         undeadHabitat.text = suspect.habitat;
         undeadDescription.text = suspect.description;
