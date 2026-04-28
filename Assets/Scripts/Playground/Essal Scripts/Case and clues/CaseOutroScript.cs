@@ -20,23 +20,21 @@ public class CaseOutroScript : MonoBehaviour
         SuperBlueBloodMoon = GetComponent<Image>();
     }
 
-    public IEnumerator SetupOutro(Suspect culprit, int foundClues, bool rightCulprit, Image confrontationBackground)
+    public IEnumerator SetupOutro(Undead culprit, int foundClues, bool rightCulprit, Image confrontationBackground)
     {
-        confrontationBackground.enabled = false;
-        // Setup Outro UI
-        EnableOutroUI();
+        confrontationBackground.enabled = false; // DISABLE THE CONFRONTATION BACKGROUND
+        EnableOutroUI(); // ENABLE THE UI FOR OUTRO
 
-        //Calculate and write the text
-        CalculateTextOutput(foundClues, rightCulprit, culprit);
-        StartCoroutine(AnimationManager.instance.TypeWriterEffect(outroText, outroTextElement, 0.05f));
+        CalculateTextOutput(foundClues, rightCulprit, culprit); // CALCULATE TEXT OUTPUT
+        StartCoroutine(AnimationManager.instance.TypeWriterEffect(outroText, outroTextElement, 0.05f)); // WRITE THE FINAL ANALYSIS
 
-        yield return new WaitUntil(() => Mouse.current.leftButton.wasPressedThisFrame);
+        yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame); // WAIT FOR SPACE PRESS
 
-        StartCoroutine(SetupNextCase());
-
+        StopAllCoroutines();
+        StartCoroutine(SetupNextCase()); // SETUP THE NEXT CASE
     }
 
-    public void CalculateTextOutput(int foundClues, bool rightSuspect, Suspect suspect)
+    public void CalculateTextOutput(int foundClues, bool rightSuspect, Undead suspect)
     {
         if (foundClues == 0)
         {
@@ -50,24 +48,21 @@ public class CaseOutroScript : MonoBehaviour
 
     public IEnumerator SetupNextCase()
     {
-        AnimationManager.instance.BlackFadeAnimation();
+        AnimationManager.instance.BlackFadeAnimation(); // PLAY FADE ANIMATION
         yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false);
-        UIManager.instance.VisibleUI();
 
+        UIManager.instance.VisibleUI(); // ?? MAKES THE UI VISIBLE??
         DisableOutroUI();
-
-        //CaseManager.instance.LoadNextCase();
     }
 
-    public void EnableOutroUI()
+    public void EnableOutroUI() // ENABlE THE UI FOR OUTRO
     {
         SuperBlueBloodMoon.enabled = true;
         outroTextElement.enabled = true;
     }
 
-    public void DisableOutroUI()
+    public void DisableOutroUI() // DISBALE THE UI FOR OUTRO
     {
-        Debug.Log("Disabling");
         SuperBlueBloodMoon.enabled = false;
         outroTextElement.enabled = false;
     }

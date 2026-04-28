@@ -58,7 +58,7 @@ public class SceneEntryController2D : MonoBehaviour
 
         foreach (DoorSpawnPoint2D spawn in spawnPoints)
         {
-            if (spawn.spawnPointId == TransitionState2D.spawnPointId)
+            if (spawn.sceneName.ToString() == TransitionState2D.spawnPointId)
             {
                 chosenSpawn = spawn;
                 break;

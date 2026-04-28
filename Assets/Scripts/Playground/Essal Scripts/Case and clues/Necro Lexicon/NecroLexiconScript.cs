@@ -13,7 +13,7 @@ public class NecroLexiconScript : MonoBehaviour
         instance = this;
     }
 
-    [SerializeField] List<Suspect> culpritList;
+    [SerializeField] List<Undead> culpritList;
 
     public ContentScript leftContent;
     public ContentScript rightContent;

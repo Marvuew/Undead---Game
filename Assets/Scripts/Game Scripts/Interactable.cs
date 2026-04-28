@@ -34,7 +34,7 @@ public class interactable : MonoBehaviour
     }
     public void startInteraction()
     {
-        DialogueGraphManager.instance.TemporarySpeakerData = clue;
+        DialogueGraphManager.instance.currentInteractable = clue;
         DialogueGraphManager.instance.StartDialogue(dialogueGraph);
         if (clue.clueType == ClueType.Human) AudioManager.instance.PlaySFX("InteractableHuman");
         if (!found && clue != null)

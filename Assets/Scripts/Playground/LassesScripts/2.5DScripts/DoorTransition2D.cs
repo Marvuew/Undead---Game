@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class DoorTransition2D : MonoBehaviour
 {
     [Header("Scene")]
-    public string sceneToLoad;
-    public string targetSpawnPointId;
+    public SceneNames sceneName;
+    public SceneNames sceneID;
 
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
@@ -45,18 +45,18 @@ public class DoorTransition2D : MonoBehaviour
             isTransitioning = true;
 
             TransitionState2D.SetTransition(
-                targetSpawnPointId,
+                sceneName.ToString(),
                 autoWalkDirection,
                 autoWalkDistance
             );
 
             if (WorldFade.Instance != null)
             {
-                WorldFade.Instance.StartSceneTransition(sceneToLoad, fadeDuration, fadeColor);
+                WorldFade.Instance.StartSceneTransition(sceneName.ToString(), fadeDuration, fadeColor);
             }
             else
             {
-                SceneManager.LoadScene(sceneToLoad);
+                SceneManager.LoadScene(sceneName.ToString());
             }
         }
     }

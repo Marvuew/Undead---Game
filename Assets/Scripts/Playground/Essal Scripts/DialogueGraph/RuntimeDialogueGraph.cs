@@ -13,20 +13,12 @@ public class RuntimeDialogueGraph : ScriptableObject
 }
 
 #region Nodes
-// Abstract class for all nodes to derive from. So we use polymorphism to virtually disptach each nodes methods.
 [Serializable]
 public abstract class RuntimeNode
 {
     public string NodeID;
     public string NextNodeID;
-
-    // Node Condition
-    public string ConditionFailNodeID;
-    public DialogueCondition NodeCondition;
-
     public string MarkAsReadNodeID;
-    public bool MarkAsRead;
-    public bool RuntimeMarkAsRead;
     public virtual string Execute(DialogueGraphManager manager)
     {
         return null;
@@ -36,19 +28,15 @@ public abstract class RuntimeNode
 [Serializable]
 public class RuntimeDialogueNode : RuntimeNode
 {
-    // Dialogue
     public List<string> Dialogue = new List<string>();
     public DialogueSpeaker Speaker;
     public Emotion Emotion;
     public TypingSpeed TypingSpeed;
-
-    //Choices
-    public List<ChoiceData> Choices = new List<ChoiceData>();
-
+    public bool MarkAsRead; 
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleDialogueNode(this);
-        return NextNodeID;
+        return null;
     }
 }
 
@@ -98,8 +86,67 @@ public class RuntimeClueNode : RuntimeNode
     }
 }
 
+[Serializable]
+public class RuntimeCallBackNode : RuntimeNode
+{
+    public Callback callback;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.callbacksCollected.Add(callback);
+        return NextNodeID;
+    }
+}
+[Serializable]
+public class RuntimeTalkWillingnessNode : RuntimeNode
+{
+    public DialogueSpeaker Speaker;
+    public TalkWillingNessEnum IsWillingToTalk;
 
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleTalkWillingnessNode(this);
+        return NextNodeID;
+    }
+}
 
+[Serializable]
+public class RuntimeChoiceNode : RuntimeNode
+{
+    public List<ChoiceData> choices = new List<ChoiceData>();
+
+    public ConditionOptions condition;
+    public int humanity;
+    public int undead;
+    public Callback callback;
+    public Clue clue;
+    public DialogueSpeaker TalkWillingnessTarget;
+    public bool TalkWillingness;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleChoiceNode(this);
+        return null; // FOR STOPING THE SHOWNODE METHOD IN THE DIALOUGE MANAGER - TO WAIT FOR PLAYER INPUT
+    }
+}
+
+[Serializable]
+public class RuntimeConditionNode : RuntimeNode
+{
+    public ConditionOptions condition;
+    public int humanity;
+    public int undead;
+    public Callback callback;
+    public Clue clue;
+    public DialogueSpeaker TalkWillingnessTarget;
+    public bool TalkWillingness;
+
+    public string FailNodeID;
+    public string SuccessNodeID;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        return manager.HandleConditionNode(this) ? SuccessNodeID : FailNodeID;
+    }
+}
 #endregion
 
 #region Data Containers
@@ -110,8 +157,27 @@ public class ChoiceData
     public string ChoiceText;
     public string DestinationNodeID;
     public string ChoiceID;
-    public DialogueCondition Condition;
+
+
+    // Condtions
+    public ConditionOptions condition;
+    public int choiceHumanityCondtion;
+    public int choiceUndeadCondtion;
+    public DialogueSpeaker choiceConditionSpeaker;
+    public Clue choiceConditionClue;
+    public Callback choiceConditionCallback;
+    public bool conditionToggled;
 }
+
+[Serializable]
+public class CallbackData
+{
+    public Callback CallbackAsset;
+    public string Sentence;
+    public int Index;
+    public bool Replace;
+}
+
 #endregion
 
 #region Enums
@@ -119,18 +185,34 @@ public class ChoiceData
 
 public enum Emotion
 {
-    Happy, Sad, Content, Angry
+    HAPPY, SAD, CONTENT, ANGRY
 }
 
 public enum TypingSpeed
 {
-    Slow, Mid, Fast
+    SLOW, MID, FAST
+}
+
+public enum TalkWillingNessEnum
+{
+    WILLING, NOT_WILLING
+}
+
+public enum ConditionOptions
+{
+    ALIGNMENT, CLUE, WILLING_TO_TALK, CALLBACK, NONE
 }
 
 #endregion
 
 #region Legacy Nodes
 
+/*[Serializable]
+public class Callback
+{
+    public DialogueSpeaker speaker;
+    public string CallBackSentence;
+}*/
 /*[Serializable] 
 public class RuntimeActionNode: RuntimeNode
 {

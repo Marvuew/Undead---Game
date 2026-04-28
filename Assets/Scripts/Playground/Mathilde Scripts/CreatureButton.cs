@@ -12,7 +12,7 @@ public class CreatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public CreatureManager creatureManager;
 
-    public CreatureData creatureData;
+    public Undead creatureData;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
