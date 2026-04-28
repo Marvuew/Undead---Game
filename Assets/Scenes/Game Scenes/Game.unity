@@ -11938,7 +11938,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Dialogue
     clip: {fileID: 8300000, guid: 00a4a57de0664a84f8d084a4cf27e74e, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     loop: 1
     PlayOnAwake: 0
@@ -11966,7 +11966,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Walk
     clip: {fileID: 8300000, guid: 241b34ce36c03e3428b47757bc75400a, type: 3}
-    volume: 0.597
+    volume: 0.6
     pitch: 1
     loop: 0
     PlayOnAwake: 0
@@ -11987,7 +11987,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: NavigateChoice
     clip: {fileID: 8300000, guid: 4a6c9ce6bf5316b46b5bfa4c8a4d8316, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     loop: 0
     PlayOnAwake: 0
@@ -11999,9 +11999,9 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
-  - name: Music1
+  - name: Verisimilitude
     clip: {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
-    volume: 0.3
+    volume: 0.2
     pitch: 1
     loop: 0
     PlayOnAwake: 0
@@ -12041,10 +12041,43 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  - name: PageTurn3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Cold_Feet
+    clip: {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: What_Gives
+    clip: {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   pageTurnSounds:
   - {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
   - {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
   - {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+  Songs:
+  - {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
+  - {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
+  - {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+  songChangeWaitTime: 30
 --- !u!4 &1810101410
 Transform:
   m_ObjectHideFlags: 0
