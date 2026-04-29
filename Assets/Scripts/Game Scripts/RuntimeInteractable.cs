@@ -6,10 +6,10 @@ using UnityEngine;
 public class RuntimeInteractable : MonoBehaviour
 {
     public RuntimeDialogueGraph dialogueGraph;
-    //[SerializeField] private Dialogue dialogue;
     [SerializeField] private GameObject interactText;
     public InteractableScriptableObject interactableData;
     public InteractableType interactableType;
+    public Clue interactableClue;
 
     private void Awake()
     {
@@ -33,6 +33,7 @@ public class RuntimeInteractable : MonoBehaviour
     }
     public void startInteraction()
     {
+        CaseManager.Instance.InitialClueFound(interactableClue); // RUNS ONLY FIRST TIME YOUR INTERACTING WITH CLUE
         DialogueGraphManager.instance.currentInteractable = interactableData;
         DialogueGraphManager.instance.StartDialogue(dialogueGraph);
         if (interactableType == InteractableType.Human) AudioManager.instance.PlaySFX("InteractableHuman");

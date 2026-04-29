@@ -24,6 +24,9 @@ public class CaseManager : MonoBehaviour
     public List<Case> allCases = new List<Case>();
     private List<GameObject> activeInteractables = new List<GameObject>();
 
+    [NonSerialized]
+    public Dictionary<Clue, List<string>> clueDescriptions = new Dictionary<Clue, List<string>>();
+
     [Header("Temporary")]
     public UndeadType undeadChosen;
 
@@ -74,31 +77,34 @@ public class CaseManager : MonoBehaviour
             script.interactableData = data;
             script.interactableType = data.interactableType;
             script.dialogueGraph = data.dialogue;
+            script.interactableClue = data.clue;
 
             activeInteractables.Add(newInteractable);
         }
     }
-    public void OnClueFound(Clue clueFound)
+    public void InitialClueFound(Clue clueFound)
     {
-        if (cluesfound.Contains(clueFound))
+        if (!cluesfound.Contains(clueFound))
         {
-            print("Clue has already been found");
+            cluesfound.Add(clueFound);
+            AddClueDescription(clueFound, clueFound.initialDescription);
+            StartCoroutine(AudioManager.instance.QueueClueFoundSound());
+            if (clueFound.undeadTypes.Count > 0)
+            {
+                foreach (UndeadType type in clueFound.undeadTypes)
+                {
+                    if (undeadTally.ContainsKey(type))
+                        undeadTally[type]++;
+                }
+                Debug.Log("Updated tally");
+            }
+            Debug.Log("calling book update");
+            NecroLexiconUI.Instance.UpdateCluesList();
+        }
+        else
+        {
             return;
         }
-        Debug.Log("Clue=" + (clueFound));
-        cluesfound.Add(clueFound);
-        StartCoroutine(AudioManager.instance.QueueClueFoundSound());
-        if(clueFound.undeadTypes.Count > 0) 
-        {
-            foreach (UndeadType type in clueFound.undeadTypes) 
-            {
-                if (undeadTally.ContainsKey(type))
-                    undeadTally[type]++;
-            }
-            Debug.Log("Updated tally");
-        }
-        Debug.Log("calling book update");
-        NecroLexiconUI.Instance.UpdateCluesList();
     } //updates undead tally and clues found in book 
 
     public void TransitionToSelectScene()
@@ -135,6 +141,45 @@ public class CaseManager : MonoBehaviour
         {
             Destroy(interactable);
         }
+    }
+
+    public void AddClueDescription(Clue clue, string description)
+    {
+        if (!clueDescriptions.ContainsKey(clue)) // IF CLUE IS NOT IN THE DICTIONARY CREATE A LIST
+        {
+            clueDescriptions[clue] = new List<string>();
+
+            if (!cluesfound.Contains(clue)) // ALSO ADD IT TO THE CLUESFOUND IF NOT FOUND YET
+            {
+                cluesfound.Add(clue);
+            }
+        }
+
+        List<string> descriptions = clueDescriptions[clue]; // GET REFERENCE TO LIST<STRING>
+
+        if (descriptions.Contains(description))
+        {
+            Debug.LogWarning($"Description for {clue.name} already exists.");
+            return;
+        }
+
+        descriptions.Add(description); // ADD THE DESCRIPTION TO THE LIST
+        Debug.Log($"Added unique description to {clue.name}. Total descriptions: {descriptions.Count}");
+    }
+
+    public void ClueInfoUpdated(Clue clue, string description, List<UndeadType> types)
+    {
+        AddClueDescription(clue, description);
+        StartCoroutine(AudioManager.instance.QueueClueFoundSound());
+        if (clue.undeadTypes.Count > 0)
+        {
+            foreach (UndeadType type in types)
+            {
+                if (undeadTally.ContainsKey(type))
+                    undeadTally[type]++;
+            }
+        }
+        NecroLexiconUI.Instance.UpdateCluesList();
     }
 }
 /*

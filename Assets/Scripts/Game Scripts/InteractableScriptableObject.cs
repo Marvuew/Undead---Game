@@ -7,6 +7,7 @@ public class InteractableScriptableObject : ScriptableObject
     public Sprite interactableSprite;
     public InteractableType interactableType;
     public RuntimeDialogueGraph dialogue;
+    public Clue clue;
 
     [Header("Set By Baker Script - DONT TOUCH")]
     public Vector3 position;

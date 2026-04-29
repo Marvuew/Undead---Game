@@ -222,7 +222,8 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void HandleClueNode(RuntimeClueNode node) // ADDS CLUE TO CASEMANAGERS CLUEFOUND LIST
     {
-        CaseManager.Instance.OnClueFound(node.clue);
+        CaseManager.Instance.ClueInfoUpdated(node.clue, node.description, node.typePointers);
+        Debug.Log("Handling Clue");
     }
 
     public void HandleTalkWillingnessNode(RuntimeTalkWillingnessNode node)
