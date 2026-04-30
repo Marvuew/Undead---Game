@@ -95,7 +95,7 @@ public class WorldFade : MonoBehaviour
         if (!isSceneTransitioning) return;
         isSceneTransitioning = false;
 
-        CaseManager.Instance.SetUpClues(); // CALLING THE CASEMANAGER SET UP CLUE. SO BUTTON PRESS ISNT NECCESARY
+        CaseManager.Instance.SetUpNewDayEnviroment();
     }
 
     private void OnGUI()

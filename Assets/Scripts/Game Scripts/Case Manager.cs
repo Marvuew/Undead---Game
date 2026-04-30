@@ -1,11 +1,14 @@
+using Assets.Scripts.GameScripts;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
 public class CaseManager : MonoBehaviour
@@ -26,6 +29,8 @@ public class CaseManager : MonoBehaviour
 
     [NonSerialized]
     public Dictionary<Clue, List<string>> clueDescriptions = new Dictionary<Clue, List<string>>();
+
+    bool isResettingForNewDay;
 
     [Header("Temporary")]
     public UndeadType undeadChosen;
@@ -148,11 +153,6 @@ public class CaseManager : MonoBehaviour
         if (!clueDescriptions.ContainsKey(clue)) // IF CLUE IS NOT IN THE DICTIONARY CREATE A LIST
         {
             clueDescriptions[clue] = new List<string>();
-
-            if (!cluesfound.Contains(clue)) // ALSO ADD IT TO THE CLUESFOUND IF NOT FOUND YET
-            {
-                cluesfound.Add(clue);
-            }
         }
 
         List<string> descriptions = clueDescriptions[clue]; // GET REFERENCE TO LIST<STRING>
@@ -180,6 +180,31 @@ public class CaseManager : MonoBehaviour
             }
         }
         NecroLexiconUI.Instance.UpdateCluesList();
+    }
+
+    public IEnumerator InitializeNextDay()
+    {
+        Debug.Log("Initiliazing Next Day");
+        isResettingForNewDay = true;
+        LoadNextCase();
+        WorldFade.Instance.StartSceneTransition(SceneNames.Day1.ToString(), 3f, Color.white);
+        yield return null;
+    }
+
+    public void SetUpNewDayEnviroment()
+    {
+        Debug.Log("Entering");
+        SetUpClues();
+
+        if (isResettingForNewDay)
+        {
+            if (Player.Instance != null)
+            {
+                Player.Instance.transform.position = new Vector3(36.8f, 12.3f, 0f);
+                Debug.Log("Start Pos Succesfully Handled");
+            }
+        }
+        isResettingForNewDay = false;
     }
 }
 /*

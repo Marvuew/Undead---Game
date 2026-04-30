@@ -19,7 +19,8 @@ public class CaseManagerMathilde : MonoBehaviour
     {
         if (caseCurrentPage != null)
         {
-            Destroy(caseCurrentPage);
+            //Destroy(caseCurrentPage); // WHY DESTROY IT?
+            caseCurrentPage.SetActive(false);
             caseCurrentPage = null;
         }
     }
