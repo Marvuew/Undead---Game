@@ -46,5 +46,5 @@ public class GameManager : MonoBehaviour
 
 public enum SceneNames
 {
-    Day1, Priest_House
+    Day1, Priest_House, Day4
 }
