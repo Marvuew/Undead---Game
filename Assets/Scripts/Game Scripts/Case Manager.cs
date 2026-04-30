@@ -22,7 +22,7 @@ public class CaseManager : MonoBehaviour
     public HashSet<Clue> cluesfound = new HashSet<Clue>();
 
     [SerializeField]
-    List<Undead> undeadDatabase = new List<Undead>();
+    public List<Undead> undeadDatabase = new List<Undead>();
 
     public List<Case> allCases = new List<Case>();
     private List<GameObject> activeInteractables = new List<GameObject>();

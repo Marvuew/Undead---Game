@@ -64,6 +64,11 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Variables
+
+    // Helper bool
+    [HideInInspector]
+    public bool isDialogueRunning = false;
+
     // For controlling dialogue flow
     private bool skipTyping = false;
     private bool isTyping = false;
@@ -126,6 +131,7 @@ public class DialogueGraphManager : MonoBehaviour
     #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
+        isDialogueRunning = true;
         ClearDialogue();
         _nodeLookup.Clear();
 
@@ -188,6 +194,7 @@ public class DialogueGraphManager : MonoBehaviour
 
         if (Player.Instance != null)
             Player.Instance.interacting = false;
+        isDialogueRunning = false;
     }
     #endregion
 
