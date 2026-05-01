@@ -40,10 +40,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(SceneNames.Day1.ToString());
+            SceneManager.LoadScene(SceneNames.OpenWorld.ToString());
         }
     }
-    public void MainMenu() { SceneManager.LoadScene(SceneNames.Priest_House.ToString()); }
+    public void MainMenu() { SceneManager.LoadScene(SceneNames.PriestHouse.ToString()); }
     public void ToggleActive(GameObject target)
     {
         target.SetActive(!target.activeSelf);
@@ -64,5 +64,5 @@ public class GameManager : MonoBehaviour
 
 public enum SceneNames
 {
-    Day1, Priest_House, Day4
+    OpenWorld, PriestHouse, Day4, Home, MainMenu
 }

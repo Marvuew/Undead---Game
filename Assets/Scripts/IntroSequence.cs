@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class IntroSequence : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject LOGO;
     public float ratio = 2f;
+    public GameObject INTROUI;
 
     [Header("For Moving Undead Portraits")]
     public Transform LeftPanel;
@@ -78,6 +80,8 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
         LOGO.SetActive(true);
         yield return new WaitForSeconds(2f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Day1.ToString(), 2f, Color.white);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white);
+        yield return new WaitForSeconds(5f); // Wait til Animation is Done
+        INTROUI.SetActive(false);
     }
 }

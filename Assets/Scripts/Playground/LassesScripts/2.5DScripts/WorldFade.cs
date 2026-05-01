@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -72,6 +73,8 @@ public class WorldFade : MonoBehaviour
         yield return StartCoroutine(Fade(1f, 0f, duration, color));
     }
 
+    
+
     private IEnumerator Fade(float from, float to, float duration, Color color)
     {
         isFading = true;
@@ -91,7 +94,10 @@ public class WorldFade : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
+    {   if (scene.name == "Home")
+        {
+            Player.Instance.MovePlayerToSpawnPoint();
+        }
         if (!isSceneTransitioning) return;
         isSceneTransitioning = false;
 
