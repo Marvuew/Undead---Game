@@ -11,10 +11,16 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-       instance = this;  
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-   public void TransparentUI()
+    public void TransparentUI()
    {
         UIComponents.alpha = 0;
         UIComponents.interactable = false;

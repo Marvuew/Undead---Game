@@ -4,5 +4,5 @@ using System.Collections.Generic;
 public class Case : ScriptableObject
 {
     public Undead culprit;
-    public List<Clue> clues = new List<Clue>();
+    public List<InteractableScriptableObject> interactables = new List<InteractableScriptableObject>();
 }
