@@ -107,4 +107,36 @@ public class WorldFade : MonoBehaviour
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeTexture);
         GUI.color = oldColor;
     }
+    public void SetBlackScreen(Color fadeColor)
+{
+    currentFadeColor = fadeColor;
+    fadeAlpha = 1f;
+    isFading = false;
+}
+
+public void StartFadeFromBlack(float fadeDuration, Color fadeColor)
+{
+    StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+}
+  public void StartScreenFade(float fadeDuration, float stayBlackDuration, Color fadeColor)
+{
+    StartCoroutine(ScreenFadeRoutine(fadeDuration, stayBlackDuration, fadeColor));
+}
+
+private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
+{
+    yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+
+    yield return new WaitForSeconds(stayBlackDuration);
+
+    yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+}
+public IEnumerator FadeToBlackAndBack(float fadeDuration, float stayBlackDuration, Color fadeColor)
+{
+    yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+
+    yield return new WaitForSeconds(stayBlackDuration);
+
+    yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+}
 }

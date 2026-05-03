@@ -1,3 +1,5 @@
+using Assets.Scripts.GameScripts;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +13,24 @@ public class DoorTransition2D : MonoBehaviour
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
     public string playerTag = "Player";
+
+    [Header("Door Requirement")]
+    public bool requiresNecrolexicon = false;
+    public RuntimeDialogueGraph missingRequirementGraph;
+
+    [Header("Character Event Before Transition")]
+    public bool useCharacterEventBeforeTransition = false;
+    public GameObject characterObject;
+    public RuntimeDialogueGraph characterDialogueGraph;
+    public float characterRevealDelay = 0.5f;
+
+    [Header("Character Fade")]
+    public bool fadeCharacter = true;
+    public float characterAppearDuration = 0.5f;
+    public float characterDisappearDuration = 0.5f;
+
+    [Header("Door Sound")]
+    public string doorOpenSoundName = "";
 
     [Header("Door Type")]
     public bool Enter = true;
@@ -31,34 +51,227 @@ public class DoorTransition2D : MonoBehaviour
     private bool playerInRange = false;
     private bool isTransitioning = false;
 
+    private bool characterEventFinished = false;
+    private bool waitingForCharacterDialogue = false;
+    private bool characterRevealInProgress = false;
+    private bool characterHideInProgress = false;
+
+    private SpriteRenderer[] characterSprites;
+    private CanvasGroup[] characterCanvasGroups;
+
     void Reset()
     {
         GetComponent<Collider2D>().isTrigger = true;
     }
 
+    void Start()
+    {
+        CacheCharacterComponents();
+
+        if (characterObject != null && useCharacterEventBeforeTransition)
+        {
+            SetCharacterAlpha(0f);
+            characterObject.SetActive(false);
+        }
+    }
+
     void Update()
     {
-        if (isTransitioning) return;
+        if (isTransitioning)
+            return;
+
+        if (characterRevealInProgress || characterHideInProgress)
+            return;
+
+        if (waitingForCharacterDialogue)
+        {
+            if (DialogueGraphManager.instance == null || !DialogueGraphManager.instance.isDialogueRunning)
+            {
+                waitingForCharacterDialogue = false;
+                StartCoroutine(HideCharacterRoutine());
+            }
+
+            return;
+        }
 
         if (playerInRange && Input.GetKeyDown(interactKey))
         {
-            isTransitioning = true;
+            TryUseDoor();
+        }
+    }
 
-            TransitionState2D.SetTransition(
-                sceneName.ToString(),
-                autoWalkDirection,
-                autoWalkDistance
-            );
+    private void TryUseDoor()
+    {
+        if (DialogueGraphManager.instance != null && DialogueGraphManager.instance.isDialogueRunning)
+            return;
 
-            if (WorldFade.Instance != null)
-            {
-                WorldFade.Instance.StartSceneTransition(sceneName.ToString(), fadeDuration, fadeColor);
-            }
+        if (requiresNecrolexicon && !GameProgressState.HasNecrolexicon)
+        {
+            StartDoorDialogue(missingRequirementGraph);
+            return;
+        }
+
+        if (ShouldRunCharacterEvent())
+        {
+            StartCoroutine(CharacterEventRoutine());
+            return;
+        }
+
+        TransitionThroughDoor();
+    }
+
+    private bool ShouldRunCharacterEvent()
+    {
+        if (!useCharacterEventBeforeTransition)
+            return false;
+
+        if (characterEventFinished)
+            return false;
+
+        if (characterDialogueGraph == null)
+            return false;
+
+        return true;
+    }
+
+    private IEnumerator CharacterEventRoutine()
+    {
+        characterRevealInProgress = true;
+        characterEventFinished = true;
+
+        FindObjectOfType<HouseIntroController>()?.OnDoorOpened();
+
+        yield return new WaitForSeconds(characterRevealDelay);
+
+        PlayDoorOpenSound();
+
+        if (characterObject != null)
+        {
+            characterObject.SetActive(true);
+
+            if (fadeCharacter)
+                yield return StartCoroutine(FadeCharacter(0f, 1f, characterAppearDuration));
             else
+                SetCharacterAlpha(1f);
+        }
+
+        StartDoorDialogue(characterDialogueGraph);
+
+        waitingForCharacterDialogue = true;
+        characterRevealInProgress = false;
+    }
+
+    private IEnumerator HideCharacterRoutine()
+    {
+        characterHideInProgress = true;
+
+        PlayDoorOpenSound();
+
+        if (characterObject != null)
+        {
+            if (fadeCharacter)
+                yield return StartCoroutine(FadeCharacter(1f, 0f, characterDisappearDuration));
+            else
+                SetCharacterAlpha(0f);
+
+            characterObject.SetActive(false);
+        }
+
+        characterHideInProgress = false;
+    }
+
+    private IEnumerator FadeCharacter(float from, float to, float duration)
+    {
+        duration = Mathf.Max(0.01f, duration);
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / duration);
+            float alpha = Mathf.Lerp(from, to, t);
+
+            SetCharacterAlpha(alpha);
+
+            yield return null;
+        }
+
+        SetCharacterAlpha(to);
+    }
+
+    private void CacheCharacterComponents()
+    {
+        if (characterObject == null)
+            return;
+
+        characterSprites = characterObject.GetComponentsInChildren<SpriteRenderer>(true);
+        characterCanvasGroups = characterObject.GetComponentsInChildren<CanvasGroup>(true);
+    }
+
+    private void SetCharacterAlpha(float alpha)
+    {
+        if (characterSprites != null)
+        {
+            foreach (var sr in characterSprites)
             {
-                SceneManager.LoadScene(sceneName.ToString());
+                if (sr == null) continue;
+                Color c = sr.color;
+                c.a = alpha;
+                sr.color = c;
             }
         }
+
+        if (characterCanvasGroups != null)
+        {
+            foreach (var cg in characterCanvasGroups)
+            {
+                if (cg == null) continue;
+                cg.alpha = alpha;
+            }
+        }
+    }
+
+    private void TransitionThroughDoor()
+    {
+        FindObjectOfType<HouseIntroController>()?.OnDoorOpened();
+
+        PlayDoorOpenSound();
+
+        isTransitioning = true;
+
+        TransitionState2D.SetTransition(
+            sceneName.ToString(),
+            autoWalkDirection,
+            autoWalkDistance
+        );
+
+        if (WorldFade.Instance != null)
+            WorldFade.Instance.StartSceneTransition(sceneName.ToString(), fadeDuration, fadeColor);
+        else
+            SceneManager.LoadScene(sceneName.ToString());
+    }
+
+    private void PlayDoorOpenSound()
+    {
+        if (!string.IsNullOrWhiteSpace(doorOpenSoundName) && AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(doorOpenSoundName);
+    }
+
+    private void StartDoorDialogue(RuntimeDialogueGraph graph)
+    {
+        if (DialogueGraphManager.instance == null || graph == null)
+            return;
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = true;
+
+        DialogueGraphManager.instance.gameObject.SetActive(true);
+
+        if (DialogueGraphManager.instance.DialoguePanel != null)
+            DialogueGraphManager.instance.DialoguePanel.SetActive(true);
+
+        DialogueGraphManager.instance.StartDialogue(graph);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -75,7 +288,8 @@ public class DoorTransition2D : MonoBehaviour
 
     void OnGUI()
     {
-        if (!playerInRange || isTransitioning) return;
+        if (!playerInRange || isTransitioning || characterRevealInProgress || characterHideInProgress)
+            return;
 
         string actionText = Enter ? "Enter" : Exit ? "Exit" : "Use";
         string prompt = $"Press {interactKey} to {actionText}";
