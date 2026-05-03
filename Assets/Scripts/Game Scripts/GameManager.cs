@@ -28,14 +28,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameIntroSequence = gameObject.GetComponent<IntroSequence>();
+        gameIntroSequence = FindAnyObjectByType<IntroSequence>();
+        gameIntroSequence.StartPanelAnimation();
     }
 
     public void StartGame()
     { 
         if (firstPlayThrough)
         {
-            StartCoroutine(gameIntroSequence.StartGameAnimation());
+            StartCoroutine(gameIntroSequence.StartIntroDialogue());
             firstPlayThrough = false;
         }
         else

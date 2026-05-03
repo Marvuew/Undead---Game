@@ -7429,6 +7429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8389859563570178298}
+  - component: {fileID: 1455553570307046992}
   m_Layer: 5
   m_Name: INTRO
   m_TagString: Untagged
@@ -7459,6 +7460,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1455553570307046992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868479562915456875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf6cfe46af377d40b5c84a1a95e1cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  undeadPrefab: {fileID: 8025250608547426731, guid: aae307076e087244ca210955f0a5743f, type: 3}
+  sinFloat: 5
+  isRunning: 0
+  openingDialogue: {fileID: 3965311268370046156, guid: 7e28e90f7a919314292c83412f4189f3, type: 3}
+  mainMenuUI: {fileID: 7513513643562210396}
+  LOGO: {fileID: 2576048400428972219}
+  ratio: 2
+  INTROUI: {fileID: 6868479562915456875}
+  LeftPanel: {fileID: 1660947359318867647}
+  RightPanel: {fileID: 8436787482165152916}
 --- !u!1 &7046535786503078079
 GameObject:
   m_ObjectHideFlags: 0
@@ -10679,7 +10702,8 @@ PrefabInstance:
       propertyPath: mainMenuUI
       value: 
       objectReference: {fileID: 7513513643562210396}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8502432968843048434, guid: 170a8590a42d5ac46a4297a56b286d93, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

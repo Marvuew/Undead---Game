@@ -35,9 +35,8 @@ public class IntroSequence : MonoBehaviour
 
     }
 
-    public IEnumerator StartGameAnimation()
+    public void StartPanelAnimation()
     {
-        mainMenuUI.SetActive(false);
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
@@ -72,16 +71,19 @@ public class IntroSequence : MonoBehaviour
             GameObject go = Instantiate(undeadPrefab, RightPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
+    }
 
-        // Handle Dialogue
-        DialogueGraphManager.instance.StartDialogue(openingDialogue);
-        yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
-        LeftPanel.gameObject.SetActive(false);
+    public IEnumerator StartIntroDialogue()
+    {
+        mainMenuUI.SetActive(false); // Deactivate the start buttons
+        DialogueGraphManager.instance.StartDialogue(openingDialogue); // Start dialogue
+        yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning); //Wait till its done
+        LeftPanel.gameObject.SetActive(false); // Deactivate bot panels
         RightPanel.gameObject.SetActive(false);
-        LOGO.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white);
-        yield return new WaitForSeconds(5f); // Wait til Animation is Done
-        INTROUI.SetActive(false);
+        LOGO.SetActive(true); // Activate the logo
+        yield return new WaitForSeconds(1f);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white); // Start the scene transition
+        yield return new WaitForSeconds(5f); // Wait till animation is done
+        INTROUI.SetActive(false); // deactivate the intro UI after scene transition
     }
 }
