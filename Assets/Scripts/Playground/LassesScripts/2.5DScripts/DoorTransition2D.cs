@@ -1,6 +1,7 @@
 using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider2D))]
@@ -20,9 +21,17 @@ public class DoorTransition2D : MonoBehaviour
 
     [Header("Character Event Before Transition")]
     public bool useCharacterEventBeforeTransition = false;
+    public bool skipCharacterEventIfIntroWasSkipped = true;
     public GameObject characterObject;
     public RuntimeDialogueGraph characterDialogueGraph;
     public float characterRevealDelay = 0.5f;
+
+    [Header("Reveal After Character Dialogue")]
+    public bool hideRevealObjectsAtStart = true;
+    public GameObject[] objectsToRevealAfterCharacterDialogue;
+    public string revealSoundName = "ClueFound";
+    public RuntimeDialogueGraph afterCharacterLeavesGraph;
+    public UnityEvent onCharacterDialogueFinished;
 
     [Header("Character Fade")]
     public bool fadeCharacter = true;
@@ -53,6 +62,7 @@ public class DoorTransition2D : MonoBehaviour
 
     private bool characterEventFinished = false;
     private bool waitingForCharacterDialogue = false;
+    private bool waitingForAfterCharacterDialogue = false;
     private bool characterRevealInProgress = false;
     private bool characterHideInProgress = false;
 
@@ -73,6 +83,9 @@ public class DoorTransition2D : MonoBehaviour
             SetCharacterAlpha(0f);
             characterObject.SetActive(false);
         }
+
+        if (hideRevealObjectsAtStart)
+            HideRevealObjectsAtStart();
     }
 
     void Update()
@@ -88,7 +101,17 @@ public class DoorTransition2D : MonoBehaviour
             if (DialogueGraphManager.instance == null || !DialogueGraphManager.instance.isDialogueRunning)
             {
                 waitingForCharacterDialogue = false;
-                StartCoroutine(HideCharacterRoutine());
+                StartCoroutine(FinishCharacterEventRoutine());
+            }
+
+            return;
+        }
+
+        if (waitingForAfterCharacterDialogue)
+        {
+            if (DialogueGraphManager.instance == null || !DialogueGraphManager.instance.isDialogueRunning)
+            {
+                waitingForAfterCharacterDialogue = false;
             }
 
             return;
@@ -123,6 +146,9 @@ public class DoorTransition2D : MonoBehaviour
     private bool ShouldRunCharacterEvent()
     {
         if (!useCharacterEventBeforeTransition)
+            return false;
+
+        if (skipCharacterEventIfIntroWasSkipped && GameProgressState.ForceSkippedHouseIntro)
             return false;
 
         if (characterEventFinished)
@@ -161,7 +187,7 @@ public class DoorTransition2D : MonoBehaviour
         characterRevealInProgress = false;
     }
 
-    private IEnumerator HideCharacterRoutine()
+    private IEnumerator FinishCharacterEventRoutine()
     {
         characterHideInProgress = true;
 
@@ -177,7 +203,47 @@ public class DoorTransition2D : MonoBehaviour
             characterObject.SetActive(false);
         }
 
+        RevealObjectsAfterCharacterDialogue();
+        PlayRevealSound();
+        onCharacterDialogueFinished?.Invoke();
+
+        if (afterCharacterLeavesGraph != null)
+        {
+            StartDoorDialogue(afterCharacterLeavesGraph);
+            waitingForAfterCharacterDialogue = true;
+        }
+
         characterHideInProgress = false;
+    }
+
+    private void HideRevealObjectsAtStart()
+    {
+        if (objectsToRevealAfterCharacterDialogue == null)
+            return;
+
+        foreach (GameObject obj in objectsToRevealAfterCharacterDialogue)
+        {
+            if (obj != null)
+                obj.SetActive(false);
+        }
+    }
+
+    private void RevealObjectsAfterCharacterDialogue()
+    {
+        if (objectsToRevealAfterCharacterDialogue == null)
+            return;
+
+        foreach (GameObject obj in objectsToRevealAfterCharacterDialogue)
+        {
+            if (obj != null)
+                obj.SetActive(true);
+        }
+    }
+
+    private void PlayRevealSound()
+    {
+        if (!string.IsNullOrWhiteSpace(revealSoundName) && AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(revealSoundName);
     }
 
     private IEnumerator FadeCharacter(float from, float to, float duration)
@@ -213,27 +279,32 @@ public class DoorTransition2D : MonoBehaviour
     {
         if (characterSprites != null)
         {
-            foreach (var sr in characterSprites)
+            foreach (SpriteRenderer spriteRenderer in characterSprites)
             {
-                if (sr == null) continue;
-                Color c = sr.color;
-                c.a = alpha;
-                sr.color = c;
+                if (spriteRenderer == null)
+                    continue;
+
+                Color color = spriteRenderer.color;
+                color.a = alpha;
+                spriteRenderer.color = color;
             }
         }
 
         if (characterCanvasGroups != null)
         {
-            foreach (var cg in characterCanvasGroups)
+            foreach (CanvasGroup canvasGroup in characterCanvasGroups)
             {
-                if (cg == null) continue;
-                cg.alpha = alpha;
+                if (canvasGroup == null)
+                    continue;
+
+                canvasGroup.alpha = alpha;
             }
         }
     }
 
     private void TransitionThroughDoor()
     {
+        FindObjectOfType<HouseIntroController>()?.MarkTutorialCompleted();
         FindObjectOfType<HouseIntroController>()?.OnDoorOpened();
 
         PlayDoorOpenSound();
@@ -247,9 +318,13 @@ public class DoorTransition2D : MonoBehaviour
         );
 
         if (WorldFade.Instance != null)
+        {
             WorldFade.Instance.StartSceneTransition(sceneName.ToString(), fadeDuration, fadeColor);
+        }
         else
+        {
             SceneManager.LoadScene(sceneName.ToString());
+        }
     }
 
     private void PlayDoorOpenSound()
@@ -288,6 +363,9 @@ public class DoorTransition2D : MonoBehaviour
 
     void OnGUI()
     {
+        if (Player.Instance != null && Player.Instance.interacting)
+            return;
+
         if (!playerInRange || isTransitioning || characterRevealInProgress || characterHideInProgress)
             return;
 

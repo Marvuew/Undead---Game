@@ -6,6 +6,27 @@ using UnityEngine.UI;
 
 public class HouseIntroController : MonoBehaviour
 {
+    [System.Serializable]
+    public class HouseDaySetup
+    {
+        public string dayId = "Day1";
+        public bool playTutorialOnThisDay = true;
+
+        [Header("Enable For This Day")]
+        public GameObject[] objectsToEnable;
+
+        [Header("Disable For This Day")]
+        public GameObject[] objectsToDisable;
+    }
+
+    [Header("Tutorial State")]
+    [Tooltip("Check this if the player has already completed the house intro tutorial.")]
+    [SerializeField] private bool tutorialAlreadyCompleted = false;
+
+    [Header("Current Day")]
+    [SerializeField] private string currentDayId = "Day1";
+    [SerializeField] private HouseDaySetup[] daySetups;
+
     [Header("Dialogue Graphs")]
     [SerializeField] private RuntimeDialogueGraph wakeUpGraph;
     [SerializeField] private RuntimeDialogueGraph movementNarratorGraph;
@@ -27,19 +48,15 @@ public class HouseIntroController : MonoBehaviour
 
     [Header("WASD Tutorial UI")]
     [SerializeField] private GameObject wasdTutorialObject;
-
     [SerializeField] private Image wImage;
     [SerializeField] private Sprite wNormalSprite;
     [SerializeField] private Sprite wPressedSprite;
-
     [SerializeField] private Image aImage;
     [SerializeField] private Sprite aNormalSprite;
     [SerializeField] private Sprite aPressedSprite;
-
     [SerializeField] private Image sImage;
     [SerializeField] private Sprite sNormalSprite;
     [SerializeField] private Sprite sPressedSprite;
-
     [SerializeField] private Image dImage;
     [SerializeField] private Sprite dNormalSprite;
     [SerializeField] private Sprite dPressedSprite;
@@ -74,13 +91,62 @@ public class HouseIntroController : MonoBehaviour
     private bool doorOpened;
     private Coroutine knockRoutine;
 
+    private HouseDaySetup activeDaySetup;
+
+    private void Awake()
+    {
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        GameProgressState.CurrentHouseDayId = currentDayId;
+
+        activeDaySetup = GetActiveDaySetup();
+        ApplyDaySetup();
+
+        HideTutorialUI();
+
+        bool shouldPlayTutorialToday = activeDaySetup == null || activeDaySetup.playTutorialOnThisDay;
+
+        if (!shouldPlayTutorialToday)
+            tutorialAlreadyCompleted = true;
+
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        {
+            GameProgressState.CompletedHouseIntro = true;
+            GameProgressState.HasNecrolexicon = true;
+            GameProgressState.ForceSkippedHouseIntro = true;
+        }
+        else
+        {
+            GameProgressState.CompletedHouseIntro = false;
+            GameProgressState.HasNecrolexicon = false;
+            GameProgressState.ForceSkippedHouseIntro = false;
+
+            if (startSceneBlack && WorldFade.Instance != null)
+                WorldFade.Instance.SetBlackScreen(startFadeColor);
+        }
+    }
+
     private IEnumerator Start()
     {
         yield return null;
 
-        if (GameProgressState.CompletedHouseIntro)
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        HideTutorialUI();
+
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
         {
+            GameProgressState.CompletedHouseIntro = true;
             GameProgressState.HasNecrolexicon = true;
+            GameProgressState.ForceSkippedHouseIntro = true;
 
             if (necrolexiconBook != null)
                 necrolexiconBook.SetActive(false);
@@ -91,16 +157,14 @@ public class HouseIntroController : MonoBehaviour
             if (bookIcon != null)
                 bookIcon.SetActive(true);
 
-            if (wasdTutorialObject != null)
-                wasdTutorialObject.SetActive(false);
-
-            if (interactTutorialObject != null)
-                interactTutorialObject.SetActive(false);
+            StopKnocking();
 
             yield break;
         }
 
+        GameProgressState.CompletedHouseIntro = false;
         GameProgressState.HasNecrolexicon = false;
+        GameProgressState.ForceSkippedHouseIntro = false;
 
         if (necrolexiconBook != null)
             necrolexiconBook.SetActive(true);
@@ -110,12 +174,6 @@ public class HouseIntroController : MonoBehaviour
 
         if (bookIcon != null)
             bookIcon.SetActive(false);
-
-        if (wasdTutorialObject != null)
-            wasdTutorialObject.SetActive(false);
-
-        if (interactTutorialObject != null)
-            interactTutorialObject.SetActive(false);
 
         ResetWasdSprites();
         ResetInteractSprite();
@@ -142,8 +200,14 @@ public class HouseIntroController : MonoBehaviour
 
     private void Update()
     {
-        if (GameProgressState.CompletedHouseIntro)
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        {
+            HideTutorialUI();
             return;
+        }
 
         UpdateKeySprites();
 
@@ -185,6 +249,62 @@ public class HouseIntroController : MonoBehaviour
                 interactTutorialObject.SetActive(true);
 
             StartDialogueSafely(interactTutorialGraph, "Interact tutorial dialogue");
+        }
+    }
+
+    private HouseDaySetup GetActiveDaySetup()
+    {
+        if (daySetups == null)
+            return null;
+
+        foreach (HouseDaySetup setup in daySetups)
+        {
+            if (setup != null && setup.dayId == currentDayId)
+                return setup;
+        }
+
+        return null;
+    }
+
+    private void ApplyDaySetup()
+    {
+        if (daySetups == null)
+            return;
+
+        foreach (HouseDaySetup setup in daySetups)
+        {
+            if (setup == null)
+                continue;
+
+            if (setup.objectsToEnable != null)
+            {
+                foreach (GameObject obj in setup.objectsToEnable)
+                {
+                    if (obj != null)
+                        obj.SetActive(false);
+                }
+            }
+        }
+
+        if (activeDaySetup == null)
+            return;
+
+        if (activeDaySetup.objectsToDisable != null)
+        {
+            foreach (GameObject obj in activeDaySetup.objectsToDisable)
+            {
+                if (obj != null)
+                    obj.SetActive(false);
+            }
+        }
+
+        if (activeDaySetup.objectsToEnable != null)
+        {
+            foreach (GameObject obj in activeDaySetup.objectsToEnable)
+            {
+                if (obj != null)
+                    obj.SetActive(true);
+            }
         }
     }
 
@@ -250,6 +370,9 @@ public class HouseIntroController : MonoBehaviour
 
     public bool CanPickUpBook()
     {
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+            return false;
+
         return canPickUpBook;
     }
 
@@ -269,23 +392,29 @@ public class HouseIntroController : MonoBehaviour
         if (frontDoor != null)
             frontDoor.SetActive(true);
 
-        if (interactTutorialObject != null)
-            interactTutorialObject.SetActive(false);
+        HideTutorialUI();
 
         StartDialogueSafely(afterBookNarratorGraph, "After book narrator dialogue");
+    }
 
+    public void MarkTutorialCompleted()
+    {
+        tutorialAlreadyCompleted = true;
         GameProgressState.CompletedHouseIntro = true;
+        GameProgressState.HasNecrolexicon = true;
+        GameProgressState.ForceSkippedHouseIntro = false;
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        HideTutorialUI();
+        StopKnocking();
     }
 
     public void OnDoorOpened()
     {
         doorOpened = true;
-
-        if (knockRoutine != null)
-        {
-            StopCoroutine(knockRoutine);
-            knockRoutine = null;
-        }
+        StopKnocking();
     }
 
     private IEnumerator RandomKnockingRoutine()
@@ -306,6 +435,26 @@ public class HouseIntroController : MonoBehaviour
             if (!string.IsNullOrWhiteSpace(randomKnockSound) && AudioManager.instance != null)
                 AudioManager.instance.PlaySFX(randomKnockSound);
         }
+    }
+
+    private void StopKnocking()
+    {
+        doorOpened = true;
+
+        if (knockRoutine != null)
+        {
+            StopCoroutine(knockRoutine);
+            knockRoutine = null;
+        }
+    }
+
+    private void HideTutorialUI()
+    {
+        if (wasdTutorialObject != null)
+            wasdTutorialObject.SetActive(false);
+
+        if (interactTutorialObject != null)
+            interactTutorialObject.SetActive(false);
     }
 
     private void ResetWasdSprites()
