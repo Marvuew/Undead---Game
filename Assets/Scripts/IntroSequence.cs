@@ -1,6 +1,8 @@
+using Assets.Scripts.GameScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class IntroSequence : MonoBehaviour
@@ -35,11 +37,16 @@ public class IntroSequence : MonoBehaviour
 
     public IEnumerator StartGameAnimation()
     {
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
         mainMenuUI.SetActive(false);
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
-
 
         for (int i = 0; i < indices.Count; i++) // FISHER YATES SHUFFLE
         {
@@ -72,12 +79,28 @@ public class IntroSequence : MonoBehaviour
         }
 
         // Handle Dialogue
+        DialogueGraphManager.instance.gameObject.SetActive(true);
+
+        if (DialogueGraphManager.instance.DialoguePanel != null)
+            DialogueGraphManager.instance.DialoguePanel.SetActive(true);
+
         DialogueGraphManager.instance.StartDialogue(openingDialogue);
+
         yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
         LeftPanel.gameObject.SetActive(false);
         RightPanel.gameObject.SetActive(false);
+
         LOGO.SetActive(true);
+
         yield return new WaitForSeconds(2f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Day1.ToString(), 2f, Color.white);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f,Color.black);
     }
 }
