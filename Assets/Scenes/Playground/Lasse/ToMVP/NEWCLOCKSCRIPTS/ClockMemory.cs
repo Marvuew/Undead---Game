@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,9 @@ public class ClockMemory : MonoBehaviour
     [Header("Day Settings")]
     [SerializeField] private float distanceForFullDay = 100f;
     [SerializeField] private bool isDayActive = true;
+
+    [Header("Ignored Scenes (No Distance Counting)")]
+    [SerializeField] private List<string> ignoredScenesForDistance = new List<string>();
 
     [Header("End Of Day")]
     [SerializeField] private bool triggerSceneChangeAtEndOfDay = true;
@@ -66,6 +70,14 @@ public class ClockMemory : MonoBehaviour
     {
         SetPlayerInteracting(false);
         HideMessageInstant();
+
+        // NEW: Check if scene should ignore distance
+        if (ignoredScenesForDistance.Contains(scene.name))
+        {
+            canCountDistance = false;
+            return;
+        }
+
         StartCoroutine(DelayDistanceCounting());
     }
 
@@ -99,6 +111,7 @@ public class ClockMemory : MonoBehaviour
     private void EndDay()
     {
         CaseManager.Instance.TransitionToSelectScene();
+
         if (endOfDayTriggered)
             return;
 

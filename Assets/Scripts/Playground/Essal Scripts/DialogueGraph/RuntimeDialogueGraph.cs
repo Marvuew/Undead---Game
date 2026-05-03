@@ -78,7 +78,8 @@ public class RuntimeRandomizer : RuntimeNode
 public class RuntimeClueNode : RuntimeNode
 {
     public Clue clue;
-
+    public string description;
+    public List<UndeadType> typePointers = new List<UndeadType>();
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleClueNode(this);

@@ -212,6 +212,9 @@ public class ClueNode : Node
     public static readonly string IN_PORT = "in";
     public static readonly string OUT_PORT = "out";
     public static readonly string IN_PORT_CLUE = "Clue";
+    public static readonly string IN_PORT_DESCRIPTION = "Description";
+    public static readonly string IN_PORT_UNDEADTYPE = "Undead Type ";
+    public static readonly string IN_OPTION_UNDEADTYPE_COUNT = "Number of UndeadTypes";
 
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
@@ -219,6 +222,18 @@ public class ClueNode : Node
         context.AddOutputPort(OUT_PORT).Build();
 
         context.AddInputPort<Clue>(IN_PORT_CLUE).Build();
+        context.AddInputPort<string>(IN_PORT_DESCRIPTION).AsTextArea().Build();
+
+        GetNodeOptionByName(IN_OPTION_UNDEADTYPE_COUNT).TryGetValue(out int UndeadTypeCount);
+        for (int i = 1; i < UndeadTypeCount + 1; i++)
+        {
+            context.AddInputPort<UndeadType>(IN_PORT_UNDEADTYPE + i).Build();
+        }
+    }
+
+    protected override void OnDefineOptions(IOptionDefinitionContext context)
+    {
+       context.AddOption<int>(IN_OPTION_UNDEADTYPE_COUNT).Build();
     }
 }
 

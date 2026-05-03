@@ -1,15 +1,18 @@
 using Assets.Scripts.GameScripts;
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
     [SerializeField] private GameObject pauseMenu;
-    
+    IntroSequence gameIntroSequence;
+    bool firstPlayThrough = true;
+
+    // SCENES STORAGE IDEA
+    //public static readonly string MAIN_MENU = "Game";
+    //public static readonly string WORLD = "World";
+    //public static readonly string PRIEST_HOUSE = "Priest House";
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -23,8 +26,24 @@ public class GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
     }
 
-    public void StartGame() { SceneManager.LoadScene("Game"); }
-    public void MainMenu() { SceneManager.LoadScene("Main Menu"); }
+    private void Start()
+    {
+        gameIntroSequence = gameObject.GetComponent<IntroSequence>();
+    }
+
+    public void StartGame()
+    { 
+        if (firstPlayThrough)
+        {
+            StartCoroutine(gameIntroSequence.StartGameAnimation());
+            firstPlayThrough = false;
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneNames.Day1.ToString());
+        }
+    }
+    public void MainMenu() { SceneManager.LoadScene(SceneNames.Priest_House.ToString()); }
     public void ToggleActive(GameObject target)
     {
         target.SetActive(!target.activeSelf);
@@ -41,10 +60,9 @@ public class GameManager : MonoBehaviour
         Player.Instance.interacting = false;
         pauseMenu.SetActive(false);
     }
-
 }
 
 public enum SceneNames
 {
-    Day1, Priest_House
+    Day1, Priest_House, Day4
 }

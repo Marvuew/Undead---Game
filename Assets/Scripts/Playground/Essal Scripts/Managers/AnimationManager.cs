@@ -3,6 +3,7 @@ using UnityEngine;
 using static UnityEditor.Rendering.MaterialUpgrader;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 
 public class AnimationManager : MonoBehaviour
 {
@@ -15,8 +16,14 @@ public class AnimationManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
-    }
+        DontDestroyOnLoad(gameObject);
+    } 
 
     public void BlackFadeAnimation()
     {
