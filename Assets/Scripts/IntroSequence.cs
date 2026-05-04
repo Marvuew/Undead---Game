@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntroSequence : MonoBehaviour
 {
@@ -27,6 +28,11 @@ public class IntroSequence : MonoBehaviour
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
+
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -82,7 +88,7 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
         LOGO.SetActive(true); // Activate the logo
         yield return new WaitForSeconds(1f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white); // Start the scene transition
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 5f, Color.white); // Start the scene transition
         yield return new WaitForSeconds(5f); // Wait till animation is done
         INTROUI.SetActive(false); // deactivate the intro UI after scene transition
     }

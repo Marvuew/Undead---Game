@@ -65,5 +65,5 @@ public class GameManager : MonoBehaviour
 
 public enum SceneNames
 {
-    OpenWorld, PriestHouse, Day4, Home, MainMenu
+    OpenWorld, PriestHouse, Day4, Dhamphir_House, MainMenu
 }

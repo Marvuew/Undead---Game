@@ -187,7 +187,7 @@ public class CaseManager : MonoBehaviour
         Debug.Log("Initiliazing Next Day");
         isResettingForNewDay = true;
         LoadNextCase();
-        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 5f, Color.white);
         yield return null;
     }
 
