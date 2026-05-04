@@ -60,6 +60,11 @@ public class WorldFade : MonoBehaviour
         StartCoroutine(FadeSceneTransition(sceneName, duration, color));
     }
 
+    public void StartSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
+    {
+        StartCoroutine(FadeSceneTransitionAndStayBlack(sceneName, duration, color));
+    }
+
     private IEnumerator FadeSceneTransition(string sceneName, float duration, Color color)
     {
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
@@ -73,7 +78,20 @@ public class WorldFade : MonoBehaviour
         yield return StartCoroutine(Fade(1f, 0f, duration, color));
     }
 
-    
+    private IEnumerator FadeSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        isSceneTransitioning = true;
+        SceneManager.LoadScene(sceneName);
+
+        while (isSceneTransitioning)
+            yield return null;
+
+        currentFadeColor = color;
+        fadeAlpha = 1f;
+        isFading = false;
+    }
 
     private IEnumerator Fade(float from, float to, float duration, Color color)
     {
@@ -113,36 +131,39 @@ public class WorldFade : MonoBehaviour
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeTexture);
         GUI.color = oldColor;
     }
+
     public void SetBlackScreen(Color fadeColor)
-{
-    currentFadeColor = fadeColor;
-    fadeAlpha = 1f;
-    isFading = false;
-}
+    {
+        currentFadeColor = fadeColor;
+        fadeAlpha = 1f;
+        isFading = false;
+    }
 
-public void StartFadeFromBlack(float fadeDuration, Color fadeColor)
-{
-    StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
-}
-  public void StartScreenFade(float fadeDuration, float stayBlackDuration, Color fadeColor)
-{
-    StartCoroutine(ScreenFadeRoutine(fadeDuration, stayBlackDuration, fadeColor));
-}
+    public void StartFadeFromBlack(float fadeDuration, Color fadeColor)
+    {
+        StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+    }
 
-private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
-{
-    yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+    public void StartScreenFade(float fadeDuration, float stayBlackDuration, Color fadeColor)
+    {
+        StartCoroutine(ScreenFadeRoutine(fadeDuration, stayBlackDuration, fadeColor));
+    }
 
-    yield return new WaitForSeconds(stayBlackDuration);
+    private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
 
-    yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
-}
-public IEnumerator FadeToBlackAndBack(float fadeDuration, float stayBlackDuration, Color fadeColor)
-{
-    yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+        yield return new WaitForSeconds(stayBlackDuration);
 
-    yield return new WaitForSeconds(stayBlackDuration);
+        yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+    }
 
-    yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
-}
+    public IEnumerator FadeToBlackAndBack(float fadeDuration, float stayBlackDuration, Color fadeColor)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+
+        yield return new WaitForSeconds(stayBlackDuration);
+
+        yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+    }
 }

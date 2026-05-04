@@ -97,6 +97,9 @@ public class DialogueGraphManager : MonoBehaviour
     {
         if (!DialoguePanel.activeSelf) return;
 
+        if (DialogueInputBlocker.BlockSpaceAdvance)
+        return;
+
         if (ChoiceButtonContainer.childCount > 0) return;
 
         if (_currentNode == null)

@@ -2,6 +2,7 @@ using Assets.Scripts.GameScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -43,10 +44,16 @@ public class IntroSequence : MonoBehaviour
 
     public void StartPanelAnimation()
     {
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        mainMenuUI.SetActive(false);
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
-
 
         for (int i = 0; i < indices.Count; i++) // FISHER YATES SHUFFLE
         {
@@ -79,17 +86,29 @@ public class IntroSequence : MonoBehaviour
         }
     }
 
-    public IEnumerator StartIntroDialogue()
-    {
-        mainMenuUI.SetActive(false); // Deactivate the start buttons
-        DialogueGraphManager.instance.StartDialogue(openingDialogue); // Start dialogue
-        yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning); //Wait till its done
-        LeftPanel.gameObject.SetActive(false); // Deactivate bot panels
+        // Handle Dialogue
+        DialogueGraphManager.instance.gameObject.SetActive(true);
+
+        if (DialogueGraphManager.instance.DialoguePanel != null)
+            DialogueGraphManager.instance.DialoguePanel.SetActive(true);
+
+        DialogueGraphManager.instance.StartDialogue(openingDialogue);
+
+        yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        LeftPanel.gameObject.SetActive(false);
         RightPanel.gameObject.SetActive(false);
-        LOGO.SetActive(true); // Activate the logo
-        yield return new WaitForSeconds(1f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 5f, Color.white); // Start the scene transition
-        yield return new WaitForSeconds(5f); // Wait till animation is done
-        INTROUI.SetActive(false); // deactivate the intro UI after scene transition
+
+        LOGO.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f,Color.black);
     }
 }
