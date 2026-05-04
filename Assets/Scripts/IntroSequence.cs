@@ -22,8 +22,6 @@ public class IntroSequence : MonoBehaviour
     public Transform LeftPanel;
     public Transform RightPanel;
 
-    HashSet<int> selected = new HashSet<int>();
-
     void Start()
     {
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
@@ -49,8 +47,6 @@ public class IntroSequence : MonoBehaviour
 
         if (Player.Instance != null)
             Player.Instance.interacting = false;
-
-        mainMenuUI.SetActive(false);
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
@@ -86,8 +82,13 @@ public class IntroSequence : MonoBehaviour
         }
     }
 
+    public IEnumerator HandleIntroDialogue()
+    {
+        mainMenuUI.SetActive(false);
         // Handle Dialogue
         DialogueGraphManager.instance.gameObject.SetActive(true);
+
+
 
         if (DialogueGraphManager.instance.DialoguePanel != null)
             DialogueGraphManager.instance.DialoguePanel.SetActive(true);
@@ -109,6 +110,8 @@ public class IntroSequence : MonoBehaviour
         if (Player.Instance != null)
             Player.Instance.interacting = false;
 
-        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f,Color.black);
+        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
+        yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
+        INTROUI.SetActive(false);
     }
 }
