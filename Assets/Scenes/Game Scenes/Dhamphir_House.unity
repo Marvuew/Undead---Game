@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de322c385c3704756bf24b6080a3e703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HouseIntroManager
-  tutorialAlreadyCompleted: 1
+  tutorialAlreadyCompleted: 0
   currentDayId: Case 1
   daySetups: []
   wakeUpGraph: {fileID: 3965311268370046156, guid: 01cb47e60dea34a3ab74a25c663bca83, type: 3}
@@ -1475,6 +1475,7 @@ GameObject:
   - component: {fileID: 598378651}
   - component: {fileID: 598378652}
   - component: {fileID: 598378653}
+  - component: {fileID: 598378654}
   m_Layer: 0
   m_Name: Necrolexicon
   m_TagString: Untagged
@@ -1527,8 +1528,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -1412167431
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1108275560699738881, guid: b8e151938a391b9448b3ec7886543d65, type: 3}
@@ -1672,6 +1673,18 @@ MonoBehaviour:
   promptText: Pick up
   worldPromptOffset: {x: 0, y: 1.2, z: 0}
   fontSize: 22
+--- !u!114 &598378654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598378647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18c8c2fed2edf3499fb774de703335c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!1 &642277560
 GameObject:
   m_ObjectHideFlags: 0
@@ -4102,7 +4115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8579785225664930576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_Name
-      value: Enter_ExitHouse
+      value: Dhampir House Exit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6036,6 +6049,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6868479562915456875, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7396793281201000937, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -7258,7 +7275,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.1290333, y: 1.9364793}
+  m_Offset: {x: 1.1290333, y: 2.1426818}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -7268,7 +7285,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.9436994, y: 2.3807225}
+  m_Size: {x: 4.9436994, y: 1.9683175}
   m_EdgeRadius: 0
 --- !u!1 &1955373022
 GameObject:
@@ -7504,6 +7521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1980905817}
   - component: {fileID: 1980905818}
+  - component: {fileID: 1980905819}
   m_Layer: 0
   m_Name: page (1)
   m_TagString: Untagged
@@ -7586,6 +7604,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1980905819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980905816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18c8c2fed2edf3499fb774de703335c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!1 &1986663262
 GameObject:
   m_ObjectHideFlags: 0
@@ -7596,6 +7626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1986663263}
   - component: {fileID: 1986663264}
+  - component: {fileID: 1986663265}
   m_Layer: 0
   m_Name: page
   m_TagString: Untagged
@@ -7678,6 +7709,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1986663265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986663262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18c8c2fed2edf3499fb774de703335c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
 --- !u!1 &1987092544 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 438436570647970855, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
