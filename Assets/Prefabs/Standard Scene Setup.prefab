@@ -11678,6 +11678,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 664640928252494707, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
+      propertyPath: ChoiceUI
+      value: 
+      objectReference: {fileID: 954188320777971365}
     - target: {fileID: 1827275502478880379, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11783,6 +11787,10 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8391336647073074513, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
+      propertyPath: m_Name
+      value: DialogueUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391336647073074513, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -11794,6 +11802,11 @@ PrefabInstance:
       addedObject: {fileID: 7687502252338218140}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
+--- !u!1 &954188320777971365 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8082839310546895861, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
+  m_PrefabInstance: {fileID: 9012255633260029264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7226658769373809451 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1827275502478880379, guid: da399b5891a8c6747956ca4b9fa4f86c, type: 3}
