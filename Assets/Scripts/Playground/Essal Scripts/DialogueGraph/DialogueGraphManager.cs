@@ -562,6 +562,11 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.ANGRY:
                 if (node.Speaker.Angry == null)
                 {
+                    if (currentInteractable == null)
+                    {
+                        SpeakerSprite.enabled = false;
+                        return;
+                    }
                     SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Angry;
@@ -570,6 +575,11 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.HAPPY:
                 if (node.Speaker.Happy == null)
                 {
+                    if (currentInteractable == null)
+                    {
+                        SpeakerSprite.enabled = false;
+                        return;
+                    }
                     SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Happy;
@@ -578,6 +588,11 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.CONTENT:
                 if (node.Speaker.Content == null)
                 {
+                    if (currentInteractable == null)
+                    {
+                        SpeakerSprite.enabled = false;
+                        return;
+                    }
                     SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Content;
@@ -586,6 +601,11 @@ public class DialogueGraphManager : MonoBehaviour
             case Emotion.SAD:
                 if (node.Speaker.Sad == null)
                 {
+                    if (currentInteractable == null)
+                    {
+                        SpeakerSprite.enabled = false;
+                        return;
+                    }
                     SpeakerSprite.sprite = currentInteractable.interactableSprite;
                 }
                 else SpeakerSprite.sprite = node.Speaker.Sad;
