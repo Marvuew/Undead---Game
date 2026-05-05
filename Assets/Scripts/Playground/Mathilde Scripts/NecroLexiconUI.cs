@@ -144,7 +144,7 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.gameObject.SetActive(true);
         }
     }
-
+    public void ToggleBook(GameObject book) { book.SetActive((book.activeSelf == true) ? false : true); }
     public void CloseBook()
     {
         //soundManager.PlayCloseBookSound();
