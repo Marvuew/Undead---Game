@@ -48,6 +48,7 @@ public class DialogueGraphManager : MonoBehaviour
     public InteractableScriptableObject currentInteractable;
 
     [Header("Choice Button UI")]
+    public GameObject ChoiceUI;
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
     public Color PathExplored;
@@ -166,6 +167,8 @@ public class DialogueGraphManager : MonoBehaviour
                 nodeID = readNode.MarkAsReadNodeID;
                 continue;
             }
+
+            
 
             // 2. Execution
             string nextNodeID = _currentNode.Execute(this);
