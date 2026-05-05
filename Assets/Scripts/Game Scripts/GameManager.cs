@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(SceneNames.Priest_House.ToString());
+        SceneManager.LoadScene(SceneNames.PriestHouse.ToString());
     }
 
     public void ToggleActive(GameObject target)
@@ -76,8 +76,7 @@ public class GameManager : MonoBehaviour
 
 public enum SceneNames
 {
-    Day1,
-    Priest_House,
+    OpenWorld,
+    PriestHouse,
     Dhamphir_House,
-    Day4
 }
