@@ -114,4 +114,5 @@ public class IntroSequence : MonoBehaviour
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
         INTROUI.SetActive(false);
     }
+
 }

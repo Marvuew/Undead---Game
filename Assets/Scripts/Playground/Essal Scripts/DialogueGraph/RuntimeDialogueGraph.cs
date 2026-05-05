@@ -32,7 +32,7 @@ public class RuntimeDialogueNode : RuntimeNode
     public DialogueSpeaker Speaker;
     public Emotion Emotion;
     public TypingSpeed TypingSpeed;
-    public bool MarkAsRead; 
+    public bool MarkAsRead;
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleDialogueNode(this);
