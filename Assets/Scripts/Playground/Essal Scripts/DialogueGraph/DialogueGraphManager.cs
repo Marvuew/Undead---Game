@@ -161,6 +161,8 @@ public class DialogueGraphManager : MonoBehaviour
                 return;
             }
 
+            ChoiceUI.SetActive(_currentNode is RuntimeChoiceNode ? true : false); // Toggles the Choice UI based on if the current node is a choice node or not.
+
             // 1. Mark as Read Check (Priority)
             if (_currentNode is RuntimeDialogueNode readNode && nodesMarkedAsRead.Contains(readNode))
             {
