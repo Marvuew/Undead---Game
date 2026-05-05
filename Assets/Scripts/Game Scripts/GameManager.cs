@@ -79,4 +79,5 @@ public enum SceneNames
     OpenWorld,
     PriestHouse,
     Dhamphir_House,
+    Church
 }
