@@ -2,7 +2,9 @@ using Assets.Scripts.GameScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntroSequence : MonoBehaviour
 {
@@ -20,13 +22,16 @@ public class IntroSequence : MonoBehaviour
     public Transform LeftPanel;
     public Transform RightPanel;
 
-    HashSet<int> selected = new HashSet<int>();
-
     void Start()
     {
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
+
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -35,13 +40,16 @@ public class IntroSequence : MonoBehaviour
 
     }
 
-    public IEnumerator StartGameAnimation()
+    public void StartPanelAnimation()
     {
-        mainMenuUI.SetActive(false);
+        if (Keyboard.current != null && !Keyboard.current.enabled)
+            InputSystem.EnableDevice(Keyboard.current);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
-
 
         for (int i = 0; i < indices.Count; i++) // FISHER YATES SHUFFLE
         {
@@ -72,16 +80,38 @@ public class IntroSequence : MonoBehaviour
             GameObject go = Instantiate(undeadPrefab, RightPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
+    }
 
+    public IEnumerator HandleIntroDialogue()
+    {
+        mainMenuUI.SetActive(false);
         // Handle Dialogue
+        DialogueGraphManager.instance.gameObject.SetActive(true);
+
+
+
+        if (DialogueGraphManager.instance.DialoguePanel != null)
+            DialogueGraphManager.instance.DialoguePanel.SetActive(true);
+
         DialogueGraphManager.instance.StartDialogue(openingDialogue);
+
         yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
         LeftPanel.gameObject.SetActive(false);
         RightPanel.gameObject.SetActive(false);
+
         LOGO.SetActive(true);
+
         yield return new WaitForSeconds(2f);
-        WorldFade.Instance.StartSceneTransition(SceneNames.Home.ToString(), 5f, Color.white);
-        yield return new WaitForSeconds(5f); // Wait til Animation is Done
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
+        yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
         INTROUI.SetActive(false);
     }
 }
