@@ -94,11 +94,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd5c9ac32d19463f9989c7ec1ae87a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTransition2D
-  sceneToLoad: Katrine
-  targetSpawnPointId: Priest_House
+  sceneName: 0
+  sceneID: 0
   interactKey: 101
   playerTag: Player
-  Enter: 1
+  requiresNecrolexicon: 0
+  missingNecrolexiconGraph: {fileID: 0}
+  useDoctorConversationBeforeLeaving: 0
+  doctorObject: {fileID: 0}
+  doctorDoorGraph: {fileID: 0}
+  doorOpenSoundName: DoorOpen
+  Enter: 0
   Exit: 0
   autoWalkDirection: {x: 0, y: 1}
   autoWalkDistance: 0.5
@@ -118,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8607ed3702c0a46c7a8b2dae0b5530a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorSpawnPoint2D
-  spawnPointId: Priest_House_Entrance
+  sceneName: 0
 --- !u!114 &4882050232930198740
 MonoBehaviour:
   m_ObjectHideFlags: 0

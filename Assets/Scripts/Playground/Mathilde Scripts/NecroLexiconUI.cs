@@ -161,15 +161,28 @@ public class NecroLexiconUI : MonoBehaviour
 
         SetSelectedButton(pageButtons[3]);
     }
-    public void UpdateCluesList() 
+    public void UpdateCluesList()
     {
         ClearClueList();
-        foreach(Clue _clue in CaseManager.Instance.cluesfound)
+
+        foreach (Clue _clue in CaseManager.Instance.cluesfound) // LOOP THROUGH ALL CLUES
         {
-            GameObject clueObject = Instantiate(clueTxtPrefab, cluesContainer);
-            clueObject.GetComponent<TextMeshProUGUI>().text = "* " + _clue.description;
+            //Check if we actually have descriptions for this clue
+            if (CaseManager.Instance.clueDescriptions.TryGetValue(_clue, out List<string> descriptions))
+            {
+                //Instantiate one text object per clue (or per description, depending on your UI design)
+                GameObject clueObject = Instantiate(clueTxtPrefab, cluesContainer);
+                TextMeshProUGUI textComp = clueObject.GetComponent<TextMeshProUGUI>();
+
+                //Combine the descriptions into one block of text for that clue
+                textComp.text = $"<b>{_clue.name}</b>\n"; // Add Clue Name as Header
+                foreach (var description in descriptions)
+                {
+                    textComp.text += "* " + description + "\n";
+                }
+            }
         }
-        Debug.Log("Updating clue list");
+        Debug.Log("UI Clue List Refreshed");
     }
 
     public void ClearClueList()

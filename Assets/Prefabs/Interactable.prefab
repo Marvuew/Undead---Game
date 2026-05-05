@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2787883149634479809}
   - component: {fileID: 4874180691963958733}
-  - component: {fileID: 7629580898189008948}
   - component: {fileID: 3631813951059515959}
   - component: {fileID: 4542747436648328108}
   - component: {fileID: 2667211263814292598}
+  - component: {fileID: 5814109702674565563}
+  - component: {fileID: 7529820211265776961}
   m_Layer: 0
   m_Name: Interactable
   m_TagString: Untagged
@@ -39,7 +40,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4874180691963958733
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -86,7 +87,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1916387194, guid: 502ce48825f29ba4ebf20ee021268160, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -94,24 +95,9 @@ SpriteRenderer:
   m_Size: {x: 0.5625, y: 1.53125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &7629580898189008948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2233396553007895774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338f4a568c0b2184e8d2ca23ffd3f52b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::interactable
-  dialogueGraph: {fileID: 3965311268370046156, guid: 5f3518a8ea7668f40a889231c3e9872f, type: 3}
-  interactText: {fileID: 5115446778502478579}
-  clue: {fileID: 11400000, guid: 0c8b070d56e03014da3dc880ae1371a3, type: 2}
-  clueType: 0
+  m_BlendShapeWeights: []
 --- !u!58 &3631813951059515959
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,11 +187,40 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2233396553007895774}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e18c8c2fed2edf3499fb774de703335c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Playground.GameScripts.SortSprite
+--- !u!114 &5814109702674565563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233396553007895774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ad71ca9b5dd2147b4f738275d97eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RuntimeInteractable
+  dialogueGraph: {fileID: 0}
+  interactText: {fileID: 5115446778502478579}
+  interactableData: {fileID: 0}
+  interactableType: 0
+--- !u!114 &7529820211265776961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233396553007895774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c61684376a7544eb4d91bbe15e2102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionBaker
+  data: {fileID: 0}
 --- !u!1 &5115446778502478579
 GameObject:
   m_ObjectHideFlags: 0

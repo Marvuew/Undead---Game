@@ -371,8 +371,12 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Clue
+          - Description
+          - __option_Number of UndeadTypes
           m_ValueList:
           - rid: 8780719147663754062
+          - rid: 8780719227154464850
+          - rid: 8780719227154464858
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -912,3 +916,11 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 8780719227154464850
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 
+    - rid: 8780719227154464858
+      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0

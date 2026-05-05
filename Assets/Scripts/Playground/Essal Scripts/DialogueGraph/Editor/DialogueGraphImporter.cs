@@ -216,6 +216,16 @@ public class DialogueGraphImporter : ScriptedImporter
     private void ProcessClueNode(ClueNode node, RuntimeClueNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
         runtimeNode.clue = GetPortValue<Clue>(node.GetInputPortByName(ClueNode.IN_PORT_CLUE));
+        runtimeNode.description = GetPortValue<string>(node.GetInputPortByName(ClueNode.IN_PORT_DESCRIPTION));
+        node.GetNodeOptionByName(ClueNode.IN_OPTION_UNDEADTYPE_COUNT).TryGetValue(out int undeadCount);
+        if (undeadCount > 0)
+        {
+            for (int i = 1; i < undeadCount + 1; i++)
+            {
+                UndeadType type = GetPortValue<UndeadType>(node.GetInputPortByName(ClueNode.IN_PORT_UNDEADTYPE + i));
+                runtimeNode.typePointers.Add(type);
+            }
+        }
 
         var nextNodePort = node.GetOutputPortByName(ActionNode.OUT_PORT)?.FirstConnectedPort;
         if (nextNodePort != null)
