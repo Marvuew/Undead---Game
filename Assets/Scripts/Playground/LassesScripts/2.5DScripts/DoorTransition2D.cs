@@ -21,7 +21,7 @@ public class DoorTransition2D : MonoBehaviour
 
     [Header("Character Event Before Transition")]
     public bool useCharacterEventBeforeTransition = false;
-    public bool skipCharacterEventIfIntroWasSkipped = true;
+    public bool skipCharacterEventIfIntroWasSkipped = false;
     public GameObject characterObject;
     public RuntimeDialogueGraph characterDialogueGraph;
     public float characterRevealDelay = 0.5f;
@@ -112,6 +112,11 @@ public class DoorTransition2D : MonoBehaviour
             if (DialogueGraphManager.instance == null || !DialogueGraphManager.instance.isDialogueRunning)
             {
                 waitingForAfterCharacterDialogue = false;
+
+                if (Player.Instance != null)
+                    Player.Instance.interacting = false;
+
+                Debug.Log("After-character dialogue finished. Player must interact with the door again to leave.");
             }
 
             return;
@@ -146,17 +151,30 @@ public class DoorTransition2D : MonoBehaviour
     private bool ShouldRunCharacterEvent()
     {
         if (!useCharacterEventBeforeTransition)
+        {
+            Debug.LogWarning("Skipping character event: useCharacterEventBeforeTransition is false.");
             return false;
+        }
 
         if (skipCharacterEventIfIntroWasSkipped && GameProgressState.ForceSkippedHouseIntro)
+        {
+            Debug.LogWarning("Skipping character event: ForceSkippedHouseIntro is true.");
             return false;
+        }
 
         if (characterEventFinished)
+        {
+            Debug.Log("Character event already finished. Door can now transition.");
             return false;
+        }
 
         if (characterDialogueGraph == null)
+        {
+            Debug.LogWarning("Skipping character event: characterDialogueGraph is missing.");
             return false;
+        }
 
+        Debug.Log("Character event will run before door transition.");
         return true;
     }
 
@@ -212,6 +230,13 @@ public class DoorTransition2D : MonoBehaviour
             StartDoorDialogue(afterCharacterLeavesGraph);
             waitingForAfterCharacterDialogue = true;
         }
+        else
+        {
+            if (Player.Instance != null)
+                Player.Instance.interacting = false;
+
+            Debug.Log("Character event finished. Player must interact with the door again to leave.");
+        }
 
         characterHideInProgress = false;
     }
@@ -249,7 +274,6 @@ public class DoorTransition2D : MonoBehaviour
     private IEnumerator FadeCharacter(float from, float to, float duration)
     {
         duration = Mathf.Max(0.01f, duration);
-
         float timer = 0f;
 
         while (timer < duration)
