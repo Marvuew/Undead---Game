@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class IntroSequence : MonoBehaviour
 {
@@ -16,22 +15,18 @@ public class IntroSequence : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject LOGO;
     public float ratio = 2f;
-    public GameObject INTROUI;
 
     [Header("For Moving Undead Portraits")]
     public Transform LeftPanel;
     public Transform RightPanel;
+
+    HashSet<int> selected = new HashSet<int>();
 
     void Start()
     {
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
-
-        if (SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            gameObject.SetActive(false);
-        }
     }
 
     // Update is called once per frame
@@ -40,13 +35,15 @@ public class IntroSequence : MonoBehaviour
 
     }
 
-    public void StartPanelAnimation()
+    public IEnumerator StartGameAnimation()
     {
         if (Keyboard.current != null && !Keyboard.current.enabled)
             InputSystem.EnableDevice(Keyboard.current);
 
         if (Player.Instance != null)
             Player.Instance.interacting = false;
+
+        mainMenuUI.SetActive(false);
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
         for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
@@ -80,15 +77,9 @@ public class IntroSequence : MonoBehaviour
             GameObject go = Instantiate(undeadPrefab, RightPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
-    }
 
-    public IEnumerator HandleIntroDialogue()
-    {
-        mainMenuUI.SetActive(false);
         // Handle Dialogue
         DialogueGraphManager.instance.gameObject.SetActive(true);
-
-
 
         if (DialogueGraphManager.instance.DialoguePanel != null)
             DialogueGraphManager.instance.DialoguePanel.SetActive(true);
@@ -110,8 +101,6 @@ public class IntroSequence : MonoBehaviour
         if (Player.Instance != null)
             Player.Instance.interacting = false;
 
-        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
-        yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
-        INTROUI.SetActive(false);
+        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f,Color.black);
     }
 }

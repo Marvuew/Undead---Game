@@ -1,4 +1,3 @@
-using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,7 +31,6 @@ public class WorldFade : MonoBehaviour
     private bool isFading = false;
     private bool isSceneTransitioning = false;
     private Color currentFadeColor = Color.black;
-    public bool isSceneTransitioning2 = false; // Added to prevent the fade from triggering twice when loading a scene that also uses WorldFade for its transition
 
     private void Awake()
     {
@@ -81,7 +79,6 @@ public class WorldFade : MonoBehaviour
 
     private IEnumerator FadeSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
-        isSceneTransitioning2 = true; // Intro uses this to time when to disable the intro UI
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
 
         isSceneTransitioning = true;
@@ -93,7 +90,6 @@ public class WorldFade : MonoBehaviour
         currentFadeColor = color;
         fadeAlpha = 1f;
         isFading = false;
-        isSceneTransitioning2 = false; // Know the tutorial can begin
     }
 
     private IEnumerator Fade(float from, float to, float duration, Color color)
@@ -115,10 +111,7 @@ public class WorldFade : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {   if (scene.name == "Home")
-        {
-            Player.Instance.MovePlayerToSpawnPoint();
-        }
+    {
         if (!isSceneTransitioning) return;
         isSceneTransitioning = false;
 

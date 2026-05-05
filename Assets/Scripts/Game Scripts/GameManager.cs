@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
 
+    // SCENES STORAGE IDEA
+    //public static readonly string MAIN_MENU = "Game";
+    //public static readonly string WORLD = "World";
+    //public static readonly string PRIEST_HOUSE = "Priest House";
+
     IntroSequence gameIntroSequence;
     bool firstPlayThrough = true;
 
@@ -29,15 +34,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameIntroSequence = FindAnyObjectByType<IntroSequence>();
-        gameIntroSequence.StartPanelAnimation(); // Starting the panel Animation when opening the Main Menu
+        gameIntroSequence = gameObject.GetComponent<IntroSequence>();
     }
 
     public void StartGame()
     {
         if (firstPlayThrough)
         {
-            StartCoroutine(gameIntroSequence.HandleIntroDialogue());
+            StartCoroutine(gameIntroSequence.StartGameAnimation());
             firstPlayThrough = false;
         }
         else

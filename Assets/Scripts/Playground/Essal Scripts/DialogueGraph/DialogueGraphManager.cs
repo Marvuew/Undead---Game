@@ -93,6 +93,11 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Input Handling (update)
+
+    public void Start()
+    {
+        gameObject.SetActive(false);
+    }
     private void Update()
     {
         if (!DialoguePanel.activeSelf) return;
