@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &395811966351885187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6610940531691862716}
+  - component: {fileID: 2729548335011807663}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6610940531691862716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395811966351885187}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.5542297, y: 0.85713005, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2729548335011807663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395811966351885187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d274fc1c687644fb3c4535a5a1a911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  sounds:
+  - name: ClueFound
+    clip: {fileID: 8300000, guid: 1ba8f518a234f10468d0334901e4b605, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Dialogue
+    clip: {fileID: 8300000, guid: 00a4a57de0664a84f8d084a4cf27e74e, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: skipTyping
+    clip: {fileID: 8300000, guid: 27ad0ccff2816d74781756361d544ce2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: pickChoice
+    clip: {fileID: 8300000, guid: d524ba19e037be94190918f7abe96dd4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: spawnChoice
+    clip: {fileID: 8300000, guid: 27ad0ccff2816d74781756361d544ce2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Walk
+    clip: {fileID: 8300000, guid: 241b34ce36c03e3428b47757bc75400a, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: AmbientDay
+    clip: {fileID: 8300000, guid: d16d51472852ef8409ce19f423aa6631, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 1
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: AmbientNight
+    clip: {fileID: 8300000, guid: 837e1d4a6d437be41be9df1103f78aa1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: NavigateChoice
+    clip: {fileID: 8300000, guid: 4a6c9ce6bf5316b46b5bfa4c8a4d8316, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: InteractableHuman
+    clip: {fileID: 8300000, guid: d960f496790f3cf49b110b40f88b6e81, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Verisimilitude
+    clip: {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: CloseBook
+    clip: {fileID: 8300000, guid: ec13731854adc044492a45d17608ee82, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: OpenBook
+    clip: {fileID: 8300000, guid: e32dc0401c323f24bb8cc83afcf0a6ae, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn1
+    clip: {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn2
+    clip: {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: PageTurn3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Cold_Feet
+    clip: {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: What_Gives
+    clip: {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: DoorKnock1
+    clip: {fileID: 8300000, guid: 234bf06dd978f44ddad7a062d3112803, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: DoorKnock2
+    clip: {fileID: 8300000, guid: a6bd22875395346f48b39e9d9f296fd1, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: DoorKnock3
+    clip: {fileID: 8300000, guid: 64035f2cf2e064737852441a1ee2d7c3, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: DoorOpen
+    clip: {fileID: 8300000, guid: 02dcbbcee0ad04f3280bf61bc9be1784, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  pageTurnSounds:
+  - {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
+  - {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
+  - {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+  Songs:
+  - {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
+  - {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
+  - {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+  songChangeWaitTime: 30

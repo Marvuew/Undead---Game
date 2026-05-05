@@ -53,6 +53,8 @@ public class CaseOutroScript : MonoBehaviour
 
         UIManager.instance.VisibleUI(); // ?? MAKES THE UI VISIBLE??
         DisableOutroUI();
+        Debug.Log("Setting up next case");
+        StartCoroutine(CaseManager.Instance.InitializeNextDay());
     }
 
     public void EnableOutroUI() // ENABlE THE UI FOR OUTRO
