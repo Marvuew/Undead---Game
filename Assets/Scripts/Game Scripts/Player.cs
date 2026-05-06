@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Progress;
+using System.Collections;
 
 namespace Assets.Scripts.GameScripts
 {
@@ -20,6 +21,8 @@ namespace Assets.Scripts.GameScripts
         [SerializeField] float speed;
         [SerializeField] SpriteRenderer sprite;
         private Rigidbody2D rb;
+
+        GameObject spawnPoint; // SPAWNPOINT
 
         public static Player Instance { get; private set; }
         private Player() { }
@@ -50,11 +53,17 @@ namespace Assets.Scripts.GameScripts
         }
         public void OnInteract(InputAction.CallbackContext input) 
         { 
-            if(input.performed && currentInteractable != null) 
+            if (input.performed && currentInteractable != null) 
             { 
                 currentInteractable.startInteraction();
                 interacting = true;
             }
+        }
+
+        public void MovePlayerToSpawnPoint()
+        {
+            spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
+            transform.position = spawnPoint.transform.position;
         }
     }
 }

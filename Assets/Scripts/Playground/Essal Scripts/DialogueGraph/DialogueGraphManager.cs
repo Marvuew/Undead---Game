@@ -48,6 +48,7 @@ public class DialogueGraphManager : MonoBehaviour
     public InteractableScriptableObject currentInteractable;
 
     [Header("Choice Button UI")]
+    public GameObject ChoiceUI;
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
     public Color PathExplored;
@@ -93,11 +94,6 @@ public class DialogueGraphManager : MonoBehaviour
     #endregion
 
     #region Input Handling (update)
-
-    public void Start()
-    {
-        gameObject.SetActive(false);
-    }
     private void Update()
     {
         if (!DialoguePanel.activeSelf) return;
@@ -165,12 +161,16 @@ public class DialogueGraphManager : MonoBehaviour
                 return;
             }
 
+            ChoiceUI.SetActive(_currentNode is RuntimeChoiceNode ? true : false); // Toggles the Choice UI based on if the current node is a choice node or not.
+
             // 1. Mark as Read Check (Priority)
             if (_currentNode is RuntimeDialogueNode readNode && nodesMarkedAsRead.Contains(readNode))
             {
                 nodeID = readNode.MarkAsReadNodeID;
                 continue;
             }
+
+            
 
             // 2. Execution
             string nextNodeID = _currentNode.Execute(this);
