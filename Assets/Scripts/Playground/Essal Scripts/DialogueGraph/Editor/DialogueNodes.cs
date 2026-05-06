@@ -327,6 +327,40 @@ public class ConditionNode : Node
 
 }
 
+[Serializable]
+public class SoundNode : Node
+{
+
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_AUDIOCLIP = "Audio Clip";
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<AudioClip>(IN_PORT_AUDIOCLIP).Build();
+    }
+}
+
+[Serializable]
+public class FadeNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_DURATION = "Duration";
+    public static readonly string IN_PORT_COLOR = "color";
+    public static readonly string IN_PORT_STAYBLACKDURATION = "Stay black duration";
+    public static readonly string IN_PORT_BLOCKSPACE = "Block space during fade";
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<float>(IN_PORT_STAYBLACKDURATION).WithDefaultValue(1).Build();
+        context.AddInputPort<float>(IN_PORT_DURATION).WithDefaultValue(1).Build();
+        context.AddInputPort<Color>(IN_PORT_COLOR).WithDefaultValue(Color.black).Build();
+        context.AddInputPort<bool>(IN_PORT_BLOCKSPACE).Build();
+    }
+}
 
 #endregion
 

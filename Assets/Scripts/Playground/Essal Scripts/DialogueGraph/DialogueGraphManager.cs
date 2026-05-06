@@ -320,6 +320,26 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
+    public void HandleSoundNode(RuntimeSoundNode node)
+    {
+        if (node.clip != null)
+        {
+            AudioManager.instance.AddSound(node.clip);
+            AudioManager.instance.PlaySFX(node.clip.name);
+            Debug.Log("Playing Sound: " + node.clip.name);
+        }
+        else
+        {
+            Debug.LogWarning("Sound node has no clip assigned!");
+        }               
+    }
+
+    public void HandleFadeNode(RuntimeFadeNode node)
+    {
+        StartCoroutine(FadeRoutine(node.blockSpaceDuringFade, node.duration, node.stayBlackDuration, node.color));
+        Debug.Log("Fading in a dialogue");
+    }
+
     #endregion
 
     #region Helping Functions
@@ -649,6 +669,28 @@ public class DialogueGraphManager : MonoBehaviour
         skipTyping = false;
         isTyping = false;
         ClearChoices();
+    }
+
+    private IEnumerator FadeRoutine(bool blockSpaceDuringFade, float duration, float stayBlackDuration, Color color)
+    {
+        if (blockSpaceDuringFade)
+            DialogueInputBlocker.BlockSpaceAdvance = true;
+
+        WorldFade.Instance.StartScreenFade(
+            duration,
+            stayBlackDuration,
+            color
+        );
+
+        float totalFadeTime =
+            duration +
+            stayBlackDuration +
+            duration;
+
+        yield return new WaitForSeconds(totalFadeTime);
+
+        if (blockSpaceDuringFade)
+            DialogueInputBlocker.BlockSpaceAdvance = false;
     }
 }
 

@@ -2,13 +2,14 @@ using Assets.Scripts.GameScripts;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
 
-    [SerializeField] private Sound[] sounds;
+    [SerializeField] private List<Sound> sounds;
     public static AudioManager instance;
 
     public AudioClip[] pageTurnSounds;
@@ -50,7 +51,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = sounds.Find(sound => sound.name == name);
 
         if (s == null)
         {
@@ -63,7 +64,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopMusic(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = sounds.Find(sound => sound.name == name);
 
         if (s == null)
         {
@@ -75,7 +76,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = sounds.Find(sound => sound.name == name);
 
         if (s == null)
         {
@@ -88,7 +89,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopSFX(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = sounds.Find(sound => sound.name == name);
 
         if (s == null)
         {
@@ -99,11 +100,32 @@ public class AudioManager : MonoBehaviour
         s.source.Stop();
     }
 
+    public void AddSound(AudioClip clip)
+    {
+        Sound s = new Sound()
+        {
+            clip = clip,
+            name = clip.name,
+            volume = 1f,
+            loop = false,
+            pitch = 1f,
+            PlayOnAwake = false,
+            source = gameObject.AddComponent<AudioSource>()
+        };
+
+        s.source.clip = s.clip;
+        s.source.volume = s.volume;
+        s.source.loop = s.loop;
+        s.source.pitch = s.pitch;
+        s.source.playOnAwake = s.PlayOnAwake;
+        sounds.Add(s);
+    }
+
     public IEnumerator WalkingLoop()
     {
         while (true)
         {
-            Sound walkSound = Array.Find(sounds, sound => sound.name == "Walk");
+            Sound walkSound = sounds.Find(sound => sound.name == "Walk");
 
             walkSound.source.pitch = UnityEngine.Random.Range((float)0.8, 1.2f);
             PlaySFX(walkSound.name);
@@ -146,7 +168,7 @@ public class AudioManager : MonoBehaviour
             var song = Songs[index]; // MAKE A VARIABLE FOR THE SONG
             lastIndex = index; // UPDATE THE LAST INDEX
             PlayMusic(song.name); // PLAY THE SONG
-            yield return new WaitForSeconds(Array.Find(sounds, s => s.name == song.name).clip.length); // WAIT FOR SONG TO FINISH
+            yield return new WaitForSeconds(sounds.Find(s => s.name == song.name).clip.length); // WAIT FOR SONG TO FINISH
             int randomWaitTime = UnityEngine.Random.Range(songChangeWaitTime - 15, songChangeWaitTime + 15); // MAKE THE WAITTIME IN BETWEEN SONGS A BIT RANDOM
             yield return new WaitForSeconds(randomWaitTime); // WAIT A RANDOM AMOUNT OF TIME TILL NEXT SONG
         }

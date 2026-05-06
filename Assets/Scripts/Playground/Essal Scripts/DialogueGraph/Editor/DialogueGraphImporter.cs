@@ -125,6 +125,24 @@ public class DialogueGraphImporter : ScriptedImporter
                 runtimeNode = node;
             }
 
+            if (iNode is SoundNode soundNode)
+            {
+                var node = new RuntimeSoundNode { NodeID = nodeIDMap[iNode] };
+
+                ProcessSoundNode(soundNode, node, nodeIDMap);
+
+                runtimeNode = node;
+            }
+
+            if (iNode is FadeNode fadeNode)
+            {
+                var node = new RuntimeFadeNode { NodeID = nodeIDMap[iNode] };
+
+                ProcessFadeNode(fadeNode, node, nodeIDMap);
+
+                runtimeNode = node;
+            }
+
             runtimeGraph.AllNodes.Add(runtimeNode); // THEN ADD IT TO THE LIST OF ALLNODES
         }
 
@@ -352,6 +370,30 @@ public class DialogueGraphImporter : ScriptedImporter
 
         if (failPort != null && nodeIDMap.ContainsKey(failPort.GetNode()))
             runtimeNode.FailNodeID = nodeIDMap[failPort.GetNode()];
+    }
+
+    private void ProcessSoundNode(SoundNode node, RuntimeSoundNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        runtimeNode.clip = GetPortValue<AudioClip>(node.GetInputPortByName(SoundNode.IN_PORT_AUDIOCLIP));
+        var nextNodePort = node.GetOutputPortByName(SoundNode.OUT_PORT)?.FirstConnectedPort;
+        if (nextNodePort != null)
+        {
+            runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
+        }
+    }
+
+    private void ProcessFadeNode(FadeNode node, RuntimeFadeNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        runtimeNode.duration = GetPortValue<float>(node.GetInputPortByName(FadeNode.IN_PORT_DURATION));
+        runtimeNode.stayBlackDuration = GetPortValue<float>(node.GetInputPortByName(FadeNode.IN_PORT_STAYBLACKDURATION));
+        runtimeNode.color = GetPortValue<Color>(node.GetInputPortByName(FadeNode.IN_PORT_COLOR));
+        runtimeNode.blockSpaceDuringFade = GetPortValue<bool>(node.GetInputPortByName(FadeNode.IN_PORT_BLOCKSPACE));
+
+        var nextNodePort = node.GetOutputPortByName(SoundNode.OUT_PORT)?.FirstConnectedPort;
+        if (nextNodePort != null)
+        {
+            runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
+        }
     }
 
     // A helper method to prevent NullRefs on ports
