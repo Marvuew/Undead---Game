@@ -83,6 +83,11 @@ public class CaseManager : MonoBehaviour
             script.interactableType = data.interactableType;
             script.dialogueGraph = data.dialogue;
             script.interactableClue = data.clue;
+            script.gameObject.name = data.name;
+            if (!data.activateOnStart) // If explicitly set to now spawn... dont..... otherwise spawn and then immediately set to inactive so that it can be activated through dialogue or other means
+            {
+                script.gameObject.SetActive(false);
+            }
 
             activeInteractables.Add(newInteractable);
         }

@@ -153,6 +153,7 @@ public class RuntimeConditionNode : RuntimeNode
 public class RuntimeSoundNode : RuntimeNode
 {
     public AudioClip clip;
+    public bool isMusic;
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleSoundNode(this);

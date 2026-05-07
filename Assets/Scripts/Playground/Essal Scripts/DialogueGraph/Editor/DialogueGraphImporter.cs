@@ -375,6 +375,7 @@ public class DialogueGraphImporter : ScriptedImporter
     private void ProcessSoundNode(SoundNode node, RuntimeSoundNode runtimeNode, Dictionary<INode, string> nodeIDMap)
     {
         runtimeNode.clip = GetPortValue<AudioClip>(node.GetInputPortByName(SoundNode.IN_PORT_AUDIOCLIP));
+        runtimeNode.isMusic = GetPortValue<bool>(node.GetInputPortByName(SoundNode.IN_PORT_ISMUSIC));
         var nextNodePort = node.GetOutputPortByName(SoundNode.OUT_PORT)?.FirstConnectedPort;
         if (nextNodePort != null)
         {

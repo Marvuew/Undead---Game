@@ -17,6 +17,9 @@ public class AudioManager : MonoBehaviour
     [Header("Music")]
     public AudioClip[] Songs;
     public int songChangeWaitTime = 30;
+
+    [HideInInspector]
+    public Sound currentSong;
     private void Awake()
     {
         if (instance == null)
@@ -72,6 +75,17 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Stop();
+    }
+    
+    public void StopAllPlayingSounds()
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.source.isPlaying)
+            {
+                s.source.Stop();
+            }
+        }
     }
 
     public void PlaySFX(string name)
@@ -168,7 +182,8 @@ public class AudioManager : MonoBehaviour
             var song = Songs[index]; // MAKE A VARIABLE FOR THE SONG
             lastIndex = index; // UPDATE THE LAST INDEX
             PlayMusic(song.name); // PLAY THE SONG
-            yield return new WaitForSeconds(sounds.Find(s => s.name == song.name).clip.length); // WAIT FOR SONG TO FINISH
+            currentSong = sounds.Find(s => s.name == song.name); // UPDATE THE CURRENT SONG
+            yield return new WaitForSeconds(currentSong.clip.length); // WAIT FOR SONG TO FINISH
             int randomWaitTime = UnityEngine.Random.Range(songChangeWaitTime - 15, songChangeWaitTime + 15); // MAKE THE WAITTIME IN BETWEEN SONGS A BIT RANDOM
             yield return new WaitForSeconds(randomWaitTime); // WAIT A RANDOM AMOUNT OF TIME TILL NEXT SONG
         }

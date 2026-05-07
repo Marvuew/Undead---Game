@@ -334,11 +334,13 @@ public class SoundNode : Node
     public static readonly string IN_PORT = "in";
     public static readonly string OUT_PORT = "out";
     public static readonly string IN_PORT_AUDIOCLIP = "Audio Clip";
+    public static readonly string IN_PORT_ISMUSIC = "Is Music";
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         context.AddInputPort(IN_PORT).Build();
         context.AddOutputPort(OUT_PORT).Build();
         context.AddInputPort<AudioClip>(IN_PORT_AUDIOCLIP).Build();
+        context.AddInputPort<bool>(IN_PORT_ISMUSIC).Build();
     }
 }
 
@@ -348,9 +350,9 @@ public class FadeNode : Node
     public static readonly string IN_PORT = "in";
     public static readonly string OUT_PORT = "out";
     public static readonly string IN_PORT_DURATION = "Duration";
-    public static readonly string IN_PORT_COLOR = "color";
-    public static readonly string IN_PORT_STAYBLACKDURATION = "Stay black duration";
-    public static readonly string IN_PORT_BLOCKSPACE = "Block space during fade";
+    public static readonly string IN_PORT_COLOR = "Color";
+    public static readonly string IN_PORT_STAYBLACKDURATION = "Stay Black Duration";
+    public static readonly string IN_PORT_BLOCKSPACE = "Block Space During Fade";
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
         context.AddInputPort(IN_PORT).Build();
