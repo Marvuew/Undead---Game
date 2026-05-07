@@ -1,4 +1,3 @@
-using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class WorldFade : MonoBehaviour
 {
     private static WorldFade instance;
+
     public static WorldFade Instance
     {
         get
@@ -13,12 +13,14 @@ public class WorldFade : MonoBehaviour
             if (instance == null)
             {
                 instance = FindObjectOfType<WorldFade>();
+
                 if (instance == null)
                 {
                     GameObject fadeObject = new GameObject("WorldFade");
                     instance = fadeObject.AddComponent<WorldFade>();
                 }
             }
+
             return instance;
         }
     }
@@ -28,11 +30,13 @@ public class WorldFade : MonoBehaviour
     public Color defaultFadeColor = Color.black;
 
     private static Texture2D fadeTexture;
+
     private float fadeAlpha = 0f;
     private bool isFading = false;
     private bool isSceneTransitioning = false;
     private Color currentFadeColor = Color.black;
-    public bool isSceneTransitioning2 = false; // Added to prevent the fade from triggering twice when loading a scene that also uses WorldFade for its transition
+
+    public bool isSceneTransitioning2 = false;
 
     private void Awake()
     {
@@ -54,6 +58,12 @@ public class WorldFade : MonoBehaviour
             fadeTexture.SetPixel(0, 0, Color.white);
             fadeTexture.Apply();
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void StartSceneTransition(string sceneName, float duration, Color color)
@@ -81,7 +91,8 @@ public class WorldFade : MonoBehaviour
 
     private IEnumerator FadeSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
-        isSceneTransitioning2 = true; // Intro uses this to time when to disable the intro UI
+        isSceneTransitioning2 = true;
+
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
 
         isSceneTransitioning = true;
@@ -93,7 +104,7 @@ public class WorldFade : MonoBehaviour
         currentFadeColor = color;
         fadeAlpha = 1f;
         isFading = false;
-        isSceneTransitioning2 = false; // Know the tutorial can begin
+        isSceneTransitioning2 = false;
     }
 
     private IEnumerator Fade(float from, float to, float duration, Color color)
@@ -102,7 +113,10 @@ public class WorldFade : MonoBehaviour
         currentFadeColor = color;
         fadeAlpha = from;
 
+        duration = Mathf.Max(0.01f, duration);
+
         float timer = 0f;
+
         while (timer < duration)
         {
             timer += Time.deltaTime;
@@ -115,19 +129,14 @@ public class WorldFade : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {   if (scene.name == "Home")
-        {
-            Player.Instance.MovePlayerToSpawnPoint();
-        }
-        if (!isSceneTransitioning) return;
+    {
         isSceneTransitioning = false;
-
-        CaseManager.Instance.SetUpNewDayEnviroment();
     }
 
     private void OnGUI()
     {
-        if (!isFading && fadeAlpha <= 0f) return;
+        if (!isFading && fadeAlpha <= 0f)
+            return;
 
         Color oldColor = GUI.color;
         GUI.color = new Color(currentFadeColor.r, currentFadeColor.g, currentFadeColor.b, fadeAlpha);
@@ -155,18 +164,14 @@ public class WorldFade : MonoBehaviour
     private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
     {
         yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
-
         yield return new WaitForSeconds(stayBlackDuration);
-
         yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
     }
 
     public IEnumerator FadeToBlackAndBack(float fadeDuration, float stayBlackDuration, Color fadeColor)
     {
         yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
-
         yield return new WaitForSeconds(stayBlackDuration);
-
         yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
     }
 }

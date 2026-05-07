@@ -1,17 +1,22 @@
 using System.Collections;
+using Assets.Scripts.GameScripts;
 using UnityEngine;
 
 public class SceneEntryController2D : MonoBehaviour
 {
     [Header("Optional First Room Reveal")]
     [SerializeField] private RoomCoverFade2D roomToRevealOnEnter;
-    [SerializeField] private bool revealRoomOnEnter = true;
 
-    [Header("Auto Walk")]
-    [SerializeField] private float autoWalkSpeed = 2.5f;
+    [SerializeField] private bool revealRoomOnEnter = true;
 
     [Header("Spawn Offset")]
     [SerializeField] private Vector2 spawnOffset = Vector2.zero;
+
+    [Header("Spawn Timing")]
+    [SerializeField] private int framesToWaitBeforeSpawn = 5;
+
+    [Header("Default Spawn")]
+    [SerializeField] private string defaultSpawnPointId = "BedSpawnpoint";
 
     private void Start()
     {
@@ -20,99 +25,91 @@ public class SceneEntryController2D : MonoBehaviour
 
     private IEnumerator HandleSceneEntry()
     {
-        yield return null;
+        for (int i = 0; i < framesToWaitBeforeSpawn; i++)
+            yield return null;
 
-        if (PersistentPlayer2D.Instance == null)
-            yield break;
+        Player player = Player.Instance;
 
-        GameObject player = PersistentPlayer2D.Instance.gameObject;
-        PlayerMovement2D movement = player.GetComponent<PlayerMovement2D>();
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-
-        // 🔴 FIND CLOCK AND PAUSE IT BEFORE ANY MOVEMENT
-        HalfClockHand clock = Object.FindAnyObjectByType<HalfClockHand>();
-        if (clock != null)
-            clock.PauseClockTracking(true);
-
-        if (!TransitionState2D.hasPendingTransition)
+        if (player == null)
         {
-            if (revealRoomOnEnter && roomToRevealOnEnter != null)
-                roomToRevealOnEnter.FadeOut();
-
-            CameraFollow2D cam = Object.FindAnyObjectByType<CameraFollow2D>();
-            if (cam != null)
-                cam.SnapToTarget();
-
-            // 🔴 RESUME CLOCK SAFELY
-            if (clock != null)
-            {
-                clock.ResyncPlayerTracking();
-                clock.PauseClockTracking(false);
-            }
-
+            Debug.LogWarning("SceneEntryController2D: Player.Instance missing.");
             yield break;
         }
 
-        DoorSpawnPoint2D[] spawnPoints = Object.FindObjectsByType<DoorSpawnPoint2D>(FindObjectsSortMode.None);
-        DoorSpawnPoint2D chosenSpawn = null;
-
-        foreach (DoorSpawnPoint2D spawn in spawnPoints)
+        // NORMAL DOOR TRANSITIONS
+        if (TransitionState2D.HasTransition)
         {
-            if (spawn.sceneName.ToString() == TransitionState2D.spawnPointId)
+            DoorSpawnPoint2D chosenSpawn = FindMatchingDoorSpawnPoint();
+
+            if (chosenSpawn != null)
             {
-                chosenSpawn = spawn;
-                break;
+                Vector2 finalSpawnPosition =
+                    (Vector2)chosenSpawn.transform.position + spawnOffset;
+
+                player.SetPosition(finalSpawnPosition);
+                player.StopMovement();
+
+                Debug.Log("Spawned from transition at: " + chosenSpawn.spawnPointID);
+            }
+            else
+            {
+                Debug.LogWarning("No matching DoorSpawnPoint2D found.");
+            }
+
+            TransitionState2D.Clear();
+        }
+        else
+        {
+            // FIRST GAME LOAD / MAIN MENU START
+            SpawnPoint2D[] spawnPoints =
+                Object.FindObjectsByType<SpawnPoint2D>(FindObjectsSortMode.None);
+
+            foreach (SpawnPoint2D spawnPoint in spawnPoints)
+            {
+                if (spawnPoint.spawnPointId == defaultSpawnPointId)
+                {
+                    Vector2 finalSpawnPosition =
+                        (Vector2)spawnPoint.transform.position + spawnOffset;
+
+                    player.SetPosition(finalSpawnPosition);
+                    player.StopMovement();
+
+                    Debug.Log("Spawned at default spawn: " + spawnPoint.spawnPointId);
+                    break;
+                }
             }
         }
 
-        if (chosenSpawn != null)
-        {
-            Vector2 finalSpawnPosition = (Vector2)chosenSpawn.transform.position + spawnOffset;
-            player.transform.position = finalSpawnPosition;
+        SnapCamera();
+        RevealRoom();
+    }
 
-            if (rb != null)
-                rb.position = finalSpawnPosition;
+    private DoorSpawnPoint2D FindMatchingDoorSpawnPoint()
+    {
+        DoorSpawnPoint2D[] spawnPoints =
+            Object.FindObjectsByType<DoorSpawnPoint2D>(FindObjectsSortMode.None);
+
+        foreach (DoorSpawnPoint2D spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.spawnPointID == TransitionState2D.SpawnPointID)
+                return spawnPoint;
         }
 
-        CameraFollow2D cameraFollow = Object.FindAnyObjectByType<CameraFollow2D>();
-        if (cameraFollow != null)
-            cameraFollow.SnapToTarget();
+        return null;
+    }
 
+    private void RevealRoom()
+    {
         if (revealRoomOnEnter && roomToRevealOnEnter != null)
             roomToRevealOnEnter.FadeOut();
+    }
 
-        if (movement != null)
-            movement.SetMovementEnabled(false);
+    private void SnapCamera()
+    {
+        CameraFollow2D cam =
+            Object.FindAnyObjectByType<CameraFollow2D>();
 
-        if (TransitionState2D.autoWalkDistance > 0f && rb != null)
-        {
-            Vector2 start = rb.position;
-            Vector2 target = start + TransitionState2D.autoWalkDirection * TransitionState2D.autoWalkDistance;
-
-            if (movement != null)
-                movement.SetFacingDirection(TransitionState2D.autoWalkDirection);
-
-            while (Vector2.Distance(rb.position, target) > 0.02f)
-            {
-                Vector2 next = Vector2.MoveTowards(rb.position, target, autoWalkSpeed * Time.deltaTime);
-                rb.MovePosition(next);
-                yield return null;
-            }
-
-            rb.linearVelocity = Vector2.zero;
-        }
-
-        if (movement != null)
-            movement.SetMovementEnabled(true);
-
-        // 🔴 THIS IS THE CRITICAL PART
-        // Reset tracking AFTER everything is finished
-        if (clock != null)
-        {
-            clock.ResyncPlayerTracking();
-            clock.PauseClockTracking(false);
-        }
-
-        TransitionState2D.Clear();
+        if (cam != null)
+            cam.SnapToTarget();
     }
 }
