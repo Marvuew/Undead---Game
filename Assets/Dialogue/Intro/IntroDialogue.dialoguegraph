@@ -158,7 +158,7 @@ MonoBehaviour:
           x: 86.666664
           y: 1440
           width: 23042
-          height: 815.33325
+          height: 839.33325
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 15801359039962117910
@@ -7238,8 +7238,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309414
+          - rid: 6554330817398309432
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -7345,8 +7347,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309421
+          - rid: 6554330817398309433
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -7452,8 +7456,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309425
+          - rid: 6554330817398309434
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -7540,3 +7546,15 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 6554330817398309432
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
+    - rid: 6554330817398309433
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
+    - rid: 6554330817398309434
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
