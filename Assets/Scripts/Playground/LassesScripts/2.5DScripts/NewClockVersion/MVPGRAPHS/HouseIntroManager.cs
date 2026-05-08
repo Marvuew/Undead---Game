@@ -1,11 +1,17 @@
+// FULL UPDATED HouseIntroController SCRIPT
+// Replace your whole HouseIntroController with this.
+
 using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class HouseIntroController : MonoBehaviour
+
+    public class HouseIntroController : MonoBehaviour
 {
+    public static bool SkipHouseIntroThisSceneLoad { get; private set; }
+
     [System.Serializable]
     public class HouseDaySetup
     {
@@ -18,10 +24,13 @@ public class HouseIntroController : MonoBehaviour
         [Header("Disable For This Day")]
         public GameObject[] objectsToDisable;
     }
+    
 
     [Header("Tutorial State")]
-    [Tooltip("Check this if the player has already completed the house intro tutorial.")]
     [SerializeField] private bool tutorialAlreadyCompleted = false;
+
+    [Header("Skip Intro When Entering From Another Scene")]
+    [SerializeField] private bool skipIntroWhenEnteredFromDoorTransition = true;
 
     [Header("Current Day")]
     [SerializeField] private string currentDayId = "Day1";
@@ -93,10 +102,14 @@ public class HouseIntroController : MonoBehaviour
 
     private HouseDaySetup activeDaySetup;
 
-    private void Awake()
-    {
-        if (Keyboard.current != null && !Keyboard.current.enabled)
-            InputSystem.EnableDevice(Keyboard.current);
+   private void Awake()
+{
+    SkipHouseIntroThisSceneLoad =
+        skipIntroWhenEnteredFromDoorTransition &&
+        TransitionState2D.HasTransition;
+
+    if (Keyboard.current != null && !Keyboard.current.enabled)
+        InputSystem.EnableDevice(Keyboard.current);
 
         if (Player.Instance != null)
             Player.Instance.interacting = false;
@@ -110,10 +123,10 @@ public class HouseIntroController : MonoBehaviour
 
         bool shouldPlayTutorialToday = activeDaySetup == null || activeDaySetup.playTutorialOnThisDay;
 
-        if (!shouldPlayTutorialToday)
+        if (!shouldPlayTutorialToday || SkipHouseIntroThisSceneLoad)
             tutorialAlreadyCompleted = true;
 
-        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro || SkipHouseIntroThisSceneLoad)
         {
             GameProgressState.CompletedHouseIntro = true;
             GameProgressState.HasNecrolexicon = true;
@@ -142,7 +155,7 @@ public class HouseIntroController : MonoBehaviour
 
         HideTutorialUI();
 
-        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro || SkipHouseIntroThisSceneLoad)
         {
             GameProgressState.CompletedHouseIntro = true;
             GameProgressState.HasNecrolexicon = true;
@@ -158,7 +171,6 @@ public class HouseIntroController : MonoBehaviour
                 bookIcon.SetActive(true);
 
             StopKnocking();
-
             yield break;
         }
 
@@ -203,7 +215,7 @@ public class HouseIntroController : MonoBehaviour
         if (Keyboard.current != null && !Keyboard.current.enabled)
             InputSystem.EnableDevice(Keyboard.current);
 
-        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro || SkipHouseIntroThisSceneLoad)
         {
             HideTutorialUI();
             return;
@@ -370,7 +382,7 @@ public class HouseIntroController : MonoBehaviour
 
     public bool CanPickUpBook()
     {
-        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro)
+        if (tutorialAlreadyCompleted || GameProgressState.CompletedHouseIntro || SkipHouseIntroThisSceneLoad)
             return false;
 
         return canPickUpBook;

@@ -11056,6 +11056,55 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1164621766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164621767}
+  - component: {fileID: 1164621768}
+  m_Layer: 0
+  m_Name: SceneEntryController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1164621767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164621766}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1518822849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1164621768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164621766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4d5dc443b2548f79af2f3c2351958a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneEntryController2D
+  roomToRevealOnEnter: {fileID: 0}
+  revealRoomOnEnter: 0
+  autoWalkSpeed: 2.5
+  spawnOffset: {x: 0, y: 0}
+  framesToWaitBeforeSpawn: 5
 --- !u!1 &1176101370
 GameObject:
   m_ObjectHideFlags: 0
@@ -14252,6 +14301,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1000792949144315472, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: spawnPointID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000792949144315472, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: spawnPointId
       value: Priest_House
       objectReference: {fileID: 0}
@@ -14312,6 +14365,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: Exit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: sceneID
       value: 1
       objectReference: {fileID: 0}
@@ -14320,16 +14377,23 @@ PrefabInstance:
       value: Day1
       objectReference: {fileID: 0}
     - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: spawnPointID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: targetSpawnPointId
       value: Priest_House_Entrance
       objectReference: {fileID: 0}
     - target: {fileID: 8579785225664930576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_Name
-      value: Enter_ExitHouse
+      value: Priest_House_Exit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4152164499304025391, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1164621767}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
 --- !u!4 &1518822849 stripped

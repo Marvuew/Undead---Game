@@ -40,6 +40,7 @@ MonoBehaviour:
         - rid: 5483095193956384972
         - rid: 5483095193956384997
         - rid: 5483095193956385442
+        - rid: 5483095287528685655
         m_GraphWireModels:
         - rid: 5483095193956384915
         - rid: 5483095193956384924
@@ -216,6 +217,14 @@ MonoBehaviour:
             Hash: 7bd71a49600b17b2a386c78a0c1a1512
           m_Category: 2
           m_Index: 8
+        - m_Guid:
+            m_Value0: 9940630415791949856
+            m_Value1: 18009515338170124313
+          m_HashGuid:
+            serializedVersion: 2
+            Hash: 2008b908b236f48919489414c8a6eef9
+          m_Category: 0
+          m_Index: 10
         m_EntryPoint:
           rid: 5483095193956384900
         m_Graph:
@@ -1187,3 +1196,40 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: in
+    - rid: 5483095287528685655
+      type: {class: UserNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Guid:
+          m_Value0: 9940630415791949856
+          m_Value1: 18009515338170124313
+        m_HashGuid:
+          serializedVersion: 2
+          Hash: 2008b908b236f48919489414c8a6eef9
+        m_Version: 2
+        m_Position: {x: -1155, y: 726}
+        m_Title: 
+        m_Tooltip: 
+        m_NodePreviewModel:
+          rid: -2
+        m_State: 0
+        m_InputConstantsById:
+          m_KeyList: []
+          m_ValueList: []
+        m_InputPortInfos:
+          expandedPortsById:
+            m_KeyList: []
+            m_ValueList: 
+        m_OutputPortInfos:
+          expandedPortsById:
+            m_KeyList: []
+            m_ValueList: 
+        m_Collapsed: 0
+        m_CurrentModeIndex: 0
+        m_ElementColor:
+          m_Color: {r: 0, g: 0, b: 0, a: 0}
+          m_HasUserColor: 0
+        m_Node:
+          rid: 5483095287528685656
+    - rid: 5483095287528685656
+      type: {class: StartNode, ns: , asm: Assembly-CSharp-Editor}
+      data: 

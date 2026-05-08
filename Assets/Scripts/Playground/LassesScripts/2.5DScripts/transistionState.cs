@@ -2,28 +2,40 @@ using UnityEngine;
 
 public static class TransitionState2D
 {
-    public static bool hasPendingTransition = false;
+    public static string TargetSceneName;
+    public static SpawnPointID SpawnPointID;
 
-    public static string spawnPointId = "";
-    public static Vector2 autoWalkDirection = Vector2.zero;
-    public static float autoWalkDistance = 0f;
+    public static bool HasTransition;
 
-    public static bool isSceneEntryInProgress = false;
+    public static Vector2 autoWalkDirection;
+    public static float autoWalkDistance;
 
-    public static void SetTransition(string targetSpawnPointId, Vector2 direction, float distance)
+    public static bool hasPendingTransition => HasTransition;
+    public static string spawnPointId => SpawnPointID.ToString();
+
+    public static Vector2 AutoWalkDirection => autoWalkDirection;
+    public static float AutoWalkDistance => autoWalkDistance;
+
+    public static void SetTransition(
+        string targetSceneName,
+        SpawnPointID spawnPointID,
+        Vector2 walkDirection,
+        float walkDistance
+    )
     {
-        hasPendingTransition = true;
-        spawnPointId = targetSpawnPointId;
-        autoWalkDirection = direction.normalized;
-        autoWalkDistance = distance;
+        TargetSceneName = targetSceneName;
+        SpawnPointID = spawnPointID;
+        autoWalkDirection = walkDirection;
+        autoWalkDistance = walkDistance;
+        HasTransition = true;
     }
 
     public static void Clear()
     {
-        hasPendingTransition = false;
-        spawnPointId = "";
+        TargetSceneName = "";
+        SpawnPointID = SpawnPointID.None;
         autoWalkDirection = Vector2.zero;
         autoWalkDistance = 0f;
-        isSceneEntryInProgress = false;
+        HasTransition = false;
     }
 }

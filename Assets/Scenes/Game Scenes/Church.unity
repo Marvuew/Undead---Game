@@ -163,7 +163,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1000792949144315472, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: sceneName
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000792949144315472, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: spawnPointID
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1000792949144315472, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: spawnPointId
@@ -234,20 +238,40 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
-      propertyPath: sceneID
+      propertyPath: Exit
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: sceneID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: sceneName
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: sceneToLoad
       value: Day1
       objectReference: {fileID: 0}
     - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: spawnPointID
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: targetSpawnPointId
       value: Priest_House_Entrance
       objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: hideRevealObjectsAtStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+      propertyPath: skipCharacterEventIfIntroWasSkipped
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8579785225664930576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_Name
-      value: Enter_ExitHouse
+      value: Church_exit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4804,6 +4828,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 191687164}
+  - {fileID: 2120827095}
   m_Father: {fileID: 109773847}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1610897886
@@ -6509,6 +6534,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &2120827094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2120827095}
+  - component: {fileID: 2120827096}
+  m_Layer: 0
+  m_Name: SceneEntryController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2120827095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120827094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1610897885}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2120827096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120827094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4d5dc443b2548f79af2f3c2351958a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneEntryController2D
+  roomToRevealOnEnter: {fileID: 0}
+  revealRoomOnEnter: 1
+  autoWalkSpeed: 2.5
+  spawnOffset: {x: 0, y: 0}
+  framesToWaitBeforeSpawn: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
