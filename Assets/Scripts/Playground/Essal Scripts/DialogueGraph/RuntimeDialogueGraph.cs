@@ -32,7 +32,7 @@ public class RuntimeDialogueNode : RuntimeNode
     public DialogueSpeaker Speaker;
     public Emotion Emotion;
     public TypingSpeed TypingSpeed;
-    public bool MarkAsRead; 
+    public bool MarkAsRead;
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleDialogueNode(this);
@@ -146,6 +146,31 @@ public class RuntimeConditionNode : RuntimeNode
     public override string Execute(DialogueGraphManager manager)
     {
         return manager.HandleConditionNode(this) ? SuccessNodeID : FailNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeSoundNode : RuntimeNode
+{
+    public AudioClip clip;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleSoundNode(this);
+        return NextNodeID;
+    }
+}
+
+[Serializable]
+public class RuntimeFadeNode : RuntimeNode
+{
+    public float duration;
+    public float stayBlackDuration;
+    public Color color;
+    public bool blockSpaceDuringFade = true;
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleFadeNode(this);
+        return NextNodeID;
     }
 }
 #endregion

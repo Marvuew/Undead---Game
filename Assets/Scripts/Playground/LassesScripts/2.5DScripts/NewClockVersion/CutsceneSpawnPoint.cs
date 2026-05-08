@@ -16,15 +16,16 @@ public class CutsceneSpawnPoint : MonoBehaviour
             yield return null;
 
         GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+
         if (player == null)
         {
             Debug.LogWarning("CutsceneSpawnPoint: No player with tag '" + playerTag + "' found.");
             yield break;
         }
 
-        player.transform.position = transform.position;
+        // player.transform.position = transform.position;
 
-        if (applyRotation)
-            player.transform.rotation = transform.rotation;
+        // if (applyRotation)
+        //     player.transform.rotation = transform.rotation;
     }
 }

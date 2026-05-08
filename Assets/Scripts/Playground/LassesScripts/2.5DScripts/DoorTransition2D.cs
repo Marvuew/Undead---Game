@@ -9,7 +9,9 @@ public class DoorTransition2D : MonoBehaviour
 {
     [Header("Scene")]
     public SceneNames sceneName;
-    public SceneNames sceneID;
+
+    [Header("Spawn")]
+    public SpawnPointID spawnPointID = SpawnPointID.None;
 
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
@@ -84,6 +86,17 @@ public class DoorTransition2D : MonoBehaviour
             characterObject.SetActive(false);
         }
 
+        if (HouseIntroController.SkipHouseIntroThisSceneLoad)
+        {
+            characterEventFinished = true;
+
+            if (characterObject != null)
+            {
+                SetCharacterAlpha(0f);
+                characterObject.SetActive(false);
+            }
+        }
+
         if (hideRevealObjectsAtStart)
             HideRevealObjectsAtStart();
     }
@@ -151,30 +164,20 @@ public class DoorTransition2D : MonoBehaviour
     private bool ShouldRunCharacterEvent()
     {
         if (!useCharacterEventBeforeTransition)
-        {
-            Debug.LogWarning("Skipping character event: useCharacterEventBeforeTransition is false.");
             return false;
-        }
+
+        if (HouseIntroController.SkipHouseIntroThisSceneLoad)
+            return false;
 
         if (skipCharacterEventIfIntroWasSkipped && GameProgressState.ForceSkippedHouseIntro)
-        {
-            Debug.LogWarning("Skipping character event: ForceSkippedHouseIntro is true.");
             return false;
-        }
 
         if (characterEventFinished)
-        {
-            Debug.Log("Character event already finished. Door can now transition.");
             return false;
-        }
 
         if (characterDialogueGraph == null)
-        {
-            Debug.LogWarning("Skipping character event: characterDialogueGraph is missing.");
             return false;
-        }
 
-        Debug.Log("Character event will run before door transition.");
         return true;
     }
 
@@ -337,6 +340,7 @@ public class DoorTransition2D : MonoBehaviour
 
         TransitionState2D.SetTransition(
             sceneName.ToString(),
+            spawnPointID,
             autoWalkDirection,
             autoWalkDistance
         );
