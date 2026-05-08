@@ -132,7 +132,7 @@ public class IntroSequence : MonoBehaviour
         if (Player.Instance != null)
             Player.Instance.interacting = false;
 
-        WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
         INTROUI.SetActive(false);
     }

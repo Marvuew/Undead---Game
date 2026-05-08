@@ -10,9 +10,11 @@ using UnityEngine.InputSystem;
 public class OutroHandler : MonoBehaviour
 {
     [Header("Inspector")]
-    public TextMeshProUGUI outroTextElement;
+    //public TextMeshProUGUI outroTextElement;
+    public ScrollRect scroll;
+    public float panSpeed;
 
-    Image SuperBlueBloodMoon;
+    /*Image SuperBlueBloodMoon;
     string outroText;
 
     private void Awake()
@@ -79,5 +81,30 @@ public class OutroHandler : MonoBehaviour
     {
         SuperBlueBloodMoon.enabled = false;
         outroTextElement.enabled = false;
+    }*/
+
+    public IEnumerator EndCreditsPan()
+    {
+        Debug.Log("Panning End Credits");
+        gameObject.SetActive(true);
+
+        scroll.content.anchoredPosition = new Vector2(scroll.content.anchoredPosition.x, 0);
+
+        float contentHeight = scroll.content.rect.height;
+
+        float viewportHeight = scroll.viewport.rect.height;
+        float targetY = contentHeight + viewportHeight;
+
+        while (scroll.content.anchoredPosition.y < targetY)
+        {
+            float newY = scroll.content.anchoredPosition.y + (panSpeed * Time.deltaTime);
+            scroll.content.anchoredPosition = new Vector2(scroll.content.anchoredPosition.x, newY);
+            yield return null;
+        }
+
+        scroll.content.anchoredPosition = new Vector2(scroll.content.anchoredPosition.x, targetY);
+        Debug.Log("Panning complete.");
+
+        WorldFade.Instance.StartSceneTransition(SceneNames.MainMenu.ToString(), 2f, Color.white);
     }
 }

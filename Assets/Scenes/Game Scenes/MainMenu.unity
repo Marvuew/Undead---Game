@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scene Essentials
       objectReference: {fileID: 0}
+    - target: {fileID: 4438540533537291218, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: gameIntroSequence
+      value: 
+      objectReference: {fileID: 1223120029}
     - target: {fileID: 6105193731380651484, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -318,6 +322,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4483075749472168102, guid: d8d30925c39f763458164b25e5b3778d, type: 3}
   m_PrefabInstance: {fileID: 1223120027}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1223120029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9092193252081661499, guid: d8d30925c39f763458164b25e5b3778d, type: 3}
+  m_PrefabInstance: {fileID: 1223120027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf6cfe46af377d40b5c84a1a95e1cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
