@@ -35373,6 +35373,10 @@ PrefabInstance:
       value: 303.6
       objectReference: {fileID: 0}
     - target: {fileID: 4627823502452754551, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: rightSideContainer
+      value: 
+      objectReference: {fileID: 1916434923}
+    - target: {fileID: 4627823502452754551, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: pageButtons.Array.data[0].openPos.x
       value: 669.8
       objectReference: {fileID: 0}
@@ -35498,11 +35502,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778858324679530609, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 564.5601
+      value: 564.56
       objectReference: {fileID: 0}
     - target: {fileID: 4778858324679530609, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 507.63
+      value: 514.6245
       objectReference: {fileID: 0}
     - target: {fileID: 4778858324679530609, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -35510,7 +35514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778858324679530609, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015259
+      value: -3.4972
       objectReference: {fileID: 0}
     - target: {fileID: 4876050527804615589, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_Spacing.x
@@ -213816,6 +213820,11 @@ SortingGroup:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5547453937184485324, guid: d899ef1d96b08b04099449c14c5e41ec, type: 3}
   m_PrefabInstance: {fileID: 1710158788}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1916434923 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7681481486135096159, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+  m_PrefabInstance: {fileID: 685915450}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1917322487 stripped
 Transform:

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class NecroLexiconUI : MonoBehaviour
 {
+    public int cluesPerPage = 4;
+
     [Header("UI Elements")]
     public GameObject cluesPage;
     public TMPro.TextMeshProUGUI cluesText; 
