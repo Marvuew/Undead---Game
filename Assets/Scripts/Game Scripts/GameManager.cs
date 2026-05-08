@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
 
     IntroSequence gameIntroSequence;
-    bool firstPlayThrough = true;
 
     private void Awake()
     {
@@ -35,15 +34,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        if (firstPlayThrough)
-        {
-            StartCoroutine(gameIntroSequence.HandleIntroDialogue());
-            firstPlayThrough = false;
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneNames.Dhamphir_House.ToString());
-        }
+        StartCoroutine(gameIntroSequence.HandleIntroDialogue());
     }
 
     public void MainMenu()
@@ -79,5 +70,6 @@ public enum SceneNames
     OpenWorld,
     PriestHouse,
     Dhamphir_House,
-    Church
+    Church,
+    MainMenu
 }

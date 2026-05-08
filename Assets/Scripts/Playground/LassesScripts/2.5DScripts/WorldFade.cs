@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -66,13 +67,21 @@ public class WorldFade : MonoBehaviour
             SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    public void StartSceneTransition(string sceneName, float duration, Color color, Vector3 spawnPos) // For when you want to specify a spawn position for the player in the new scene. Make sure to set the position variable of the interactable scriptable object of the spawn point in the new scene to the same position as the spawnPos variable you pass in this function.
+    {
+        isSceneTransitioning2 = true;
+        StartCoroutine(FadeSceneTransition(sceneName, duration, color, spawnPos));
+    }
+
     public void StartSceneTransition(string sceneName, float duration, Color color)
     {
+        isSceneTransitioning2 = true;
         StartCoroutine(FadeSceneTransition(sceneName, duration, color));
     }
 
     public void StartSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
+        Debug.Log("Starting Scene Transition and Stay Black...");
         StartCoroutine(FadeSceneTransitionAndStayBlack(sceneName, duration, color));
     }
 
@@ -87,6 +96,21 @@ public class WorldFade : MonoBehaviour
             yield return null;
 
         yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        isSceneTransitioning2 = false;
+    }
+
+    private IEnumerator FadeSceneTransition(string sceneName, float duration, Color color, Vector3 spawnPos)  // For when you want to specify a spawn position for the player in the new scene. Make sure to set the position variable of the interactable scriptable object of the spawn point in the new scene to the same position as the spawnPos variable you pass in this function.
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        isSceneTransitioning = true;
+        SceneManager.LoadScene(sceneName);
+
+        while (isSceneTransitioning)
+            yield return null;
+        Player.Instance.transform.position = spawnPos;
+        yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        isSceneTransitioning2 = false;
     }
 
     private IEnumerator FadeSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
@@ -131,6 +155,7 @@ public class WorldFade : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         isSceneTransitioning = false;
+        CaseManager.Instance.SetUpClues(); // SetupClues Again.
     }
 
     private void OnGUI()

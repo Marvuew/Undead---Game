@@ -4,6 +4,7 @@ using static UnityEditor.Rendering.MaterialUpgrader;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 
 public class AnimationManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class AnimationManager : MonoBehaviour
 
     public Animator fadeAnimator;
     public Animator UndeadAnimator;
+
+    public AnimatorController UndeadController;
 
     public bool fadeHappening;
 

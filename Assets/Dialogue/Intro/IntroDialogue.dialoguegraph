@@ -19,6 +19,18 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 3102200777759785044
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
+    - rid: 3102200777759785045
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
+    - rid: 3102200777759785046
+      type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 0
     - rid: 6554330774435266560
       type: {class: GraphModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -7238,8 +7250,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309414
+          - rid: 3102200777759785044
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -7345,8 +7359,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309421
+          - rid: 3102200777759785045
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -7452,8 +7468,10 @@ MonoBehaviour:
         m_InputConstantsById:
           m_KeyList:
           - Audio Clip
+          - Is Music
           m_ValueList:
           - rid: 6554330817398309425
+          - rid: 3102200777759785046
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []

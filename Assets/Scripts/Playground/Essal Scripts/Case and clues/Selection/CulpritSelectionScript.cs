@@ -52,7 +52,7 @@ public class CulpritSelectionScript : MonoBehaviour
     {
         MakeButtonsNotInteractable();
         bool isCulprit = CaseManager.Instance.currentCase.culprit == suspect;
-        StartCoroutine(confrontationScript.Manifest(CaseManager.Instance.GetClueCount(suspect.undeadType), isCulprit, corkBoard, suspect, backGround)); // SETTING UP THE CONFRONTATION SCREEN
+        StartCoroutine(confrontationScript.Confrontation(CaseManager.Instance.GetClueCount(suspect.undeadType), isCulprit, corkBoard, suspect, backGround)); // SETTING UP THE CONFRONTATION SCREEN
         Debug.Log($"You chose {suspect} and clues found for chosen suspect = {CaseManager.Instance.GetClueCount(suspect.undeadType)}, that guess was {isCulprit}");
     }
 

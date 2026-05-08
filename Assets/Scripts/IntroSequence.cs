@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class IntroSequence : MonoBehaviour
 {
@@ -17,27 +18,45 @@ public class IntroSequence : MonoBehaviour
     public GameObject LOGO;
     public float ratio = 2f;
     public GameObject INTROUI;
+    public Button skipIntroButton;
 
     [Header("For Moving Undead Portraits")]
     public Transform LeftPanel;
     public Transform RightPanel;
+
+   
 
     void Start()
     {
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
-
-        if (SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            gameObject.SetActive(false);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+    }
 
+    // called second
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // called third
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+        INTROUI.SetActive(scene.name == SceneNames.MainMenu.ToString());
+        mainMenuUI.SetActive(scene.name == SceneNames.MainMenu.ToString());
+        LOGO.GetComponent<RectTransform>().sizeDelta = new Vector2(1000, 1000); // Hardcoded to avoid failure
+        LOGO.SetActive(false);
+        StartPanelAnimation();
+        DialogueGraphManager.instance.currentInteractable = null;
     }
 
     public void StartPanelAnimation()
@@ -85,10 +104,10 @@ public class IntroSequence : MonoBehaviour
     public IEnumerator HandleIntroDialogue()
     {
         mainMenuUI.SetActive(false);
+
+        StartCoroutine(FadeInSkipButton());
         // Handle Dialogue
         DialogueGraphManager.instance.gameObject.SetActive(true);
-
-
 
         if (DialogueGraphManager.instance.DialoguePanel != null)
             DialogueGraphManager.instance.DialoguePanel.SetActive(true);
@@ -113,6 +132,30 @@ public class IntroSequence : MonoBehaviour
         WorldFade.Instance.StartSceneTransitionAndStayBlack(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
         INTROUI.SetActive(false);
+    }
+
+    public IEnumerator FadeInSkipButton()
+    {
+        skipIntroButton.gameObject.SetActive(true);
+        // Lerp the Alpha of the button - Lil juice...
+        float timer = 0f;
+        CanvasGroup canvasGroup = skipIntroButton.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0;
+
+        while (timer < 2f)
+        {
+            timer += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(0, 1, timer / 2f);
+            yield return null;
+        }
+        canvasGroup.alpha = 1f;
+    }
+
+    public void SkipIntro()
+    {
+        skipIntroButton.gameObject.SetActive(false);
+        DialogueGraphManager.instance.EndDialogue();
+
     }
 
 }

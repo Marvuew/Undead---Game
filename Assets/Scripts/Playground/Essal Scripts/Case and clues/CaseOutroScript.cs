@@ -34,6 +34,18 @@ public class CaseOutroScript : MonoBehaviour
         StartCoroutine(SetupNextCase()); // SETUP THE NEXT CASE
     }
 
+    public IEnumerator SetUpOutro(Undead culprit, int foundClues, bool rightCulprit)
+    {
+        AnimationManager.instance.BlackFadeAnimation(); // PLAY FADE ANIMATION
+        yield return new WaitUntil(() => AnimationManager.instance.fadeHappening == false);
+        EnableOutroUI(); // ENABLE THE UI FOR OUTRO
+        CalculateTextOutput(foundClues, rightCulprit, culprit); // CALCULATE TEXT OUTPUT
+        StartCoroutine(AnimationManager.instance.TypeWriterEffect(outroText, outroTextElement, 0.05f)); // WRITE THE FINAL ANALYSIS
+        yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame); // WAIT FOR SPACE PRESS
+        StopAllCoroutines();
+        StartCoroutine(SetupNextCase()); // SETUP THE NEXT CASE
+    }
+
     public void CalculateTextOutput(int foundClues, bool rightSuspect, Undead suspect)
     {
         if (foundClues == 0)
@@ -54,7 +66,7 @@ public class CaseOutroScript : MonoBehaviour
         UIManager.instance.VisibleUI(); // ?? MAKES THE UI VISIBLE??
         DisableOutroUI();
         Debug.Log("Setting up next case");
-        StartCoroutine(CaseManager.Instance.InitializeNextDay());
+        StartCoroutine(CaseManager.Instance.ReturnToMainMenu());
     }
 
     public void EnableOutroUI() // ENABlE THE UI FOR OUTRO

@@ -44,5 +44,6 @@ public class RuntimeInteractable : MonoBehaviour
 public enum InteractableType
 {
     Human,
-    Item
+    Item,
+    Culprit
 }

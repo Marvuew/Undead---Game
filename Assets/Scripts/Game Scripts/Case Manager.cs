@@ -25,10 +25,14 @@ public class CaseManager : MonoBehaviour
     public List<Undead> undeadDatabase = new List<Undead>();
 
     public List<Case> allCases = new List<Case>();
-    private List<GameObject> activeInteractables = new List<GameObject>();
+    public List<GameObject> activeInteractables = new List<GameObject>();
 
     [NonSerialized]
     public Dictionary<Clue, List<string>> clueDescriptions = new Dictionary<Clue, List<string>>();
+
+    public RuntimeDialogueGraph Level0Manifestiation;
+    public RuntimeDialogueGraph Level1Manifestiation;
+    public RuntimeDialogueGraph Level2Manifestiation;
 
     bool isResettingForNewDay;
 
@@ -60,8 +64,10 @@ public class CaseManager : MonoBehaviour
 
     public void SetUpClues()
     {
+        activeInteractables.Clear();
         ClearActiveClues();
         string currentSceneName = SceneManager.GetActiveScene().name;
+        
 
         foreach (InteractableScriptableObject data in currentCase.interactables)
         {
@@ -88,10 +94,43 @@ public class CaseManager : MonoBehaviour
             {
                 script.gameObject.SetActive(false);
             }
+            if (data.interactableType == InteractableType.Culprit) // If the interactable is a culprit type, then we want to set it to inactive by default and only activate it if the player chooses that culprit in the select scene. This is for the confrontation scene where we spawn all 3 culprits but only want the chosen one to be active
+            {
+                script.gameObject.SetActive(false);
+            }
 
             activeInteractables.Add(newInteractable);
+
         }
     }
+
+    /*public void SetUpClues(bool rightCulprit)
+    {
+        ClearActiveClues();
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        foreach (InteractableScriptableObject data in currentCase.interactables)
+        {
+            if (data.homeScene.ToString() != currentSceneName) continue; // If its not in the current scene, then we dont care about it right now, so skip it
+            if (data.interactableType != InteractableType.Culprit) continue; // if its not an interactable of type culprit, then we dont care about whether or not its the right culprit, so we can just spawn it like normal. If it is a culprit type, then we want to check if its the right culprit or not and only spawn it if its the right culprit
+            GameObject newInteractable = Instantiate(interactablePrefab, data.position, Quaternion.identity);
+            SpriteRenderer sr = newInteractable.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.sprite = data.interactableSprite;
+                sr.sortingLayerName = data.sortingLayerName; // SET THE LAYER
+                sr.sortingOrder = data.orderInLayer;         // SET THE ORDER
+                Debug.Log($"Spawning {data.name} at Order: {data.orderInLayer}");
+            }
+            RuntimeInteractable script = newInteractable.GetComponent<RuntimeInteractable>();
+            script.interactableData = data;
+            script.interactableType = data.interactableType;
+            script.dialogueGraph = data.dialogue;
+            script.interactableClue = data.clue;
+            script.gameObject.name = data.name;
+            script.gameObject.SetActive(rightCulprit); // Set active if right culprit, otherwise set to inactive. This is for confrontation scene where we only want the interactable to be active if the player chose the right culprit
+            activeInteractables.Add(newInteractable);
+        }
+    }*/
     public void InitialClueFound(Clue clueFound)
     {
         if (!cluesfound.Contains(clueFound))
@@ -193,6 +232,13 @@ public class CaseManager : MonoBehaviour
         isResettingForNewDay = true;
         LoadNextCase();
         WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 5f, Color.white);
+        yield return null;
+    }
+
+    public IEnumerator ReturnToMainMenu()
+    {
+        Debug.Log("Returning to Main Menu");
+        WorldFade.Instance.StartSceneTransition(SceneNames.MainMenu.ToString(), 5f, Color.white);
         yield return null;
     }
 
