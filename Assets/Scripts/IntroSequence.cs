@@ -55,6 +55,8 @@ public class IntroSequence : MonoBehaviour
         mainMenuUI.SetActive(scene.name == SceneNames.MainMenu.ToString());
         LOGO.GetComponent<RectTransform>().sizeDelta = new Vector2(1000, 1000); // Hardcoded to avoid failure
         LOGO.SetActive(false);
+        LeftPanel.gameObject.SetActive(true);
+        RightPanel.gameObject.SetActive(true);
         StartPanelAnimation();
         DialogueGraphManager.instance.currentInteractable = null;
     }
@@ -123,6 +125,7 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
 
         LOGO.SetActive(true);
+        StartCoroutine(LOGO.GetComponent<LOGO_Animation>().ScaleOverTime());
 
         yield return new WaitForSeconds(2f);
 
