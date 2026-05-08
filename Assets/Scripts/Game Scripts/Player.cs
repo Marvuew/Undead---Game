@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameScripts
 
         private List<string> inventory;
         public RuntimeInteractable currentInteractable;
+        public SimpleInteractable currentSimpleInteractable;
 
         private Vector2 moveInput;
         public bool interacting;
@@ -82,6 +83,11 @@ namespace Assets.Scripts.GameScripts
             if (input.performed && currentInteractable != null)
             {
                 currentInteractable.startInteraction();
+                interacting = true;
+            }
+            else if (input.performed && currentSimpleInteractable != null)
+            {
+                currentSimpleInteractable.startInteraction();
                 interacting = true;
             }
         }

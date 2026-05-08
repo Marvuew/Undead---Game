@@ -7,7 +7,7 @@ using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
 
-public class CaseOutroScript : MonoBehaviour
+public class OutroHandler : MonoBehaviour
 {
     [Header("Inspector")]
     public TextMeshProUGUI outroTextElement;

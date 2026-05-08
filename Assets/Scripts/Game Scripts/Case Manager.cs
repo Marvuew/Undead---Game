@@ -158,7 +158,7 @@ public class CaseManager : MonoBehaviour
 
     public void TransitionToSelectScene()
     {
-        var selectScene = FindAnyObjectByType<CulpritSelectionScript>();
+        var selectScene = FindAnyObjectByType<SelectionHandler>();
         StartCoroutine(selectScene.SetupSelectScene(undeadDatabase));
     }
 

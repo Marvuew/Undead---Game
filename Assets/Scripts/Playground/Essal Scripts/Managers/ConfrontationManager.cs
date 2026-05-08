@@ -7,15 +7,14 @@ using UnityEngine.InputSystem;
 using Assets.Scripts.GameScripts;
 using UnityEngine.SceneManagement;
 
-public class ConfrontationScript : MonoBehaviour
+public class ConfrontationHandler : MonoBehaviour
 {
-    public CaseOutroScript caseOutroScript;
+    public OutroHandler caseOutroScript;
 
-    public IEnumerator Confrontation(int foundClues, bool rightCulprit, GameObject corkBoard, Undead pickedCulprit, Image selectBackground)
+    public IEnumerator Confrontation(int foundClues, bool rightCulprit, GameObject corkBoard, Undead pickedCulprit)
     {
         Debug.Log("Confrontation started! Starting fade animation...");
 
-        selectBackground.enabled = false; // DISABLE THE SELECT BACKGROUND
         corkBoard.SetActive(false); // DISBALE THE CORKBOARD
 
         var scene = pickedCulprit.undeadInteractable.homeScene; // Gets the scene from the interactable of the culprit

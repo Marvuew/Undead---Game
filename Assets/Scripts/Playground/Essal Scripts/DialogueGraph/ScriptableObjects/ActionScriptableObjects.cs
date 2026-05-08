@@ -1,10 +1,22 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
+using System.Collections;
 
 public abstract class DialogueAction : ScriptableObject
 {
     public abstract void DoAction();
+}
+
+[CreateAssetMenu(menuName = "Dialogue/Actions/Select Culprit Action")]
+public class SelectCulpritAction : DialogueAction
+{
+    public override void DoAction()
+    {
+        Debug.Log("Doing Selecting Culprit Action");
+        SelectionHandler.instance.SetupCorkBoard(CaseManager.Instance.undeadDatabase);     
+    }
 }
 
 /*[CreateAssetMenu(menuName = "Dialogue/Actions/New Kill Action")]

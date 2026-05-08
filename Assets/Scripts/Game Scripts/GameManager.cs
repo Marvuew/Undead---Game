@@ -28,8 +28,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameIntroSequence = FindAnyObjectByType<IntroSequence>();
-        gameIntroSequence.StartPanelAnimation(); // Starting the panel Animation when opening the Main Menu
+
     }
 
     public void StartGame()
