@@ -59,8 +59,7 @@ namespace Assets.Scripts.GameScripts
 
             internalMovement = false;
 
-            if (sprite != null && moveInput.x != 0)
-                sprite.flipX = moveInput.x < 0;
+            
             AnimatePlayer(moveInput);
         }
 
@@ -130,6 +129,8 @@ namespace Assets.Scripts.GameScripts
             animator.SetFloat("x",movement.x);
             animator.SetFloat("y", movement.y);
             animator.SetBool("isWalking", (movement != Vector2.zero));
+            if (sprite != null && moveInput.x != 0 && movement.y == 0)
+                sprite.flipX = moveInput.x < 0;
         }
     }
 }
