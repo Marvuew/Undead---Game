@@ -48,7 +48,10 @@ public class SelectionHandler : MonoBehaviour
     public void SetupCorkBoard(List<Undead> culprits)
     {
         // HANDLE CORKBOARD UI
+        Debug.Log("Setting up corkboard");
+        if (culprits == null) Debug.LogWarning("Culprits list is null?");
         corkBoard.SetActive(true);
+        ClearCulprits();
         foreach (var suspect in culprits)
         {
             Button button = Instantiate(culpritButtonPrefab, corkBoardContainer);

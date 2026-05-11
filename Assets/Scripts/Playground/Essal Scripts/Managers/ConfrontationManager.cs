@@ -29,8 +29,9 @@ public class ConfrontationHandler : MonoBehaviour
             var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.GetComponent<RuntimeInteractable>().interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
             undeadRuntimeInteractable.gameObject.SetActive(true); // Activate the culprit
             undeadRuntimeInteractable.GetComponent<RuntimeInteractable>().startInteraction(); // Start the interaction of the culprit, which will trigger the manifestation and then the outro.
-            Debug.Log("You guessed the right culprit! The manifestation will now happen, and then you will proceed to the outro.");
+            Debug.Log("You guessed the right culprit! The manifestation will now happen, and then you will proceed to the outro.");    
             yield return new WaitUntil(() => DialogueGraphManager.instance.isDialogueRunning == false); // Wait until the dialogue is done, which means the manifestation is done as well, since the manifestation is part of the dialogue.
+            
             StartCoroutine(ContinueToOutro(pickedCulprit, foundClues, rightCulprit));
         }
         else if (rightCulprit && foundClues < 3)
@@ -66,9 +67,8 @@ public class ConfrontationHandler : MonoBehaviour
     public IEnumerator ContinueToOutro(Undead pickedCulprit, int foundClues, bool rightCulprit)
     {
         //StartCoroutine(caseOutroScript.SetUpOutro(pickedCulprit, foundClues, rightCulprit)); // START THE OUTRO
-        WorldFade.Instance.StartScreenFade(2f, 2f, Color.black);
-        yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
-        EndCreditUI.SetActive(true);
+        WorldFade.Instance.StartScreenFadeWithToggleGameObject(2f, 1f, Color.black, EndCreditUI);
+        yield return new WaitForSeconds(2 + 1 + 2f);
         StartCoroutine(caseOutroScript.EndCreditsPan());
     }
 }

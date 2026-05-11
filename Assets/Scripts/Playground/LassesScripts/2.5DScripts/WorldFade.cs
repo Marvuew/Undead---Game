@@ -186,6 +186,19 @@ public class WorldFade : MonoBehaviour
         StartCoroutine(ScreenFadeRoutine(fadeDuration, stayBlackDuration, fadeColor));
     }
 
+    public void StartScreenFadeWithToggleGameObject(float fadeDuration, float stayBlackDuration, Color fadeColor, GameObject toggleGameObject)
+    {
+        StartCoroutine(ScreenFadeRoutineWithToggleGameObject(fadeDuration, stayBlackDuration, fadeColor, toggleGameObject));
+    }
+
+    private IEnumerator ScreenFadeRoutineWithToggleGameObject(float fadeDuration, float stayBlackDuration, Color fadeColor, GameObject toggleGameObject)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+        yield return new WaitForSeconds(stayBlackDuration);
+        toggleGameObject.SetActive(true);
+        yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+    }
+
     private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
     {
         yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
