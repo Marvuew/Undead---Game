@@ -56,7 +56,15 @@ public class CaseManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     } //Ensuring singleton pattern
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetUpClues(); // Setting up clues each time a new scene is loaded
+        Debug.Log("Set up clues once again");
+    }
     public int GetClueCount(UndeadType undead) 
     { 
         return undeadTally.TryGetValue(undead, out int count) ? count : 0;
