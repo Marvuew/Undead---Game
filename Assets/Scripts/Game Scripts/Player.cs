@@ -56,11 +56,7 @@ namespace Assets.Scripts.GameScripts
             {
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
             }
-
-            internalMovement = false;
-
-            
-            AnimatePlayer(moveInput);
+            internalMovement = false;            
         }
 
         public void ChangeHumanity(int change)
@@ -76,6 +72,7 @@ namespace Assets.Scripts.GameScripts
         public void OnMove(InputAction.CallbackContext input)
         {
             moveInput = input.ReadValue<Vector2>();
+            AnimatePlayer(moveInput);
         }
 
         public void OnInteract(InputAction.CallbackContext input)
