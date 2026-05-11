@@ -8,6 +8,7 @@ public class InteractableScriptableObject : ScriptableObject
     public InteractableType interactableType;
     public RuntimeDialogueGraph dialogue;
     public Clue clue;
+    public bool activateOnStart = true;
 
     [Header("Compass")]
     public bool showOnCompass = false;

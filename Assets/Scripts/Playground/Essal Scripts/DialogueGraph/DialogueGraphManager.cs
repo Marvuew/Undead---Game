@@ -75,6 +75,9 @@ public class DialogueGraphManager : MonoBehaviour
     private bool skipTyping = false;
     private bool isTyping = false;
 
+    // For pausing dialogue while fading
+    private bool isFading = false;
+
     // NodeIDs pointing to a node
     private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();
     private RuntimeNode _currentNode;
@@ -154,33 +157,45 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void ShowNode(string nodeID)
     {
+        StartCoroutine(ShowNodeRoutine(nodeID));
+    }
+
+    // Change this from 'public void' to 'public IEnumerator'
+    public IEnumerator ShowNodeRoutine(string nodeID)
+    {
         while (!string.IsNullOrEmpty(nodeID))
         {
             if (!_nodeLookup.TryGetValue(nodeID, out _currentNode))
             {
                 EndDialogue();
-                return;
+                yield break;
             }
 
             ChoiceUI.SetActive(_currentNode is RuntimeChoiceNode ? true : false); // Toggles the Choice UI based on if the current node is a choice node or not.
 
-            // 1. Mark as Read Check (Priority)
+            // 1. Mark as Read Check
             if (_currentNode is RuntimeDialogueNode readNode && nodesMarkedAsRead.Contains(readNode))
             {
                 nodeID = readNode.MarkAsReadNodeID;
                 continue;
             }
 
-            
+            // 2. Execution & Waiting
+            if (_currentNode is RuntimeFadeNode fadeNode)
+            {
+                // Yield return the Fade Coroutine directly to wait for it!
+                yield return StartCoroutine(FadeRoutine(fadeNode.blockSpaceDuringFade, fadeNode.duration, fadeNode.stayBlackDuration, fadeNode.color));
+                nodeID = fadeNode.NextNodeID;
+            }
+            else
+            {
+                string nextNodeID = _currentNode.Execute(this);
 
-            // 2. Execution
-            string nextNodeID = _currentNode.Execute(this);
+                // 3. Stop loop if we hit Dialogue (UI handles the rest via Update)
+                if (_currentNode is RuntimeDialogueNode) yield break;
 
-            // 3. Stop loop if we hit Dialogue (UI will take over)
-            if (_currentNode is RuntimeDialogueNode) return;
-
-            // 4. Continue loop for logic nodes
-            nodeID = nextNodeID;
+                nodeID = nextNodeID;
+            }
         }
     }
 
@@ -220,7 +235,7 @@ public class DialogueGraphManager : MonoBehaviour
         Player.Instance.ChangeUndead(node.UndeadChange);
     }
 
-    public void HandleActionNode(RuntimeActionNode node) // OBSOLETE
+    public void HandleActionNode(RuntimeActionNode node) // Calls the DoAction method implemented on the SO
     {
         node.Action.DoAction();
     }
@@ -326,8 +341,17 @@ public class DialogueGraphManager : MonoBehaviour
         if (node.clip != null)
         {
             AudioManager.instance.AddSound(node.clip);
-            AudioManager.instance.PlaySFX(node.clip.name);
-            Debug.Log("Playing Sound: " + node.clip.name);
+            if (node.isMusic)
+            {
+                AudioManager.instance.StopMusic(AudioManager.instance.currentSong.name);
+                AudioManager.instance.PlayMusic(node.clip.name);
+                Debug.Log("Playing Music: " + node.clip.name);
+            }
+            else
+            {
+                AudioManager.instance.PlaySFX(node.clip.name);
+                Debug.Log("Playing Sound: " + node.clip.name);
+            }
         }
         else
         {
