@@ -33,7 +33,7 @@ public class WorldFade : MonoBehaviour
     private static Texture2D fadeTexture;
 
     private float fadeAlpha = 0f;
-    private bool isFading = false;
+    public bool isFading = false;
     private bool isSceneTransitioning = false;
     private Color currentFadeColor = Color.black;
 
@@ -79,6 +79,31 @@ public class WorldFade : MonoBehaviour
         StartCoroutine(FadeSceneTransition(sceneName, duration, color));
     }
 
+    public void StartSceneTransitionAndToggleGameObject(string sceneName, float duration, Color color, GameObject gameObject)
+    {
+        isSceneTransitioning2 = true;
+        StartCoroutine(FadeSceneTransitionAndToggleGameObject(sceneName, duration, color, gameObject));
+    }
+
+    public IEnumerator FadeSceneTransitionAndToggleGameObject(string sceneName, float duration, Color color, GameObject gameObject)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        SceneManager.LoadScene(sceneName);
+
+        while (SceneManager.GetActiveScene().name != sceneName) // wait until it has changed, then fade back.
+        {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+
+
+        yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        yield return new WaitForSeconds(duration);
+        isSceneTransitioning2 = false;
+    }
+
     public void StartSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
         Debug.Log("Starting Scene Transition and Stay Black...");
@@ -89,13 +114,18 @@ public class WorldFade : MonoBehaviour
     {
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
 
-        isSceneTransitioning = true;
         SceneManager.LoadScene(sceneName);
 
-        while (isSceneTransitioning)
+        //while (isSceneTransitioning)
+            //yield return null;
+        while (SceneManager.GetActiveScene().name != sceneName) // wait until it has changed, then fade back.
+        {
             yield return null;
+        }
+
 
         yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        yield return new WaitForSeconds(duration);
         isSceneTransitioning2 = false;
     }
 

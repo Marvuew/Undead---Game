@@ -42,4 +42,6 @@ public class LOGO_Animation : MonoBehaviour
         }
         rect.sizeDelta = endTransform;
     }
+
+
 }

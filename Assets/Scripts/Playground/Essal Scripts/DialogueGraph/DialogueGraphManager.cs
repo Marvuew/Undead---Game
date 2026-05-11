@@ -134,6 +134,7 @@ public class DialogueGraphManager : MonoBehaviour
     #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
+        Player.Instance.interacting = true;
         isDialogueRunning = true;
         ClearDialogue();
         _nodeLookup.Clear();

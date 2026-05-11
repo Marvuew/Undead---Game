@@ -49,6 +49,10 @@ public class IntroSequence : MonoBehaviour
     // called third
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name != "MainMenu")
+        {
+            return;
+        }
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);
         INTROUI.SetActive(scene.name == SceneNames.MainMenu.ToString());
@@ -125,16 +129,11 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
 
         LOGO.SetActive(true);
-        StartCoroutine(LOGO.GetComponent<LOGO_Animation>().ScaleOverTime());
+        StartCoroutine(LOGO.GetComponent<LOGO_Animation>().ScaleOverTime()); // TAKES 5 SECONDS
 
         yield return new WaitForSeconds(2f);
 
-        if (Player.Instance != null)
-            Player.Instance.interacting = false;
-
-        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
-        yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2);
-        INTROUI.SetActive(false);
+        WorldFade.Instance.StartSceneTransitionAndToggleGameObject(SceneNames.Dhamphir_House.ToString(), 2f, Color.black, INTROUI);
     }
 
     public IEnumerator FadeInSkipButton()

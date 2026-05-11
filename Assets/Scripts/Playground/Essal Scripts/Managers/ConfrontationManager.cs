@@ -18,13 +18,27 @@ public class ConfrontationHandler : MonoBehaviour
 
         corkBoard.SetActive(false); // DISBALE THE CORKBOARD
 
-        var scene = pickedCulprit.undeadInteractable.homeScene; // Gets the scene from the interactable of the culprit
-        var undeadPos = pickedCulprit.undeadInteractable.position; // Gets the position from the interactable of the culprit
+        SceneNames scene;
+        Vector3 undeadPos;
+
+        if (pickedCulprit.undeadInteractable != null) // Check because of SCOPE! I didnt want to make an interactable for all undead...
+        {
+            scene = pickedCulprit.undeadInteractable.homeScene; // Gets the scene from the interactable of the culprit
+            undeadPos = pickedCulprit.undeadInteractable.position; // Gets the position from the interactable of the culprit
+        }
+        else
+        {
+            scene = SceneNames.OpenWorld;
+            undeadPos = new Vector3(-2.34f, 15.25f, 0f); // HARD CODED BEHIND THE DHAMPIRS HOUSE. JUST BECAUSE....
+        }
 
         WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos); // Transistions to the scene of the culprit.
         yield return new WaitForSeconds(2f);
         var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.GetComponent<RuntimeInteractable>().interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
-        undeadRuntimeInteractable.gameObject.SetActive(rightCulprit); // Activate the culprit
+        if (undeadRuntimeInteractable != null)
+        {
+            undeadRuntimeInteractable.gameObject.SetActive(rightCulprit); // Activate the culprit
+        }
         var clock = FindAnyObjectByType<HalfClockHand>();
         // MAKE THE CLOCK TURN TO NIGHT TIME!! LASSE LUND
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2); // Waits until the transition is done.
@@ -55,7 +69,7 @@ public class ConfrontationHandler : MonoBehaviour
                     break;
             }
             yield return new WaitUntil(() => DialogueGraphManager.instance.isDialogueRunning == false); // Wait until the dialogue is done, which means the manifestation is done as well, since the manifestation is part of the dialogue.
-            Debug.Log("You guessed the wrong culprit! No manifestation will happen, but you will still proceed to the outro.");
+            Debug.Log("You guessed the right culprit! No manifestation will happen, but you will still proceed to the outro");
             StartCoroutine(ContinueToOutro(pickedCulprit, foundClues, rightCulprit));
         }
         else

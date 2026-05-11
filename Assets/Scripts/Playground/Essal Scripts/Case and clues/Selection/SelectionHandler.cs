@@ -42,6 +42,9 @@ public class SelectionHandler : MonoBehaviour
         Debug.Log("Setting up Select Scene");
         ClearCulprits(); // CLEAR BUTTONS
         WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 2f, Color.black, new Vector3(0.03000021f, 1.06f, 0)); // Transistions to the scene of the culprit.
+
+        // WHY AM I STILL SPAWNING AT THE BED????
+
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2); // Waits until the transition is done.
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == SceneNames.Dhamphir_House.ToString()); // Waits until the scene is actually loaded, just to be sure.
         GameManager.instance.isConfrontationTime = true;
