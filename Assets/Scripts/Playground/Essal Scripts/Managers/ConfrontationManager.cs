@@ -71,4 +71,6 @@ public class ConfrontationHandler : MonoBehaviour
         yield return new WaitForSeconds(2 + 1 + 2f);
         StartCoroutine(caseOutroScript.EndCreditsPan());
     }
+
+    
 }

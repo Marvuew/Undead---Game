@@ -1,7 +1,9 @@
 using Assets.Scripts.GameScripts;
+using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,6 +64,8 @@ public class GameManager : MonoBehaviour
         Player.Instance.interacting = false;
         pauseMenu.SetActive(false);
     }
+
+    public List<string> MajorDecisions = new List<string>();
 }
 
 public enum SceneNames
