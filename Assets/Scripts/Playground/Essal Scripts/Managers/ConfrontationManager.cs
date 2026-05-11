@@ -22,12 +22,15 @@ public class ConfrontationHandler : MonoBehaviour
         var undeadPos = pickedCulprit.undeadInteractable.position; // Gets the position from the interactable of the culprit
 
         WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos); // Transistions to the scene of the culprit.
+        yield return new WaitForSeconds(2f);
+        var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.GetComponent<RuntimeInteractable>().interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
+        undeadRuntimeInteractable.gameObject.SetActive(rightCulprit); // Activate the culprit
+        var clock = FindAnyObjectByType<HalfClockHand>();
+        // MAKE THE CLOCK TURN TO NIGHT TIME!! LASSE LUND
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2); // Waits until the transition is done.
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene.ToString()); // Waits until the scene is actually loaded, just to be sure.
         if (rightCulprit && foundClues >= 3)
         {
-            var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.GetComponent<RuntimeInteractable>().interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
-            undeadRuntimeInteractable.gameObject.SetActive(true); // Activate the culprit
             undeadRuntimeInteractable.GetComponent<RuntimeInteractable>().startInteraction(); // Start the interaction of the culprit, which will trigger the manifestation and then the outro.
             Debug.Log("You guessed the right culprit! The manifestation will now happen, and then you will proceed to the outro.");    
             yield return new WaitUntil(() => DialogueGraphManager.instance.isDialogueRunning == false); // Wait until the dialogue is done, which means the manifestation is done as well, since the manifestation is part of the dialogue.

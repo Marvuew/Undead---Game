@@ -59,6 +59,9 @@ public class DoorTransition2D : MonoBehaviour
     public Vector2 promptOffset = new Vector2(0, -40);
     public int fontSize = 24;
 
+    [Header("If Confrontation Time - ADDED BY LASSE A")]
+    public RuntimeDialogueGraph confrontationTimeDoorDialogue;
+
     private bool playerInRange = false;
     private bool isTransitioning = false;
 
@@ -145,6 +148,11 @@ public class DoorTransition2D : MonoBehaviour
     {
         if (DialogueGraphManager.instance != null && DialogueGraphManager.instance.isDialogueRunning)
             return;
+        if (GameManager.instance.isConfrontationTime)
+        {
+            StartDoorDialogue(confrontationTimeDoorDialogue);
+            return;
+        }
 
         if (requiresNecrolexicon && !GameProgressState.HasNecrolexicon)
         {

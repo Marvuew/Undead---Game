@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
 
     public IntroSequence gameIntroSequence;
+    public bool isConfrontationTime;
 
     private void Awake()
     {

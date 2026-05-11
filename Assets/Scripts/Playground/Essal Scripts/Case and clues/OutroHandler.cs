@@ -18,6 +18,7 @@ public class OutroHandler : MonoBehaviour
     public Transform endCreditContainer;
     public GameObject textPrefab;
     public Button SkipEndCreditBtn;
+    public GameObject EndCreditUI;
 
     /*Image SuperBlueBloodMoon;
     string outroText;
@@ -113,6 +114,8 @@ public class OutroHandler : MonoBehaviour
         Debug.Log("Panning complete.");
 
         WorldFade.Instance.StartSceneTransition(SceneNames.MainMenu.ToString(), 2f, Color.white);
+        yield return new WaitForSeconds(2f);
+        EndCreditUI.SetActive(false);
     }
 
     public void SpawnMajorDecisions()
