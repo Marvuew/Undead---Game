@@ -132,8 +132,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.00000017881393, y: 0.042514563}
-  m_Radius: 0.8445967
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1.4538647
 --- !u!61 &4542747436648328108
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
   interactText: {fileID: 5115446778502478579}
   interactableData: {fileID: 0}
   interactableType: 0
+  interactableClue: {fileID: 0}
 --- !u!114 &7529820211265776961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.878}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 1, y: 0.2671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3618693682453418989
