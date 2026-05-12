@@ -284,6 +284,7 @@ public class ConditionNode : Node
     public static readonly string IN_PORT_CLUE_CONDITION = "Clue";
     public static readonly string IN_PORT_CALLBACK_CONDITION = "Callback";
     public static readonly string IN_PORT_IS_WILLING_TO_TALK_CONDITION = "Talk Willingness Target";
+    public static readonly string IN_PORT_CUSTOM_CONDITON = "Custom SO Condition";
 
     protected override void OnDefineOptions(IOptionDefinitionContext context)
     {
@@ -315,6 +316,10 @@ public class ConditionNode : Node
             else if (option == ConditionOptions.CALLBACK) // CALLBACK PORT
             {
                 context.AddInputPort<Callback>(IN_PORT_CALLBACK_CONDITION).Build();
+            }
+            else if (option == ConditionOptions.CUSTOM)
+            {
+                context.AddInputPort<DialogueCondition>(IN_PORT_CUSTOM_CONDITON).Build();
             }
         }
     }

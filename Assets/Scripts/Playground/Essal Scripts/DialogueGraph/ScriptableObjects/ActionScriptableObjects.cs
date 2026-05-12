@@ -15,7 +15,16 @@ public class SelectCulpritAction : DialogueAction
     public override void DoAction()
     {
         Debug.Log("Doing Selecting Culprit Action");
-        SelectionHandler.instance.SetupCorkBoard(CaseManager.Instance.undeadDatabase);     
+        var script = FindAnyObjectByType<SelectionHandler>();
+        if (script != null)
+        {
+            script.SetupCorkBoard(CaseManager.Instance.undeadDatabase);
+        }
+        else
+        {
+            Debug.LogWarning("The Selection Handler couldnt be found in the corkboard Dialogue???");
+        }
+       
     }
 }
 

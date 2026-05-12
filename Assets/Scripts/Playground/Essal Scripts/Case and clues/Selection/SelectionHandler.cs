@@ -12,23 +12,7 @@ using UnityEngine.UI;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 public class SelectionHandler : MonoBehaviour
 {
-    public static SelectionHandler instance;
     public RuntimeDialogueGraph confrontationTimeInitDialogueGraph;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        DontDestroyOnLoad(gameObject);
-    }
 
     [Header("Corkboard")]
     public Transform corkBoardContainer;

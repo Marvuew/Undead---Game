@@ -358,6 +358,9 @@ public class DialogueGraphImporter : ScriptedImporter
                     // Note: Ensure your RuntimeConditionNode has a 'callback' field of type Callback
                     runtimeNode.callback = GetPortValueSafe<Callback>(node, ConditionNode.IN_PORT_CALLBACK_CONDITION);
                     break;
+                case ConditionOptions.CUSTOM:
+                    runtimeNode.customCondition = GetPortValueSafe<DialogueCondition>(node, ConditionNode.IN_PORT_CUSTOM_CONDITON);
+                    break;
             }
         }
 

@@ -10,13 +10,15 @@ public class CulpritButtonMouseOverHandler : MonoBehaviour, IPointerEnterHandler
     {
         if (dealtUndead != null)
         {
-            SelectionHandler.instance.culpritNameText.text = dealtUndead.undeadType.ToString();
+            var script = FindAnyObjectByType<SelectionHandler>();
+            script.culpritNameText.text = dealtUndead.undeadType.ToString();
         }
     }
 
     // This triggers when the mouse leaves the Image's rect
     public void OnPointerExit(PointerEventData eventData)
     {
-        SelectionHandler.instance.culpritNameText.text = ""; // Use empty string instead of null
+        var script = FindAnyObjectByType<SelectionHandler>();
+        script.culpritNameText.text = ""; // Use empty string instead of null
     }
 }

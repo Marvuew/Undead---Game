@@ -140,6 +140,7 @@ public class RuntimeConditionNode : RuntimeNode
     public Clue clue;
     public DialogueSpeaker TalkWillingnessTarget;
     public bool TalkWillingness;
+    public DialogueCondition customCondition;
 
     public string FailNodeID;
     public string SuccessNodeID;
@@ -227,7 +228,7 @@ public enum TalkWillingNessEnum
 
 public enum ConditionOptions
 {
-    ALIGNMENT, CLUE, WILLING_TO_TALK, CALLBACK, NONE
+    ALIGNMENT, CLUE, WILLING_TO_TALK, CALLBACK, CUSTOM, NONE
 }
 
 #endregion

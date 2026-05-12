@@ -12,10 +12,13 @@ public class PersistentGlobalLight : MonoBehaviour
     [SerializeField] private float intensity = 1f;
     [SerializeField] private int blendStyleIndex = 0;
 
+    [SerializeField] private GameObject tempLight2D;
+
     private Light2D globalLight;
 
     private void Awake()
     {
+        Destroy(tempLight2D); // Destroy the temporary Light2D first
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

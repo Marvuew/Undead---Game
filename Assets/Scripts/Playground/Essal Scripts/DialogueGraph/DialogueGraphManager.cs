@@ -293,6 +293,9 @@ public class DialogueGraphManager : MonoBehaviour
             ConditionOptions.CALLBACK =>
                 node.callback == null || callbacksCollected.Contains(node.callback),
 
+            ConditionOptions.CUSTOM =>
+                node.customCondition == null || node.customCondition.IsMet(),
+
             _ => true
         };
     }

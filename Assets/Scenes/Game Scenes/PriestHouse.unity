@@ -495,6 +495,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 50036412994080909, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 952543755369760101, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1411821180018663130, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.08
@@ -503,9 +511,33 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.58
       objectReference: {fileID: 0}
+    - target: {fileID: 2358591257503065008, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3001237212625183053, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_Name
-      value: Standard Scene Setup
+      value: Scene Essentials
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188078596033153328, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188078596033153328, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188078596033153328, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188078596033153328, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188078596033153328, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3763191520759017199, guid: 135865b9a5b080249ba320b7410ea388, type: 3}
       propertyPath: m_AnchorMax.x
@@ -700,10 +732,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5115446778502478579, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
 --- !u!4 &307455219 stripped
 Transform:
@@ -11102,9 +11131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneEntryController2D
   roomToRevealOnEnter: {fileID: 0}
   revealRoomOnEnter: 0
-  autoWalkSpeed: 2.5
   spawnOffset: {x: 0, y: 0}
   framesToWaitBeforeSpawn: 5
+  defaultSpawnPointId: BedSpawnpoint
 --- !u!1 &1176101370
 GameObject:
   m_ObjectHideFlags: 0
