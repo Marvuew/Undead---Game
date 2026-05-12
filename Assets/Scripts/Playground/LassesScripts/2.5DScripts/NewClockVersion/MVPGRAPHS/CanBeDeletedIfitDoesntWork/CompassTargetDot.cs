@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameScripts
 {
@@ -24,6 +25,12 @@ namespace Assets.Scripts.GameScripts
             [HideInInspector] public Transform worldTarget;
         }
 
+        private class RuntimeInteractableDot
+        {
+            public InteractableScriptableObject interactable;
+            public RectTransform uiDot;
+        }
+
         [Header("References")]
         [SerializeField] private Camera minimapCamera;
         [SerializeField] private RectTransform maskArea;
@@ -35,14 +42,21 @@ namespace Assets.Scripts.GameScripts
         [Header("Hide Compass In These Scenes")]
         [SerializeField] private List<string> hiddenScenes = new();
 
-        [Header("Targets")]
+        [Header("Normal Targets")]
         [SerializeField] private List<CompassTarget> targets = new();
+
+        [Header("Interactable Compass Targets")]
+        [SerializeField] private InteractableScriptableObject[] interactableTargets;
+        [SerializeField] private RectTransform interactableDotParent;
+        [SerializeField] private GameObject interactableDotPrefab;
 
         [Header("Settings")]
         [SerializeField] private float edgePadding = 12f;
 
         private int selectedTargetIndex = 0;
         private bool hasAvailableTargets = false;
+
+        private readonly List<RuntimeInteractableDot> runtimeInteractableDots = new();
 
         private void Awake()
         {
@@ -56,6 +70,7 @@ namespace Assets.Scripts.GameScripts
             DontDestroyOnLoad(gameObject);
 
             SetupDropdown();
+            CreateInteractableDots();
         }
 
         private void OnEnable()
@@ -92,15 +107,15 @@ namespace Assets.Scripts.GameScripts
             if (!hasAvailableTargets)
                 return;
 
-            if (selectedTargetIndex < 0 || selectedTargetIndex >= targets.Count)
-                return;
+            if (selectedTargetIndex >= 0 && selectedTargetIndex < targets.Count)
+            {
+                CompassTarget target = targets[selectedTargetIndex];
 
-            CompassTarget target = targets[selectedTargetIndex];
+                if (minimapCamera != null && maskArea != null && target.worldTarget != null && target.uiDot != null)
+                    UpdateTarget(target);
+            }
 
-            if (minimapCamera == null || maskArea == null || target.worldTarget == null || target.uiDot == null)
-                return;
-
-            UpdateTarget(target);
+            UpdateInteractableDots();
         }
 
         private void SetupDropdown()
@@ -123,6 +138,40 @@ namespace Assets.Scripts.GameScripts
             locationDropdown.onValueChanged.AddListener(SelectTarget);
         }
 
+        private void CreateInteractableDots()
+        {
+            runtimeInteractableDots.Clear();
+
+            if (interactableTargets == null || interactableDotParent == null || interactableDotPrefab == null)
+                return;
+
+            foreach (InteractableScriptableObject interactable in interactableTargets)
+            {
+                if (interactable == null)
+                    continue;
+
+                if (!interactable.showOnCompass)
+                    continue;
+
+                GameObject dotObject = Instantiate(interactableDotPrefab, interactableDotParent);
+                dotObject.name = interactable.compassDisplayName + " Compass Dot";
+
+                RectTransform dotRect = dotObject.GetComponent<RectTransform>();
+                Image image = dotObject.GetComponent<Image>();
+
+                if (image != null && interactable.minimapSprite != null)
+                    image.sprite = interactable.minimapSprite;
+
+                dotObject.SetActive(false);
+
+                runtimeInteractableDots.Add(new RuntimeInteractableDot
+                {
+                    interactable = interactable,
+                    uiDot = dotRect
+                });
+            }
+        }
+
         private void RefreshCompassTargets()
         {
             if (ShouldHideCompassForCurrentScene())
@@ -134,7 +183,7 @@ namespace Assets.Scripts.GameScripts
             ShowCompass();
             ReconnectSceneReferences();
 
-            hasAvailableTargets = HasAnyAvailableTarget();
+            hasAvailableTargets = HasAnyAvailableTarget() || runtimeInteractableDots.Count > 0;
 
             if (!hasAvailableTargets)
             {
@@ -147,15 +196,18 @@ namespace Assets.Scripts.GameScripts
             }
 
             if (locationDropdown != null)
-                locationDropdown.interactable = true;
+                locationDropdown.interactable = targets.Count > 0;
 
-            if (selectedTargetIndex < 0 || selectedTargetIndex >= targets.Count)
-                selectedTargetIndex = 0;
+            if (targets.Count > 0)
+            {
+                if (selectedTargetIndex < 0 || selectedTargetIndex >= targets.Count)
+                    selectedTargetIndex = 0;
 
-            if (targets[selectedTargetIndex].worldTarget == null || IsTargetHidden(targets[selectedTargetIndex]))
-                selectedTargetIndex = GetFirstAvailableTargetIndex();
+                if (targets[selectedTargetIndex].worldTarget == null || IsTargetHidden(targets[selectedTargetIndex]))
+                    selectedTargetIndex = GetFirstAvailableTargetIndex();
 
-            SelectTarget(selectedTargetIndex);
+                SelectTarget(selectedTargetIndex);
+            }
         }
 
         private bool ShouldHideCompassForCurrentScene()
@@ -167,6 +219,8 @@ namespace Assets.Scripts.GameScripts
         private void HideCompass()
         {
             HideAllDots();
+            HideInteractableDots();
+
             hasAvailableTargets = false;
 
             if (compassCanvasGroup == null)
@@ -244,6 +298,15 @@ namespace Assets.Scripts.GameScripts
             }
         }
 
+        private void HideInteractableDots()
+        {
+            foreach (RuntimeInteractableDot runtimeDot in runtimeInteractableDots)
+            {
+                if (runtimeDot.uiDot != null)
+                    runtimeDot.uiDot.gameObject.SetActive(false);
+            }
+        }
+
         private void ReconnectSceneReferences()
         {
             if (minimapCamera == null)
@@ -275,15 +338,53 @@ namespace Assets.Scripts.GameScripts
                 return;
             }
 
-            Vector3 viewport = minimapCamera.WorldToViewportPoint(target.worldTarget.position);
+            UpdateDotPosition(target.worldTarget.position, target.uiDot);
+        }
+
+        private void UpdateInteractableDots()
+{
+    if (minimapCamera == null || maskArea == null)
+        return;
+
+    string currentScene = SceneManager.GetActiveScene().name;
+
+    foreach (RuntimeInteractableDot runtimeDot in runtimeInteractableDots)
+    {
+        if (runtimeDot.interactable == null || runtimeDot.uiDot == null)
+            continue;
+
+        Vector3 viewport = minimapCamera.WorldToViewportPoint(runtimeDot.interactable.position);
+
+        bool isInCameraView =
+            viewport.z > 0f &&
+            viewport.x >= 0f &&
+            viewport.x <= 1f &&
+            viewport.y >= 0f &&
+            viewport.y <= 1f;
+
+        bool shouldShow =
+            runtimeDot.interactable.showOnCompass &&
+            runtimeDot.interactable.homeScene.ToString() == currentScene &&
+            isInCameraView;
+
+        runtimeDot.uiDot.gameObject.SetActive(shouldShow);
+
+        if (!shouldShow)
+            continue;
+
+        UpdateDotPosition(runtimeDot.interactable.position, runtimeDot.uiDot);
+    }
+}
+        private void UpdateDotPosition(Vector3 worldPosition, RectTransform dot)
+        {
+            Vector3 viewport = minimapCamera.WorldToViewportPoint(worldPosition);
 
             float x = (viewport.x - 0.5f) * maskArea.rect.width;
             float y = (viewport.y - 0.5f) * maskArea.rect.height;
 
             Vector2 position = new Vector2(x, y);
 
-            float dotRadius =
-                Mathf.Max(target.uiDot.rect.width, target.uiDot.rect.height) * 0.5f;
+            float dotRadius = Mathf.Max(dot.rect.width, dot.rect.height) * 0.5f;
 
             float compassRadius =
                 Mathf.Min(maskArea.rect.width, maskArea.rect.height) * 0.5f
@@ -302,7 +403,7 @@ namespace Assets.Scripts.GameScripts
             if (outsideCamera || outsideCompass)
                 position = position.normalized * compassRadius;
 
-            target.uiDot.anchoredPosition = position;
+            dot.anchoredPosition = position;
         }
 
         public void MarkTargetAsInteracted(string targetName)
