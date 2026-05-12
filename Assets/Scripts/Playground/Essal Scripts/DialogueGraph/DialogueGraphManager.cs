@@ -578,12 +578,28 @@ public class DialogueGraphManager : MonoBehaviour
 
     void HandleSpeakerData(RuntimeDialogueNode node)
     {
+        SpeakerSprite.sprite = null;
+        SpeakerSprite.enabled = false;
+
         if (node.Speaker == null)
         {
-            SpeakerSprite.enabled = currentInteractable != null;
-            SpeakerNameText.text = currentInteractable != null ? currentInteractable.name : "???";
-            if (currentInteractable != null) SpeakerSprite.sprite = currentInteractable.interactableSprite;
-            SpeakerSprite.preserveAspect = true;
+            SpeakerNameText.text = currentInteractable != null
+                ? currentInteractable.name
+                : "???";
+
+            if (currentInteractable != null)
+            {
+                SpeakerSprite.enabled = true;
+                SpeakerSprite.sprite = currentInteractable.interactableSprite;
+                SpeakerSprite.preserveAspect = true;
+            }
+            else
+            {
+                SpeakerSprite.sprite = null;
+                SpeakerSprite.enabled = false;
+            }
+
+            return;
         }
         else
         {
@@ -606,69 +622,44 @@ public class DialogueGraphManager : MonoBehaviour
     // Set the Sprite in relation to the given emotion.
     void HandleEmotion(Emotion emotion, RuntimeDialogueNode node)
     {
-        switch (emotion)
+        Sprite spriteToUse = null;
+
+        if (node.Speaker != null)
         {
-            case Emotion.ANGRY:
-                if (node.Speaker.Angry == null)
-                {
-                    if (currentInteractable == null)
-                    {
-                        SpeakerSprite.enabled = false;
-                        return;
-                    }
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Angry;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.HAPPY:
-                if (node.Speaker.Happy == null)
-                {
-                    if (currentInteractable == null)
-                    {
-                        SpeakerSprite.enabled = false;
-                        return;
-                    }
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Happy;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.CONTENT:
-                if (node.Speaker.Content == null)
-                {
-                    if (currentInteractable == null)
-                    {
-                        SpeakerSprite.enabled = false;
-                        return;
-                    }
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Content;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.SAD:
-                if (node.Speaker.Sad == null)
-                {
-                    if (currentInteractable == null)
-                    {
-                        SpeakerSprite.enabled = false;
-                        return;
-                    }
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Sad;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            default:
-                Debug.LogWarning("Setting speaker to content!");
-                if (node.Speaker.Content == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Content;
-                break;
+            switch (emotion)
+            {
+                case Emotion.ANGRY:
+                    spriteToUse = node.Speaker.Angry;
+                    break;
+
+                case Emotion.HAPPY:
+                    spriteToUse = node.Speaker.Happy;
+                    break;
+
+                case Emotion.CONTENT:
+                    spriteToUse = node.Speaker.Content;
+                    break;
+
+                case Emotion.SAD:
+                    spriteToUse = node.Speaker.Sad;
+                    break;
+
+                default:
+                    spriteToUse = node.Speaker.Content;
+                    break;
+            }
         }
+
+        // fallback ONLY if no speaker sprite exists
+        if (spriteToUse == null && currentInteractable != null)
+        {
+            spriteToUse = currentInteractable.interactableSprite;
+        }
+
+        // FINAL APPLY — ONLY PLACE THAT TOUCHES UI
+        SpeakerSprite.sprite = spriteToUse;
+        SpeakerSprite.enabled = spriteToUse != null;
+        SpeakerSprite.preserveAspect = true;
     }
 
     // Set the typingspeed in relation to the given typingspeed.

@@ -8,12 +8,13 @@ namespace Assets.Scripts.GameScripts
     {
         public int humanity = 50;
         public int undead = 50;
+        [SerializeField] Animator animator;
 
         private List<string> inventory;
         public RuntimeInteractable currentInteractable;
         public SimpleInteractable currentSimpleInteractable;
 
-        private Vector2 moveInput;
+        [SerializeField] Vector2 moveInput;
         public bool interacting;
 
         [SerializeField] private float speed;
@@ -56,11 +57,7 @@ namespace Assets.Scripts.GameScripts
             {
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
             }
-
-            internalMovement = false;
-
-            if (sprite != null && moveInput.x != 0)
-                sprite.flipX = moveInput.x < 0;
+            internalMovement = false;            
         }
 
         public void ChangeHumanity(int change)
@@ -76,6 +73,7 @@ namespace Assets.Scripts.GameScripts
         public void OnMove(InputAction.CallbackContext input)
         {
             moveInput = input.ReadValue<Vector2>();
+            AnimatePlayer(moveInput);
         }
 
         public void OnInteract(InputAction.CallbackContext input)
@@ -128,6 +126,14 @@ namespace Assets.Scripts.GameScripts
                 return;
 
             SetPosition(spawnPoint.transform.position);
+        }
+        private void AnimatePlayer(Vector2 movement)
+        {
+            animator.SetFloat("x",movement.x);
+            animator.SetFloat("y", movement.y);
+            animator.SetBool("isWalking", (movement != Vector2.zero));
+            if (sprite != null && moveInput.x != 0 && movement.y == 0)
+                sprite.flipX = moveInput.x < 0;
         }
     }
 }
