@@ -1,51 +1,67 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LayoutSwitcher : MonoBehaviour
 {
-    public RectTransform containerRect; // The object with the Vertical Layout Group
-    public VerticalLayoutGroup layoutGroup;
-    public Transform secondaryContainer; // Where to send overflow items
-    public bool isSecondaryContainer = false;
+    [Header("Containers")]
+    public RectTransform leftPageContainer;  // Assign the Left Page object (with Vertical Layout Group)
+    public RectTransform rightPageContainer; // Assign the Right Page object (with Vertical Layout Group)
+
+    private RectTransform currentTarget; // The one we are currently filling
+
+    private void Awake()
+    {
+        // Start by filling the left side
+        currentTarget = leftPageContainer;
+    }
 
     public void AddItem(GameObject prefab, string textContent)
     {
-        // Instantiate directly to the container
-        GameObject newItem = Instantiate(prefab, containerRect);
-
-        // FORCE UI RESET - This is the most common reason for "invisible" spawns
-        RectTransform rt = newItem.GetComponent<RectTransform>();
-        rt.localScale = Vector3.one;
-        rt.localPosition = Vector3.zero;
-
+        // 1. Instantiate into the current target (Left or Right)
+        GameObject newItem = Instantiate(prefab, currentTarget);
         newItem.GetComponent<TMPro.TextMeshProUGUI>().text = textContent;
 
-        // Force the container to realize it has a new child before we check height
-        LayoutRebuilder.ForceRebuildLayoutImmediate(containerRect);
+        // 2. Force layout to calculate
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(currentTarget);
 
-        if (LayoutUtility.GetPreferredHeight(containerRect) > containerRect.rect.height)
+        // 3. Check for overflow
+        if (LayoutUtility.GetPreferredHeight(currentTarget) > currentTarget.rect.height)
         {
-            // If we are already on a secondary/overflow page, we need a NEW page from the Manager
-            // Otherwise, move it to the defined secondary container
-            if (isSecondaryContainer || secondaryContainer == null)
+            // IF LEFT OVERFLOWED -> Move to Right
+            if (currentTarget == leftPageContainer)
             {
-                // Create the page via the UI manager
-                GameObject newPageObj = NecroLexiconUI.Instance.CreateNewCluePage();
+                Debug.Log("Left Page Full, moving item to Right Page.");
+                newItem.transform.SetParent(rightPageContainer, false);
+                currentTarget = rightPageContainer;
 
-                // Update the UI Manager's "current" pointer so the NEXT clue 
-                // knows to go to this new page immediately.
-                NecroLexiconUI.Instance.currentClueLayout = newPageObj.GetComponent<LayoutSwitcher>();
-
-                // Move the item to the new page
-                newItem.transform.SetParent(newPageObj.GetComponent<LayoutSwitcher>().containerRect, false);
+                // Re-check if it fits in the right page too (highly unlikely for 1 item, but good practice)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(rightPageContainer);
             }
-            else
+            // IF RIGHT OVERFLOWED -> Create a brand new CluePage (Spread)
+            else if (currentTarget == rightPageContainer)
             {
-                // Move to the pre-defined secondary column (if using a 2-column spread)
-                newItem.transform.SetParent(secondaryContainer, false);
-                secondaryContainer.GetComponent<LayoutSwitcher>().isSecondaryContainer = true;
+                Debug.Log("Right Page Full, spawning new Book Spread.");
+
+                // Call UI Manager to create a new double-page prefab
+                GameObject newSpread = NecroLexiconUI.Instance.CreateNewCluePage();
+                LayoutSwitcher newSwitcher = newSpread.GetComponent<LayoutSwitcher>();
+
+                // Move the item that caused the overflow to the NEW spread's Left Page
+                newItem.transform.SetParent(newSwitcher.leftPageContainer, false);
+
+                // Tell the UI Manager that this new switcher is now the global "Current"
+                NecroLexiconUI.Instance.currentClueLayout = newSwitcher;
             }
         }
+    }
+
+    // Inside LayoutSwitcher.cs
+    public void ResetToLeftPage()
+    {
+        currentTarget = leftPageContainer;
+        // Optional: Ensure containers are active
+        leftPageContainer.gameObject.SetActive(true);
+        rightPageContainer.gameObject.SetActive(true);
     }
 }

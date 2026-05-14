@@ -11,7 +11,6 @@ public class NecroLexiconUI : MonoBehaviour
     public int cluesPerPage = 4;
 
     [Header("UI Elements")]
-    public TMPro.TextMeshProUGUI cluesText; 
     public GameObject creaturesPage;
     public TMPro.TextMeshProUGUI creaturesText;
     public GameObject casePage;
@@ -36,6 +35,9 @@ public class NecroLexiconUI : MonoBehaviour
     public GameObject clueTxtPrefab;
     public List<string> tempDescriptions = new List<string>();
     public List<Clue> clues = new List<Clue>();
+    public GameObject nextCluePageBtn;
+    public GameObject lastCluePageBtn;
+    public GameObject cluesHeader;
 
     public static NecroLexiconUI Instance;
     private void Awake()
@@ -121,7 +123,10 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void OpenCluePage()
     {
+        UpdateCluesList();
         ToggleCluePage(cluePages[0]);
+        lastCluePageBtn.SetActive(true);
+        nextCluePageBtn.SetActive(true);
         print("Opened first cluepage");
     }
 
@@ -129,38 +134,44 @@ public class NecroLexiconUI : MonoBehaviour
     {
         OpenBook();
         DisableAllPages(); // This hides everything first
+        cluesHeader.SetActive(true);
 
         // Set only the requested page to active
         page.SetActive(true);
         activeCluePage = page;
         SetSelectedButton(pageButtons[0]);
-        UpdateCluesList();
     }
 
     public void NextCluePage()
     {
-        if (cluePages.IndexOf(activeCluePage) + 1 > cluePages.Count - 1)
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        if (currentIndex + 1 < cluePages.Count)
         {
-            Debug.LogWarning("There are no more pages");
-            return;
-        }
-        else
-        {
-            ToggleCluePage(cluePages[cluePages.IndexOf(activeCluePage) + 1]);
+            ToggleCluePage(cluePages[currentIndex + 1]);
+            UpdateNavButtons(); // Refresh visibility
         }
     }
 
     public void LastCluePage()
     {
-        if (cluePages.IndexOf(activeCluePage) - 1 < 0)
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        if (currentIndex - 1 >= 0)
         {
-            Debug.LogWarning("There are no more pages");
-            return;
+            ToggleCluePage(cluePages[currentIndex - 1]);
+            UpdateNavButtons(); // Refresh visibility
         }
-        else
-        {
-            ToggleCluePage(cluePages[cluePages.IndexOf(activeCluePage) - 1]);
-        }
+    }
+
+    // Call this inside OpenCluePage and whenever you flip pages
+    public void UpdateNavButtons()
+    {
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        // Assign these buttons in the inspector
+        nextCluePageBtn.SetActive(currentIndex < cluePages.Count - 1);
+        lastCluePageBtn.SetActive(currentIndex > 0);
     }
 
     private void DisableAllPages()
@@ -169,8 +180,7 @@ public class NecroLexiconUI : MonoBehaviour
         {
             layout.gameObject.SetActive(false);
         }
-
-        cluesText.enabled = false;
+        cluesHeader.SetActive(false);
         creaturesPage.SetActive(false);
         creaturesText.enabled = false;
         casePage.SetActive(false);
@@ -237,29 +247,38 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void UpdateCluesList()
     {
-        // 1. Force the containers active so Unity can calculate UI heights
+        // 1. Force containers active (Essential for Layout Calculation)
         pagesContainer.SetActive(true);
         if (cluePages.Count > 0) cluePages[0].SetActive(true);
 
-        // 2. Wipe the old data safely
+        // 2. Clear all previous clues and extra pages
         ClearClueList();
 
-        // 3. Ensure the test dictionary is populated (Prevents TryGetValue from failing)
+        // 3. Dictionary Safety (Test data)
         foreach (Clue clue in clues)
         {
             if (!CaseManager.Instance.clueDescriptions.ContainsKey(clue))
             {
-                // Note: If tempDescriptions is empty in inspector, nothing shows below the name
                 CaseManager.Instance.clueDescriptions.Add(clue, new List<string>(tempDescriptions));
             }
         }
 
-        // 4. Determine data source
+        // 4. Determine which clues to show
         var cluesToDisplay = (CaseManager.Instance.cluesfound.Count == 0) ? clues : CaseManager.Instance.cluesfound.ToList();
 
-        // 5. Initialize the layout pointer
-        currentClueLayout = cluePages[0].GetComponent<LayoutSwitcher>();
-        currentClueLayout.containerRect.gameObject.SetActive(true);
+        // 5. Initialize the LayoutSwitcher from the first page
+        if (cluePages.Count > 0)
+        {
+            currentClueLayout = cluePages[0].GetComponent<LayoutSwitcher>();
+
+            // Ensure the LayoutSwitcher is reset to start at the Left Page
+            currentClueLayout.ResetToLeftPage();
+        }
+        else
+        {
+            Debug.LogError("No CluePages found in the list! Assign the first page in the Inspector.");
+            return;
+        }
 
         // 6. Spawn the items
         foreach (Clue _clue in cluesToDisplay)
@@ -273,36 +292,31 @@ public class NecroLexiconUI : MonoBehaviour
                     fullText += "* " + description + "\n";
                 }
 
-                // This call triggers the overflow logic in your LayoutSwitcher script
+                // The Switcher now handles: Left -> Right -> New Page
                 currentClueLayout.AddItem(clueTxtPrefab, fullText);
             }
         }
 
-        // 7. Reset the view to the first page
-        ToggleCluePage(cluePages[0]);
+        // 7. Show the first page and update UI
+        cluePages[0].SetActive(true);
         Debug.Log("UI Clue List Refreshed Successfully.");
     }
 
     public void ClearClueList()
     {
-        // Safety check: if the list is empty, we have a bigger setup problem
         if (cluePages.Count == 0) return;
 
-        // 1. Destroy all spawned overflow pages (Index 1 and onwards)
+        // Destroy all spreads except the first one
         for (int i = cluePages.Count - 1; i > 0; i--)
         {
-            GameObject extraPage = cluePages[i];
+            Destroy(cluePages[i]);
             cluePages.RemoveAt(i);
-            Destroy(extraPage);
         }
 
-        // 2. Clear the text items out of the original Page 0
-        // We access the containerRect specifically to avoid destroying the layout group itself
-        Transform container = cluePages[0].GetComponent<LayoutSwitcher>().containerRect;
-        foreach (Transform child in container)
-        {
-            Destroy(child.gameObject);
-        }
+        // Clear BOTH left and right containers on the first page
+        LayoutSwitcher firstSwitcher = cluePages[0].GetComponent<LayoutSwitcher>();
+        foreach (Transform child in firstSwitcher.leftPageContainer) Destroy(child.gameObject);
+        foreach (Transform child in firstSwitcher.rightPageContainer) Destroy(child.gameObject);
     }
 
     public void InstantiateCaseOne()

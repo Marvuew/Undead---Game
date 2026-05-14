@@ -50,10 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9646385ab7b7844a62993e4a9e12fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  containerRect: {fileID: 8949340782860391306}
-  layoutGroup: {fileID: 7822981799207095738}
-  secondaryContainer: {fileID: 5718967261188068110}
-  isSecondaryContainer: 0
+  leftPageContainer: {fileID: 8949340782860391306}
+  rightPageContainer: {fileID: 5718967261188068110}
 --- !u!1 &7705397133172555306
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +110,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -174,7 +172,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
