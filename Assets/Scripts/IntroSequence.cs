@@ -31,6 +31,7 @@ public class IntroSequence : MonoBehaviour
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
+        StartPanelAnimation();
     }
 
     // Update is called once per frame
@@ -129,6 +130,7 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
 
         LOGO.SetActive(true);
+        skipIntroButton.gameObject.SetActive(false);
         StartCoroutine(LOGO.GetComponent<LOGO_Animation>().ScaleOverTime()); // TAKES 5 SECONDS
 
         yield return new WaitForSeconds(2f);

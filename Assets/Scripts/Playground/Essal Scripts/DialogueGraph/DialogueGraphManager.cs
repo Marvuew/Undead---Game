@@ -134,7 +134,15 @@ public class DialogueGraphManager : MonoBehaviour
     #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
-        Player.Instance.interacting = true;
+        if (Player.Instance != null)
+        {
+            Player.Instance.interacting = true;
+        }
+        else
+        {
+            Debug.LogWarning("Dialogue started in a scene without the Player singleton. No need to worry this is ideal in the Main Menu");
+        }
+
         isDialogueRunning = true;
         ClearDialogue();
         _nodeLookup.Clear();

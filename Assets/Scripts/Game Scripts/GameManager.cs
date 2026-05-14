@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
 
-    public IntroSequence gameIntroSequence;
     public bool isConfrontationTime;
+
+    IntroSequence introScript;
 
     private void Awake()
     {
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour
 
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
+
+        introScript = FindAnyObjectByType<IntroSequence>();
+        if (introScript == null) Debug.LogWarning("Couldnt find the intro script");
     }
 
     private void Start()
@@ -36,7 +40,9 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        StartCoroutine(gameIntroSequence.HandleIntroDialogue());
+        if (introScript != null)
+            StartCoroutine(introScript.HandleIntroDialogue());
+        else Debug.LogWarning("Intro Script was null and therefore couldnt start the panel Animation");
     }
 
     public void MainMenu()
