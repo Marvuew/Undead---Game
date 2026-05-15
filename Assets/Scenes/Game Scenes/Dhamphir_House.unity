@@ -392,6 +392,7 @@ MonoBehaviour:
   necrolexiconBook: {fileID: 598378647}
   frontDoor: {fileID: 1042067656}
   bookIcon: {fileID: 0}
+  doorTransitionScript: {fileID: 1042067666}
 --- !u!4 &89941739
 Transform:
   m_ObjectHideFlags: 0
@@ -1309,6 +1310,18 @@ PrefabInstance:
     - target: {fileID: 6764240125176631103, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_Name
       value: Game Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801787071301634221, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801787071301634221, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801787071301634221, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7395095513843735653, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3254,6 +3267,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4152164499304025391, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
   m_PrefabInstance: {fileID: 1172174855}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1042067666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7982021665478137576, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
+  m_PrefabInstance: {fileID: 1172174855}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042067656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd5c9ac32d19463f9989c7ec1ae87a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorTransition2D
 --- !u!1 &1073087596
 GameObject:
   m_ObjectHideFlags: 0
