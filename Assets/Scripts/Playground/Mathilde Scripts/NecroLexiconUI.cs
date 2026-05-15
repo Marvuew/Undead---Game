@@ -73,6 +73,8 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.anchoredPosition = pb.closedPos;
             pb.button.gameObject.SetActive(false);
         }
+
+        UpdateCluesList();
     }
 
     void SetSelectedButton(PageButton selected)
@@ -90,16 +92,6 @@ public class NecroLexiconUI : MonoBehaviour
         }
     }
 
-    /*public void OpenCluesPage()
-    {
-        OpenBook();
-        Debug.Log("Clues clicked");
-        DisableAllPages();
-        cluesText.enabled = true;
-        UpdateCluesList();
-
-        SetSelectedButton(pageButtons[0]);
-    }*/
     public void OpenCreaturesPage()
     {
         OpenBook();
@@ -133,10 +125,9 @@ public class NecroLexiconUI : MonoBehaviour
     public void ToggleCluePage(GameObject page)
     {
         OpenBook();
-        DisableAllPages(); // This hides everything first
+        DisableAllPages();
         cluesHeader.SetActive(true);
 
-        // Set only the requested page to active
         page.SetActive(true);
         activeCluePage = page;
         SetSelectedButton(pageButtons[0]);
@@ -149,7 +140,7 @@ public class NecroLexiconUI : MonoBehaviour
         if (currentIndex + 1 < cluePages.Count)
         {
             ToggleCluePage(cluePages[currentIndex + 1]);
-            UpdateNavButtons(); // Refresh visibility
+            UpdateNavButtons();
         }
     }
 
@@ -160,16 +151,14 @@ public class NecroLexiconUI : MonoBehaviour
         if (currentIndex - 1 >= 0)
         {
             ToggleCluePage(cluePages[currentIndex - 1]);
-            UpdateNavButtons(); // Refresh visibility
+            UpdateNavButtons();
         }
     }
 
-    // Call this inside OpenCluePage and whenever you flip pages
     public void UpdateNavButtons()
     {
         int currentIndex = cluePages.IndexOf(activeCluePage);
 
-        // Assign these buttons in the inspector
         nextCluePageBtn.SetActive(currentIndex < cluePages.Count - 1);
         lastCluePageBtn.SetActive(currentIndex > 0);
     }
@@ -231,15 +220,12 @@ public class NecroLexiconUI : MonoBehaviour
 
     public GameObject CreateNewCluePage()
     {
-        // Instantiate the prefab inside your pages container
         GameObject newPage = Instantiate(cluePage, pagesContainer.transform);
 
-        // Ensure it's positioned correctly (RectTransform reset)
         RectTransform rt = newPage.GetComponent<RectTransform>();
         rt.anchoredPosition = Vector2.zero;
         rt.localScale = Vector3.one;
 
-        // Add to your list for navigation (Next/Last page)
         cluePages.Add(newPage);
 
         return newPage;
@@ -247,14 +233,11 @@ public class NecroLexiconUI : MonoBehaviour
 
     public void UpdateCluesList()
     {
-        // 1. Force containers active (Essential for Layout Calculation)
         pagesContainer.SetActive(true);
         if (cluePages.Count > 0) cluePages[0].SetActive(true);
 
-        // 2. Clear all previous clues and extra pages
         ClearClueList();
 
-        // 3. Dictionary Safety (Test data)
         foreach (Clue clue in clues)
         {
             if (!CaseManager.Instance.clueDescriptions.ContainsKey(clue))
@@ -263,15 +246,12 @@ public class NecroLexiconUI : MonoBehaviour
             }
         }
 
-        // 4. Determine which clues to show
         var cluesToDisplay = (CaseManager.Instance.cluesfound.Count == 0) ? clues : CaseManager.Instance.cluesfound.ToList();
 
-        // 5. Initialize the LayoutSwitcher from the first page
         if (cluePages.Count > 0)
         {
             currentClueLayout = cluePages[0].GetComponent<LayoutSwitcher>();
 
-            // Ensure the LayoutSwitcher is reset to start at the Left Page
             currentClueLayout.ResetToLeftPage();
         }
         else
@@ -280,7 +260,6 @@ public class NecroLexiconUI : MonoBehaviour
             return;
         }
 
-        // 6. Spawn the items
         foreach (Clue _clue in cluesToDisplay)
         {
             Debug.Log($"Attempting to spawn clue: {_clue.name}");
@@ -292,12 +271,10 @@ public class NecroLexiconUI : MonoBehaviour
                     fullText += "* " + description + "\n";
                 }
 
-                // The Switcher now handles: Left -> Right -> New Page
                 currentClueLayout.AddItem(clueTxtPrefab, fullText);
             }
         }
 
-        // 7. Show the first page and update UI
         cluePages[0].SetActive(true);
         Debug.Log("UI Clue List Refreshed Successfully.");
     }
@@ -306,14 +283,12 @@ public class NecroLexiconUI : MonoBehaviour
     {
         if (cluePages.Count == 0) return;
 
-        // Destroy all spreads except the first one
         for (int i = cluePages.Count - 1; i > 0; i--)
         {
             Destroy(cluePages[i]);
             cluePages.RemoveAt(i);
         }
 
-        // Clear BOTH left and right containers on the first page
         LayoutSwitcher firstSwitcher = cluePages[0].GetComponent<LayoutSwitcher>();
         foreach (Transform child in firstSwitcher.leftPageContainer) Destroy(child.gameObject);
         foreach (Transform child in firstSwitcher.rightPageContainer) Destroy(child.gameObject);

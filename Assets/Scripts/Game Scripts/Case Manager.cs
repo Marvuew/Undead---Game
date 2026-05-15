@@ -51,15 +51,21 @@ public class CaseManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.Log("Duplicate CaseManager found and destroyed. Using existing data.");
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    } //Ensuring singleton pattern
+        SceneManager.sceneLoaded += Instance.OnSceneLoaded;
+    }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SetUpClues(); // Setting up clues each time a new scene is loaded
@@ -141,6 +147,7 @@ public class CaseManager : MonoBehaviour
     }*/
     public void InitialClueFound(Clue clueFound)
     {
+        Debug.Log("Inital Clue Found");
         if (!cluesfound.Contains(clueFound))
         {
             cluesfound.Add(clueFound);
@@ -178,7 +185,7 @@ public class CaseManager : MonoBehaviour
     public void LoadNextCase()
     {
         ClearActiveClues();
-        cluesfound.Clear();
+        //cluesfound.Clear();
         int currentCaseIndex = allCases.IndexOf(currentCase);
         Debug.Log(currentCaseIndex);
         Debug.Log(allCases[currentCaseIndex]);
@@ -202,6 +209,7 @@ public class CaseManager : MonoBehaviour
 
     public void AddClueDescription(Clue clue, string description)
     {
+        Debug.Log("Adding Clue Description");
         if (!clueDescriptions.ContainsKey(clue)) // IF CLUE IS NOT IN THE DICTIONARY CREATE A LIST
         {
             clueDescriptions[clue] = new List<string>();
