@@ -11,6 +11,7 @@ public class LOGO_Animation : MonoBehaviour
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
+        AudioManager.instance.PlaySFX("IntroHowl");
     }
     public float easeInCirc(float x)
     {

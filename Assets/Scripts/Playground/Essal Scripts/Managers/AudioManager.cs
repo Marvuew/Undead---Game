@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -48,8 +49,15 @@ public class AudioManager : MonoBehaviour
 
     public void Start()
     {
-        PlayMusic("AmbientDay"); // START THE AMBIENCE
-        StartCoroutine(SongController()); // START THE RANDOM SONG LOOP
+        if (SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
+        {
+            StartCoroutine(SongController());
+            PlayMusic("AmbientDay");
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void PlayMusic(string name)
