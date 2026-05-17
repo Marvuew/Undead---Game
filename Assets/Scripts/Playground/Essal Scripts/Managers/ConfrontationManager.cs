@@ -18,6 +18,16 @@ public class ConfrontationHandler : MonoBehaviour
 
         corkBoard.SetActive(false); // DISBALE THE CORKBOARD
 
+        // Handle Audio
+        if (rightCulprit)
+        {
+            AudioManager.instance.PlaySFX("Dur");
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX("Mol");
+        }
+
         SceneNames scene;
         Vector3 undeadPos;
 
@@ -34,10 +44,15 @@ public class ConfrontationHandler : MonoBehaviour
 
         WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos); // Transistions to the scene of the culprit.
         yield return new WaitForSeconds(2f);
-        var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.GetComponent<RuntimeInteractable>().interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
+        var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
         if (undeadRuntimeInteractable != null)
         {
+            Debug.Log("Undead Interactable found");
             undeadRuntimeInteractable.gameObject.SetActive(rightCulprit); // Activate the culprit
+        }
+        else
+        {
+            Debug.Log("Undead Interactable not found");
         }
         var clock = FindAnyObjectByType<HalfClockHand>();
         // MAKE THE CLOCK TURN TO NIGHT TIME!! LASSE LUND

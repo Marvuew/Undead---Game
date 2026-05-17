@@ -24,7 +24,36 @@ public class IntroSequence : MonoBehaviour
     public Transform LeftPanel;
     public Transform RightPanel;
 
-   
+
+    private void Awake()
+    {
+        if (GameCanvasSingleton.instance != null)
+        {
+            Transform dialogueChild = GameCanvasSingleton.instance.transform.Find("Dialogue");
+
+            if (dialogueChild != null)
+            {
+                dialogueChild.SetParent(transform);
+            }
+            else
+            {
+                Debug.LogWarning("Could not find a child named 'Dialogue' inside STANDARD_SCENE_LAYOUT!");
+            }
+
+            Destroy(GameCanvasSingleton.instance.gameObject);
+            GameCanvasSingleton.instance = null;
+        }
+
+        if (STANDARD_SCENE_LAYOUT.instance != null)
+        {
+            Destroy(STANDARD_SCENE_LAYOUT.instance.gameObject);
+            STANDARD_SCENE_LAYOUT.instance = null;
+        }
+
+        DialogueGraphManager.instance.ClearLists();
+
+    }
+
 
     void Start()
     {
@@ -76,7 +105,7 @@ public class IntroSequence : MonoBehaviour
             Player.Instance.interacting = false;
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
-        for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
+        for (int i = 0; i < GameManager.instance.undeadDatabase.Count; i++) indices.Add(i);
 
         for (int i = 0; i < indices.Count; i++) // FISHER YATES SHUFFLE
         {
@@ -88,7 +117,7 @@ public class IntroSequence : MonoBehaviour
 
         foreach (int idx in indices) // Instantiate for the left panel
         {
-            var undead = CaseManager.Instance.undeadDatabase[idx];
+            var undead = GameManager.instance.undeadDatabase[idx];
             GameObject go = Instantiate(undeadPrefab, LeftPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
@@ -103,7 +132,7 @@ public class IntroSequence : MonoBehaviour
 
         foreach (int idx in indices) // Instantiate for the right panel
         {
-            var undead = CaseManager.Instance.undeadDatabase[idx];
+            var undead = GameManager.instance.undeadDatabase[idx];
             GameObject go = Instantiate(undeadPrefab, RightPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
@@ -164,6 +193,16 @@ public class IntroSequence : MonoBehaviour
         skipIntroButton.gameObject.SetActive(false);
         DialogueGraphManager.instance.EndDialogue();
 
+    }
+
+    public void StartGame()
+    {
+        HandleIntroDialogue();
+    }
+
+    public void QuiGame()
+    {
+        Application.Quit();
     }
 
 }

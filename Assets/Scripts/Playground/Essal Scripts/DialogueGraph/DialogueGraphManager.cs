@@ -95,7 +95,17 @@ public class DialogueGraphManager : MonoBehaviour
     // For Handling TalkWillingness
     [NonSerialized]
     public HashSet<DialogueSpeaker> speakersNotWillingToTalk = new HashSet<DialogueSpeaker>();
+
+    public void ClearLists()
+    {
+        exploredChoicesLookup.Clear();
+        callbacksCollected.Clear();
+        nodesMarkedAsRead.Clear();
+        speakersNotWillingToTalk.Clear();
+    }
     #endregion
+
+
 
     #region Input Handling (update)
     private void Update()

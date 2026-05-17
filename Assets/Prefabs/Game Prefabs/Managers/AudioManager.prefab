@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7483528691155591840
+--- !u!1 &6714729927748309809
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6599942864667417187}
-  - component: {fileID: 8297381776501703909}
+  - component: {fileID: 2185517290057350142}
+  - component: {fileID: 9062191208775097526}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6599942864667417187
+--- !u!4 &2185517290057350142
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7483528691155591840}
+  m_GameObject: {fileID: 6714729927748309809}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5542297, y: 0.85713005, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.3958, y: -1.34657, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8297381776501703909
+--- !u!114 &9062191208775097526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7483528691155591840}
+  m_GameObject: {fileID: 6714729927748309809}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d274fc1c687644fb3c4535a5a1a911, type: 3}
@@ -229,6 +229,20 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BadStuff
     clip: {fileID: 8300000, guid: ed2ee026a386450418a1798780f08d61, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Mol
+    clip: {fileID: 8300000, guid: 1d26b7d9a54ae2742ae076f83416925b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Dur
+    clip: {fileID: 8300000, guid: 0032feb0fe781e4409eac1674b54aaaa, type: 3}
     volume: 1
     pitch: 1
     loop: 0

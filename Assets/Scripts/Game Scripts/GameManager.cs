@@ -9,11 +9,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
+    public List<Undead> undeadDatabase = new List<Undead>();
+
     [SerializeField] private GameObject pauseMenu;
 
     public bool isConfrontationTime;
-
-    IntroSequence introScript;
 
     private void Awake()
     {
@@ -28,21 +28,11 @@ public class GameManager : MonoBehaviour
 
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
-
-        introScript = FindAnyObjectByType<IntroSequence>();
-        if (introScript == null) Debug.LogWarning("Couldnt find the intro script");
     }
 
     private void Start()
     {
         
-    }
-
-    public void StartGame()
-    {
-        if (introScript != null)
-            StartCoroutine(introScript.HandleIntroDialogue());
-        else Debug.LogWarning("Intro Script was null and therefore couldnt start the panel Animation");
     }
 
     public void MainMenu()
@@ -53,11 +43,6 @@ public class GameManager : MonoBehaviour
     public void ToggleActive(GameObject target)
     {
         target.SetActive(!target.activeSelf);
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 
     public void Pause()
