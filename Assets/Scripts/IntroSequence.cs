@@ -168,7 +168,7 @@ public class IntroSequence : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        WorldFade.Instance.StartSceneTransitionAndToggleGameObject(SceneNames.Dhamphir_House.ToString(), 2f, Color.black, INTROUI);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
     }
 
     public IEnumerator FadeInSkipButton()
@@ -197,7 +197,8 @@ public class IntroSequence : MonoBehaviour
 
     public void StartGame()
     {
-        HandleIntroDialogue();
+        StartCoroutine(HandleIntroDialogue());
+        Debug.Log("Starting Game");
     }
 
     public void QuiGame()

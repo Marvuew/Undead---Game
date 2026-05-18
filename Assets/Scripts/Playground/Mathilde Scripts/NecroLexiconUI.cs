@@ -73,8 +73,6 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.anchoredPosition = pb.closedPos;
             pb.button.gameObject.SetActive(false);
         }
-
-        UpdateCluesList();
     }
 
     void SetSelectedButton(PageButton selected)
@@ -159,8 +157,22 @@ public class NecroLexiconUI : MonoBehaviour
     {
         int currentIndex = cluePages.IndexOf(activeCluePage);
 
-        nextCluePageBtn.SetActive(currentIndex < cluePages.Count - 1);
-        lastCluePageBtn.SetActive(currentIndex > 0);
+        bool isAnyPageActive = false;
+
+        foreach (GameObject page in cluePages)
+        {
+            if (page != null && page.activeSelf)
+            {
+                isAnyPageActive = true;
+                break; 
+            }
+        }
+
+        if (isAnyPageActive)
+        {
+            nextCluePageBtn.SetActive(currentIndex < cluePages.Count - 1);
+            lastCluePageBtn.SetActive(currentIndex > 0);
+        }
     }
 
     private void DisableAllPages()
@@ -188,8 +200,11 @@ public class NecroLexiconUI : MonoBehaviour
         else
         {
             //soundManager.PlayPageTurnSound();
-            AudioManager.instance.PlaySFX("PageTurn1");
+            AudioManager.instance.PlayPageTurnSound();
         }
+        casePage.SetActive(true);  // Set the casepage as the first page
+
+        SetSelectedButton(pageButtons[2]);
 
         bookCover.SetActive(false);
         pagesContainer.SetActive(true);
@@ -230,6 +245,7 @@ public class NecroLexiconUI : MonoBehaviour
 
         return newPage;
     }
+
 
     public void UpdateCluesList()
     {

@@ -136,55 +136,6 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
-  - name: PageTurn1
-    clip: {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: PageTurn2
-    clip: {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: PageTurn3
-    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: PageTurn3
-    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: PageTurn3
-    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: Cold_Feet
-    clip: {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: What_Gives
-    clip: {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
   - name: DoorKnock1
     clip: {fileID: 8300000, guid: 234bf06dd978f44ddad7a062d3112803, type: 3}
     volume: 0.2
@@ -249,13 +200,49 @@ MonoBehaviour:
     PlayOnAwake: 0
     source: {fileID: 0}
   pageTurnSounds:
-  - {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
-  - {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
-  - {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+  - name: Page1
+    clip: {fileID: 8300000, guid: da9029d32561ec14a832533528051259, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Page2
+    clip: {fileID: 8300000, guid: c6910545aea9b60408d1b30ae486487b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Page3
+    clip: {fileID: 8300000, guid: d2c708decb4f6614fa70ebdefff6397e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   Songs:
-  - {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
-  - {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
-  - {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+  - name: Cold_Feet
+    clip: {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: What_Gives
+    clip: {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Verisimilitude
+    clip: {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   songChangeWaitTime: 30
   currentSong:
     name: 
