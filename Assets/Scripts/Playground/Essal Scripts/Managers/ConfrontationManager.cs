@@ -43,7 +43,7 @@ public class ConfrontationHandler : MonoBehaviour
         }
 
         WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos); // Transistions to the scene of the culprit.
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
         if (undeadRuntimeInteractable != null)
         {

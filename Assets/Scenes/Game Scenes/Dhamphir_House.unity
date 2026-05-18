@@ -1403,6 +1403,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3504429966711437277, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1405749014}
+    - target: {fileID: 3504429966711437277, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TemporaryAddTallyToSuspect
+      objectReference: {fileID: 0}
     - target: {fileID: 3751834582748147074, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5490,6 +5498,17 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   framesToWaitBeforeSpawn: 3
   defaultSpawnPointId: BedSpawnpoint
+--- !u!114 &1405749014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4815606246890343382, guid: 2548fe758ba82c64db0855b54475ba0f, type: 3}
+  m_PrefabInstance: {fileID: 1591871777}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221cd986d151cd54f8ae02ee45575b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CaseManager
 --- !u!1 &1411708595
 GameObject:
   m_ObjectHideFlags: 0
