@@ -99,10 +99,10 @@ MonoBehaviour:
         m_LocalSubgraphs: []
         m_LastKnownBounds:
           serializedVersion: 2
-          x: 354.5
-          y: 37
-          width: 13624.5
-          height: 1308.5
+          x: 354.66666
+          y: 37.333332
+          width: 13624.666
+          height: 1351.3334
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 2991180896884700972
@@ -2064,6 +2064,8 @@ MonoBehaviour:
           - Emotion
           - Typing Speed
           - Sentence 0
+          - Sentence 1
+          - Sentence 2
           m_ValueList:
           - rid: 3102200765216719233
           - rid: 3102200765216719234
@@ -2071,6 +2073,8 @@ MonoBehaviour:
           - rid: 3102200765216719236
           - rid: 3102200765216719237
           - rid: 3102200765216719238
+          - rid: 6554331089014882386
+          - rid: 6554331089014882387
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -2089,7 +2093,7 @@ MonoBehaviour:
     - rid: 3102200765216719233
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: 1
+        m_Value: 3
     - rid: 3102200765216719234
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -2123,10 +2127,7 @@ MonoBehaviour:
     - rid: 3102200765216719238
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: ' The child launches at you with his *weapon* a pointy wooden stick.
-          And as you prepare to dodge, a feeling of surrender overwhelms you. You
-          stare blank at the pointy end of the stick knowing that it will puncture
-          a hole in this rotting body but you just doesnt move.'
+        m_Value: ' The child launches at you with his *weapon*. A pointy wooden stick. '
     - rid: 3102200765216719239
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -3169,7 +3170,7 @@ MonoBehaviour:
     - rid: 3102200765216719326
       type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: {fileID: 0}
+        m_Value: {fileID: 11400000, guid: bc8d4c7e29b613b4ab241dcb51cdc25e, type: 2}
     - rid: 3102200765216719327
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -3709,3 +3710,13 @@ MonoBehaviour:
       type: {class: 'Constant`1[[System.Boolean, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
         m_Value: 0
+    - rid: 6554331089014882386
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 'And as you prepare to dodge, a feeling of surrender overwhelms
+          you. '
+    - rid: 6554331089014882387
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: You stare blank at the pointy end of the stick knowing that it will
+          puncture a hole in this rotting body but you just doesnt move.

@@ -23,12 +23,15 @@ public class AudioManager : MonoBehaviour
     public Sound currentSong;
     private void Awake()
     {
+        Debug.Log("AudioManager Awake called");
         if (instance == null)
         {
             instance = this;
+            Debug.Log("AudioManager instance set");
         }
         else
         {
+            Debug.LogWarning("Duplicate AudioManager destroyed");
             Destroy(gameObject);
             return;
         }
