@@ -4,6 +4,7 @@
 using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -80,6 +81,9 @@ using UnityEngine.UI;
     [SerializeField] private GameObject necrolexiconBook;
     [SerializeField] private GameObject frontDoor;
     [SerializeField] private GameObject bookIcon;
+
+    [Header("Other")]
+    public DoorTransition2D doorTransitionScript;
 
     private bool pressedW;
     private bool pressedA;
@@ -510,4 +514,50 @@ using UnityEngine.UI;
         Debug.Log(debugName + " started.");
         return true;
     }
+
+    public void SkipTutorial()
+    {
+        tutorialAlreadyCompleted = true;
+        wakeUpFinished = true;
+        movementNarratorFinished = true;
+        movementComplete = true;
+        interactGraphStarted = true;
+        canPickUpBook = false;
+
+        GameProgressState.CompletedHouseIntro = true;
+        GameProgressState.HasNecrolexicon = true;
+        GameProgressState.ForceSkippedHouseIntro = true;
+
+        HideTutorialUI();
+
+        if (necrolexiconBook != null) necrolexiconBook.SetActive(false);
+        if (frontDoor != null) frontDoor.SetActive(true);
+        if (bookIcon != null) bookIcon.SetActive(true);
+
+        //StopKnocking();
+        if (WorldFade.Instance != null)
+        {
+            WorldFade.Instance.StopAllCoroutines();
+        }
+
+        if (DialogueGraphManager.instance != null)
+        {
+            DialogueGraphManager.instance.EndDialogue();
+        }
+
+        if (Player.Instance != null)
+            Player.Instance.interacting = false;
+
+        for (int i = 0; i < doorTransitionScript.objectsToRevealAfterCharacterDialogue.Length; i++)
+        {
+            doorTransitionScript.objectsToRevealAfterCharacterDialogue[i] = null;
+        }
+
+        doorTransitionScript.revealSoundName = string.Empty;
+        doorTransitionScript.afterCharacterLeavesGraph = null;
+
+        Debug.Log("Tutorial Skipped via SkipTutorial()");
+    }
+
+
 }

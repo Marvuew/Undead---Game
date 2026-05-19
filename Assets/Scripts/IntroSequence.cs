@@ -24,13 +24,44 @@ public class IntroSequence : MonoBehaviour
     public Transform LeftPanel;
     public Transform RightPanel;
 
-   
+
+    private void Awake()
+    {
+        if (GameCanvasSingleton.instance != null)
+        {
+            Transform dialogueChild = GameCanvasSingleton.instance.transform.Find("Dialogue");
+
+            if (dialogueChild != null)
+            {
+                dialogueChild.SetParent(transform);
+            }
+            else
+            {
+                Debug.LogWarning("Could not find a child named 'Dialogue' inside STANDARD_SCENE_LAYOUT!");
+            }
+
+            Destroy(GameCanvasSingleton.instance.gameObject);
+            GameCanvasSingleton.instance = null;
+        }
+
+        if (STANDARD_SCENE_LAYOUT.instance != null)
+        {
+            Destroy(STANDARD_SCENE_LAYOUT.instance.gameObject);
+            STANDARD_SCENE_LAYOUT.instance = null;
+        }
+
+        DialogueGraphManager.instance.ClearLists();
+
+    }
+
 
     void Start()
     {
         if (undeadPrefab == null) Debug.LogWarning("undeadPrefab is null");
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
+        StartPanelAnimation();
+        AudioManager.instance.PlayMusic("IntroSong");
     }
 
     // Update is called once per frame
@@ -74,7 +105,7 @@ public class IntroSequence : MonoBehaviour
             Player.Instance.interacting = false;
 
         List<int> indices = new List<int>(); // CREATE A SHUFFLED LIST OF INDICIES
-        for (int i = 0; i < CaseManager.Instance.undeadDatabase.Count; i++) indices.Add(i);
+        for (int i = 0; i < GameManager.instance.undeadDatabase.Count; i++) indices.Add(i);
 
         for (int i = 0; i < indices.Count; i++) // FISHER YATES SHUFFLE
         {
@@ -86,7 +117,7 @@ public class IntroSequence : MonoBehaviour
 
         foreach (int idx in indices) // Instantiate for the left panel
         {
-            var undead = CaseManager.Instance.undeadDatabase[idx];
+            var undead = GameManager.instance.undeadDatabase[idx];
             GameObject go = Instantiate(undeadPrefab, LeftPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
@@ -101,7 +132,7 @@ public class IntroSequence : MonoBehaviour
 
         foreach (int idx in indices) // Instantiate for the right panel
         {
-            var undead = CaseManager.Instance.undeadDatabase[idx];
+            var undead = GameManager.instance.undeadDatabase[idx];
             GameObject go = Instantiate(undeadPrefab, RightPanel);
             go.GetComponent<Image>().sprite = undead.cardSprite;
         }
@@ -122,6 +153,9 @@ public class IntroSequence : MonoBehaviour
 
         yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
 
+        AudioManager.instance.StopMusic("IntroSong");
+        AudioManager.instance.PlaySFX("BadStuff");
+
         if (Player.Instance != null)
             Player.Instance.interacting = false;
 
@@ -129,11 +163,12 @@ public class IntroSequence : MonoBehaviour
         RightPanel.gameObject.SetActive(false);
 
         LOGO.SetActive(true);
+        skipIntroButton.gameObject.SetActive(false);
         StartCoroutine(LOGO.GetComponent<LOGO_Animation>().ScaleOverTime()); // TAKES 5 SECONDS
 
         yield return new WaitForSeconds(2f);
 
-        WorldFade.Instance.StartSceneTransitionAndToggleGameObject(SceneNames.Dhamphir_House.ToString(), 2f, Color.black, INTROUI);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 2f, Color.black);
     }
 
     public IEnumerator FadeInSkipButton()
@@ -158,6 +193,17 @@ public class IntroSequence : MonoBehaviour
         skipIntroButton.gameObject.SetActive(false);
         DialogueGraphManager.instance.EndDialogue();
 
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(HandleIntroDialogue());
+        Debug.Log("Starting Game");
+    }
+
+    public void QuiGame()
+    {
+        Application.Quit();
     }
 
 }

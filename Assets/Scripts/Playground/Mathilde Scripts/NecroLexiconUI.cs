@@ -4,22 +4,19 @@ using TMPro;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class NecroLexiconUI : MonoBehaviour
 {
     public int cluesPerPage = 4;
 
     [Header("UI Elements")]
-    public GameObject cluesPage;
-    public TMPro.TextMeshProUGUI cluesText; 
     public GameObject creaturesPage;
     public TMPro.TextMeshProUGUI creaturesText;
     public GameObject casePage;
     public GameObject bookCover;
     public GameObject pagesContainer;
     public Transform leftSideContainer;
-    [SerializeField] Transform cluesContainer;
-    [SerializeField] GameObject clueTxtPrefab;
 
     [Header("References")]
     public CreatureManager creatureManager;
@@ -29,6 +26,18 @@ public class NecroLexiconUI : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject casePanelPrefab;
+
+    [Header("Clue layout - Lasse A")]
+    public LayoutSwitcher currentClueLayout;
+    public GameObject activeCluePage;
+    public List<GameObject> cluePages = new List<GameObject>();
+    public GameObject cluePage;
+    public GameObject clueTxtPrefab;
+    public List<string> tempDescriptions = new List<string>();
+    public List<Clue> clues = new List<Clue>();
+    public GameObject nextCluePageBtn;
+    public GameObject lastCluePageBtn;
+    public GameObject cluesHeader;
 
     public static NecroLexiconUI Instance;
     private void Awake()
@@ -81,16 +90,6 @@ public class NecroLexiconUI : MonoBehaviour
         }
     }
 
-    public void OpenCluesPage()
-    {
-        OpenBook();
-        Debug.Log("Clues clicked");
-        DisableAllPages();
-        cluesPage.SetActive(true);
-        cluesText.enabled = true;
-
-        SetSelectedButton(pageButtons[0]);
-    }
     public void OpenCreaturesPage()
     {
         OpenBook();
@@ -112,10 +111,77 @@ public class NecroLexiconUI : MonoBehaviour
         SetSelectedButton(pageButtons[2]);
     }
 
+    public void OpenCluePage()
+    {
+        UpdateCluesList();
+        ToggleCluePage(cluePages[0]);
+        lastCluePageBtn.SetActive(true);
+        nextCluePageBtn.SetActive(true);
+        print("Opened first cluepage");
+    }
+
+    public void ToggleCluePage(GameObject page)
+    {
+        OpenBook();
+        DisableAllPages();
+        cluesHeader.SetActive(true);
+
+        page.SetActive(true);
+        activeCluePage = page;
+        SetSelectedButton(pageButtons[0]);
+    }
+
+    public void NextCluePage()
+    {
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        if (currentIndex + 1 < cluePages.Count)
+        {
+            ToggleCluePage(cluePages[currentIndex + 1]);
+            UpdateNavButtons();
+        }
+    }
+
+    public void LastCluePage()
+    {
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        if (currentIndex - 1 >= 0)
+        {
+            ToggleCluePage(cluePages[currentIndex - 1]);
+            UpdateNavButtons();
+        }
+    }
+
+    public void UpdateNavButtons()
+    {
+        int currentIndex = cluePages.IndexOf(activeCluePage);
+
+        bool isAnyPageActive = false;
+
+        foreach (GameObject page in cluePages)
+        {
+            if (page != null && page.activeSelf)
+            {
+                isAnyPageActive = true;
+                break; 
+            }
+        }
+
+        if (isAnyPageActive)
+        {
+            nextCluePageBtn.SetActive(currentIndex < cluePages.Count - 1);
+            lastCluePageBtn.SetActive(currentIndex > 0);
+        }
+    }
+
     private void DisableAllPages()
     {
-        cluesPage.SetActive(false);
-        cluesText.enabled = false;
+        foreach(var layout in cluePages)
+        {
+            layout.gameObject.SetActive(false);
+        }
+        cluesHeader.SetActive(false);
         creaturesPage.SetActive(false);
         creaturesText.enabled = false;
         casePage.SetActive(false);
@@ -134,8 +200,11 @@ public class NecroLexiconUI : MonoBehaviour
         else
         {
             //soundManager.PlayPageTurnSound();
-            AudioManager.instance.PlaySFX("PageTurn1");
+            AudioManager.instance.PlayPageTurnSound();
         }
+        casePage.SetActive(true);  // Set the casepage as the first page
+
+        SetSelectedButton(pageButtons[2]);
 
         bookCover.SetActive(false);
         pagesContainer.SetActive(true);
@@ -163,36 +232,82 @@ public class NecroLexiconUI : MonoBehaviour
 
         SetSelectedButton(pageButtons[3]);
     }
+
+    public GameObject CreateNewCluePage()
+    {
+        GameObject newPage = Instantiate(cluePage, pagesContainer.transform);
+
+        RectTransform rt = newPage.GetComponent<RectTransform>();
+        rt.anchoredPosition = Vector2.zero;
+        rt.localScale = Vector3.one;
+
+        cluePages.Add(newPage);
+
+        return newPage;
+    }
+
+
     public void UpdateCluesList()
     {
+        pagesContainer.SetActive(true);
+        if (cluePages.Count > 0) cluePages[0].SetActive(true);
+
         ClearClueList();
 
-        foreach (Clue _clue in CaseManager.Instance.cluesfound) // LOOP THROUGH ALL CLUES
+        foreach (Clue clue in clues)
         {
-            //Check if we actually have descriptions for this clue
-            if (CaseManager.Instance.clueDescriptions.TryGetValue(_clue, out List<string> descriptions))
+            if (!CaseManager.Instance.clueDescriptions.ContainsKey(clue))
             {
-                //Instantiate one text object per clue (or per description, depending on your UI design)
-                GameObject clueObject = Instantiate(clueTxtPrefab, cluesContainer);
-                TextMeshProUGUI textComp = clueObject.GetComponent<TextMeshProUGUI>();
-
-                //Combine the descriptions into one block of text for that clue
-                textComp.text = $"<b>{_clue.name}</b>\n"; // Add Clue Name as Header
-                foreach (var description in descriptions)
-                {
-                    textComp.text += "* " + description + "\n";
-                }
+                CaseManager.Instance.clueDescriptions.Add(clue, new List<string>(tempDescriptions));
             }
         }
-        Debug.Log("UI Clue List Refreshed");
+
+        var cluesToDisplay = (CaseManager.Instance.cluesfound.Count == 0) ? clues : CaseManager.Instance.cluesfound.ToList();
+
+        if (cluePages.Count > 0)
+        {
+            currentClueLayout = cluePages[0].GetComponent<LayoutSwitcher>();
+
+            currentClueLayout.ResetToLeftPage();
+        }
+        else
+        {
+            Debug.LogError("No CluePages found in the list! Assign the first page in the Inspector.");
+            return;
+        }
+
+        foreach (Clue _clue in cluesToDisplay)
+        {
+            Debug.Log($"Attempting to spawn clue: {_clue.name}");
+            if (CaseManager.Instance.clueDescriptions.TryGetValue(_clue, out List<string> descriptions))
+            {
+                string fullText = $"<b>{_clue.name}</b>\n";
+                foreach (var description in descriptions)
+                {
+                    fullText += "* " + description + "\n";
+                }
+
+                currentClueLayout.AddItem(clueTxtPrefab, fullText);
+            }
+        }
+
+        cluePages[0].SetActive(true);
+        Debug.Log("UI Clue List Refreshed Successfully.");
     }
 
     public void ClearClueList()
     {
-        foreach(Transform child in cluesContainer)
+        if (cluePages.Count == 0) return;
+
+        for (int i = cluePages.Count - 1; i > 0; i--)
         {
-            Destroy(child.gameObject);
+            Destroy(cluePages[i]);
+            cluePages.RemoveAt(i);
         }
+
+        LayoutSwitcher firstSwitcher = cluePages[0].GetComponent<LayoutSwitcher>();
+        foreach (Transform child in firstSwitcher.leftPageContainer) Destroy(child.gameObject);
+        foreach (Transform child in firstSwitcher.rightPageContainer) Destroy(child.gameObject);
     }
 
     public void InstantiateCaseOne()

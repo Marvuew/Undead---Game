@@ -9,25 +9,6 @@ public abstract class DialogueAction : ScriptableObject
     public abstract void DoAction();
 }
 
-[CreateAssetMenu(menuName = "Dialogue/Actions/Select Culprit Action")]
-public class SelectCulpritAction : DialogueAction
-{
-    public override void DoAction()
-    {
-        Debug.Log("Doing Selecting Culprit Action");
-        var script = FindAnyObjectByType<SelectionHandler>();
-        if (script != null)
-        {
-            script.SetupCorkBoard(CaseManager.Instance.undeadDatabase);
-        }
-        else
-        {
-            Debug.LogWarning("The Selection Handler couldnt be found in the corkboard Dialogue???");
-        }
-       
-    }
-}
-
 /*[CreateAssetMenu(menuName = "Dialogue/Actions/New Kill Action")]
 public class KillAction : DialogueAction
 {

@@ -21,11 +21,8 @@ public class CaseManager : MonoBehaviour
     [NonSerialized]
     public HashSet<Clue> cluesfound = new HashSet<Clue>();
 
-    [SerializeField]
-    public List<Undead> undeadDatabase = new List<Undead>();
-
     public List<Case> allCases = new List<Case>();
-    public List<GameObject> activeInteractables = new List<GameObject>();
+    public List<RuntimeInteractable> activeInteractables = new List<RuntimeInteractable>();
 
     [NonSerialized]
     public Dictionary<Clue, List<string>> clueDescriptions = new Dictionary<Clue, List<string>>();
@@ -33,6 +30,8 @@ public class CaseManager : MonoBehaviour
     public RuntimeDialogueGraph Level0Manifestiation;
     public RuntimeDialogueGraph Level1Manifestiation;
     public RuntimeDialogueGraph Level2Manifestiation;
+
+    public GameObject undeadInteractable;
 
     bool isResettingForNewDay;
 
@@ -51,15 +50,21 @@ public class CaseManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.Log("Duplicate CaseManager found and destroyed. Using existing data.");
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    } //Ensuring singleton pattern
+        SceneManager.sceneLoaded += Instance.OnSceneLoaded;
+    }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SetUpClues(); // Setting up clues each time a new scene is loaded
@@ -107,40 +112,14 @@ public class CaseManager : MonoBehaviour
                 script.gameObject.SetActive(false);
             }
 
-            activeInteractables.Add(newInteractable);
+            activeInteractables.Add(script);
 
         }
     }
 
-    /*public void SetUpClues(bool rightCulprit)
-    {
-        ClearActiveClues();
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        foreach (InteractableScriptableObject data in currentCase.interactables)
-        {
-            if (data.homeScene.ToString() != currentSceneName) continue; // If its not in the current scene, then we dont care about it right now, so skip it
-            if (data.interactableType != InteractableType.Culprit) continue; // if its not an interactable of type culprit, then we dont care about whether or not its the right culprit, so we can just spawn it like normal. If it is a culprit type, then we want to check if its the right culprit or not and only spawn it if its the right culprit
-            GameObject newInteractable = Instantiate(interactablePrefab, data.position, Quaternion.identity);
-            SpriteRenderer sr = newInteractable.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.sprite = data.interactableSprite;
-                sr.sortingLayerName = data.sortingLayerName; // SET THE LAYER
-                sr.sortingOrder = data.orderInLayer;         // SET THE ORDER
-                Debug.Log($"Spawning {data.name} at Order: {data.orderInLayer}");
-            }
-            RuntimeInteractable script = newInteractable.GetComponent<RuntimeInteractable>();
-            script.interactableData = data;
-            script.interactableType = data.interactableType;
-            script.dialogueGraph = data.dialogue;
-            script.interactableClue = data.clue;
-            script.gameObject.name = data.name;
-            script.gameObject.SetActive(rightCulprit); // Set active if right culprit, otherwise set to inactive. This is for confrontation scene where we only want the interactable to be active if the player chose the right culprit
-            activeInteractables.Add(newInteractable);
-        }
-    }*/
     public void InitialClueFound(Clue clueFound)
     {
+        Debug.Log("Inital Clue Found");
         if (!cluesfound.Contains(clueFound))
         {
             cluesfound.Add(clueFound);
@@ -167,7 +146,7 @@ public class CaseManager : MonoBehaviour
     public void TransitionToSelectScene()
     {
         var selectScene = FindAnyObjectByType<SelectionHandler>();
-        StartCoroutine(selectScene.SetupSelectScene(undeadDatabase));
+        StartCoroutine(selectScene.SetupSelectScene(GameManager.instance.undeadDatabase));
     }
 
     public void TemporaryAddTallyToSuspect()
@@ -178,7 +157,7 @@ public class CaseManager : MonoBehaviour
     public void LoadNextCase()
     {
         ClearActiveClues();
-        cluesfound.Clear();
+        //cluesfound.Clear();
         int currentCaseIndex = allCases.IndexOf(currentCase);
         Debug.Log(currentCaseIndex);
         Debug.Log(allCases[currentCaseIndex]);
@@ -202,6 +181,7 @@ public class CaseManager : MonoBehaviour
 
     public void AddClueDescription(Clue clue, string description)
     {
+        Debug.Log("Adding Clue Description");
         if (!clueDescriptions.ContainsKey(clue)) // IF CLUE IS NOT IN THE DICTIONARY CREATE A LIST
         {
             clueDescriptions[clue] = new List<string>();

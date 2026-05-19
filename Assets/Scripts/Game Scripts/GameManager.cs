@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
+    public List<Undead> undeadDatabase = new List<Undead>();
+
     [SerializeField] private GameObject pauseMenu;
 
-    public IntroSequence gameIntroSequence;
     public bool isConfrontationTime;
 
     private void Awake()
@@ -31,12 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
-    }
-
-    public void StartGame()
-    {
-        StartCoroutine(gameIntroSequence.HandleIntroDialogue());
+        
     }
 
     public void MainMenu()
@@ -47,11 +43,6 @@ public class GameManager : MonoBehaviour
     public void ToggleActive(GameObject target)
     {
         target.SetActive(!target.activeSelf);
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 
     public void Pause()
