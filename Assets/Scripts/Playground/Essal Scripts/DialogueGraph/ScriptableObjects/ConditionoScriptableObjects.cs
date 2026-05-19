@@ -15,15 +15,6 @@ public class ConfrontationTimeCondition : DialogueCondition
     }
 }
 
-[CreateAssetMenu(menuName = "Dialogue/Conditions/Clues Found Condition (min 3)")]
-public class CluesFoundCondition : DialogueCondition
-{
-    public override bool IsMet()
-    {
-        return CaseManager.Instance.cluesfound.Count >= 3;
-    }
-}
-
 
 /*[CreateAssetMenu(menuName = "Dialogue/Conditions/New Item Requirement")]
 public class ItemCondition : DialogueCondition
