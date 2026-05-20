@@ -341,7 +341,7 @@ public class DialogueGraphManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine); // Stop navigating
-                AudioManager.instance.PlaySFX("pickChoice");
+                AudioManager.instance.PlaySFX("pickChoice", 1f);
                 exploredChoicesLookup.Add(choice.ChoiceID);
                 ClearChoices();
                 ShowNode(choice.DestinationNodeID);
@@ -366,12 +366,12 @@ public class DialogueGraphManager : MonoBehaviour
             if (node.isMusic)
             {
                 AudioManager.instance.StopMusic(AudioManager.instance.currentSong.name);
-                AudioManager.instance.PlayMusic(node.clip.name);
+                AudioManager.instance.PlayMusic(node.clip.name, node.volume);
                 Debug.Log("Playing Music: " + node.clip.name);
             }
             else
             {
-                AudioManager.instance.PlaySFX(node.clip.name);
+                AudioManager.instance.PlaySFX(node.clip.name, node.volume);
                 Debug.Log("Playing Sound: " + node.clip.name);
             }
         }
@@ -405,7 +405,7 @@ public class DialogueGraphManager : MonoBehaviour
             // --- Typing Loop ---
             foreach (char letter in sentence.ToCharArray())
             {
-                AudioManager.instance.PlaySFX("Dialogue");
+                AudioManager.instance.PlaySFX("Dialogue", 1f);
                 DialogueText.text += letter;
 
                 float timer = 0f;
@@ -419,7 +419,7 @@ public class DialogueGraphManager : MonoBehaviour
                 if (skipTyping)
                 {
                     DialogueText.text = sentence;
-                    AudioManager.instance.PlaySFX("skipTyping");
+                    AudioManager.instance.PlaySFX("skipTyping", 1f);
                     break;
                 }
             }

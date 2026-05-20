@@ -198,7 +198,7 @@ using UnityEngine.UI;
             WorldFade.Instance.SetBlackScreen(startFadeColor);
 
         if (!string.IsNullOrWhiteSpace(startSoundName) && AudioManager.instance != null)
-            AudioManager.instance.PlaySFX(startSoundName);
+            AudioManager.instance.PlaySFX(startSoundName, 1f);
 
         if (useRandomKnocking && knockSoundNames != null && knockSoundNames.Length > 0)
             knockRoutine = StartCoroutine(RandomKnockingRoutine());
@@ -449,7 +449,7 @@ using UnityEngine.UI;
             string randomKnockSound = knockSoundNames[Random.Range(0, knockSoundNames.Length)];
 
             if (!string.IsNullOrWhiteSpace(randomKnockSound) && AudioManager.instance != null)
-                AudioManager.instance.PlaySFX(randomKnockSound);
+                AudioManager.instance.PlaySFX(randomKnockSound, 1f);
         }
     }
 

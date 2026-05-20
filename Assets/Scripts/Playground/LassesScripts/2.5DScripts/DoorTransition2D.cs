@@ -279,7 +279,7 @@ public class DoorTransition2D : MonoBehaviour
     private void PlayRevealSound()
     {
         if (!string.IsNullOrWhiteSpace(revealSoundName) && AudioManager.instance != null)
-            AudioManager.instance.PlaySFX(revealSoundName);
+            AudioManager.instance.PlaySFX(revealSoundName, 1f);
     }
 
     private IEnumerator FadeCharacter(float from, float to, float duration)
@@ -366,7 +366,7 @@ public class DoorTransition2D : MonoBehaviour
     private void PlayDoorOpenSound()
     {
         if (!string.IsNullOrWhiteSpace(doorOpenSoundName) && AudioManager.instance != null)
-            AudioManager.instance.PlaySFX(doorOpenSoundName);
+            AudioManager.instance.PlaySFX(doorOpenSoundName, 1f);
     }
 
     private void StartDoorDialogue(RuntimeDialogueGraph graph)

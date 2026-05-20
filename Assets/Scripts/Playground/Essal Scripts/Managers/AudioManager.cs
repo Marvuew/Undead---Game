@@ -75,7 +75,7 @@ public class AudioManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
             StartCoroutine(SongController());
-            PlayMusic("AmbientDay");
+            PlayMusic("AmbientDay", 1f);
         }
         else
         {
@@ -83,7 +83,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(string name)
+    public void PlayMusic(string name, float volume)
     {
         Sound s = sounds.Find(sound => sound.name == name);
 
@@ -119,7 +119,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, float volume)
     {
         Sound s = sounds.Find(sound => sound.name == name);
 
@@ -173,7 +173,7 @@ public class AudioManager : MonoBehaviour
             Sound walkSound = sounds.Find(sound => sound.name == "Walk");
 
             walkSound.source.pitch = UnityEngine.Random.Range((float)0.8, 1.2f);
-            PlaySFX(walkSound.name);
+            PlaySFX(walkSound.name, walkSound.volume);
 
             float delay = 0.35f + UnityEngine.Random.Range((float)-0.05f, 0.08f);
             yield return new WaitForSeconds(delay);
@@ -184,7 +184,7 @@ public class AudioManager : MonoBehaviour
     {
         yield return null;
         yield return new WaitUntil(() => Player.Instance.interacting == false);
-        PlaySFX("ClueFound");
+        PlaySFX("ClueFound", 1f);
     }
 
     public void PlayPageTurnSound()

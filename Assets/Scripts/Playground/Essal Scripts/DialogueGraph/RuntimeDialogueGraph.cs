@@ -155,6 +155,8 @@ public class RuntimeSoundNode : RuntimeNode
 {
     public AudioClip clip;
     public bool isMusic;
+    [Range(0f, 1f)]
+    public float volume;
     public override string Execute(DialogueGraphManager manager)
     {
         manager.HandleSoundNode(this);

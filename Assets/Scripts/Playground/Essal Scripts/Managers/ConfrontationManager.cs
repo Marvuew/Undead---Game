@@ -21,11 +21,11 @@ public class ConfrontationHandler : MonoBehaviour
         // Handle Audio
         if (rightCulprit)
         {
-            AudioManager.instance.PlaySFX("Dur");
+            AudioManager.instance.PlaySFX("Dur", 1f);
         }
         else
         {
-            AudioManager.instance.PlaySFX("Mol");
+            AudioManager.instance.PlaySFX("Mol", 1f);
         }
 
         SceneNames scene;
