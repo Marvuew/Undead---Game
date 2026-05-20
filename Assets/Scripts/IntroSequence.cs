@@ -61,7 +61,7 @@ public class IntroSequence : MonoBehaviour
         if (openingDialogue == null) Debug.LogWarning("openingDialogue is null");
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
         StartPanelAnimation();
-        AudioManager.instance.PlayMusic("IntroSong", 1f);
+        AudioManager.instance.PlayMusic("IntroSong");
     }
 
     // Update is called once per frame
@@ -154,7 +154,7 @@ public class IntroSequence : MonoBehaviour
         yield return new WaitUntil(() => !DialogueGraphManager.instance.isDialogueRunning);
 
         AudioManager.instance.StopMusic("IntroSong");
-        AudioManager.instance.PlaySFX("BadStuff", 1f);
+        AudioManager.instance.PlaySFX("BadStuff");
 
         if (Player.Instance != null)
             Player.Instance.interacting = false;

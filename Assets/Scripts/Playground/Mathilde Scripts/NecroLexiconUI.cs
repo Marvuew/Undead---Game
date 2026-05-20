@@ -195,7 +195,7 @@ public class NecroLexiconUI : MonoBehaviour
         if (bookCover.activeSelf == true)
         {
             //soundManager.PlayOpenBookSound();
-            AudioManager.instance.PlaySFX("OpenBook", 1f);
+            AudioManager.instance.PlaySFX("OpenBook");
         }
         else
         {
@@ -220,7 +220,7 @@ public class NecroLexiconUI : MonoBehaviour
     public void CloseBook()
     {
         //soundManager.PlayCloseBookSound();
-        AudioManager.instance.PlaySFX("CloseBook", 1f);    
+        AudioManager.instance.PlaySFX("CloseBook");    
         DisableAllPages();
         bookCover.SetActive(true);
         pagesContainer.SetActive(false);

@@ -36,7 +36,7 @@ public class RuntimeInteractable : MonoBehaviour
         if (interactableClue != null) CaseManager.Instance.InitialClueFound(interactableClue); // RUNS ONLY FIRST TIME YOUR INTERACTING WITH CLUE
         if (interactableData != null) DialogueGraphManager.instance.currentInteractable = interactableData;
         DialogueGraphManager.instance.StartDialogue(dialogueGraph);
-        if (interactableType == InteractableType.Human) AudioManager.instance.PlaySFX("InteractableHuman", 1f);
+        if (interactableType == InteractableType.Human) AudioManager.instance.PlaySFX("InteractableHuman");
     }
 
 }

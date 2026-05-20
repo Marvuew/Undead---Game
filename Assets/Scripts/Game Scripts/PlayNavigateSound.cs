@@ -6,7 +6,7 @@ public class PlayNavigateSound : MonoBehaviour, ISelectHandler
 {
     public void OnSelect(BaseEventData eventData)
     {
-        AudioManager.instance.PlaySFX("NavigateChoice", 1f);
+        AudioManager.instance.PlaySFX("NavigateChoice");
     }
 }
 
