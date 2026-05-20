@@ -208,6 +208,7 @@ public class NecroLexiconUI : MonoBehaviour
 
         bookCover.SetActive(false);
         pagesContainer.SetActive(true);
+        creaturesText.enabled = false;
 
         foreach (var pb in pageButtons)
         {

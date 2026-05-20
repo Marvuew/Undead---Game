@@ -203,6 +203,18 @@ MonoBehaviour:
         m_ElementColor:
           m_Color: {r: 0.20784314, g: 0.22745098, b: 0.2784314, a: 1}
           m_HasUserColor: 0
+    - rid: 6944390558753489092
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: 'Although now you ask. '
+    - rid: 6944390558753489093
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: My father used to speak of phantomlike happenings at the graveyard.
+    - rid: 6944390558753489094
+      type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: "But no I dont believe that stuff. This is just them damned kids\u2026"
     - rid: 8780719149093224450
       type: {class: GraphModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -302,9 +314,9 @@ MonoBehaviour:
         m_LastKnownBounds:
           serializedVersion: 2
           x: -1040
-          y: -1179.5
+          y: -1179
           width: 6299
-          height: 3700.5
+          height: 3700
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 9276552921216852638
@@ -1188,7 +1200,7 @@ MonoBehaviour:
           serializedVersion: 2
           Hash: 75160732b35d88bf94402ff461c9f9e3
         m_Version: 2
-        m_Position: {x: 3545.559, y: 23.534939}
+        m_Position: {x: 3540.312, y: -122.979324}
         m_Title: 
         m_Tooltip: 
         m_NodePreviewModel:
@@ -1202,6 +1214,9 @@ MonoBehaviour:
           - Sentence 0
           - __option_Mark as Read
           - Typing Speed
+          - Sentence 1
+          - Sentence 2
+          - Sentence 3
           m_ValueList:
           - rid: 8780719149093224588
           - rid: 8780719149093224595
@@ -1209,6 +1224,9 @@ MonoBehaviour:
           - rid: 8780719149093224598
           - rid: 8780719160355979467
           - rid: 8780719160355979468
+          - rid: 6944390558753489092
+          - rid: 6944390558753489093
+          - rid: 6944390558753489094
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1227,11 +1245,11 @@ MonoBehaviour:
     - rid: 8780719149093224588
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: 1
+        m_Value: 4
     - rid: 8780719149093224595
       type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: {fileID: 11400000, guid: bc8d4c7e29b613b4ab241dcb51cdc25e, type: 2}
+        m_Value: {fileID: 11400000, guid: 0694216063853074482f18b7a4aa49ea, type: 2}
     - rid: 8780719149093224596
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1246,10 +1264,7 @@ MonoBehaviour:
     - rid: 8780719149093224598
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: "Hmmm. I swear those kids are always up to something mischievous.
-          Although now you ask. My father used to speak of phantomlike happenings
-          at the graveyard. But no i dont believe that stuff. This is just them damned
-          kids\u2026"
+        m_Value: 'Hmmm. I swear those kids are always up to something mischievous. '
     - rid: 8780719149093224599
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
@@ -1314,7 +1329,7 @@ MonoBehaviour:
           m_EnumType:
             m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
               PublicKeyToken=null
-          m_Value: 2
+          m_Value: 3
         m_EnumType:
           m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
@@ -1402,7 +1417,7 @@ MonoBehaviour:
     - rid: 8780719149093224630
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: Haven you already asked me that
+        m_Value: Haven't you already asked me that
     - rid: 8780719149093224631
       type: {class: UserNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1456,7 +1471,7 @@ MonoBehaviour:
     - rid: 8780719149093224640
       type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: {fileID: 0}
+        m_Value: {fileID: 11400000, guid: bc8d4c7e29b613b4ab241dcb51cdc25e, type: 2}
     - rid: 8780719149093224641
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1464,7 +1479,7 @@ MonoBehaviour:
           m_EnumType:
             m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
               PublicKeyToken=null
-          m_Value: 2
+          m_Value: 3
         m_EnumType:
           m_Identification: Emotion, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
@@ -1886,7 +1901,7 @@ MonoBehaviour:
     - rid: 8780719149093224718
       type: {class: 'Constant`1[[DialogueSpeaker, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: {fileID: 0}
+        m_Value: {fileID: 11400000, guid: 0694216063853074482f18b7a4aa49ea, type: 2}
     - rid: 8780719149093224719
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -2975,7 +2990,7 @@ MonoBehaviour:
     - rid: 8780719160355979685
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: Doesnt help when SOME... people sleep in the graves...
+        m_Value: Doesn't help when SOME... people sleep in the graves...
     - rid: 8780719160355979686
       type: {class: DialogueNode, ns: , asm: Assembly-CSharp-Editor}
       data: 
