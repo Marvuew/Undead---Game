@@ -1209,6 +1209,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252748402646948255}
     m_Modifications:
+    - target: {fileID: 7499087134890672241, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 40.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 7499087134890672241, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -4.14
+      objectReference: {fileID: 0}
     - target: {fileID: 8151599049928379355, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1623,6 +1631,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3436490876326744092, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4989620278881551238, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1655,8 +1667,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: Compass
       objectReference: {fileID: 0}
+    - target: {fileID: 8281206395252019329, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717398128354201661, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 526253358945506647, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 8693303709953986395, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 585825598034444975, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 5494199864520004382, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 7561446350709728468, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 8414931959982916451, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 7725786444168033287, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 7630577090956700393, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 7430958525681584492, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 6058195183777237246, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+    - {fileID: 8269595956600085147, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
