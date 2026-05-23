@@ -18,6 +18,7 @@ public class ConfrontationHandler : MonoBehaviour
 
         corkBoard.SetActive(false); // DISBALE THE CORKBOARD
 
+        AudioManager.instance.StopLoopingTracks();
         // Handle Audio
         if (rightCulprit)
         {

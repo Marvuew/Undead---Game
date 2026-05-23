@@ -15,12 +15,17 @@ public class AudioManager : MonoBehaviour
 
     public List<Sound> pageTurnSounds;
 
+    [SerializeField] private List<Sound> piano;
+
     [Header("Music")]
     public List<Sound> Songs;
     public int songChangeWaitTime = 30;
 
-    [HideInInspector]
     public Sound currentSong;
+
+    private Coroutine loopingTracks;
+
+    public bool loopedTrackPlaying = false;
     private void Awake()
     {
         Debug.Log("AudioManager Awake called");
@@ -68,13 +73,26 @@ public class AudioManager : MonoBehaviour
             s.source.playOnAwake = s.PlayOnAwake;
         }
 
+
+        foreach (Sound s in piano)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.volume = s.volume;
+            s.source.loop = s.loop;
+            s.source.pitch = s.pitch;
+            s.source.playOnAwake = s.PlayOnAwake;
+
+        }
+
+        SceneManager.sceneLoaded += instance.OnSceneLoaded;
     }
 
     public void Start()
     {
         if (SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
-            StartCoroutine(SongController());
+            loopingTracks = StartCoroutine(LoopingTracks());
             PlayMusic("AmbientDay");
         }
         else
@@ -83,9 +101,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!loopedTrackPlaying)
+        {
+            StartCoroutine(LoopingTracks());
+        }
+    }
+
     public void PlayMusic(string name)
     {
         Sound s = sounds.Find(sound => sound.name == name);
+        s.source.volume = 0.2f; // Diry quick fix for píano not being too loud
 
         if (s == null)
         {
@@ -166,6 +193,11 @@ public class AudioManager : MonoBehaviour
         sounds.Add(s);
     }
 
+    public bool CheckSound(string name)
+    {
+        return sounds.Contains(sounds.Find(sound => sound.name == name));
+    }
+
     public IEnumerator WalkingLoop()
     {
         while (true)
@@ -188,8 +220,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public void PlayPageTurnSound()
-    {
-        
+    {   
         if (pageTurnSounds != null && pageTurnSounds.Count > 0)
         {
             int index = UnityEngine.Random.Range(0, pageTurnSounds.Count);
@@ -197,8 +228,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public IEnumerator SongController()
+    public IEnumerator LoopingTracks()
     {
+        loopedTrackPlaying = true;
+        Debug.Log("playing looped tracks");
         foreach(var song in Songs)
         {
             Debug.Log(song.name);
@@ -219,4 +252,37 @@ public class AudioManager : MonoBehaviour
             yield return new WaitForSeconds(randomWaitTime); // WAIT A RANDOM AMOUNT OF TIME TILL NEXT SONG
         }
     }
+
+    public void StopLoopingTracks()
+    {
+        StopCoroutine(loopingTracks);
+        foreach(var song in Songs)
+        {
+            song.source.Stop();
+            Debug.Log("Stopping: " + song.name);
+        }
+        loopedTrackPlaying = false;
+        Debug.Log("Looping Tracks Stopped");
+    }
+
+    /*public IEnumerator StopLoopingTracksForSong(string songName)
+    {
+        StopLoopingTracks();
+        StopAllPlayingSounds();
+        Debug.Log("Looping Tracks Stopped");
+        Sound s = sounds.Find(s => s.name == songName);
+        if (s == null)
+        {
+            Debug.LogWarning("Could find the piano song");
+        }
+        else
+        {
+            Debug.Log("song is " + s);
+        }
+        s.source.volume = 0.2f; // Diry quick fix for píano not being too loud
+        Debug.Log("Waiting for song to finish: " + songName);
+        yield return new WaitForSeconds();
+        loopingTracks = StartCoroutine(LoopingTracks());
+        Debug.Log("Music Started Again");
+    }*/
 }

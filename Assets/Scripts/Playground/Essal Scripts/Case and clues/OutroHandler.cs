@@ -19,6 +19,10 @@ public class OutroHandler : MonoBehaviour
     public GameObject textPrefab;
     public Button SkipEndCreditBtn;
     public GameObject EndCreditUI;
+    public void HandleOutroMusic()
+    {
+        AudioManager.instance.StopMusic("AmbientDay");
+    }
 
     public IEnumerator EndCreditsPan()
     {

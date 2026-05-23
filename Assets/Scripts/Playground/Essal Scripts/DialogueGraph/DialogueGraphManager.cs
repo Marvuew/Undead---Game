@@ -362,11 +362,15 @@ public class DialogueGraphManager : MonoBehaviour
     {
         if (node.clip != null)
         {
-            AudioManager.instance.AddSound(node.clip);
+            if (!AudioManager.instance.CheckSound(node.clip.name))
+            {
+                AudioManager.instance.AddSound(node.clip);
+            }
             if (node.isMusic)
             {
-                AudioManager.instance.StopMusic(AudioManager.instance.currentSong.name);
+                //AudioManager.instance.StopMusic(AudioManager.instance.currentSong.name);
                 AudioManager.instance.PlayMusic(node.clip.name);
+                AudioManager.instance.StopLoopingTracks();
                 Debug.Log("Playing Music: " + node.clip.name);
             }
             else
