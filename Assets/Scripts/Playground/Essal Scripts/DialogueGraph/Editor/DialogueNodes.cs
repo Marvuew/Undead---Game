@@ -369,6 +369,21 @@ public class FadeNode : Node
     }
 }
 
+[Serializable]
+public class MajorDecisionNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_MAJOR_DECISION = "Major Decision";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<string>(IN_PORT_MAJOR_DECISION).Build();
+    }
+}
+
 #endregion
 
 

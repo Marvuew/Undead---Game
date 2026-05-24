@@ -69,7 +69,7 @@ public class OutroHandler : MonoBehaviour
 
     public void SpawnMajorDecisions()
     {
-        if (GameManager.instance.MajorDecisions.Count == 0)
+        if (CaseManager.Instance.majorDecisions.Count == 0)
         {
             GameManager.instance.MajorDecisions.Add("Neurogenesis is the process by which nervous system cells, the neurons, are produced by neural stem cells (NSCs).");
             GameManager.instance.MajorDecisions.Add("This occurs in all species of animals except the porifera (sponges) and placozoans.[2]");
@@ -80,7 +80,7 @@ public class OutroHandler : MonoBehaviour
             GameManager.instance.MajorDecisions.Add("However, neurogenesis doesn't begin until a sufficient population of NSCs has been achieved.");
             GameManager.instance.MajorDecisions.Add("These early stem cells are called neuroepithelial cells (NEC)s, but soon take on a highly elongated radial morphology and are then known as radial glial cells (RGC)s.[3");
         }
-        foreach (string decision in GameManager.instance.MajorDecisions)
+        foreach (string decision in CaseManager.Instance.majorDecisions)
         {
             var text = Instantiate(textPrefab, endCreditContainer);
             text.GetComponent<TextMeshProUGUI>().text = decision;

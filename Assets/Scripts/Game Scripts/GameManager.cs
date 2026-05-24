@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public bool isConfrontationTime;
 
+    
+
     private void Awake()
     {
         if (instance != null && instance != this)

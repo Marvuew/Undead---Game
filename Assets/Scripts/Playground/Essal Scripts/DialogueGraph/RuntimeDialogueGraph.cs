@@ -175,6 +175,18 @@ public class RuntimeFadeNode : RuntimeNode
         return NextNodeID;
     }
 }
+
+[Serializable]
+public class RuntimeMajorDecisionNode : RuntimeNode
+{
+    public string decisionString;
+
+    public override string Execute(DialogueGraphManager manager)
+    {
+        manager.HandleMajorDecisionNode(this);
+        return NextNodeID;
+    }
+}
 #endregion
 
 #region Data Containers

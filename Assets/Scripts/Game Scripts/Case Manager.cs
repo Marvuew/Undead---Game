@@ -33,6 +33,8 @@ public class CaseManager : MonoBehaviour
 
     public GameObject undeadInteractable;
 
+    public List<string> majorDecisions;
+
     bool isResettingForNewDay;
 
     [Header("Temporary")]

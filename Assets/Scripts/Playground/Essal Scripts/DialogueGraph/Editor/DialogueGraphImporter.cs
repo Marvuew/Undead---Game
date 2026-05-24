@@ -143,6 +143,15 @@ public class DialogueGraphImporter : ScriptedImporter
                 runtimeNode = node;
             }
 
+            if (iNode is MajorDecisionNode majorDecisionNode)
+            {
+                var node = new RuntimeMajorDecisionNode { NodeID = nodeIDMap[iNode] };
+
+                ProcessMajorDecisionNode(majorDecisionNode, node, nodeIDMap);
+
+                runtimeNode = node;
+            }
+
             runtimeGraph.AllNodes.Add(runtimeNode); // THEN ADD IT TO THE LIST OF ALLNODES
         }
 
@@ -398,6 +407,17 @@ public class DialogueGraphImporter : ScriptedImporter
         {
             runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
         }
+    }
+
+    private void ProcessMajorDecisionNode(MajorDecisionNode node, RuntimeMajorDecisionNode runtimeNode, Dictionary<INode, string> nodeIDMap)
+    {
+        runtimeNode.decisionString = GetPortValue<string>(node.GetInputPortByName(MajorDecisionNode.IN_PORT_MAJOR_DECISION));
+        var nextNodePort = node.GetOutputPortByName(SoundNode.OUT_PORT)?.FirstConnectedPort;
+        if (nextNodePort != null)
+        {
+            runtimeNode.NextNodeID = nodeIDMap[nextNodePort.GetNode()];
+        }
+
     }
 
     // A helper method to prevent NullRefs on ports

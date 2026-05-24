@@ -289,6 +289,12 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
+    public void HandleMajorDecisionNode(RuntimeMajorDecisionNode node)
+    {
+        CaseManager.Instance.majorDecisions.Add(node.decisionString);
+        Debug.Log("Major Decison Logged from dialogue");
+    }
+
     public bool HandleConditionNode(RuntimeConditionNode node)
     {
         Debug.Log(callbacksCollected.Contains(node.callback));
