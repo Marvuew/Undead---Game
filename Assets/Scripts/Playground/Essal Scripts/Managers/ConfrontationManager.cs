@@ -22,10 +22,12 @@ public class ConfrontationHandler : MonoBehaviour
         // Handle Audio
         if (rightCulprit)
         {
+            AudioManager.instance.StopLoopingTracks();
             AudioManager.instance.PlaySFX("Dur");
         }
         else
         {
+            AudioManager.instance.StopLoopingTracks();
             AudioManager.instance.PlaySFX("Mol");
         }
 

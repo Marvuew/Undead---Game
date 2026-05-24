@@ -165,7 +165,7 @@ MonoBehaviour:
     PlayOnAwake: 0
     source: {fileID: 0}
   - name: IntroSong
-    clip: {fileID: 8300000, guid: af2ed6a171603fc47b3b3dcbc6aa8183, type: 3}
+    clip: {fileID: 8300000, guid: 8f9154a69237b3f4db380b116b532297, type: 3}
     volume: 1
     pitch: 1
     loop: 1
@@ -187,14 +187,21 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Mol
     clip: {fileID: 8300000, guid: 1d26b7d9a54ae2742ae076f83416925b, type: 3}
-    volume: 1
+    volume: 0.3
     pitch: 1
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
   - name: Dur
     clip: {fileID: 8300000, guid: 0032feb0fe781e4409eac1674b54aaaa, type: 3}
-    volume: 1
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Outro
+    clip: {fileID: 8300000, guid: baa7a3f7c3a5e37448c94039d3893e13, type: 3}
+    volume: 0.5
     pitch: 1
     loop: 0
     PlayOnAwake: 0
@@ -221,38 +228,25 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  piano: []
   Songs:
-  - name: Cold_Feet
-    clip: {fileID: 8300000, guid: 124d5114c97378b438e95bbc842c3d9f, type: 3}
-    volume: 0.2
+  - name: ClockIsTicking
+    clip: {fileID: 8300000, guid: f8b2b8633187a5f4282fba993dfd7ca4, type: 3}
+    volume: 0.5
     pitch: 1
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
-  - name: What_Gives
-    clip: {fileID: 8300000, guid: 9dbeaf65e1f3aaf428f5e611669be26b, type: 3}
-    volume: 0.2
+  - name: ColdFeet
+    clip: {fileID: 8300000, guid: a4fd815b5dbae6741bf5141c1e15722d, type: 3}
+    volume: 0.8
     pitch: 1
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
   - name: Verisimilitude
-    clip: {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: Clair
-    clip: {fileID: 8300000, guid: e739ecfdbb6aa63489f6b6d1e262c204, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    PlayOnAwake: 0
-    source: {fileID: 0}
-  - name: Nocturne
-    clip: {fileID: 8300000, guid: 38d4bd2429076764ca29b5773ae6a38f, type: 3}
-    volume: 0.2
+    clip: {fileID: 8300000, guid: 90acfa412f79baa479de565b3f05ed43, type: 3}
+    volume: 0.8
     pitch: 1
     loop: 0
     PlayOnAwake: 0
@@ -266,3 +260,4 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  loopedTrackPlaying: 0

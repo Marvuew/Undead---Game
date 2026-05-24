@@ -21,13 +21,16 @@ public class OutroHandler : MonoBehaviour
     public GameObject EndCreditUI;
     public void HandleOutroMusic()
     {
-        AudioManager.instance.StopMusic("AmbientDay");
+        AudioManager.instance.StopAllPlayingSounds();
+        AudioManager.instance.StopLoopingTracks();
+        AudioManager.instance.PlayMusic("Outro");
     }
 
     public IEnumerator EndCreditsPan()
     {
         SpawnMajorDecisions();
         StartCoroutine(FadeInSkipButton());
+        HandleOutroMusic();
         Debug.Log("Panning End Credits");
         gameObject.SetActive(true);
 

@@ -90,29 +90,26 @@ public class AudioManager : MonoBehaviour
 
     public void Start()
     {
-        if (SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
-        {
-            loopingTracks = StartCoroutine(LoopingTracks());
-            PlayMusic("AmbientDay");
-        }
-        else
-        {
-            return;
-        }
+        
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!loopedTrackPlaying)
+        if (!loopedTrackPlaying && SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
-            StartCoroutine(LoopingTracks());
+            Sound s = sounds.Find(s => s.name == "AmbientDay");
+            if (!s.source.isPlaying)
+            {
+                s.source.Play();
+            }
+            loopingTracks = StartCoroutine(LoopingTracks());
         }
     }
 
     public void PlayMusic(string name)
     {
         Sound s = sounds.Find(sound => sound.name == name);
-        s.source.volume = 0.2f; // Diry quick fix for píano not being too loud
+        s.source.volume = 0.8f; // Diry quick fix for píano not being too loud
 
         if (s == null)
         {
