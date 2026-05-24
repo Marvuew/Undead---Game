@@ -146,7 +146,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, float volume = 1f)
     {
         Sound s = sounds.Find(sound => sound.name == name);
 
@@ -156,7 +156,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        s.source.Play();
+        s.source.PlayOneShot(s.clip, volume);
     }
 
     public void StopSFX(string name)
