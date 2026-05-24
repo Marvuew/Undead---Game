@@ -18,18 +18,6 @@ public class ConfrontationHandler : MonoBehaviour
 
         corkBoard.SetActive(false); // DISBALE THE CORKBOARD
 
-        AudioManager.instance.StopLoopingTracks();
-        // Handle Audio
-        if (rightCulprit)
-        {
-            AudioManager.instance.StopLoopingTracks();
-            AudioManager.instance.PlaySFX("Dur");
-        }
-        else
-        {
-            AudioManager.instance.StopLoopingTracks();
-            AudioManager.instance.PlaySFX("Mol");
-        }
 
         SceneNames scene;
         Vector3 undeadPos;
@@ -61,6 +49,16 @@ public class ConfrontationHandler : MonoBehaviour
         // MAKE THE CLOCK TURN TO NIGHT TIME!! LASSE LUND
         yield return new WaitUntil(() => !WorldFade.Instance.isSceneTransitioning2); // Waits until the transition is done.
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene.ToString()); // Waits until the scene is actually loaded, just to be sure.
+        AudioManager.instance.StopLoopingTracks();
+        // Handle Audio
+        if (rightCulprit)
+        {
+            AudioManager.instance.PlaySFX("Dur");
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX("Mol");
+        }
         if (rightCulprit && foundClues >= 3)
         {
             undeadRuntimeInteractable.GetComponent<RuntimeInteractable>().startInteraction(); // Start the interaction of the culprit, which will trigger the manifestation and then the outro.

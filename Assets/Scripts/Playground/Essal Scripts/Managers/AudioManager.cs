@@ -97,6 +97,7 @@ public class AudioManager : MonoBehaviour
     {
         if (!loopedTrackPlaying && SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
+            StopAllPlayingSounds();
             Sound s = sounds.Find(s => s.name == "AmbientDay");
             if (!s.source.isPlaying)
             {
@@ -104,6 +105,11 @@ public class AudioManager : MonoBehaviour
             }
             loopingTracks = StartCoroutine(LoopingTracks());
         }
+    }
+
+    public Sound GetSound(string name)
+    {
+         return sounds.Find(s => s.name == name);
     }
 
     public void PlayMusic(string name)

@@ -19,18 +19,27 @@ public class OutroHandler : MonoBehaviour
     public GameObject textPrefab;
     public Button SkipEndCreditBtn;
     public GameObject EndCreditUI;
-    public void HandleOutroMusic()
+
+    bool outroMusicDone = false;
+    public IEnumerator HandleOutroMusic()
     {
         AudioManager.instance.StopAllPlayingSounds();
         AudioManager.instance.StopLoopingTracks();
         AudioManager.instance.PlayMusic("Outro");
+        yield return new WaitForSeconds(GetOutroSongLength());
+        outroMusicDone = true;
+    }
+
+    public float GetOutroSongLength()
+    {
+        return AudioManager.instance.GetSound("Outro").clip.length;
     }
 
     public IEnumerator EndCreditsPan()
     {
         SpawnMajorDecisions();
         StartCoroutine(FadeInSkipButton());
-        HandleOutroMusic();
+        StartCoroutine(HandleOutroMusic());
         Debug.Log("Panning End Credits");
         gameObject.SetActive(true);
 
@@ -50,6 +59,8 @@ public class OutroHandler : MonoBehaviour
 
         scroll.content.anchoredPosition = new Vector2(scroll.content.anchoredPosition.x, targetY);
         Debug.Log("Panning complete.");
+
+        yield return new WaitUntil(() => outroMusicDone == true);
 
         WorldFade.Instance.StartSceneTransition(SceneNames.MainMenu.ToString(), 2f, Color.white);
         yield return new WaitForSeconds(2f);
@@ -84,6 +95,8 @@ public class OutroHandler : MonoBehaviour
         float viewportHeight = scroll.viewport.rect.height;
         float targetY = contentHeight + viewportHeight;
         scroll.content.anchoredPosition = new Vector2(scroll.content.anchoredPosition.x, targetY);
+        outroMusicDone = true;
+
     }
 
     public IEnumerator FadeInSkipButton()
