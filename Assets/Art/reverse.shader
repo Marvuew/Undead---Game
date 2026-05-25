@@ -51,18 +51,30 @@ Shader "Custom/reverse"
                 v2f OUT;
                 OUT.vertex = UnityObjectToClipPos(IN.vertex);
                 OUT.texcoord = IN.texcoord;
+
+                // UI vertex color (Image color, CanvasGroup alpha)
                 OUT.color = IN.color * _Color;
+
                 return OUT;
             }
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, IN.texcoord) * IN.color;
+                fixed4 tex = tex2D(_MainTex, IN.texcoord);
 
-                col.rgb = 1.0 - col.rgb;
+                // preserve alpha separately
+                float alpha = tex.a;
 
-                return col;
+                // invert ONLY RGB
+                tex.rgb = 1.0 - tex.rgb;
+
+                // apply UI tint AFTER inversion
+                tex.rgb *= IN.color.rgb;
+                tex.a = alpha * IN.color.a;
+
+                return tex;
             }
+
             ENDCG
         }
     }
