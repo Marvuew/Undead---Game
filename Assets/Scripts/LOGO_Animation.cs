@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LOGO_Animation : MonoBehaviour
 {
@@ -7,10 +8,10 @@ public class LOGO_Animation : MonoBehaviour
     public float ratio = 100f;
     public float duration = 5f;
 
-    private void Start()
+    private void Awake()
     {
         rect = GetComponent<RectTransform>();
-        StartCoroutine(ScaleOverTime());
+        AudioManager.instance.PlaySFX("IntroHowl");
     }
     public float easeInCirc(float x)
     {
@@ -23,7 +24,7 @@ public class LOGO_Animation : MonoBehaviour
         return x * x * x * x;
     }
 
-    IEnumerator ScaleOverTime()
+    public IEnumerator ScaleOverTime()
     {
         Vector2 startTransform = rect.sizeDelta;
         Vector2 endTransform = rect.sizeDelta * ratio;
@@ -42,4 +43,6 @@ public class LOGO_Animation : MonoBehaviour
         }
         rect.sizeDelta = endTransform;
     }
+
+
 }

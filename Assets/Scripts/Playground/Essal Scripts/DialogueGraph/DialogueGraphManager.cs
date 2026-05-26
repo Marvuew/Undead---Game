@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -48,6 +49,7 @@ public class DialogueGraphManager : MonoBehaviour
     public InteractableScriptableObject currentInteractable;
 
     [Header("Choice Button UI")]
+    public GameObject ChoiceUI;
     public Button ChoiceButtonPrefab;
     public Transform ChoiceButtonContainer;
     public Color PathExplored;
@@ -73,6 +75,9 @@ public class DialogueGraphManager : MonoBehaviour
     private bool skipTyping = false;
     private bool isTyping = false;
 
+    // For pausing dialogue while fading
+    private bool isFading = false;
+
     // NodeIDs pointing to a node
     private Dictionary<string, RuntimeNode> _nodeLookup = new Dictionary<string, RuntimeNode>();
     private RuntimeNode _currentNode;
@@ -90,14 +95,19 @@ public class DialogueGraphManager : MonoBehaviour
     // For Handling TalkWillingness
     [NonSerialized]
     public HashSet<DialogueSpeaker> speakersNotWillingToTalk = new HashSet<DialogueSpeaker>();
+
+    public void ClearLists()
+    {
+        exploredChoicesLookup.Clear();
+        callbacksCollected.Clear();
+        nodesMarkedAsRead.Clear();
+        speakersNotWillingToTalk.Clear();
+    }
     #endregion
 
-    #region Input Handling (update)
 
-    public void Start()
-    {
-        gameObject.SetActive(false);
-    }
+
+    #region Input Handling (update)
     private void Update()
     {
         if (!DialoguePanel.activeSelf) return;
@@ -134,6 +144,15 @@ public class DialogueGraphManager : MonoBehaviour
     #region Node Flow Handling
     public void StartDialogue(RuntimeDialogueGraph dialogue)
     {
+        if (Player.Instance != null)
+        {
+            Player.Instance.interacting = true;
+        }
+        else
+        {
+            Debug.LogWarning("Dialogue started in a scene without the Player singleton. No need to worry this is ideal in the Main Menu");
+        }
+
         isDialogueRunning = true;
         ClearDialogue();
         _nodeLookup.Clear();
@@ -157,29 +176,45 @@ public class DialogueGraphManager : MonoBehaviour
 
     public void ShowNode(string nodeID)
     {
+        StartCoroutine(ShowNodeRoutine(nodeID));
+    }
+
+    // Change this from 'public void' to 'public IEnumerator'
+    public IEnumerator ShowNodeRoutine(string nodeID)
+    {
         while (!string.IsNullOrEmpty(nodeID))
         {
             if (!_nodeLookup.TryGetValue(nodeID, out _currentNode))
             {
                 EndDialogue();
-                return;
+                yield break;
             }
 
-            // 1. Mark as Read Check (Priority)
+            ChoiceUI.SetActive(_currentNode is RuntimeChoiceNode ? true : false); // Toggles the Choice UI based on if the current node is a choice node or not.
+
+            // 1. Mark as Read Check
             if (_currentNode is RuntimeDialogueNode readNode && nodesMarkedAsRead.Contains(readNode))
             {
                 nodeID = readNode.MarkAsReadNodeID;
                 continue;
             }
 
-            // 2. Execution
-            string nextNodeID = _currentNode.Execute(this);
+            // 2. Execution & Waiting
+            if (_currentNode is RuntimeFadeNode fadeNode)
+            {
+                // Yield return the Fade Coroutine directly to wait for it!
+                yield return StartCoroutine(FadeRoutine(fadeNode.blockSpaceDuringFade, fadeNode.duration, fadeNode.stayBlackDuration, fadeNode.color));
+                nodeID = fadeNode.NextNodeID;
+            }
+            else
+            {
+                string nextNodeID = _currentNode.Execute(this);
 
-            // 3. Stop loop if we hit Dialogue (UI will take over)
-            if (_currentNode is RuntimeDialogueNode) return;
+                // 3. Stop loop if we hit Dialogue (UI handles the rest via Update)
+                if (_currentNode is RuntimeDialogueNode) yield break;
 
-            // 4. Continue loop for logic nodes
-            nodeID = nextNodeID;
+                nodeID = nextNodeID;
+            }
         }
     }
 
@@ -219,7 +254,7 @@ public class DialogueGraphManager : MonoBehaviour
         Player.Instance.ChangeUndead(node.UndeadChange);
     }
 
-    public void HandleActionNode(RuntimeActionNode node) // OBSOLETE
+    public void HandleActionNode(RuntimeActionNode node) // Calls the DoAction method implemented on the SO
     {
         node.Action.DoAction();
     }
@@ -254,6 +289,12 @@ public class DialogueGraphManager : MonoBehaviour
         }
     }
 
+    public void HandleMajorDecisionNode(RuntimeMajorDecisionNode node)
+    {
+        CaseManager.Instance.majorDecisions.Add(node.decisionString);
+        Debug.Log("Major Decison Logged from dialogue");
+    }
+
     public bool HandleConditionNode(RuntimeConditionNode node)
     {
         Debug.Log(callbacksCollected.Contains(node.callback));
@@ -275,6 +316,9 @@ public class DialogueGraphManager : MonoBehaviour
 
             ConditionOptions.CALLBACK =>
                 node.callback == null || callbacksCollected.Contains(node.callback),
+
+            ConditionOptions.CUSTOM =>
+                node.customCondition == null || node.customCondition.IsMet(),
 
             _ => true
         };
@@ -303,7 +347,7 @@ public class DialogueGraphManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine); // Stop navigating
-                AudioManager.instance.PlaySFX("pickChoice");
+                AudioManager.instance.PlaySFX("pickChoice", 0.5f);
                 exploredChoicesLookup.Add(choice.ChoiceID);
                 ClearChoices();
                 ShowNode(choice.DestinationNodeID);
@@ -318,6 +362,39 @@ public class DialogueGraphManager : MonoBehaviour
             if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine);
             _navigationCoroutine = StartCoroutine(SelectFirst(choiceButtons));
         }
+    }
+
+    public void HandleSoundNode(RuntimeSoundNode node)
+    {
+        if (node.clip != null)
+        {
+            if (!AudioManager.instance.CheckSound(node.clip.name))
+            {
+                AudioManager.instance.AddSound(node.clip);
+            }
+            if (node.isMusic)
+            {
+                //AudioManager.instance.StopMusic(AudioManager.instance.currentSong.name);
+                AudioManager.instance.PlayMusic(node.clip.name);
+                AudioManager.instance.StopLoopingTracks();
+                Debug.Log("Playing Music: " + node.clip.name);
+            }
+            else
+            {
+                AudioManager.instance.PlaySFX(node.clip.name);
+                Debug.Log("Playing Sound: " + node.clip.name);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Sound node has no clip assigned!");
+        }               
+    }
+
+    public void HandleFadeNode(RuntimeFadeNode node)
+    {
+        StartCoroutine(FadeRoutine(node.blockSpaceDuringFade, node.duration, node.stayBlackDuration, node.color));
+        Debug.Log("Fading in a dialogue");
     }
 
     #endregion
@@ -338,7 +415,7 @@ public class DialogueGraphManager : MonoBehaviour
             // --- Typing Loop ---
             foreach (char letter in sentence.ToCharArray())
             {
-                AudioManager.instance.PlaySFX("Dialogue");
+                AudioManager.instance.PlaySFX("Dialogue", 0.8f);
                 DialogueText.text += letter;
 
                 float timer = 0f;
@@ -352,7 +429,7 @@ public class DialogueGraphManager : MonoBehaviour
                 if (skipTyping)
                 {
                     DialogueText.text = sentence;
-                    AudioManager.instance.PlaySFX("skipTyping");
+                    AudioManager.instance.PlaySFX("skipTyping", 0.5f);
                     break;
                 }
             }
@@ -529,12 +606,28 @@ public class DialogueGraphManager : MonoBehaviour
 
     void HandleSpeakerData(RuntimeDialogueNode node)
     {
+        SpeakerSprite.sprite = null;
+        SpeakerSprite.enabled = false;
+
         if (node.Speaker == null)
         {
-            SpeakerSprite.enabled = currentInteractable != null;
-            SpeakerNameText.text = currentInteractable != null ? currentInteractable.name : "???";
-            if (currentInteractable != null) SpeakerSprite.sprite = currentInteractable.interactableSprite;
-            SpeakerSprite.preserveAspect = true;
+            SpeakerNameText.text = currentInteractable != null
+                ? currentInteractable.name
+                : "???";
+
+            if (currentInteractable != null)
+            {
+                SpeakerSprite.enabled = true;
+                SpeakerSprite.sprite = currentInteractable.interactableSprite;
+                SpeakerSprite.preserveAspect = true;
+            }
+            else
+            {
+                SpeakerSprite.sprite = null;
+                SpeakerSprite.enabled = false;
+            }
+
+            return;
         }
         else
         {
@@ -557,49 +650,44 @@ public class DialogueGraphManager : MonoBehaviour
     // Set the Sprite in relation to the given emotion.
     void HandleEmotion(Emotion emotion, RuntimeDialogueNode node)
     {
-        switch (emotion)
+        Sprite spriteToUse = null;
+
+        if (node.Speaker != null)
         {
-            case Emotion.ANGRY:
-                if (node.Speaker.Angry == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Angry;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.HAPPY:
-                if (node.Speaker.Happy == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Happy;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.CONTENT:
-                if (node.Speaker.Content == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Content;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            case Emotion.SAD:
-                if (node.Speaker.Sad == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Sad;
-                SpeakerSprite.preserveAspect = true;
-                break;
-            default:
-                Debug.LogWarning("Setting speaker to content!");
-                if (node.Speaker.Content == null)
-                {
-                    SpeakerSprite.sprite = currentInteractable.interactableSprite;
-                }
-                else SpeakerSprite.sprite = node.Speaker.Content;
-                break;
+            switch (emotion)
+            {
+                case Emotion.ANGRY:
+                    spriteToUse = node.Speaker.Angry;
+                    break;
+
+                case Emotion.HAPPY:
+                    spriteToUse = node.Speaker.Happy;
+                    break;
+
+                case Emotion.CONTENT:
+                    spriteToUse = node.Speaker.Content;
+                    break;
+
+                case Emotion.SAD:
+                    spriteToUse = node.Speaker.Sad;
+                    break;
+
+                default:
+                    spriteToUse = node.Speaker.Content;
+                    break;
+            }
         }
+
+        // fallback ONLY if no speaker sprite exists
+        if (spriteToUse == null && currentInteractable != null)
+        {
+            spriteToUse = currentInteractable.interactableSprite;
+        }
+
+        // FINAL APPLY — ONLY PLACE THAT TOUCHES UI
+        SpeakerSprite.sprite = spriteToUse;
+        SpeakerSprite.enabled = spriteToUse != null;
+        SpeakerSprite.preserveAspect = true;
     }
 
     // Set the typingspeed in relation to the given typingspeed.
@@ -649,6 +737,28 @@ public class DialogueGraphManager : MonoBehaviour
         skipTyping = false;
         isTyping = false;
         ClearChoices();
+    }
+
+    private IEnumerator FadeRoutine(bool blockSpaceDuringFade, float duration, float stayBlackDuration, Color color)
+    {
+        if (blockSpaceDuringFade)
+            DialogueInputBlocker.BlockSpaceAdvance = true;
+
+        WorldFade.Instance.StartScreenFade(
+            duration,
+            stayBlackDuration,
+            color
+        );
+
+        float totalFadeTime =
+            duration +
+            stayBlackDuration +
+            duration;
+
+        yield return new WaitForSeconds(totalFadeTime);
+
+        if (blockSpaceDuringFade)
+            DialogueInputBlocker.BlockSpaceAdvance = false;
     }
 }
 

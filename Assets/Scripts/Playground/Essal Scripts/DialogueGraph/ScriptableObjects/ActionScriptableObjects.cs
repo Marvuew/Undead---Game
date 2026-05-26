@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
+using System.Collections;
 
 public abstract class DialogueAction : ScriptableObject
 {
     public abstract void DoAction();
 }
 
-[CreateAssetMenu(menuName = "Dialogue/Actions/New Kill Action")]
+/*[CreateAssetMenu(menuName = "Dialogue/Actions/New Kill Action")]
 public class KillAction : DialogueAction
 {
     public override void DoAction()
@@ -34,7 +36,7 @@ public class GiveItemAction : DialogueAction
     {
         InventoryManager.Instance.Items.Remove(item);
     }
-}
+}*/
 
 /*[CreateAssetMenu(menuName = "Dialogue/Actions/New Will Remember That Action")]
 public class CallbackAction : DialogueAction

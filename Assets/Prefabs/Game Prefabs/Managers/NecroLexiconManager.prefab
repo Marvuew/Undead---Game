@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1487921570360484732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1057619494526552754}
+  - component: {fileID: 255885816009684037}
+  m_Layer: 0
+  m_Name: NecroLexiconManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1057619494526552754
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487921570360484732}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &255885816009684037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487921570360484732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad4a05ba38ecf843b9962ffde80ab6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NecroLexiconUI
+  cluesPerPage: 4
+  creaturesPage: {fileID: 0}
+  creaturesText: {fileID: 0}
+  casePage: {fileID: 0}
+  bookCover: {fileID: 0}
+  pagesContainer: {fileID: 0}
+  leftSideContainer: {fileID: 0}
+  creatureManager: {fileID: 0}
+  casePageScript: {fileID: 3202469963305023806, guid: 3c61cfcc0fdbf0e4db5bbf926b05b9f7, type: 3}
+  caseData: {fileID: 11400000, guid: 3b3498b6b6696204d827086fa2ef9edc, type: 2}
+  caseManager: {fileID: 0}
+  casePanelPrefab: {fileID: 779980302050722405, guid: 3c61cfcc0fdbf0e4db5bbf926b05b9f7, type: 3}
+  currentClueLayout: {fileID: 0}
+  activeCluePage: {fileID: 0}
+  cluePages:
+  - {fileID: 0}
+  cluePage: {fileID: 1514921406609124485, guid: 17249ef45e5718846b6eadbb8577ff20, type: 3}
+  clueTxtPrefab: {fileID: 4456267835944391329, guid: 99205014a41f1d341b7afd9d5950047e, type: 3}
+  tempDescriptions:
+  - A piano is a keyboard instrument that produces sound when its keys are pressed,
+  - "activating an action mechanism where hammers strike strings. Modern pianos have
+    a row of 88 black and white keys\u2014"
+  - "with the exception of the Bosend\xF6rfer and Stuart & Sons pianos"
+  - 'There are two main types of piano: the grand piano and the upright piano.'
+  clues:
+  - {fileID: 11400000, guid: e3b4ce5b9e0737742abff04711b90811, type: 2}
+  - {fileID: 11400000, guid: b6d1751004c38e14b8a00a140b43498e, type: 2}
+  - {fileID: 11400000, guid: 4626b601bdf3bff488312a557499e99a, type: 2}
+  - {fileID: 11400000, guid: 24fe038a4c54ffb4c8419afe5934cd44, type: 2}
+  - {fileID: 11400000, guid: 423f215d49243d14d95847bbea8b066c, type: 2}
+  - {fileID: 11400000, guid: b5c4265df21d3b043af44d89359a190a, type: 2}
+  nextCluePageBtn: {fileID: 0}
+  lastCluePageBtn: {fileID: 0}
+  cluesHeader: {fileID: 0}
+  pageButtons:
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 50}
+    openPos: {x: 635.5999, y: 36}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 115}
+    openPos: {x: 635.5999, y: 108.1563}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: 178}
+    openPos: {x: 635.5999, y: 179.4737}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}
+  - button: {fileID: 0}
+    closedPos: {x: 260, y: -154}
+    openPos: {x: 635.5999, y: -290}
+    uiButton: {fileID: 0}
+    image: {fileID: 0}

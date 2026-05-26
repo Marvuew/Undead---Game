@@ -284,6 +284,7 @@ public class ConditionNode : Node
     public static readonly string IN_PORT_CLUE_CONDITION = "Clue";
     public static readonly string IN_PORT_CALLBACK_CONDITION = "Callback";
     public static readonly string IN_PORT_IS_WILLING_TO_TALK_CONDITION = "Talk Willingness Target";
+    public static readonly string IN_PORT_CUSTOM_CONDITON = "Custom SO Condition";
 
     protected override void OnDefineOptions(IOptionDefinitionContext context)
     {
@@ -316,6 +317,10 @@ public class ConditionNode : Node
             {
                 context.AddInputPort<Callback>(IN_PORT_CALLBACK_CONDITION).Build();
             }
+            else if (option == ConditionOptions.CUSTOM)
+            {
+                context.AddInputPort<DialogueCondition>(IN_PORT_CUSTOM_CONDITON).Build();
+            }
         }
     }
 
@@ -327,6 +332,57 @@ public class ConditionNode : Node
 
 }
 
+[Serializable]
+public class SoundNode : Node
+{
+
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_AUDIOCLIP = "Audio Clip";
+    public static readonly string IN_PORT_ISMUSIC = "Is Music";
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<AudioClip>(IN_PORT_AUDIOCLIP).Build();
+        context.AddInputPort<bool>(IN_PORT_ISMUSIC).Build();
+    }
+}
+
+[Serializable]
+public class FadeNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_DURATION = "Duration";
+    public static readonly string IN_PORT_COLOR = "Color";
+    public static readonly string IN_PORT_STAYBLACKDURATION = "Stay Black Duration";
+    public static readonly string IN_PORT_BLOCKSPACE = "Block Space During Fade";
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<float>(IN_PORT_STAYBLACKDURATION).WithDefaultValue(1).Build();
+        context.AddInputPort<float>(IN_PORT_DURATION).WithDefaultValue(1).Build();
+        context.AddInputPort<Color>(IN_PORT_COLOR).WithDefaultValue(Color.black).Build();
+        context.AddInputPort<bool>(IN_PORT_BLOCKSPACE).Build();
+    }
+}
+
+[Serializable]
+public class MajorDecisionNode : Node
+{
+    public static readonly string IN_PORT = "in";
+    public static readonly string OUT_PORT = "out";
+    public static readonly string IN_PORT_MAJOR_DECISION = "Major Decision";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddInputPort(IN_PORT).Build();
+        context.AddOutputPort(OUT_PORT).Build();
+        context.AddInputPort<string>(IN_PORT_MAJOR_DECISION).Build();
+    }
+}
 
 #endregion
 

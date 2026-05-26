@@ -9,7 +9,9 @@ public class DoorTransition2D : MonoBehaviour
 {
     [Header("Scene")]
     public SceneNames sceneName;
-    public SceneNames sceneID;
+
+    [Header("Spawn")]
+    public SpawnPointID spawnPointID = SpawnPointID.None;
 
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
@@ -21,7 +23,7 @@ public class DoorTransition2D : MonoBehaviour
 
     [Header("Character Event Before Transition")]
     public bool useCharacterEventBeforeTransition = false;
-    public bool skipCharacterEventIfIntroWasSkipped = true;
+    public bool skipCharacterEventIfIntroWasSkipped = false;
     public GameObject characterObject;
     public RuntimeDialogueGraph characterDialogueGraph;
     public float characterRevealDelay = 0.5f;
@@ -57,6 +59,9 @@ public class DoorTransition2D : MonoBehaviour
     public Vector2 promptOffset = new Vector2(0, -40);
     public int fontSize = 24;
 
+    [Header("If Confrontation Time - ADDED BY LASSE A")]
+    public RuntimeDialogueGraph confrontationTimeDoorDialogue;
+
     private bool playerInRange = false;
     private bool isTransitioning = false;
 
@@ -82,6 +87,17 @@ public class DoorTransition2D : MonoBehaviour
         {
             SetCharacterAlpha(0f);
             characterObject.SetActive(false);
+        }
+
+        if (HouseIntroController.SkipHouseIntroThisSceneLoad)
+        {
+            characterEventFinished = true;
+
+            if (characterObject != null)
+            {
+                SetCharacterAlpha(0f);
+                characterObject.SetActive(false);
+            }
         }
 
         if (hideRevealObjectsAtStart)
@@ -112,6 +128,11 @@ public class DoorTransition2D : MonoBehaviour
             if (DialogueGraphManager.instance == null || !DialogueGraphManager.instance.isDialogueRunning)
             {
                 waitingForAfterCharacterDialogue = false;
+
+                if (Player.Instance != null)
+                    Player.Instance.interacting = false;
+
+                Debug.Log("After-character dialogue finished. Player must interact with the door again to leave.");
             }
 
             return;
@@ -127,6 +148,11 @@ public class DoorTransition2D : MonoBehaviour
     {
         if (DialogueGraphManager.instance != null && DialogueGraphManager.instance.isDialogueRunning)
             return;
+        if (GameManager.instance.isConfrontationTime)
+        {
+            StartDoorDialogue(confrontationTimeDoorDialogue);
+            return;
+        }
 
         if (requiresNecrolexicon && !GameProgressState.HasNecrolexicon)
         {
@@ -146,6 +172,9 @@ public class DoorTransition2D : MonoBehaviour
     private bool ShouldRunCharacterEvent()
     {
         if (!useCharacterEventBeforeTransition)
+            return false;
+
+        if (HouseIntroController.SkipHouseIntroThisSceneLoad)
             return false;
 
         if (skipCharacterEventIfIntroWasSkipped && GameProgressState.ForceSkippedHouseIntro)
@@ -212,6 +241,13 @@ public class DoorTransition2D : MonoBehaviour
             StartDoorDialogue(afterCharacterLeavesGraph);
             waitingForAfterCharacterDialogue = true;
         }
+        else
+        {
+            if (Player.Instance != null)
+                Player.Instance.interacting = false;
+
+            Debug.Log("Character event finished. Player must interact with the door again to leave.");
+        }
 
         characterHideInProgress = false;
     }
@@ -249,7 +285,6 @@ public class DoorTransition2D : MonoBehaviour
     private IEnumerator FadeCharacter(float from, float to, float duration)
     {
         duration = Mathf.Max(0.01f, duration);
-
         float timer = 0f;
 
         while (timer < duration)
@@ -313,6 +348,7 @@ public class DoorTransition2D : MonoBehaviour
 
         TransitionState2D.SetTransition(
             sceneName.ToString(),
+            spawnPointID,
             autoWalkDirection,
             autoWalkDistance
         );

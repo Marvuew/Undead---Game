@@ -6,7 +6,17 @@ public abstract class DialogueCondition : ScriptableObject
     public abstract bool IsMet();
 }
 
-[CreateAssetMenu(menuName = "Dialogue/Conditions/New Item Requirement")]
+[CreateAssetMenu(menuName = "Dialogue/Conditions/New ConfrontationTime Condition")]
+public class ConfrontationTimeCondition : DialogueCondition
+{
+    public override bool IsMet()
+    {
+        return GameManager.instance.isConfrontationTime;
+    }
+}
+
+
+/*[CreateAssetMenu(menuName = "Dialogue/Conditions/New Item Requirement")]
 public class ItemCondition : DialogueCondition
 {
     public Item RequiredItem;

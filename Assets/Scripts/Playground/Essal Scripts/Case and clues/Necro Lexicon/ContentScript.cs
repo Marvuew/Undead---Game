@@ -19,7 +19,7 @@ public class ContentScript : MonoBehaviour
 
         undeadImage.sprite = suspect.undeadSprite;
         undeadName.text = suspect.name;
-        undeadHabitat.text = suspect.habitat;
+        //undeadHabitat.text = suspect.habitat;
         undeadDescription.text = suspect.description;
     }
 

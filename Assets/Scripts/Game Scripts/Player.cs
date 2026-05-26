@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
 
 namespace Assets.Scripts.GameScripts
 {
@@ -11,18 +8,27 @@ namespace Assets.Scripts.GameScripts
     {
         public int humanity = 50;
         public int undead = 50;
+        [SerializeField] Animator animator;
 
-        List<string> inventory;
+        private List<string> inventory;
         public RuntimeInteractable currentInteractable;
+        public SimpleInteractable currentSimpleInteractable;
 
-        private Vector2 moveInput;
+        [SerializeField] Vector2 moveInput;
         public bool interacting;
-        [SerializeField] float speed;
-        [SerializeField] SpriteRenderer sprite;
+
+        [SerializeField] private float speed;
+        [SerializeField] private SpriteRenderer sprite;
+
         private Rigidbody2D rb;
 
+        private Vector3 lastPosition;
+        private bool internalMovement;
+
         public static Player Instance { get; private set; }
+
         private Player() { }
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -30,31 +36,104 @@ namespace Assets.Scripts.GameScripts
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
+
             DontDestroyOnLoad(gameObject);
+
             rb = GetComponent<Rigidbody2D>();
         }
-        void FixedUpdate()
-        {
-            if (interacting) return;
-            rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
-            if (moveInput.x != 0)
-                sprite.flipX = moveInput.x < 0;
-        }
-        public void ChangeHumanity(int change) { humanity += change; }
-        public void ChangeUndead(int change) { undead += change; }
 
-        public void OnMove(InputAction.CallbackContext input) 
+        private void Start()
         {
-            moveInput = input.ReadValue<Vector2>(); 
+            lastPosition = transform.position;
         }
-        public void OnInteract(InputAction.CallbackContext input) 
-        { 
-            if(input.performed && currentInteractable != null) 
-            { 
+
+        private void FixedUpdate()
+        {
+            internalMovement = true;
+
+            if (!interacting && rb != null)
+            {
+                rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+            }
+            internalMovement = false;            
+        }
+
+        public void ChangeHumanity(int change)
+        {
+            humanity += change;
+        }
+
+        public void ChangeUndead(int change)
+        {
+            undead += change;
+        }
+
+        public void OnMove(InputAction.CallbackContext input)
+        {
+            moveInput = input.ReadValue<Vector2>();
+            AnimatePlayer(moveInput);
+        }
+
+        public void OnInteract(InputAction.CallbackContext input)
+        {
+            if (input.performed && currentInteractable != null)
+            {
                 currentInteractable.startInteraction();
                 interacting = true;
             }
+            else if (input.performed && currentSimpleInteractable != null)
+            {
+                currentSimpleInteractable.startInteraction();
+                interacting = true;
+            }
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            internalMovement = true;
+
+            transform.position = position;
+
+            if (rb != null)
+            {
+                rb.position = position;
+                rb.linearVelocity = Vector2.zero;
+            }
+
+            internalMovement = false;
+
+            lastPosition = transform.position;
+        }
+
+        public void StopMovement()
+        {
+            moveInput = Vector2.zero;
+
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+
+        public void MovePlayerToSpawnPoint()
+        {
+            if (TransitionState2D.HasTransition)
+                return;
+
+            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
+
+            if (spawnPoint == null)
+                return;
+
+            SetPosition(spawnPoint.transform.position);
+        }
+        private void AnimatePlayer(Vector2 movement)
+        {
+            animator.SetFloat("x",movement.x);
+            animator.SetFloat("y", movement.y);
+            animator.SetBool("isWalking", (movement != Vector2.zero));
+            if (sprite != null && moveInput.x != 0 && movement.y == 0)
+                sprite.flipX = moveInput.x < 0;
         }
     }
 }

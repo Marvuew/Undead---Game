@@ -1,3 +1,4 @@
+using Assets.Scripts.GameScripts;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class WorldFade : MonoBehaviour
 {
     private static WorldFade instance;
+
     public static WorldFade Instance
     {
         get
@@ -12,12 +14,14 @@ public class WorldFade : MonoBehaviour
             if (instance == null)
             {
                 instance = FindObjectOfType<WorldFade>();
+
                 if (instance == null)
                 {
                     GameObject fadeObject = new GameObject("WorldFade");
                     instance = fadeObject.AddComponent<WorldFade>();
                 }
             }
+
             return instance;
         }
     }
@@ -27,10 +31,13 @@ public class WorldFade : MonoBehaviour
     public Color defaultFadeColor = Color.black;
 
     private static Texture2D fadeTexture;
+
     private float fadeAlpha = 0f;
-    private bool isFading = false;
+    public bool isFading = false;
     private bool isSceneTransitioning = false;
     private Color currentFadeColor = Color.black;
+
+    public bool isSceneTransitioning2 = false;
 
     private void Awake()
     {
@@ -54,17 +61,75 @@ public class WorldFade : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void StartSceneTransition(string sceneName, float duration, Color color, Vector3 spawnPos) // For when you want to specify a spawn position for the player in the new scene. Make sure to set the position variable of the interactable scriptable object of the spawn point in the new scene to the same position as the spawnPos variable you pass in this function.
+    {
+        isSceneTransitioning2 = true;
+        StartCoroutine(FadeSceneTransition(sceneName, duration, color, spawnPos));
+    }
+
     public void StartSceneTransition(string sceneName, float duration, Color color)
     {
+        isSceneTransitioning2 = true;
         StartCoroutine(FadeSceneTransition(sceneName, duration, color));
+    }
+
+    public void StartSceneTransitionAndToggleGameObject(string sceneName, float duration, Color color, GameObject gameObject)
+    {
+        isSceneTransitioning2 = true;
+        StartCoroutine(FadeSceneTransitionAndToggleGameObject(sceneName, duration, color, gameObject));
+    }
+
+    public IEnumerator FadeSceneTransitionAndToggleGameObject(string sceneName, float duration, Color color, GameObject gameObject)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        SceneManager.LoadScene(sceneName);
+
+        while (SceneManager.GetActiveScene().name != sceneName) // wait until it has changed, then fade back.
+        {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+
+
+        yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        yield return new WaitForSeconds(duration);
+        isSceneTransitioning2 = false;
     }
 
     public void StartSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
+        Debug.Log("Starting Scene Transition and Stay Black...");
         StartCoroutine(FadeSceneTransitionAndStayBlack(sceneName, duration, color));
     }
 
     private IEnumerator FadeSceneTransition(string sceneName, float duration, Color color)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, duration, color));
+
+        SceneManager.LoadScene(sceneName);
+
+        //while (isSceneTransitioning)
+            //yield return null;
+        while (SceneManager.GetActiveScene().name != sceneName) // wait until it has changed, then fade back.
+        {
+            yield return null;
+        }
+
+
+        yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        yield return new WaitForSeconds(duration);
+        isSceneTransitioning2 = false;
+    }
+
+    private IEnumerator FadeSceneTransition(string sceneName, float duration, Color color, Vector3 spawnPos)  // For when you want to specify a spawn position for the player in the new scene. Make sure to set the position variable of the interactable scriptable object of the spawn point in the new scene to the same position as the spawnPos variable you pass in this function.
     {
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
 
@@ -73,12 +138,15 @@ public class WorldFade : MonoBehaviour
 
         while (isSceneTransitioning)
             yield return null;
-
+        Player.Instance.transform.position = spawnPos;
         yield return StartCoroutine(Fade(1f, 0f, duration, color));
+        isSceneTransitioning2 = false;
     }
 
     private IEnumerator FadeSceneTransitionAndStayBlack(string sceneName, float duration, Color color)
     {
+        isSceneTransitioning2 = true;
+
         yield return StartCoroutine(Fade(0f, 1f, duration, color));
 
         isSceneTransitioning = true;
@@ -90,6 +158,7 @@ public class WorldFade : MonoBehaviour
         currentFadeColor = color;
         fadeAlpha = 1f;
         isFading = false;
+        isSceneTransitioning2 = false;
     }
 
     private IEnumerator Fade(float from, float to, float duration, Color color)
@@ -98,7 +167,10 @@ public class WorldFade : MonoBehaviour
         currentFadeColor = color;
         fadeAlpha = from;
 
+        duration = Mathf.Max(0.01f, duration);
+
         float timer = 0f;
+
         while (timer < duration)
         {
             timer += Time.deltaTime;
@@ -112,15 +184,14 @@ public class WorldFade : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!isSceneTransitioning) return;
         isSceneTransitioning = false;
-
-        CaseManager.Instance.SetUpNewDayEnviroment();
+        CaseManager.Instance.SetUpClues(); // SetupClues Again.
     }
 
     private void OnGUI()
     {
-        if (!isFading && fadeAlpha <= 0f) return;
+        if (!isFading && fadeAlpha <= 0f)
+            return;
 
         Color oldColor = GUI.color;
         GUI.color = new Color(currentFadeColor.r, currentFadeColor.g, currentFadeColor.b, fadeAlpha);
@@ -145,21 +216,30 @@ public class WorldFade : MonoBehaviour
         StartCoroutine(ScreenFadeRoutine(fadeDuration, stayBlackDuration, fadeColor));
     }
 
+    public void StartScreenFadeWithToggleGameObject(float fadeDuration, float stayBlackDuration, Color fadeColor, GameObject toggleGameObject)
+    {
+        StartCoroutine(ScreenFadeRoutineWithToggleGameObject(fadeDuration, stayBlackDuration, fadeColor, toggleGameObject));
+    }
+
+    private IEnumerator ScreenFadeRoutineWithToggleGameObject(float fadeDuration, float stayBlackDuration, Color fadeColor, GameObject toggleGameObject)
+    {
+        yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
+        yield return new WaitForSeconds(stayBlackDuration);
+        toggleGameObject.SetActive(true);
+        yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
+    }
+
     private IEnumerator ScreenFadeRoutine(float fadeDuration, float stayBlackDuration, Color fadeColor)
     {
         yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
-
         yield return new WaitForSeconds(stayBlackDuration);
-
         yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
     }
 
     public IEnumerator FadeToBlackAndBack(float fadeDuration, float stayBlackDuration, Color fadeColor)
     {
         yield return StartCoroutine(Fade(0f, 1f, fadeDuration, fadeColor));
-
         yield return new WaitForSeconds(stayBlackDuration);
-
         yield return StartCoroutine(Fade(1f, 0f, fadeDuration, fadeColor));
     }
 }

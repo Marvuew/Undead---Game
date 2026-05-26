@@ -17,7 +17,7 @@ public class HouseSpawnManager : MonoBehaviour
         {
             if (spawnPoint.spawnPointId == GameProgressState.ReturnSpawnPointId)
             {
-                player.transform.position = spawnPoint.transform.position;
+                // player.transform.position = spawnPoint.transform.position;
                 return;
             }
         }

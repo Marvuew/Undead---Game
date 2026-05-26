@@ -8,6 +8,12 @@ public class InteractableScriptableObject : ScriptableObject
     public InteractableType interactableType;
     public RuntimeDialogueGraph dialogue;
     public Clue clue;
+    public bool activateOnStart = true;
+
+    [Header("Compass")]
+    public bool showOnCompass = false;
+    public string compassDisplayName = "Interactable";
+    public Sprite minimapSprite;
 
     [Header("Set By Baker Script - DONT TOUCH")]
     public Vector3 position;
@@ -18,6 +24,7 @@ public class InteractableScriptableObject : ScriptableObject
     public void RecordPosition(Vector3 newPos)
     {
         position = newPos;
+
     #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
     #endif

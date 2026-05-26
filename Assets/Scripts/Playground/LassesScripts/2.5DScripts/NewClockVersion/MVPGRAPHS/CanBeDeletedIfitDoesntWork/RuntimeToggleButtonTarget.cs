@@ -43,4 +43,12 @@ public class RuntimeToggleButtonTarget : MonoBehaviour
 
         target.SetActive(!target.activeSelf);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleTarget();
+        }
+    }
 }

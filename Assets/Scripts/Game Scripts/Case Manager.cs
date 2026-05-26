@@ -21,14 +21,19 @@ public class CaseManager : MonoBehaviour
     [NonSerialized]
     public HashSet<Clue> cluesfound = new HashSet<Clue>();
 
-    [SerializeField]
-    public List<Undead> undeadDatabase = new List<Undead>();
-
     public List<Case> allCases = new List<Case>();
-    private List<GameObject> activeInteractables = new List<GameObject>();
+    public List<RuntimeInteractable> activeInteractables = new List<RuntimeInteractable>();
 
     [NonSerialized]
     public Dictionary<Clue, List<string>> clueDescriptions = new Dictionary<Clue, List<string>>();
+
+    public RuntimeDialogueGraph Level0Manifestiation;
+    public RuntimeDialogueGraph Level1Manifestiation;
+    public RuntimeDialogueGraph Level2Manifestiation;
+
+    public GameObject undeadInteractable;
+
+    public List<string> majorDecisions;
 
     bool isResettingForNewDay;
 
@@ -47,12 +52,26 @@ public class CaseManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.Log("Duplicate CaseManager found and destroyed. Using existing data.");
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    } //Ensuring singleton pattern
+
+        SceneManager.sceneLoaded += Instance.OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetUpClues(); // Setting up clues each time a new scene is loaded
+        Debug.Log("Set up clues once again");
+    }
     public int GetClueCount(UndeadType undead) 
     { 
         return undeadTally.TryGetValue(undead, out int count) ? count : 0;
@@ -60,8 +79,10 @@ public class CaseManager : MonoBehaviour
 
     public void SetUpClues()
     {
+        activeInteractables.Clear();
         ClearActiveClues();
         string currentSceneName = SceneManager.GetActiveScene().name;
+        
 
         foreach (InteractableScriptableObject data in currentCase.interactables)
         {
@@ -83,12 +104,24 @@ public class CaseManager : MonoBehaviour
             script.interactableType = data.interactableType;
             script.dialogueGraph = data.dialogue;
             script.interactableClue = data.clue;
+            script.gameObject.name = data.name;
+            if (!data.activateOnStart) // If explicitly set to now spawn... dont..... otherwise spawn and then immediately set to inactive so that it can be activated through dialogue or other means
+            {
+                script.gameObject.SetActive(false);
+            }
+            if (data.interactableType == InteractableType.Culprit) // If the interactable is a culprit type, then we want to set it to inactive by default and only activate it if the player chooses that culprit in the select scene. This is for the confrontation scene where we spawn all 3 culprits but only want the chosen one to be active
+            {
+                script.gameObject.SetActive(false);
+            }
 
-            activeInteractables.Add(newInteractable);
+            activeInteractables.Add(script);
+
         }
     }
+
     public void InitialClueFound(Clue clueFound)
     {
+        Debug.Log("Inital Clue Found");
         if (!cluesfound.Contains(clueFound))
         {
             cluesfound.Add(clueFound);
@@ -104,7 +137,7 @@ public class CaseManager : MonoBehaviour
                 Debug.Log("Updated tally");
             }
             Debug.Log("calling book update");
-            NecroLexiconUI.Instance.UpdateCluesList();
+            //NecroLexiconUI.Instance.UpdateCluesList();
         }
         else
         {
@@ -114,8 +147,8 @@ public class CaseManager : MonoBehaviour
 
     public void TransitionToSelectScene()
     {
-        var selectScene = FindAnyObjectByType<CulpritSelectionScript>();
-        StartCoroutine(selectScene.SetupSelectScene(undeadDatabase));
+        var selectScene = FindAnyObjectByType<SelectionHandler>();
+        StartCoroutine(selectScene.SetupSelectScene(GameManager.instance.undeadDatabase));
     }
 
     public void TemporaryAddTallyToSuspect()
@@ -126,7 +159,7 @@ public class CaseManager : MonoBehaviour
     public void LoadNextCase()
     {
         ClearActiveClues();
-        cluesfound.Clear();
+        //cluesfound.Clear();
         int currentCaseIndex = allCases.IndexOf(currentCase);
         Debug.Log(currentCaseIndex);
         Debug.Log(allCases[currentCaseIndex]);
@@ -150,6 +183,7 @@ public class CaseManager : MonoBehaviour
 
     public void AddClueDescription(Clue clue, string description)
     {
+        Debug.Log("Adding Clue Description");
         if (!clueDescriptions.ContainsKey(clue)) // IF CLUE IS NOT IN THE DICTIONARY CREATE A LIST
         {
             clueDescriptions[clue] = new List<string>();
@@ -179,7 +213,7 @@ public class CaseManager : MonoBehaviour
                     undeadTally[type]++;
             }
         }
-        NecroLexiconUI.Instance.UpdateCluesList();
+        //NecroLexiconUI.Instance.UpdateCluesList();
     }
 
     public IEnumerator InitializeNextDay()
@@ -187,7 +221,14 @@ public class CaseManager : MonoBehaviour
         Debug.Log("Initiliazing Next Day");
         isResettingForNewDay = true;
         LoadNextCase();
-        WorldFade.Instance.StartSceneTransition(SceneNames.Day1.ToString(), 3f, Color.white);
+        WorldFade.Instance.StartSceneTransition(SceneNames.Dhamphir_House.ToString(), 5f, Color.white);
+        yield return null;
+    }
+
+    public IEnumerator ReturnToMainMenu()
+    {
+        Debug.Log("Returning to Main Menu");
+        WorldFade.Instance.StartSceneTransition(SceneNames.MainMenu.ToString(), 5f, Color.white);
         yield return null;
     }
 

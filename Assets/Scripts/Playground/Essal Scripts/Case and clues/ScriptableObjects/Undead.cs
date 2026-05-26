@@ -4,10 +4,8 @@ using UnityEngine;
 public class Undead : ScriptableObject
 {
     public UndeadType undeadType;
-    public string habitat;
     public string description;
-
-    public Sprite homeSprite;
+    public InteractableScriptableObject undeadInteractable;
     public Sprite undeadSprite;
     public Sprite cardSprite;
 }
