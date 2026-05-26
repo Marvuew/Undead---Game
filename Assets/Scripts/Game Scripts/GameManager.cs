@@ -30,11 +30,31 @@ public class GameManager : MonoBehaviour
 
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
+
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
         
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            MajorDecisions.Clear();
+            Debug.Log("Cleared Major Decisions");
+        }
     }
 
     public void MainMenu()
@@ -59,7 +79,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    public List<string> MajorDecisions = new List<string>();
+    public HashSet<string> MajorDecisions = new HashSet<string>();
 }
 
 public enum SceneNames

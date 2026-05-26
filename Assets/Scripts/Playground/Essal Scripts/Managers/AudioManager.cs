@@ -84,13 +84,21 @@ public class AudioManager : MonoBehaviour
             s.source.playOnAwake = s.PlayOnAwake;
 
         }
-
-        SceneManager.sceneLoaded += instance.OnSceneLoaded;
     }
 
     public void Start()
     {
         
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += instance.OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= instance.OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

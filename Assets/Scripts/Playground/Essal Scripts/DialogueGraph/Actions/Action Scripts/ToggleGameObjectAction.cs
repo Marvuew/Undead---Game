@@ -4,16 +4,16 @@ using System.Linq;
 [CreateAssetMenu(menuName = "Dialogue/Actions/Toggle GameObject Action")]
 public class ToggleGameObjectAction : DialogueAction
 {
-    public string targetGameObject;
+    public InteractableScriptableObject targetGameObject;
     public bool setActive;
 
     public override void DoAction()
     {
-        RuntimeInteractable[] interactables = GameObject.FindObjectsByType<RuntimeInteractable>(FindObjectsInactive.Include);
+        RuntimeInteractable[] interactables = FindObjectsByType<RuntimeInteractable>(FindObjectsInactive.Include);
         RuntimeInteractable target = null;
         foreach (var interactable in interactables)
         {
-            if (interactable.gameObject.name == targetGameObject)
+            if (interactable.gameObject.name == targetGameObject.name)
             {
                 target = interactable;
                 break;
@@ -22,6 +22,7 @@ public class ToggleGameObjectAction : DialogueAction
         if (target != null)
         {
             target.gameObject.SetActive(setActive);
+            Debug.Log("Setting the " + targetGameObject + " to false");
         }
         else
         {
