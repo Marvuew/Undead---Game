@@ -219,7 +219,7 @@ public class AudioManager : MonoBehaviour
     {
         yield return null;
         yield return new WaitUntil(() => Player.Instance.interacting == false);
-        PlaySFX("ClueFound");
+        PlaySFX("ClueFound", 0.5f);
     }
 
     public void PlayPageTurnSound()
