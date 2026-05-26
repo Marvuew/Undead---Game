@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6714729927748309809}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.3958, y: -1.34657, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -238,6 +238,20 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Verisimilitude
     clip: {fileID: 8300000, guid: db1dccba0ce83964bac61b05690cbed4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Clair
+    clip: {fileID: 8300000, guid: e739ecfdbb6aa63489f6b6d1e262c204, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Nocturne
+    clip: {fileID: 8300000, guid: 38d4bd2429076764ca29b5773ae6a38f, type: 3}
     volume: 0.2
     pitch: 1
     loop: 0

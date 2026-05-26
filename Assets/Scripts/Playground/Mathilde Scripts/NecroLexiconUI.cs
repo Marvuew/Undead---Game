@@ -216,7 +216,14 @@ public class NecroLexiconUI : MonoBehaviour
             pb.button.gameObject.SetActive(true);
         }
     }
-    public void ToggleBook(GameObject book) { book.SetActive((book.activeSelf == true) ? false : true); }
+    public void ToggleBook(GameObject book) 
+    {
+        book.SetActive((book.activeSelf == true) ? false : true); 
+        if (activeCluePage.activeSelf == true && book.activeSelf == true)
+        {
+            UpdateCluesList();
+        }
+    }
     public void CloseBook()
     {
         //soundManager.PlayCloseBookSound();

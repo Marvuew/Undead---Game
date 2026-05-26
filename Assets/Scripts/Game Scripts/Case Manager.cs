@@ -135,7 +135,7 @@ public class CaseManager : MonoBehaviour
                 Debug.Log("Updated tally");
             }
             Debug.Log("calling book update");
-            NecroLexiconUI.Instance.UpdateCluesList();
+            //NecroLexiconUI.Instance.UpdateCluesList();
         }
         else
         {
@@ -211,7 +211,7 @@ public class CaseManager : MonoBehaviour
                     undeadTally[type]++;
             }
         }
-        NecroLexiconUI.Instance.UpdateCluesList();
+        //NecroLexiconUI.Instance.UpdateCluesList();
     }
 
     public IEnumerator InitializeNextDay()
