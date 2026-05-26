@@ -96,10 +96,6 @@ public class AudioManager : MonoBehaviour
         SceneManager.sceneLoaded += instance.OnSceneLoaded;
     }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= instance.OnSceneLoaded;
-    }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
