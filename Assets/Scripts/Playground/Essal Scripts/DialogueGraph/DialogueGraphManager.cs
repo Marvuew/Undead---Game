@@ -347,7 +347,7 @@ public class DialogueGraphManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 if (_navigationCoroutine != null) StopCoroutine(_navigationCoroutine); // Stop navigating
-                AudioManager.instance.PlaySFX("pickChoice");
+                AudioManager.instance.PlaySFX("pickChoice", 0.5f);
                 exploredChoicesLookup.Add(choice.ChoiceID);
                 ClearChoices();
                 ShowNode(choice.DestinationNodeID);
@@ -415,7 +415,7 @@ public class DialogueGraphManager : MonoBehaviour
             // --- Typing Loop ---
             foreach (char letter in sentence.ToCharArray())
             {
-                AudioManager.instance.PlaySFX("Dialogue");
+                AudioManager.instance.PlaySFX("Dialogue", 0.8f);
                 DialogueText.text += letter;
 
                 float timer = 0f;
@@ -429,7 +429,7 @@ public class DialogueGraphManager : MonoBehaviour
                 if (skipTyping)
                 {
                     DialogueText.text = sentence;
-                    AudioManager.instance.PlaySFX("skipTyping");
+                    AudioManager.instance.PlaySFX("skipTyping", 0.5f);
                     break;
                 }
             }
