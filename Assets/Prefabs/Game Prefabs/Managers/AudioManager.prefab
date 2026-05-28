@@ -228,7 +228,126 @@ MonoBehaviour:
     loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
-  piano: []
+  walkSounds:
+  - name: 1
+    clip: {fileID: 8300000, guid: 27c14150190c17b468790d1b29796e46, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 2
+    clip: {fileID: 8300000, guid: 9043c5a3d7bd3fc4f82bc720e2e7a4a7, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 3
+    clip: {fileID: 8300000, guid: fa94f4e5950e2a941bff702d063d8b46, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 4
+    clip: {fileID: 8300000, guid: 5cfd9d64b8f026c468658b581a3c41fc, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 5
+    clip: {fileID: 8300000, guid: 41e40916424e67a4abc4a7ae30291f9b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 6
+    clip: {fileID: 8300000, guid: 1d0b80daaf0ff9e48b22d874bb7a447f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 7
+    clip: {fileID: 8300000, guid: 12fd3dbf3a70da144931bcd1a6db87fc, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 8
+    clip: {fileID: 8300000, guid: ef216b3248ffba544a902c206460f67e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 9
+    clip: {fileID: 8300000, guid: 61e8bc3715d6a164891a0fa15c81ec72, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 10
+    clip: {fileID: 8300000, guid: 511dbbf54eaedba4780bb5a0e57ce331, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 11
+    clip: {fileID: 8300000, guid: 79ac3530ee1636d44a37ed68f6894cf6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 12
+    clip: {fileID: 8300000, guid: 1f8358ee342720542944d22ad00aed35, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 13
+    clip: {fileID: 8300000, guid: 4ff48ca24be149644bb32f9f6f39193d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 14
+    clip: {fileID: 8300000, guid: 782616a051325914da9d6af75d51eb31, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 15
+    clip: {fileID: 8300000, guid: be511241189e9264babba45b2c576b3c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 16
+    clip: {fileID: 8300000, guid: 0b9dcb786b6da8e4ab2ff1b6e6fa35c5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: 17
+    clip: {fileID: 8300000, guid: 2a943a6b50dac2c42b39a4f21d4d8438, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   Songs:
   - name: ClockIsTicking
     clip: {fileID: 8300000, guid: f8b2b8633187a5f4282fba993dfd7ca4, type: 3}
@@ -261,3 +380,4 @@ MonoBehaviour:
     PlayOnAwake: 0
     source: {fileID: 0}
   loopedTrackPlaying: 0
+  walkLoopFrequency: 0.6

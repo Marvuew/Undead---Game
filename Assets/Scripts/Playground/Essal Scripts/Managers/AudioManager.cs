@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -15,7 +16,7 @@ public class AudioManager : MonoBehaviour
 
     public List<Sound> pageTurnSounds;
 
-    [SerializeField] private List<Sound> piano;
+    [SerializeField] private List<Sound> walkSounds;
 
     [Header("Music")]
     public List<Sound> Songs;
@@ -26,6 +27,9 @@ public class AudioManager : MonoBehaviour
     private Coroutine loopingTracks;
 
     public bool loopedTrackPlaying = false;
+
+    [Range(0f, 1f)]
+    public float walkLoopFrequency = 1.0f;
     private void Awake()
     {
         Debug.Log("AudioManager Awake called");
@@ -74,7 +78,7 @@ public class AudioManager : MonoBehaviour
         }
 
 
-        foreach (Sound s in piano)
+        foreach (Sound s in walkSounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
@@ -84,15 +88,7 @@ public class AudioManager : MonoBehaviour
             s.source.playOnAwake = s.PlayOnAwake;
 
         }
-    }
 
-    public void Start()
-    {
-        
-    }
-
-    private void OnEnable()
-    {
         SceneManager.sceneLoaded += instance.OnSceneLoaded;
     }
 
@@ -101,7 +97,7 @@ public class AudioManager : MonoBehaviour
     {
         if (!loopedTrackPlaying && SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
-            StopAllPlayingSounds();
+            StopAllPlayingSounds("IntroHowl");
             Sound s = sounds.Find(s => s.name == "AmbientDay");
             if (!s.source.isPlaying)
             {
@@ -148,6 +144,18 @@ public class AudioManager : MonoBehaviour
         {
             if (s.source.isPlaying)
             {
+                s.source.Stop();
+            }
+        }
+    }
+
+    public void StopAllPlayingSounds(string name)
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.source.isPlaying)
+            {
+                if (s.name == name) continue;
                 s.source.Stop();
             }
         }
@@ -270,6 +278,46 @@ public class AudioManager : MonoBehaviour
         }
         loopedTrackPlaying = false;
         Debug.Log("Looping Tracks Stopped");
+    }
+
+    int walkSoundLastIndex = -1;
+    bool isWalkSoundPlaying = false;
+    private Coroutine walkCoroutine;
+    public IEnumerator PlayWalkSound()
+    {
+        print("Entered Coroutine of Walk Sound");
+        isWalkSoundPlaying = true;
+        while(isWalkSoundPlaying)
+        {
+            print("runnin walk sound loop");
+            int index;
+            do { index = UnityEngine.Random.Range(0, walkSounds.Count); }
+            while (index == walkSoundLastIndex && walkSounds.Count > 1);
+            var walk = walkSounds[index];
+            walkSoundLastIndex = index;
+            walk.source.volume = 0.05f;
+            walk.source.Play();
+            yield return new WaitForSeconds(walk.source.clip.length * walkLoopFrequency); 
+        }
+    }
+
+    public void StartWalkSound()
+    {
+        if (isWalkSoundPlaying) return;
+        print("Starting WalkSound");
+        walkCoroutine = StartCoroutine(PlayWalkSound());
+    }
+
+    public void StopWalkSound()
+    {
+        if (!isWalkSoundPlaying) return;
+        print("Stopping WalkSound");
+        isWalkSoundPlaying = false;
+        if (walkCoroutine != null)
+        {
+            StopCoroutine(walkCoroutine);
+            walkCoroutine = null;
+        }
     }
 
     /*public IEnumerator StopLoopingTracksForSong(string songName)
