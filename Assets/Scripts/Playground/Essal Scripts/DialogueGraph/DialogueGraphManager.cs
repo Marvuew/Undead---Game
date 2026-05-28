@@ -19,15 +19,15 @@ public class DialogueGraphManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (instance == null)
         {
-            Destroy(gameObject);
+            instance = this;
         }
         else
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
         SpeakerTextY = DialogueText.transform.position;
     }
     #endregion

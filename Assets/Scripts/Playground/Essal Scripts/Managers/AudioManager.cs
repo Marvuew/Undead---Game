@@ -95,6 +95,7 @@ public class AudioManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        print("On Scene Loaded in Audio Manager");
         if (!loopedTrackPlaying && SceneManager.GetActiveScene().name != SceneNames.MainMenu.ToString())
         {
             StopAllPlayingSounds("IntroHowl");
@@ -103,6 +104,7 @@ public class AudioManager : MonoBehaviour
             {
                 s.source.Play();
             }
+            print("Starting Looping Tracks");
             loopingTracks = StartCoroutine(LoopingTracks());
         }
     }

@@ -50,8 +50,6 @@ public class IntroSequence : MonoBehaviour
             STANDARD_SCENE_LAYOUT.instance = null;
         }
 
-        DialogueGraphManager.instance.ClearLists();
-
     }
 
 
@@ -62,6 +60,7 @@ public class IntroSequence : MonoBehaviour
         if (mainMenuUI == null) Debug.LogWarning("mainMenuUI is null");
         StartPanelAnimation();
         AudioManager.instance.PlayMusic("IntroSong");
+        DialogueGraphManager.instance.ClearLists();
     }
 
     // Update is called once per frame
