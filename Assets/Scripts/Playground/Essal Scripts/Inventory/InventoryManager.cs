@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using UnityEditor.Search;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
