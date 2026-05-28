@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TMPro;
-using Unity.GraphToolkit.Editor;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using static UnityEditor.Rendering.MaterialUpgrader;
+﻿
 
 /*namespace Assets.Scripts.GameScripts
 {

@@ -1,9 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 public class NecroLexiconScript : MonoBehaviour
 {
