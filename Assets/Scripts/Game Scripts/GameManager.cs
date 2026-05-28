@@ -31,21 +31,8 @@ public class GameManager : MonoBehaviour
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
 
-    }
-
-    private void OnEnable()
-    {
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void Start()
-    {
-        
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

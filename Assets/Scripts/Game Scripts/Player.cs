@@ -49,13 +49,25 @@ namespace Assets.Scripts.GameScripts
             lastPosition = transform.position;
         }
 
+        public Rigidbody2D GetRB()
+        {
+            return rb;
+        }
+
         private void FixedUpdate()
         {
             internalMovement = true;
 
-            if (!interacting && rb != null)
+            bool isMoving = moveInput != Vector2.zero;
+
+            if (!interacting && rb != null && isMoving)
             {
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+                AudioManager.instance.StartWalkSound();
+            }
+            else 
+            {
+                AudioManager.instance.StopWalkSound();
             }
             internalMovement = false;            
         }

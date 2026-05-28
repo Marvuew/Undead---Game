@@ -33,7 +33,7 @@ public class NecroLexiconUI : MonoBehaviour
     public List<GameObject> cluePages = new List<GameObject>();
     public GameObject cluePage;
     public GameObject clueTxtPrefab;
-    public List<string> tempDescriptions = new List<string>();
+    //public List<string> tempDescriptions = new List<string>();
     public List<Clue> clues = new List<Clue>();
     public GameObject nextCluePageBtn;
     public GameObject lastCluePageBtn;
@@ -262,15 +262,15 @@ public class NecroLexiconUI : MonoBehaviour
 
         ClearClueList();
 
-        foreach (Clue clue in clues)
+        /*foreach (Clue clue in clues)
         {
             if (!CaseManager.Instance.clueDescriptions.ContainsKey(clue))
             {
                 CaseManager.Instance.clueDescriptions.Add(clue, new List<string>(tempDescriptions));
             }
-        }
+        }*/
 
-        var cluesToDisplay = (CaseManager.Instance.cluesfound.Count == 0) ? clues : CaseManager.Instance.cluesfound.ToList();
+        var cluesToDisplay = CaseManager.Instance.cluesfound.ToList();
 
         if (cluePages.Count > 0)
         {
