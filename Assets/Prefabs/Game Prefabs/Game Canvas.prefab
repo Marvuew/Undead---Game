@@ -154,7 +154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9013748611197424080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: ad3833facfb05e6409e39e0e38453d1b, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.23529412}
+  m_Color: {r: 0.57232696, g: 0.57232696, b: 0.57232696, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1172,6 +1172,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252748402646948255}
     m_Modifications:
+    - target: {fileID: 564570783202108280, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 564570783202108280, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 564570783202108280, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1585248396561965790, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1252,6 +1264,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2830656906392713309, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078306639018587750, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078306639018587750, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8259202621298425718, guid: e1a5cd73d12c89d4bb079927c0736230, type: 3}
       propertyPath: m_Name
       value: Dialogue
@@ -1323,11 +1347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7499087134890672241, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 40.61
+      value: 40.39
       objectReference: {fileID: 0}
     - target: {fileID: 7499087134890672241, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -4.14
+      value: -4.19
       objectReference: {fileID: 0}
     - target: {fileID: 7789193661179659144, guid: d49a27d8b620cc04982febbcfc0cdd1d, type: 3}
       propertyPath: m_Sprite
@@ -1553,6 +1577,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 1353078513404528651, guid: 81314732fafa3bf418f99bc14fc501bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353078513404528651, guid: 81314732fafa3bf418f99bc14fc501bf, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2988720656187218996, guid: 81314732fafa3bf418f99bc14fc501bf, type: 3}
+      propertyPath: m_TagString
+      value: PauseMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 5866473863558101328, guid: 81314732fafa3bf418f99bc14fc501bf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1771,6 +1807,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -8740572087429559185, guid: 9bb45a8890857624c88584d80be48c9e, type: 3}
+    - target: {fileID: 3436490876326744092, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3436490876326744092, guid: 443e07d60b6a2be4385486721d9179c9, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -2085,7 +2125,7 @@ PrefabInstance:
 
         Lasse Lund
 
-        Matilde Lawaetz'
+        Mathilde Lawaetz'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2237,10 +2277,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2133554110508857355, guid: 9707076abbd139c48bd3d113cade32cb, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3066870362401218703, guid: 9707076abbd139c48bd3d113cade32cb, type: 3}
       propertyPath: m_Name
       value: Confrontation Time
       objectReference: {fileID: 0}
+    - target: {fileID: 7408114758542823578, guid: 9707076abbd139c48bd3d113cade32cb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3064719496836228770}
     m_RemovedComponents:
     - {fileID: 3710325580216068813, guid: 9707076abbd139c48bd3d113cade32cb, type: 3}
     - {fileID: 709728072003429167, guid: 9707076abbd139c48bd3d113cade32cb, type: 3}
@@ -2432,6 +2480,10 @@ PrefabInstance:
     - target: {fileID: 3092763264362705580, guid: df86dfcecccf66548af890813afcd25c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572494862477795057, guid: df86dfcecccf66548af890813afcd25c, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4237861840701098412, guid: df86dfcecccf66548af890813afcd25c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2765,12 +2817,6 @@ MonoBehaviour:
   - {fileID: 7654880623631199194}
   cluePage: {fileID: 1514921406609124485, guid: 17249ef45e5718846b6eadbb8577ff20, type: 3}
   clueTxtPrefab: {fileID: 4456267835944391329, guid: 99205014a41f1d341b7afd9d5950047e, type: 3}
-  tempDescriptions:
-  - A piano is a keyboard instrument that produces sound when its keys are pressed,
-  - "activating an action mechanism where hammers strike strings. Modern pianos have
-    a row of 88 black and white keys\u2014"
-  - "with the exception of the Bosend\xF6rfer and Stuart & Sons pianos"
-  - 'There are two main types of piano: the grand piano and the upright piano.'
   clues:
   - {fileID: 11400000, guid: e3b4ce5b9e0737742abff04711b90811, type: 2}
   - {fileID: 11400000, guid: b6d1751004c38e14b8a00a140b43498e, type: 2}
@@ -2951,6 +2997,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 3798080985977824628}
+    - target: {fileID: 2260804262354546872, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3646726527022046041, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
       propertyPath: m_LocalPosition.x
       value: -960
@@ -2995,16 +3045,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Buttons
       objectReference: {fileID: 0}
+    - target: {fileID: 6372313620893591369, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1019
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2260804262354546872, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5586633928832756598}
   m_SourcePrefab: {fileID: 100100000, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
 --- !u!4 &4819703746779846176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3646726527022046041, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
   m_PrefabInstance: {fileID: 8104440220818738553}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5173227505697102317 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4013338872893215892, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
+  m_PrefabInstance: {fileID: 8104440220818738553}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009436495362325953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &8009436495362325953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2260804262354546872, guid: 9d0799e2730057945bb7f9444f29e835, type: 3}
+  m_PrefabInstance: {fileID: 8104440220818738553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5586633928832756598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009436495362325953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d636f5f6c12aed469f5484c5ebb98a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  PauseBtn: {fileID: 5173227505697102317}
 --- !u!1001 &9168640137383151455
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -27,7 +27,8 @@ public class DialogueGraphManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        SpeakerTextY = DialogueText.transform.position;
+        dialogueRectTransform = DialogueText.GetComponent<RectTransform>();
+        speakerTextInitialAnchoredPos = dialogueRectTransform.anchoredPosition;
     }
     #endregion
 
@@ -38,7 +39,8 @@ public class DialogueGraphManager : MonoBehaviour
     public GameObject DialoguePanel;
     public TextMeshProUGUI SpeakerNameText;
     public TextMeshProUGUI DialogueText;
-    private Vector3 SpeakerTextY;
+    private RectTransform dialogueRectTransform;
+    private Vector2 speakerTextInitialAnchoredPos;
 
     [Header("Speaker UI")]
     public Image SpeakerSprite;
@@ -455,20 +457,23 @@ public class DialogueGraphManager : MonoBehaviour
             nodesMarkedAsRead.Add(node);
         }
     }
-
     private void UpdateDialoguePosition(DialogueSpeaker speaker)
     {
+        if (dialogueRectTransform == null) return;
+
         if (speaker == null)
         {
-            DialogueText.transform.position = SpeakerTextY;
+            // Snap back to original UI design position
+            dialogueRectTransform.anchoredPosition = speakerTextInitialAnchoredPos;
             return;
         }
 
+        // Adjust this pixel value if 60 looks too small or large on higher resolutions
         float offset = (speaker.SpeakerName == "Narrator") ? 60f : 0f;
-        DialogueText.transform.position = new Vector3(
-            DialogueText.transform.position.x,
-            SpeakerTextY.y + offset,
-            DialogueText.transform.position.z
+
+        dialogueRectTransform.anchoredPosition = new Vector2(
+            speakerTextInitialAnchoredPos.x,
+            speakerTextInitialAnchoredPos.y + offset
         );
     }
 

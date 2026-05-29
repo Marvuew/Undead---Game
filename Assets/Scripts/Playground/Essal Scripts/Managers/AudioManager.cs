@@ -297,7 +297,7 @@ public class AudioManager : MonoBehaviour
             while (index == walkSoundLastIndex && walkSounds.Count > 1);
             var walk = walkSounds[index];
             walkSoundLastIndex = index;
-            walk.source.volume = 0.05f;
+            walk.source.volume = 0.1f;
             walk.source.Play();
             yield return new WaitForSeconds(walk.source.clip.length * walkLoopFrequency); 
         }

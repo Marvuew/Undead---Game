@@ -2816,11 +2816,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4152164499304025391, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.73
+      value: 12.87
       objectReference: {fileID: 0}
     - target: {fileID: 4152164499304025391, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.9
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4152164499304025391, guid: 728bd6aae728642cf9bd4df3f348a88d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12135,6 +12135,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3712511573108601211, guid: fa5df7b021efc13428c23450c456b5af, type: 3}
   m_PrefabInstance: {fileID: 1082833310}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1097617333 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3299527488157299955, guid: 5b86c95e5005d6141adafc31bf679f70, type: 3}
+  m_PrefabInstance: {fileID: 1956845807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caeab48dc4c2b71489a188c79af9d7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
 --- !u!1 &1109446394
 GameObject:
   m_ObjectHideFlags: 0
@@ -220339,11 +220350,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2787883149634479809, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.3100004
+      value: -5.85
       objectReference: {fileID: 0}
     - target: {fileID: 2787883149634479809, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3340693
+      value: -8.41
       objectReference: {fileID: 0}
     - target: {fileID: 2787883149634479809, guid: 604700c3cdca3e9488fb07431fd99001, type: 3}
       propertyPath: m_LocalPosition.z
@@ -222193,6 +222204,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3299527488157299955, guid: 5b86c95e5005d6141adafc31bf679f70, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 182539477062433952}
     - target: {fileID: 6441301253731048195, guid: 5b86c95e5005d6141adafc31bf679f70, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.09305
@@ -223594,6 +223609,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 260575606876510708, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1097617333}
+    - target: {fileID: 977521476709611274, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1097617333}
     - target: {fileID: 1111071270731613432, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -223614,37 +223637,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1302975719122620607, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_text
-      value: 'MADE BY :
-
-        Lasse Smidsgaard Andersen
-
-        Katrtine Torp
-
-        Smilla
-        Victor
-
-        Lasse Lund
-
-        Mathilde Lawaetz'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770882540000338109, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4501260004725999795, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+    - target: {fileID: 5173227505697102317, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 182539477062433952}
-    - target: {fileID: 4501260004725999795, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseCorkBoard
-      objectReference: {fileID: 0}
-    - target: {fileID: 4981738852464959522, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1097617333}
     - target: {fileID: 5252748402646948255, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -223725,14 +223721,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5564473392374372221, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 40.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564473392374372221, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -4.19
-      objectReference: {fileID: 0}
     - target: {fileID: 6764240125176631103, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
       propertyPath: m_Name
       value: Game Canvas
@@ -223753,38 +223741,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8145179077038291863, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8145179077038291863, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_Color.b
-      value: 0.57232696
-      objectReference: {fileID: 0}
-    - target: {fileID: 8145179077038291863, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_Color.g
-      value: 0.57232696
-      objectReference: {fileID: 0}
-    - target: {fileID: 8145179077038291863, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
-      propertyPath: m_Color.r
-      value: 0.57232696
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
---- !u!114 &182539477062433952 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3064719496836228770, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
+--- !u!1 &182539477062433952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2011960325230203764, guid: ff7866867cf175b449b09c46e8974a3d, type: 3}
   m_PrefabInstance: {fileID: 182539477062433951}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f9d9776fba38ea4d96567660fc04e14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CulpritSelectionScript
 --- !u!1001 &1684697289253900265
 PrefabInstance:
   m_ObjectHideFlags: 0

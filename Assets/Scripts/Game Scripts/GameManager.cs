@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+        pauseMenu = GameObject.FindWithTag("PauseMenu");
 
     }
 
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
             MajorDecisions.Clear();
             Debug.Log("Cleared Major Decisions");
         }
+
+        pauseMenu = GameObject.FindWithTag("PauseMenu");
     }
 
     public void MainMenu()
@@ -64,6 +67,11 @@ public class GameManager : MonoBehaviour
     {
         Player.Instance.interacting = false;
         pauseMenu.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public HashSet<string> MajorDecisions = new HashSet<string>();

@@ -33,7 +33,7 @@ public class ConfrontationHandler : MonoBehaviour
             undeadPos = new Vector3(-2.34f, 15.25f, 0f); // HARD CODED BEHIND THE DHAMPIRS HOUSE. JUST BECAUSE....
         }
 
-        WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos - new Vector3(0, -2, 0)); // Transistions to the scene of the culprit.
+        WorldFade.Instance.StartSceneTransition(scene.ToString(), 2f, Color.black, undeadPos - new Vector3(0, 2, 0)); // Transistions to the scene of the culprit.
         yield return new WaitForSeconds(3f);
         var undeadRuntimeInteractable = CaseManager.Instance.activeInteractables.Find(undead => undead.interactableType == InteractableType.Culprit); // Find the runtime interactable of the culprit. Only visible if it is the right culprit guess...
         if (undeadRuntimeInteractable != null)
